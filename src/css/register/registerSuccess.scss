@@ -1,0 +1,132 @@
+@charset 'utf-8';
+@import '../common';
+@mixin green-tag {
+    background-color: #5aa600;
+}
+
+// .register-bg {
+//     z-index: -1;
+//     @include custom-width-height($full, $full);
+//     @include background-norepeat-cover;
+//     @extend .flex-top-column-bottom;
+//     padding: 20px;
+//     background: $bg;
+// }
+
+.register-content {
+    min-width: 500px;
+    max-width: 1000px;
+    @include custom-width-height(52%, 600px);
+    background-color: #efefef;
+    border-radius: $border-radius;
+}
+
+.center {
+    @extend .flex-center
+}
+
+.topbar {
+    background-color: #000000;
+    border-radius: $border-radius $border-radius 0 0;
+    height: 12px;
+    @include custom-width-height(undefined, 12px)
+}
+
+.register-title {
+    font-size: 34px;
+    color: #000000;
+    margin: 38px 0;
+    text-align: center;
+}
+
+.register-success-form {
+    >div {
+        width: 405px;
+    }
+}
+
+.success-tip {
+    @extend .flex-vertical-center;
+    img {
+        margin-right: 17px;
+        @include custom-width-height(40px, 40px)
+    }
+    span {
+        font-size: 20px;
+        color: #333333;
+    }
+}
+
+.success-token {
+    padding-left: 57px;
+}
+
+.success-token {
+    >div:first-child {
+        margin: 22px 0;
+    }
+}
+
+.token-way {
+    @extend .flex;
+    margin: 20px 0;
+    a {
+        @include custom-width-height(130px, 38px);
+        color: $color-white;
+        font-size: 16px;
+        @include green-tag;
+        text-decoration: none;
+        margin: 0 9px;
+    }
+    .token-active {
+        background-color: #9a9a9a;
+    }
+}
+
+.token-form {
+    font-size: 16px;
+    >input {
+        @include custom-width-height(370px, 38px);
+        padding: 12px 11px 9px;
+        font-size: 16px;
+        &[type='email'] {
+            margin-bottom: 20px;
+        }
+    }
+    .token-code {
+        margin: 20px 0;
+        @extend .flex-vertical-center;
+        >input {
+            @include custom-width-height(100px, 38px);
+            margin-right: 20px;
+            padding: 12px 11px 9px;
+        }
+        >a {
+            @include custom-width-height(100px, 38px);
+            @include green-tag;
+            color: $color-white;
+            @extend .center;
+            text-decoration: none;
+        }
+    }
+    .token-submit {
+        @include custom-width-height(100px, 38px);
+        @include green-tag;
+        color: $color-white; // @extend .center;
+        font-size: 16px;
+        padding: 0;
+    }
+}
+
+.token-form-success {
+    .token-submit {
+        @include custom-width-height(100px, 38px);
+        font-size: 16px;
+        color: #fefefe;
+        border-radius: 0.5px;
+        background-color: #428bca;
+        box-shadow: inset 0px 1px 1px 0 rgba(1, 1, 1, 0.15);
+        border: solid 1px #cccccc;
+        margin-top: 20px;
+    }
+}

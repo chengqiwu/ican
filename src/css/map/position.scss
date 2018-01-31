@@ -1,0 +1,15 @@
+@charset 'utf-8';
+@import '../common';
+$css_sprites: url('../../images/index/css_sprites.png');
+.position {
+    @extend .flex-center;
+    @include custom-width-height(32px,
+    31px);
+    background-color: #ffffff;
+    .gps {
+        cursor: pointer;
+        @include custom-width-height(20px,
+        20px);
+        background: $css_sprites -63px -67px;
+    }
+}

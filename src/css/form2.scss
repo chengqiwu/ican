@@ -1,0 +1,16 @@
+@charset 'utf-8';
+@import 'common';
+.planer {
+    display: block !important;
+    .unit {
+        .active {
+           color: blue; 
+        }
+        .no-active {
+            color: #c8c8c8;
+        }
+        label {
+            margin-right: 5px;
+        }
+    }
+}

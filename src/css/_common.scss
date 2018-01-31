@@ -1,0 +1,69 @@
+@charset 'urf-8';
+$border-radius: 5px;
+$full: 100%;
+$color-white: #ffffff;
+@mixin fullHeight {
+    height: $full;
+}
+
+@mixin fullWidth {
+    width: $full;
+}
+
+@mixin custom-width-height($width: auto,
+$height: auto) {
+    width: $width;
+    height: $height;
+}
+
+@mixin background-norepeat-cover {
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@mixin fontSize-default {
+    font-size: 12px;
+}
+
+@mixin border-radius-five {
+    border-radius: $border-radius;
+}
+
+@mixin flex {
+    display: flex
+}
+
+.flex {
+    display: flex
+}
+
+.flex-center {
+    @extend .flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-horizontal-center {
+    @extend .flex;
+    justify-content: center;
+}
+
+.flex-vertical-center {
+    @extend .flex;
+    align-items: center;
+}
+
+.flex-column-center {
+    @extend .flex-center;
+    flex-direction: column;
+}
+
+.flex-left-right {
+    @extend .flex;
+    justify-content: space-between;
+}
+
+.flex-top-column-bottom {
+    flex-direction: column;
+    @extend .flex-left-right;
+}

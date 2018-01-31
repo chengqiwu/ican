@@ -1,0 +1,120 @@
+@charset 'utf-8';
+@import '../../common';
+$css_sprites: url('../../../images/index/css_sprites.png');
+$css_sprites2: url('../../../images/index/css_sprites2.png');
+.field-list {
+    border-radius: 5px;
+    background-color: #eeeeee;
+    @include custom-width-height(280px,
+    94%);
+    position: absolute;
+    left: 21px;
+    top: 21px;
+    z-index: 3;
+    @extend .flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .field-title {
+        background-color: #113a33;
+        height: 50px;
+        border-radius: 5px 5px 0 0;
+        @extend .flex-vertical-center;
+        color: #feffff;
+        padding: 13px 0 12px 20px;
+        box-shadow: 0 1px 1px #adadad;
+    }
+    h3 {
+        font-size: 24px;
+    }
+    .field-lists {
+        height: calc(100% - 114px);
+        overflow-y: scroll;
+    }
+    .field-closer {
+        text-decoration: none;
+        position: absolute;
+        top: 9px;
+        right: 7px;
+        &:after {
+            content: "✖";
+            color: #ffffff;
+        }
+    }
+}
+
+.filed {
+    padding: 20px;
+    font-size: 14px;
+    border-bottom: 1px solid #999999;
+    .filed-top {
+        @extend .flex-vertical-center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        .filed-area {
+            background-color: #113a33;
+            border-radius: 5px;
+            padding: 3px 11px 4px 10px;
+            color: #ffffff;
+            font-weight: bold;
+        }
+    }
+    .filed-stage {
+        @extend .flex-vertical-center;
+        img {
+            margin-right: 14px;
+        }
+        table {
+            border-spacing: 0;
+        }
+        tr {
+            td {
+                padding-bottom: 5px;
+            }
+        }
+    }
+    .filed-more {
+        @extend .flex-vertical-center;
+        padding-left: 41px;
+        >div {
+            @extend .flex-vertical-center;
+            div,
+            label {
+                margin-right: 10px;
+            }
+            .bg-modify {
+                @include custom-width-height(15px,
+                15px);
+                background: $css_sprites -82px -119px;
+            }
+            .bg-plan {
+                @include custom-width-height(15px,
+                15px);
+                background: $css_sprites -47px -119px;
+            }
+        }
+    }
+}
+
+.field-add {
+    @include custom-width-height(100%,
+    34px);
+    @extend .flex-center;
+    margin: 15px 0;
+    font-size: 16px;
+    cursor: pointer;
+    >div:first-child {
+        @extend .flex-center;
+        color: #ffffff;
+        background-color: #183d36;
+        @include custom-width-height(116px,
+        34px);
+        border: solid 1px #3980bb;
+        border-radius: 5px;
+    }
+    .bg-add {
+        @include custom-width-height(14px,
+        14px);
+        background: $css_sprites2 -91px -45px;
+        margin-right: 7px;
+    }
+}

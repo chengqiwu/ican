@@ -1,0 +1,22 @@
+@charset 'utf-8';
+@import 'common';
+$fontFamily: MicrosoftYaHei;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: $fontFamily;
+    flex-shrink: 0;
+}
+
+html,
+body {
+    @include fullHeight;
+    >div {
+        @include fullHeight;
+        >div {
+            @include fullHeight;
+        }
+    }
+}

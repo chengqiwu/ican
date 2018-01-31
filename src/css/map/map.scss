@@ -1,0 +1,18 @@
+@charset 'utf-8';
+@import '../common';
+.map {
+    width: 100%;
+    height: calc(100% - 90px);
+    min-height: 400px;
+    .ol-attribution,
+    .ol-zoom {
+        display: none;
+    }
+    position: relative;
+    .tools {
+        z-index: 1;
+        position: absolute;
+        right: 20px;
+        bottom: 120px;
+    }
+}

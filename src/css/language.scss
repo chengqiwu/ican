@@ -1,0 +1,16 @@
+@charset 'utf-8';
+@import 'common';
+.login-langeuage {
+    >div {
+        @extend .flex-vertical-center;
+        img {
+            width: 25px;
+            height: 12px;
+        }
+        label {
+            color: #fffffe;
+            margin-left: 9px;
+            @include fontSize-default;
+        }
+    }
+}

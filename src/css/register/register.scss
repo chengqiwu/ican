@@ -1,0 +1,210 @@
+@charset "utf-8";
+// 1 使用变量
+// $highlight-color: #F90;
+// 1.1 变量声明
+$nav-color: #F90;
+nav {
+    $width: 100px;
+    width: $width;
+    color: $nav-color;
+}
+
+// 1.2 变量引用
+$highlight-color: #F90;
+.selected {
+    border: 1px solid $highlight-color;
+}
+
+// 2. 嵌套CSS规则
+#content {
+    article {
+        h1 {
+            color: #333;
+        }
+        p {
+            margin-bottom: 1.4em
+        }
+    }
+    aside {
+        background-color: #eeeeee
+    }
+}
+
+#content {
+    background-color: #f5f5f5;
+    aside: {
+        background-color: #eeeeee;
+    }
+}
+
+// 2.1 父选择器的标识符&
+article a {
+    color: blue;
+    &:hover {
+        color: red
+    }
+}
+
+article aside {
+    color: red;
+    body.ie & {
+        color: green;
+    }
+}
+
+// 2.2 群组选择器的嵌套
+.container {
+    h1,
+    h2,
+    h3 {
+        margin-bottom: .8em;
+    }
+}
+
+nav,
+aside {
+    a {
+        color: blue;
+    }
+}
+
+// 2.3 子组合选择权器和同层组合选择器: >、+和~
+article {
+    ~article {
+        border-top: 1px dashed #ccc;
+    }
+    >section {
+        // 第一种
+        background: #eeeeee;
+    }
+    dl> {
+        // 第二种，对比两者写法
+        dt {
+            color: #333;
+        }
+        dd {
+            color: #555;
+        }
+    }
+    nav+& {
+        margin-top: 0
+    }
+}
+
+// 2.4 嵌套属性
+nav {
+    border: {
+        style: solid;
+        width: 1px;
+        color: #cccccc;
+    }
+}
+
+nav {
+    border: 1px solid #cccccc {
+        left: 0;
+        right: 0;
+    }
+}
+
+// 3. 导入sass文件
+// 3.1 使用SASS部分文件
+// import 'themes/_night-sky.scss'
+// 等价于 import 'themes/night-sky'
+// 3.2 默认变量值
+$fancybox-width: 400px !default;
+.fancybox {
+    width: $fancybox-width
+}
+
+// 3.3 嵌套导入
+// _blue-theme.scss
+aside {
+    background: blue;
+    color: white;
+}
+
+// .blue-theme { @import 'blue-theme' }
+.blue-theme {
+    aside {
+        background: blue;
+        color: white;
+    }
+}
+
+// 3.4 原生CSS导入
+// 4. 静默注释
+
+/* 会出现再生成的css文件中， 如果出现在原生css不允许的地方，就会被抹去 */
+
+// 不会出现再生成的css文件中
+// 5. 混合器
+@mixin rounded-corners {
+    -moz-border-radius: 5px;
+}
+
+notice {
+    @include rounded-corners
+}
+
+// 5.1 何时使用混合器
+// 5.2 混合器的css规则
+@mixin no-bullets {
+    list-style: none;
+    li {
+        list-style-image: none;
+        list-style-type: none;
+        margin-left: 0;
+    }
+}
+
+ul.plain {
+    color: #444;
+    @include no-bullets;
+}
+
+// 5.3 给混合器传参
+@mixin link-colors($normal, $hover, $visited) {
+    color: $normal;
+    &:hover {
+        color: $hover;
+    }
+    &:visited {
+        color: $visited;
+    }
+}
+
+a {
+    @include link-colors(blue, red, green)
+}
+
+a {
+    @include link-colors( $normal: blue, $visited: green, $hover: red)
+}
+
+// 5.4 默认参数值
+@mixin link-colors( $normal, $hover: $normal, $visited: $normal) {
+    color: $normal;
+    &:hover {
+        color: $hover
+    }
+    ;
+    &:visited {
+        color: $visited
+    }
+}
+
+// @include link-colors(red)
+ // 6 使用选择器继承来精简css
+.error {
+    border: 1px red;
+    background-color: #fdd;
+}
+
+.seriousError {
+    @extend .error;
+    border-width: 3px;
+}
+
+// 6.1 何时使用继承
+// 6.2 继承的高级用法

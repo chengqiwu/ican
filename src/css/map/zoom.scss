@@ -1,0 +1,23 @@
+@charset 'utf-8';
+@import '../common';
+$css_sprites2: url('../../images/index/css_sprites2.png');
+.zoom {
+    >div {
+        @extend .flex-center;
+        @include custom-width-height(32px,
+        31px);
+        background-color: #ffffff;
+        border-top: 2px solid #b6b6b6;
+        cursor: pointer;
+    }
+    .zoomIn {
+        @include custom-width-height(16px,
+        16px);
+        background: $css_sprites2 -10px -43px;
+    }
+    .zoomOut {
+        @include custom-width-height(16px,
+        4px);
+        background: $css_sprites2 -55px -45px;
+    }
+}

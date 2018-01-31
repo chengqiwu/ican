@@ -1,0 +1,91 @@
+@charset 'utf-8';
+@import '../common';
+$css_sprites: url('../../images/index/css_sprites.png');
+.header {
+    max-height: 100px;
+    background-color: #efefef;
+    padding-left: 20px;
+    @extend .flex-left-right;
+    >div:first-child {
+        @extend .flex-vertical-center;
+        flex-grow: 1;
+        padding: 15px 0;
+        justify-content: space-around;
+        .title {
+            height: 100%;
+            position: absolute;
+            left: 20px;
+            @extend .flex-vertical-center;
+            .bg-logo {
+                @include custom-width-height(37px,
+                37px);
+                margin-right: 10px;
+                background: $css_sprites -10px -10px;
+            }
+            h2 {
+                font-size: 28px;
+                color: #183d36;
+            }
+        }
+        .block {
+            width: 150px;
+        }
+        .nav {
+            @extend .flex; // margin-left: 
+            padding: 0 20px;
+            >div/*:nth-child(2n)*/
+            {
+                height: 60px;
+                border-left: 1px solid #999999;
+                margin: 0 70px;
+            }
+            a {
+                @extend .flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+                text-decoration: none;
+                color: #183d36;
+                .bg-farmers {
+                    @include custom-width-height(33px,
+                    32px);
+                    background: $css_sprites -10px -67px;
+                }
+                .bg-field {
+                    @include custom-width-height(36px,
+                    32px);
+                    background: $css_sprites -67px -10px;
+                }
+                .bg-information {
+                    @include custom-width-height(29px,
+                    33px);
+                    background: $css_sprites -123px -10px;
+                }
+                .bg-schedule {
+                    @include custom-width-height(28px,
+                    33px);
+                    background: $css_sprites -123px -63px;
+                }
+            }
+        }
+    }
+    .header-right {
+        width: 26%;
+        background: url('../../images/index/bg-title.png');
+        min-width: 300px;
+        padding: 20px 20px;
+        @extend .flex;
+        align-items: flex-start;
+        justify-content: flex-end;
+        >div {
+            @extend .flex-vertical-center;
+        }
+        .user {
+            width: 27px;
+            height: 27px;
+            background: $css_sprites -172px -64px;
+            margin-right: 20px;
+            margin-top: -20px;
+        }
+    }
+}
