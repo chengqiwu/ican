@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import Tr from './Tr'
 import 'css/form2.scss'
 
 class Form2 extends Component {
@@ -7,19 +8,40 @@ class Form2 extends Component {
         super()
         this.state = {
             ha: true,
-            mu: false
+            mu: false,
+            allin: [],
+            bottom: []
         }
+        this.allinClick = this.allinClick.bind(this)
+        this.bottomClick = this.bottomClick.bind(this)
+    }
+    componentDidMount() {
+        !this.allin.onclick && (this.allin.onclick = this.allinClick)
+        !this.bottom.onclick && (this.bottom.onclick = this.bottomClick)
+    }
+    allinClick() {
+        this.setState((prevState)=>{
+            return {
+                ...prevState,
+                allin: [
+                    ...prevState.allin,
+                    1
+                ]
+            }
+        })
+    }
+    bottomClick() {
+        this.setState((prevState) => {
+            return {
+                ...prevState,
+                bottom: [
+                    ...prevState.bottom,
+                    1
+                ]
+            }
+        })
     }
     render() {
-        const select = <select name="" id="">  
-            <option value="尿素">尿素</option>
-            <option value="磷酸二氢钾">磷酸二氢钾</option>
-            <option value="硫酸钾">硫酸钾</option>
-            <option value="硫酸锌">硫酸锌</option>
-            <option value="一铵">一铵</option>
-            <option value="二铵">二铵</option></select>
-      
-
         return (
             <div className='planer'>
                 <h4>种植计划</h4>
@@ -31,199 +53,128 @@ class Form2 extends Component {
                     </div>
                     <table>
                         <thead>
-                            <th>总肥料配方</th>
-                            <th>公斤／亩</th>
-                            <th>N％</th>
-                            <th>P2O5％</th>
-                            <th>K2O％</th>
-                            <th>S％</th>
-                            <th>Zn％</th>
-                            <th>B％</th>
-                            <th>N</th>
-                            <th>P2O5</th>
-                            <th>K2O</th>
-                            <th>S</th>
-                            <th>ZN</th>
-                            <th>B</th>
+                            <tr>
+                                <th>总肥料配方</th>
+                                <th>公斤／亩</th>
+                                <th>N％</th>
+                                <th>P2O5％</th>
+                                <th>K2O％</th>
+                                <th>S％</th>
+                                <th>Zn％</th>
+                                <th>B％</th>
+                                <th>N</th>
+                                <th>P2O5</th>
+                                <th>K2O</th>
+                                <th>S</th>
+                                <th>ZN</th>
+                                <th>B</th>
+                            </tr>
+                           
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>{select}</td>
-                                <td><input type="text"/></td>
-                                <td>46%</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>13.8</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <td>{select}</td>
-                                <td><input type="text" /></td>
-                                <td>46%</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>13.8</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <td>{select}</td>
-                                <td><input type="text" /></td>
-                                <td>46%</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>13.8</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <td>{select}</td>
-                                <td><input type="text" /></td>
-                                <td>46%</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>13.8</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
+                            <Tr />
+                            {
+                                this.state.allin.map((item, index) => {
+                                    console.log(index)
+                                    return <Tr key={index}/>
+                                })
+                            }
                         </tbody>
                     </table>
                    
                     <div>
-                        <button>+</button><label>增加一行</label>
+                        <button ref={allin => this.allin = allin}>+</button><label>增加一行</label>
                     </div>
                     <table>
                         <thead>
-                            <th>底肥</th>
-                            <th>公斤／亩</th>
-                            <th>N％</th>
-                            <th>P2O5％</th>
-                            <th>K2O％</th>
-                            <th>S％</th>
-                            <th>Zn％</th>
-                            <th>B％</th>
-                            <th>N</th>
-                            <th>P2O5</th>
-                            <th>K2O</th>
-                            <th>S</th>
-                            <th>ZN</th>
-                            <th>B</th>
+                            <tr>
+                                <th>底肥</th>
+                                <th>公斤／亩</th>
+                                <th>N％</th>
+                                <th>P2O5％</th>
+                                <th>K2O％</th>
+                                <th>S％</th>
+                                <th>Zn％</th>
+                                <th>B％</th>
+                                <th>N</th>
+                                <th>P2O5</th>
+                                <th>K2O</th>
+                                <th>S</th>
+                                <th>ZN</th>
+                                <th>B</th>
+                            </tr>
+                          
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>{select}</td>
-                                <td><input type="text" /></td>
-                                <td>46%</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>13.8</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <td>{select}</td>
-                                <td><input type="text" /></td>
-                                <td>46%</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>13.8</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
+                            {
+                                this.state.bottom.map((item, index) => {
+                                    console.log(index)
+                                    return <Tr key={index} />
+                                })
+                            }
                         </tbody>
                     </table>
                     <div>
-                        <button>+</button><label>增加一行</label>
+                        <button ref={bottom => this.bottom = bottom}>+</button><label>增加一行</label>
                     </div>
                 </div>
                 <div className='plan-form'>
-                    <h4>方案详情</h4>
-                    <div>
-                        <label>追肥计算：</label>水肥一体 + 叶面喷
+                    <h4 className='plan-title'>方案详情</h4>
+                    <div className='plan-message'>
+                        <div>
+                            <label>追肥计算：</label>水肥一体 + 叶面喷
+                        </div>
+                        <div>
+                            <div>
+                                <label>播种密度：</label>
+                                <input type="text" /> 株/亩
+                            </div>
+                            <div>
+                                <label>播种日期: </label>
+                                <input type="date" />
+                            </div>
+                            <div>
+                                <label>PH: </label>
+                                <input />
+                            </div>
+                            <div>
+                                <label>覆膜: </label>
+                                <input />
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <label>滴灌出齐苗水+肥：</label>
+                                <input /> m3/亩
+                            </div>
+                            <div>
+                                <label>灌溉总量: </label>
+                                <input /> m3/亩
+                            </div>
+                            <div>
+                                <label>追肥 - 总氮: </label>
+                                <input />
+                            </div>
+                            <div>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <div>
-                            <label>播种密度：</label>
-                            <input type="text"/> 株/亩
-                        </div>
-                        <div>
-                            <label>播种日期: </label>
-                            <input type="date" />
-                        </div>
-                        <div>
-                            <label>PH: </label>
-                            <input value='7.8'/>
-                        </div>
-                        <div>
-                            <label>覆膜: </label>
-                            <input value='无' />
-                        </div>
-                    </div>
-                    <div>
-                        <div>
-                            <label>滴灌出齐苗水+肥：</label>
-                            <input value='15' /> m3/亩
-                        </div>
-                        <div>
-                            <label>灌溉总量: </label>
-                            <input value='390' /> m3/亩
-                        </div>
-                        <div>
-                            <label>追肥 - 总氮: </label>
-                            <input value='14.72' />
-                        </div>
-                        <div>
-                        </div>
-                    </div>
+                   
                     <table>
                         <thead>
-                            <th>玉米生长阶段</th>
-                            <th>六到七叶期</th>
-                            <th>九到十叶期</th>
-                            <th>十四叶期</th>
-                            <th>开始抽雄</th>
-                            <th>授粉中期</th>
-                            <th>R2</th>
-                            <th>Early R4</th>
-                            <th>Early R5</th>
-                            <th>总和</th>
+                            <tr>
+                                <th>玉米生长阶段</th>
+                                <th>六到七叶期</th>
+                                <th>九到十叶期</th>
+                                <th>十四叶期</th>
+                                <th>开始抽雄</th>
+                                <th>授粉中期</th>
+                                <th>R2</th>
+                                <th>Early R4</th>
+                                <th>Early R5</th>
+                                <th>总和</th>
+                            </tr>
+                           
                         </thead>
                         <tbody>
                             <tr>
@@ -275,8 +226,9 @@ class Form2 extends Component {
                                 <td>59</td>
                             </tr>
                         </tbody>
-                        
+                    
                     </table>
+                   
                     <div>
                         <h4>施肥比例</h4>
                     </div>
@@ -417,19 +369,22 @@ class Form2 extends Component {
                             </tr>
                         </tbody>
                     </table>
-                    <div>具体实施计划</div>
+                    {/* <div>具体实施计划</div>
                     <table>
                         <thead>
-                            <th>执行日期</th>
-                            <th>类别</th>
-                            <th>滴水时间</th>
-                            <th>尿素</th>
-                            <th>一铵</th>
-                            <th>硫酸钾</th>
-                            <th>磷酸二氢钾</th>
-                            <th>硫酸锌</th>
-                            <th>硼</th>
-                            <th>说明</th>
+                            <tr> <th>执行日期</th>
+                                <th>类别</th>
+                                <th>滴水时间</th>
+                                <th>尿素</th>
+                                <th>一铵</th>
+                                <th>硫酸钾</th>
+                                <th>磷酸二氢钾</th>
+                                <th>硫酸锌</th>
+                                <th>硼</th>
+                                <th>说明</th>
+
+                            </tr>
+                           
                         </thead>
                         <tbody>
                             <tr>
@@ -601,7 +556,7 @@ class Form2 extends Component {
                                 <td></td>
                             </tr>
                         </tbody>
-                    </table>
+                    </table> */}
                     <div><button>保存方案</button></div>
                 </div>
             </div>

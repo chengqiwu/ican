@@ -4,13 +4,41 @@
     display: block !important;
     .unit {
         .active {
-           color: blue; 
+            color: blue;
         }
         .no-active {
             color: #c8c8c8;
         }
         label {
             margin-right: 5px;
+        }
+    }
+    .plan-form {
+        @extend .flex-center;
+        flex-direction: column;
+        .plan-title {
+            // height: 70px;
+        }
+        .plan-message {
+            // width: 100%;
+            >div {
+                @extend .flex;
+                >label {
+                    width: 140px;
+                    text-align: right;
+                }
+                >div {
+                    @extend .flex;
+                    width: 240px;
+                    >label {
+                        width: 140px;
+                        text-align: right;
+                    }
+                    >input {
+                        width: 50px;
+                    }
+                }
+            }
         }
     }
 }
