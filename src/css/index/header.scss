@@ -2,7 +2,7 @@
 @import '../common';
 $css_sprites: url('../../images/index/css_sprites.png');
 .header {
-    max-height: 100px;
+    height: 100px;
     background-color: #efefef;
     padding-left: 20px;
     @extend .flex-left-right;

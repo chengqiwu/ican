@@ -44,14 +44,17 @@ class Form2 extends Component {
     render() {
         return (
             <div className='planer'>
-                <h4>种植计划</h4>
-                <div>
+                <div className='plan-title'>
+                    <h4>种植计划</h4>
+                    <hr/>
+                </div>
+                <div className='content'>
                     <div className='unit'>
                         <label className={this.state.mu ? 'active' : 'no-active'}>公斤／亩</label>
                         <label>|</label>
                         <label className={this.state.ha ? 'active' : 'no-active'}>公斤／公顷</label>
                     </div>
-                    <table>
+                    <table className='gridtable fertilizer'>
                         <thead>
                             <tr>
                                 <th>总肥料配方</th>
@@ -82,10 +85,10 @@ class Form2 extends Component {
                         </tbody>
                     </table>
                    
-                    <div>
+                    <div className='table-add'>
                         <button ref={allin => this.allin = allin}>+</button><label>增加一行</label>
                     </div>
-                    <table>
+                    <table className='gridtable fertilizer'>
                         <thead>
                             <tr>
                                 <th>底肥</th>
@@ -114,12 +117,16 @@ class Form2 extends Component {
                             }
                         </tbody>
                     </table>
-                    <div>
-                        <button ref={bottom => this.bottom = bottom}>+</button><label>增加一行</label>
+                    <div className='table-add'>
+                        <button ref={bottom => this.bottom = bottom}>
+                            <span>+</span>
+                        </button><label>增加一行</label>
                     </div>
                 </div>
                 <div className='plan-form'>
-                    <h4 className='plan-title'>方案详情</h4>
+                    <div className='plan-details'>
+                        <h4 >方案详情</h4>
+                    </div>
                     <div className='plan-message'>
                         <div>
                             <label>追肥计算：</label>水肥一体 + 叶面喷
@@ -160,7 +167,7 @@ class Form2 extends Component {
                         </div>
                     </div>
                    
-                    <table>
+                    <table className='gridtable'>
                         <thead>
                             <tr>
                                 <th>玉米生长阶段</th>
@@ -229,10 +236,10 @@ class Form2 extends Component {
                     
                     </table>
                    
-                    <div>
+                    <div className='plan-sub'>
                         <h4>施肥比例</h4>
                     </div>
-                    <table>
+                    <table className='gridtable'>
                         <tbody>
                             
                             <tr>
@@ -297,7 +304,7 @@ class Form2 extends Component {
                             </tr>
                         </tbody>
                     </table>
-                    <div>
+                    <div className='plan-sub'>
                         <h4>施肥量</h4>
                         <div className='unit'>
                             <label className={this.state.mu ? 'active' : 'no-active'}>公斤／亩</label>
@@ -305,7 +312,7 @@ class Form2 extends Component {
                             <label className={this.state.ha ? 'active' : 'no-active'}>公斤／公顷</label>
                         </div>
                     </div>
-                    <table>
+                    <table className='gridtable'>
                         <tbody>
                             <tr>
                                 <td>尿素</td>
@@ -369,10 +376,13 @@ class Form2 extends Component {
                             </tr>
                         </tbody>
                     </table>
-                    {/* <div>具体实施计划</div>
-                    <table>
+                    <div className='plan-sub'>
+                        <h4>具体实施计划</h4>
+                    </div>
+                    <table className='gridtable'>
                         <thead>
-                            <tr> <th>执行日期</th>
+                            <tr>
+                                <th>执行日期</th>
                                 <th>类别</th>
                                 <th>滴水时间</th>
                                 <th>尿素</th>
@@ -382,9 +392,7 @@ class Form2 extends Component {
                                 <th>硫酸锌</th>
                                 <th>硼</th>
                                 <th>说明</th>
-
                             </tr>
-                           
                         </thead>
                         <tbody>
                             <tr>
@@ -556,7 +564,7 @@ class Form2 extends Component {
                                 <td></td>
                             </tr>
                         </tbody>
-                    </table> */}
+                    </table>
                     <div><button>保存方案</button></div>
                 </div>
             </div>
