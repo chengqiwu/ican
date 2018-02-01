@@ -4,7 +4,7 @@ import history from './history'
 import createComponent from './Bundle'
 import LoginPage from 'bundle-loader?lazy&name=login!router/login/LoginPage'
 import RegisterPage from 'bundle-loader?lazy&name=register!router/register/RegisterPage'
-import RegisterSuccessPage from 'bundle-loader?lazy&name=success!router/registerSuccess/RegisterSuccessPage'
+import ValidatePage from 'bundle-loader?lazy&name=success!router/validate/ValidatePage'
 import IcanApp from 'bundle-loader?lazy&name=ican!router/index/IcanApp'
 
 class Ican extends Component {
@@ -15,7 +15,7 @@ class Ican extends Component {
                     <Route exact path='/' component={createComponent(LoginPage)}></Route>
                     <Route path='/login' component={createComponent(LoginPage)}></Route>
                     <Route path='/register' component={createComponent(RegisterPage)}></Route>
-                    <Route path='/registerSuccess' component={createComponent(RegisterSuccessPage)}></Route>
+                    <Route path='/validate' component={createComponent(ValidatePage)}></Route>
                     <Route path='/index' component={createComponent(IcanApp)}></Route>
                 </Switch>
             </Router>

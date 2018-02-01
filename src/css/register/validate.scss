@@ -1,17 +1,18 @@
 @charset 'utf-8';
 @import '../common';
+$bg: url('../../images/common/bg.png');
 @mixin green-tag {
     background-color: #5aa600;
 }
 
-// .register-bg {
-//     z-index: -1;
-//     @include custom-width-height($full, $full);
-//     @include background-norepeat-cover;
-//     @extend .flex-top-column-bottom;
-//     padding: 20px;
-//     background: $bg;
-// }
+.register-bg {
+    z-index: -1;
+    @include custom-width-height($full, $full);
+    background-image: $bg;    
+    @include background-norepeat-cover;
+    @extend .flex-top-column-bottom;
+    padding: 20px;
+}
 
 .register-content {
     min-width: 500px;

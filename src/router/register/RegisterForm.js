@@ -11,7 +11,7 @@ class RegisterForm extends Component {
     handleSubmit(e) {
         console.log(this.props)
         e.preventDefault()
-        this.props.history.push({ pathname: '/registerSuccess/token', search: '?type=phone' })
+        this.props.history.push({ pathname: '/validate'})
     }
     render() {
         return (
