@@ -8,7 +8,7 @@ import Form from './Form'
 import Form2 from './Form2'
 import { NavLink, Route } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
-
+import Scrollbar from 'smooth-scrollbar'
 import { connect } from 'react-redux'
 import 'css/map/popup1.scss'
 
@@ -29,10 +29,14 @@ class Popup extends Component {
     }
     componentDidMount() {
         this.closer.onclick = this.closeClick
+        console.log(document.querySelector('.popup-content'))
+        Scrollbar.init(document.querySelector('.popup-content'))
+
         // document.querySelector('.ol-popup').onclick(function(e) {
         //     e.stopPropagation()
         // })
         this.load(this.props)
+        
     }
     load(props) {
         const { map } = props.map
