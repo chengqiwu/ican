@@ -7,6 +7,8 @@ import { connect } from 'react-redux'
 import Filed from './Filed'
 import Polygon from 'map/Polygon'
 import 'css/index/field/field.scss'
+import Popup1 from 'map/Popup1'
+import FieldContent from 'map/FieldContent'
 
 class FieldLists extends Component {
     constructor() {
@@ -70,24 +72,14 @@ class FieldLists extends Component {
                         <div>新建田地</div>
                     </div>
                 </div>
-                <Polygon draw={this.state.draw} removeDraw={this.removeDraw} />
+                <Polygon draw={this.state.draw} removeDraw={this.removeDraw}>
+                    <Popup1>
+                        <FieldContent/>
+                    </Popup1>    
+                </Polygon>
                 
             </div>
         )
     }
 }
-FieldLists.propTypes = {
-    map: PropTypes.object
-}
-const mapStateToProps = (state) => {
-    return {
-        map: state.map
-    }
-}
-const mapDispathToProps = (dispath) => {
-    return {
-
-    }
-}
-FieldLists = connect(mapStateToProps, mapDispathToProps)(FieldLists)
 export default FieldLists

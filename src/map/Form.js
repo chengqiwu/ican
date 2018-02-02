@@ -37,6 +37,7 @@ class Form extends Component {
     }
     nextSubmit(e) {
         e.preventDefault()
+        this.props.next()
     }
     soliChange(e) {
         this.handleChange('soil', e.target.value)
@@ -370,6 +371,7 @@ class Form extends Component {
     }
 }
 Form.propTypes = {
-    name: PropTypes.string
+    name: PropTypes.string,
+    next: PropTypes.func
 }
 export default Form

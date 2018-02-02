@@ -4,8 +4,13 @@ import ol from 'openlayers'
 import { connect } from 'react-redux'
 import 'css/map/polygon.scss'
 
-import Popup from 'map/Popup1'
 class Polygon extends Component {
+    constructor() {
+        super()
+        this.state = {
+            area: null,    // 选中feature的面积
+        }
+    }
     componentDidMount() {
         this.load(this.props)
     }
@@ -53,10 +58,19 @@ class Polygon extends Component {
         })
         var geoJson = new ol.format.GeoJSON()
         this.draw.on('drawend', (evt) => {
+            var feature = evt.feature
             this.props.removeDraw()
+            this.setState({
+                area: this.getArea(feature)
+            })
         })
         this.polygonModify.on('modifyend', (evt) => {
+            console.log(evt)
+
             var feature = evt.features.a[0]
+            this.setState({
+                area: this.getArea(feature)
+            })
             var payload = geoJson.writeFeature(feature, {
                 featureProjection: map.getView().getProjection()
             })
@@ -78,14 +92,30 @@ class Polygon extends Component {
         this.polyonLayer && map.removeLayer(this.polyonLayer)
         this.draw && this.draw.setActive(false)
     }
+    getArea(polygonFeature) {
+        var sphere = new ol.Sphere(6378137)
+        var lonLatPolygon = polygonFeature.getGeometry().transform('EPSG:3857', 'EPSG:3857')
+        var area = Math.abs(sphere.geodesicArea(lonLatPolygon.getCoordinates()[0]))
+        // return area
+        var unit
+        if (area > 1000000) {
+            area = area / 1000000
+            unit = 'km²'
+        } else {
+            unit = 'm²'
+        }
+        return area + unit
+    }
+
     render() {
         if(this.draw) {
             this.draw.setActive(this.props.draw)
         }
-        // this.draw && console.log(this.draw.getActive())
+        var childrenWithProps = React.Children.map(this.props.children, child =>
+            React.cloneElement(child, { area: this.state.area }))
         return (
             <div className='polygon'>
-                <Popup map={this.props.map}/>
+                {childrenWithProps}
             </div>
         )
     }
@@ -93,7 +123,8 @@ class Polygon extends Component {
 Polygon.propTypes = {
     map: PropTypes.object,
     draw: PropTypes.bool,
-    removeDraw: PropTypes.func
+    removeDraw: PropTypes.func,
+    children: PropTypes.node
 }
 const mapStateToProps = (state) => {
     return {
