@@ -60,7 +60,14 @@ class Popup extends Component {
             return feature
         })
         if (feature) {
+            console.log(feature)
             const geometry = feature.getGeometry()
+            console.log(geometry)
+            const geojson = new ol.format.GeoJSON()
+            console.log(geojson.writeFeature(feature, { dataProjection: 'EPSG:4326', featureProjection:'EPSG:3857'}))
+
+
+
             const extent = geometry.getExtent()
             const center = ol.extent.getCenter(extent)
             this.setState({

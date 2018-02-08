@@ -4,6 +4,7 @@ import Token from './Token'
 import TokenSuccess from './TokenSuccess'
 import queryString from 'query-string'
 import classNames from 'classnames'
+import history from 'router/history'
 
 class RegisterSuccessForm extends Component {
     constructor() {
@@ -14,6 +15,7 @@ class RegisterSuccessForm extends Component {
         this.changeToken = this.changeToken.bind(this)
     }
     changeToken(e) {
+
         const tokenType = e.target.type
         if (this.state.tokenType !== tokenType) {
             this.setState({

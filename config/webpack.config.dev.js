@@ -86,6 +86,7 @@ module.exports = {
     // for React Native Web.
     extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
     alias: {
+        utils: path.join(__dirname, '../src/utils'),
         map: path.join(__dirname, '../src/map'),
         _redux: path.join(__dirname, '../src/redux/'),
         router: path.join(__dirname, '../src/router/'),
