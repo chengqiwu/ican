@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import success from 'images/register/success.png'
 import PropTypes from 'prop-types'
 import history from 'router/history'
-import { userRegister } from 'utils/Api'
+import { userRegister, userVerify } from 'utils/Api'
 class ValidateContent extends Component {
     constructor() {
         super()
@@ -20,6 +20,7 @@ class ValidateContent extends Component {
         this.validateHandle = this.validateHandle.bind(this)
         this.validateSuccess = this.validateSuccess.bind(this)
         this.inputChange = this.inputChange.bind(this)
+        this.getCode = this.getCode.bind(this)
     }
     changeValidate(e) {
         if (this.state.phoneSuccess > 0 || this.state.emailSuccess > 0) {
@@ -37,23 +38,42 @@ class ValidateContent extends Component {
     }
     validateHandle(e) {
         e.preventDefault()
-        console.log(history)
-        const {state} = history.location
-        userRegister({
-            ...state,
-            verifyWay: this.state.type === 'phone' ? 0 : 1,
-            verify: `${this.state.phone}/${this.state.code}`
-        })
-        const type = this.state.type
+        
+        const {type, token} = this.state
         if (type === 'phone') {
+            // userVerify({token}).then(res=>{
+            //     if (res.data.msg === '200') {
+               
+            //     }
+            // })     
             this.setState({
                 phoneSuccess: 2
-            })
+            })      
+           
         }
         if (type === 'email') {
-            this.setState({
-                emailSuccess: 1
+            if (!this.state.email) {
+                alert('email')
+                return
+            }
+            const { state } = history.location
+            
+            userRegister({
+                // ...state,
+                username: '111',
+                password:'11',
+                verifyWay: this.state.type === 'phone' ? 0 : 1,
+                verify: this.state.type === 'phone' ? this.state.phone : this.state.email
+            }).then(res => {
+                if (res.data.msg === '200') {
+                    console.log(res)
+                    this.setState({
+                        emailSuccess: 1
+                    })
+                }
+
             })
+           
         }
     }
     validateSuccess(e) {
@@ -74,6 +94,28 @@ class ValidateContent extends Component {
                 [name]: e.target.value
             })
         }
+    }
+    getCode() {
+        if (!this.state.phone) {
+            alert('输入手机号')
+            return
+        }
+        const { state } = history.location
+        userRegister({
+            ...state,
+            verifyWay: this.state.type === 'phone' ? 0 : 1,
+            verify: this.state.type === 'phone' ? this.state.phone : this.state.email
+        }).then( res=> {
+            if (res.data.msg === '200') {
+                const { data: { result: { token, code } } } = res
+                console.log(token)
+                this.setState({
+                    code,
+                    token
+                })
+            }
+           
+        })
     }
     render() {
         const input = this.state.type === 'phone' ?
@@ -131,7 +173,7 @@ class ValidateContent extends Component {
                                                 <input type="text" name="code" placeholder='验证码' 
                                                     value={this.state.code} 
                                                     onChange={this.inputChange}/>
-                                                <a href="#">获取验证码</a>
+                                                <a href="#" onClick={this.getCode}>获取验证码</a>
                                             </div>}
                                             <input type="submit" className='token-submit' />
                                         </form> 

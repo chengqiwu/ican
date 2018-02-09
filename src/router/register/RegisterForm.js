@@ -16,8 +16,33 @@ class RegisterForm extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
     }
     handleSubmit(e) {
-        const { username, password } = this.state
         e.preventDefault()
+
+        const { username, password, repassword, protocol } = this.state
+        if (!username) {
+            alert('输入用户名')
+            return
+        }
+        if(!password) {
+            alert('输入密码')
+            return
+        }
+        if (!repassword) {
+            alert('请确认密码')
+            return
+        }
+        if (repassword !== password) {
+            alert('两次密码不一样')
+            this.setState({
+                password: '',
+                repassword: ''
+            })
+            return
+        }
+        if (!protocol) {
+            alert('同意协议')
+            return
+        }
         history.push({ pathname: '/validate', state: {
             username,
             password
@@ -36,6 +61,7 @@ class RegisterForm extends Component {
         }
     }
     render() {
+        console.log(this.state.password)
         return (
             <div className='register-from center'>
                 <form onSubmit={this.handleSubmit}>
@@ -43,7 +69,7 @@ class RegisterForm extends Component {
                         <label>用户名</label>
                         <div className='from-item'>
                             <input type="text" name='username' placeholder='用户名' 
-                                vlaue={this.state.username}
+                                value={this.state.username}
                                 onChange={this.inputChange}/>
                             <span className='register-prompt'>由汉字、英文字母、数字或下划线组成，首字符不能为数字和特殊字符。6-24位，一个汉字占两个字符。</span>
                         </div>
@@ -53,7 +79,7 @@ class RegisterForm extends Component {
                         <label>密码</label>
                         <div className='from-item'>
                             <input type="password" name='password' placeholder='********' 
-                                vlaue={this.state.password}
+                                value={this.state.password}
                                 onChange={this.inputChange} />                                
                             <span className='register-prompt'>由英文字母、数字或英文特殊字符组成，6-24位。</span>
                         </div>
@@ -63,7 +89,7 @@ class RegisterForm extends Component {
                         <label>确认密码</label>
                         <div className='from-item'>
                             <input type="password" name='repassword' placeholder='********' 
-                                vlaue={this.state.repassword}
+                                value={this.state.repassword}
                                 onChange={this.inputChange} />                                
                         </div>
                     </div>
