@@ -13,8 +13,8 @@ class ValidateContent extends Component {
             phone: '',
             email: '',
             code: '',
-            phoneSuccess: 0, // 0 为验证 // 1 待验证邮箱 2.验证成功
-            emailSuccess: 0,
+            phoneSuccess: false, //false 待验证 true 验证成功
+            emailSuccess: false,
         }
         this.changeValidate = this.changeValidate.bind(this)
         this.validateHandle = this.validateHandle.bind(this)
@@ -43,12 +43,12 @@ class ValidateContent extends Component {
         if (type === 'phone') {
             // userVerify({token}).then(res=>{
             //     if (res.data.msg === '200') {
-               
+                   
             //     }
             // })     
             this.setState({
-                phoneSuccess: 2
-            })      
+                phoneSuccess: true
+            })  
            
         }
         if (type === 'email') {
@@ -56,36 +56,22 @@ class ValidateContent extends Component {
                 alert('email')
                 return
             }
-            const { state } = history.location
-            
-            userRegister({
-                // ...state,
-                username: '111',
-                password:'11',
-                verifyWay: this.state.type === 'phone' ? 0 : 1,
-                verify: this.state.type === 'phone' ? this.state.phone : this.state.email
-            }).then(res => {
-                if (res.data.msg === '200') {
-                    console.log(res)
-                    this.setState({
-                        emailSuccess: 1
-                    })
-                }
+            // userVerify({token}).then(res=>{
+            //     if (res.data.msg === '200') {
 
-            })
+            //     }
+            // })     
+            this.setState({
+                emailSuccess: true
+            })  
            
         }
     }
     validateSuccess(e) {
         e.preventDefault()
         const type = this.state.type
-        if (type === 'email') {
-            this.setState({
-                emailSuccess: 2
-            })
-        }else {
-            history.push('/')
-        }
+    
+        history.push('/')
     }
     inputChange(e) {
         const { name } = e.target
@@ -103,6 +89,8 @@ class ValidateContent extends Component {
         const { state } = history.location
         userRegister({
             ...state,
+            // username: '1111',
+            // password: '111',
             verifyWay: this.state.type === 'phone' ? 0 : 1,
             verify: this.state.type === 'phone' ? this.state.phone : this.state.email
         }).then( res=> {
@@ -166,7 +154,7 @@ class ValidateContent extends Component {
                                         onClick={this.changeValidate}>通过E-mail验证</a>
                                 </div>
                                 {
-                                    (this.state.phoneSuccess === 0 && this.state.emailSuccess === 0)  ? 
+                                    (!this.state.phoneSuccess && !this.state.emailSuccess)  ? 
                                         <form className='token-form' onSubmit={this.validateHandle}>
                                             {input}
                                             {this.state.type === 'email' ? undefined : <div className='token-code'>
@@ -180,14 +168,7 @@ class ValidateContent extends Component {
                                         : 
                                         <form className='token-form-success' onSubmit={this.validateSuccess}>
                                             {
-                                                this.state.type === 'phone' ? phone : null
-                                            }
-                                            {
-                                                (this.state.type === 'email' && this.state.emailSuccess === 1) ? email : null
-                                            }
-                                            {
-                                             
-                                                (this.state.type === 'email' && this.state.emailSuccess === 2) ? phone : null
+                                                this.state.type === 'phone' ? phone : email
                                             }
                                         </form>
                                 }

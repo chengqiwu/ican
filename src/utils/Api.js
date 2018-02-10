@@ -13,6 +13,7 @@ export function userVerify(data) {
         params: data
     })
 }
+
 export function userLogin(data) {
     console.log(data)
     return axios.get(url+'/api/user/login', {
