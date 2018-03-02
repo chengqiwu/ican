@@ -62,7 +62,7 @@ export function updateUserInfo(data) {
     return axios.post(url + '/api/user/updateUserInfo?token='+getToken(), data, config)
 }
 
-export default function addFarmers(data) {
+export function addFarmers(data) {
     let config = {
         headers: { 'Content-Type': 'multipart/form-data' }
     }
@@ -81,3 +81,12 @@ export default function addFarmers(data) {
 // formData.append('icon', this.icon.files[0])
 // formData.append('farmersInfo', JSON.stringify(farmersInfo))
 // addFarmers(formData)
+
+export function updateFarmers(data) {
+    let config = {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    }
+    console.log('data', data)
+
+    axios.post(url + '/api/user/updateFarmers?token=' + getToken(), data, config)
+}
