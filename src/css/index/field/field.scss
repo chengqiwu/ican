@@ -5,7 +5,7 @@ $css_sprites2: url('../../../images/index/css_sprites2.png');
 .field-list {
     border-radius: 5px;
     background-color: #eeeeee;
-    @include custom-width-height(280px,
+    @include custom-width-height(300px,
     94%);
     position: absolute;
     left: 21px;
@@ -24,7 +24,7 @@ $css_sprites2: url('../../../images/index/css_sprites2.png');
         box-shadow: 0 1px 1px #adadad;
     }
     h3 {
-        font-size: 24px;
+        font-size: 20px;
     }
     .field-lists {
         height: calc(100% - 114px);

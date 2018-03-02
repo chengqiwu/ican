@@ -8,14 +8,15 @@ class FamerLists extends Component {
     }
     render() {
         const lists = [
-            { name: '张三', phone: '18299999999', own: 5 },
-            { name: '张三', phone: '18299999999', own: 5 },
-            { name: '张三', phone: '18299999999', own: 5 },
-            { name: '张三', phone: '18299999999', own: 5 },
-            { name: '张三', phone: '18299999999', own: 5 },
-            { name: '张三', phone: '18299999999', own: 5 },
-            { name: '张三', phone: '18299999999', own: 5 },
-            { name: '张三', phone: '18299999999', own: 5 },
+            { name: '张昆意', phone: '18611122212', own: 5 },
+            { name: '刘旭懂', phone: '18611122212', own: 1 },
+            { name: '李斌', phone: '18611122212', own: 1 },
+            { name: '张昆意', phone: '18611122212', own: 5 },
+            { name: '刘旭懂', phone: '18611122212', own: 1 },
+            { name: '李斌', phone: '18611122212', own: 1 },
+            { name: '张昆意', phone: '18611122212', own: 5 },
+            { name: '刘旭懂', phone: '18611122212', own: 1 },
+            { name: '李斌', phone: '18611122212', own: 1 },
         ]
         return (
             <div className='famers-list'>

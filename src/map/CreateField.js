@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types' 
+import {farmLandSave} from '../utils/Api.js'
+import ol from 'openlayers'
+
 class CreateField extends Component {
     constructor() {
         super()
@@ -17,7 +20,26 @@ class CreateField extends Component {
     }
     submitHandle(e) {
         e.preventDefault()
-        this.props.setFeatureId(this.state.name)
+
+        // 圈地
+
+        const farmLandInfo = {
+            name: this.state.name,
+            geom: this.props.geom
+        }
+        farmLandSave({
+            farmLandInfo: JSON.stringify(farmLandInfo)
+        }).then(res => res.data).then(data => {
+            console.log(data)
+            if (data.msg === '200') {
+                this.props.setFeatureId(this.state.name)
+            } else {
+                data.msg === '209'
+                alert(data.result+ ' ，请重绘。。。')
+            }
+        })
+
+
     }
     render() {
 
@@ -38,7 +60,8 @@ CreateField.propTypes = {
     submitHandle: PropTypes.func,
     changeInput: PropTypes.func,
     area: PropTypes.string,
-    setFeatureId: PropTypes.func
+    setFeatureId: PropTypes.func,
+    geom: PropTypes.string
 
 }
 export default CreateField

@@ -42,14 +42,14 @@ class FieldLists extends Component {
     render() {
         console.log(this.state.draw)
         const lists = [
-            { name: 'nihaoahdoda', area: '108', currentStage: '开始', nextStage: 'zhongqi', manager: 'sunning' },
-            { name: 'nihaoahdoda', area: '108', currentStage: '开始', nextStage: 'zhongqi', manager: 'sunning' },
-            { name: 'nihaoahdoda', area: '108', currentStage: '开始', nextStage: 'zhongqi', manager: 'sunning' },
-            { name: 'nihaoahdoda', area: '108', currentStage: '开始', nextStage: 'zhongqi', manager: 'sunning' },
-            { name: 'nihaoahdoda', area: '108', currentStage: '开始', nextStage: 'zhongqi', manager: 'sunning' },
-            { name: 'nihaoahdoda', area: '108', currentStage: '开始', nextStage: 'zhongqi', manager: 'sunning' },
-            { name: 'nihaoahdoda', area: '108', currentStage: '开始', nextStage: 'zhongqi', manager: 'sunning' },
-            { name: 'nihaoahdoda', area: '108', currentStage: '开始', nextStage: 'zhongqi', manager: 'sunning'},
+            { name: '伽师县1号地', area: '108', currentStage: '开始抽雄', nextStage: '授粉中期（6天后）', manager: '孙宁' },
+            { name: '伊尔力可多乡山地A', area: '1108', currentStage: '开始抽雄', nextStage: '授粉中期（6天后）', manager: '孙宁' },
+            { name: '英吾斯坦8号地', area: '325', currentStage: '开始抽雄', nextStage: '授粉中期（6天后）', manager: '孙宁' },
+            { name: '克孜勒乡9号地', area: '108', currentStage: '开始抽雄', nextStage: '授粉中期（6天后）', manager: '孙宁' },
+            { name: '伽师县1号地', area: '108', currentStage: '开始抽雄', nextStage: '授粉中期（6天后）', manager: '孙宁' },
+            { name: '伊尔力可多乡山地A', area: '108', currentStage: '开始抽雄', nextStage: '授粉中期（6天后）', manager: '孙宁' },
+            { name: '英吾斯坦8号地', area: '108', currentStage: '开始抽雄', nextStage: '授粉中期（6天后）', manager: '孙宁' },
+            { name: '克孜勒乡9号地', area: '108', currentStage: '开始抽雄', nextStage: '授粉中期（6天后）', manager: '孙宁'},
         ]
         return (
             <div className='field-list'>

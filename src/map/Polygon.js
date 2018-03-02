@@ -46,11 +46,7 @@ class Polygon extends Component {
         })
         map.addInteraction(this.draw)
         this.draw.setActive(false)
-        // const geojson = new ol.format.GeoJSON()
 
-        // var geom = geojson.readGeometry('{"type":"Polygon","coordinates":[[[19.2041015625,17.224758206624628],[10.0634765625,4.565473550710294],[20.2587890625,3.9519408561576057],[28.959960937499993,13.239945499286307],[19.2041015625,17.224758206624628]]]}', { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' })
-        
-        
         this.polygonModify = new ol.interaction.Modify({
             source: polyonSource
         })
@@ -78,7 +74,7 @@ class Polygon extends Component {
                 featureProjection: map.getView().getProjection()
             })
             var center = ol.extent.getCenter(feature.getGeometry().getExtent())
-            map.removeInteraction(this.draw)
+            // map.removeInteraction(this.draw)
         })
         this.translate.on('translateend', function(evt) {
             var feature = evt.features.a[0]

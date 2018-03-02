@@ -10,10 +10,11 @@ import FamersLists from './Famers/FamersLists'
 
 import Header from './Header'
 import Openlayer from 'map/Openlayer'
-
-
+import history from '../history'
 const store = createStore(reducers)
 const IcanApp = () => {
+    console.log(history)
+    history.location.state && localStorage.setItem('state', JSON.stringify(history.location.state))
     return (
         <Provider store={store}>
             <div>

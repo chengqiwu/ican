@@ -8,13 +8,13 @@ class Zoom extends Component {
         this.zoomOut = this.zoomOut.bind(this)
     }
     zoomIn() {
-        const { map } = this.props
+        const { map } = this.props.map
         const view = map.getView()
         const zoom = view.getZoom()
         view.setZoom(zoom + 1)
     }
     zoomOut() {
-        const { map } = this.props
+        const { map } = this.props.map
         const view = map.getView()
         const zoom = view.getZoom()
         view.setZoom(zoom - 1)

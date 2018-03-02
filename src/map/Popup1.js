@@ -2,10 +2,6 @@ import React, { Component } from 'react'
 import { PropTypes } from 'prop-types'
 import ol from 'openlayers'
 import PopupOverlay from 'ol-popup-umd'
-// import Count1 from './Count1'
-// import Count2 from './Count2'
-// import Form from './Form'
-// import Form2 from './Form2'
 import { NavLink, Route } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import Scrollbar from 'smooth-scrollbar'
@@ -62,17 +58,13 @@ class Popup extends Component {
         if (feature) {
             console.log(feature)
             const geometry = feature.getGeometry()
-            console.log(geometry)
-            const geojson = new ol.format.GeoJSON()
-            console.log(geojson.writeFeature(feature, { dataProjection: 'EPSG:4326', featureProjection:'EPSG:3857'}))
-
-
-
+           
             const extent = geometry.getExtent()
             const center = ol.extent.getCenter(extent)
             this.setState({
                 feature
             })
+            // if or first init
             if (feature.getId()) {
                 if (this.overlay.getPosition()) {
                     return

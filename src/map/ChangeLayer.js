@@ -15,13 +15,16 @@ const layer1 = new ol.layer.Tile({
     })
 })
 layer1.set('id', 0)
-const layer2 =  new ol.layer.Tile({
-    source: new ol.source.OSM()
-})
+const layer2 = new ol.layer.Tile({
+    source: new ol.source.XYZ({
+        url: 'http://mt2.google.cn/vt/lyrs=y&hl=zh-CN&gl=CN&src=app&x={x}&y={y}&z={z}&s=G'//谷歌卫星地图 混合  
+    }),
+    projection: 'EPSG:3857'
+})  
 layer2.set('id', 1)
 const layer3 = new ol.layer.Tile({
-    source: new ol.source.TileJSON({
-        url: 'https://api.tiles.mapbox.com/v3/mapbox.geography-class.json?secure'
+    source: new ol.source.Stamen({
+        layer: 'toner'
     })
 })
 layer3.set('id', 2)

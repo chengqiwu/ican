@@ -89,3 +89,11 @@ $css_sprites: url('../../images/index/css_sprites.png');
         }
     }
 }
+
+.userPopup {
+    background-color: #f8f8f8;
+    position: absolute;
+    padding: 10px;
+    border-radius: 3px;
+    z-index: 999;
+}

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import CreateField from 'map/CreateField'
 import StartField from 'map/StartField'
 import FormField from 'map/FormField'
+import ol from 'openlayers'
 
 import { connect } from 'react-redux'
 import { saveField } from '_redux/actions/field'
@@ -11,7 +12,7 @@ class FieldContent extends Component {
         super()
         this.state = {
             name: '',      // 命名
-            next: false    // 下一步
+            next: false,    // 下一步
         }
         this.setFeatureId = this.setFeatureId.bind(this)
         this.startPlaint = this.startPlaint.bind(this)
@@ -30,11 +31,19 @@ class FieldContent extends Component {
         })
     }
     render() {
+
+        const geojson = new ol.format.GeoJSON()
+        let geom = undefined
+        if (this.props.feature) {
+            const json = (geojson.writeFeature(this.props.feature, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' }))
+            geom = JSON.stringify(JSON.parse(json).geometry)
+        }
         const props = {
             area: this.props.area,
             setFeatureId: this.setFeatureId,
             name: this.state.name,
-            startPlaint: this.startPlaint
+            startPlaint: this.startPlaint,
+            geom
         }
         return (
             <div>
