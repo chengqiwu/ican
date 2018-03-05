@@ -2,9 +2,17 @@ import React, { Component } from 'react'
 import Famer from './Famers'
 import 'css/index/famers/famers.scss'
 import Scrollbar from 'smooth-scrollbar'
+import AddFamers from './AddFamers'
 class FamerLists extends Component {
+    constructor(props) {
+        super(props)
+        this.addFamers = this.addFamers.bind(this)
+    }
     componentDidMount() {
         Scrollbar.init(document.querySelector('.famers-lists'))
+    }
+    addFamers() {
+        console.log('addFamers')
     }
     render() {
         const lists = [
@@ -35,13 +43,13 @@ class FamerLists extends Component {
                 <div className='famers-add'>
                     <div>
                         <div className='bg-add'></div>
-                        <div>添加种植户</div>
+                        <div onClick={this.addFamers}>添加种植户</div>
                     </div>
                     
                     {/* <Polygon map={this.props.map} draw={this.state.draw} /> */}
                     {/* <Polygon map={this.props.map}/> */}
-
                 </div>
+                <AddFamers/>
             </div>
         )
     }

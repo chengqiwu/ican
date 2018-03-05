@@ -70,17 +70,7 @@ export function addFarmers(data) {
     
     axios.post(url + '/api/user/addFarmers?token=' + getToken(), data, config)
 }
-// const farmersInfo = {
-//     loginName: this.state.loginName,
-//     password: this.state.password,
-//     phone: this.state.phone,
-//     name: this.state.name,
-//     address: this.state.address
-// }
-// const formData = new FormData()
-// formData.append('icon', this.icon.files[0])
-// formData.append('farmersInfo', JSON.stringify(farmersInfo))
-// addFarmers(formData)
+
 
 export function updateFarmers(data) {
     let config = {

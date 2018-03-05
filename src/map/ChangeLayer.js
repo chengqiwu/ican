@@ -27,7 +27,7 @@ const layer3 = new ol.layer.Tile({
         layer: 'toner'
     })
 })
-layer3.set('id', 2)
+layer3.set('id', 2) 
 const layerArr = [
     layer1,
     layer2,
@@ -43,7 +43,6 @@ class ChangeLayer extends Component {
         map.removeLayer(layer2)
         map.removeLayer(layer3)
         map.addLayer(layerArr[layerId])
-       
     }
     render() {
         return (
