@@ -3,12 +3,15 @@ import Famer from './Famers'
 import 'css/index/famers/famers.scss'
 import Scrollbar from 'smooth-scrollbar'
 import AddFamers from './AddFamers'
+import {findFarmers} from 'utils/Api'
+
 class FamerLists extends Component {
     constructor(props) {
         super(props)
         this.state = {
             hiden: true,
-            update: false
+            update: false,
+            lists: []
         }
         this.fadeHiden = this.fadeHiden.bind(this)
         this.addFamers = this.addFamers.bind(this)
@@ -16,6 +19,13 @@ class FamerLists extends Component {
     }
     componentDidMount() {
         Scrollbar.init(document.querySelector('.famers-lists'))
+        findFarmers().then(res=>res.data).then(data => {
+            if (data.msg === '200') {
+                this.setState({
+                    lists: data.result
+                })
+            }
+        })
     }
     fadeHiden() {
         this.setState({
@@ -23,7 +33,6 @@ class FamerLists extends Component {
         })
     }
     addFamers() {
-        console.log('addFamers')
         this.setState({
             hiden: false
         })
@@ -35,18 +44,6 @@ class FamerLists extends Component {
         })
     }
     render() {
-        console.log(this.state.update)
-        const lists = [
-            { name: '张昆意', phone: '18611122212', own: 5 },
-            { name: '刘旭懂', phone: '18611122212', own: 1 },
-            { name: '李斌', phone: '18611122212', own: 1 },
-            { name: '张昆意', phone: '18611122212', own: 5 },
-            { name: '刘旭懂', phone: '18611122212', own: 1 },
-            { name: '李斌', phone: '18611122212', own: 1 },
-            { name: '张昆意', phone: '18611122212', own: 5 },
-            { name: '刘旭懂', phone: '18611122212', own: 1 },
-            { name: '李斌', phone: '18611122212', own: 1 },
-        ]
         return [
             (<div className='famers-list' key='1'>
                 <div className='famers-title'>
@@ -56,7 +53,7 @@ class FamerLists extends Component {
                 <div className='famers-lists'>
                    
                     {
-                        lists.map((list, index) => {
+                        this.state.lists.map((list, index) => {
                             return <Famer key={index} list={list} showUpdate={this.showUpdate} />
                         })
                     }   

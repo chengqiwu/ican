@@ -63,6 +63,10 @@ export function updateUserInfo(data) {
     return axios.post(url + '/api/user/updateUserInfo?token='+getToken(), data, config)
 }
 
+export function findFarmers() {
+    return axios.get(url + '/api/user/findFarmers?token=' + getToken())
+}
+
 export function addFarmers(data) {
     let config = {
         headers: { 'Content-Type': 'multipart/form-data' }

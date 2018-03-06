@@ -29,7 +29,6 @@ class AddFamers extends Component {
     }
     formSubmit(e) {
         e.preventDefault(0)
-        console.log('form submit!')
         const farmersInfo = {
             loginName: this.state.loginName,
             password: this.state.password,
@@ -40,9 +39,18 @@ class AddFamers extends Component {
         
         const formData = new FormData()
         formData.append('icon', this.icon.files[0])
-        formData.append('farmersInfo', JSON.stringify(farmersInfo))
-        !this.props.list && addFarmers(formData)
-        this.props.list && updateFarmers(formData)
+        if (this.props.list) {
+            const UpdatefarmersInfo = {
+                ...farmersInfo,
+                id: this.props.list.id
+            }
+            formData.append('farmersInfo', JSON.stringify(UpdatefarmersInfo))
+            updateFarmers(formData)
+        } else {
+            formData.append('farmersInfo', JSON.stringify(farmersInfo))
+            
+            addFarmers(formData)
+        }
     }
     render() {
         return (
@@ -61,7 +69,7 @@ class AddFamers extends Component {
                         </div>
                         <div>
                             <label>密码：</label>
-                            <input type="text" name='password' value={this.state.password} onChange={this.inputChange}/>
+                            <input type="password" name='password' value={this.state.password} onChange={this.inputChange}/>
                         </div>
                         <div>
                             <label>确认密码：</label>
