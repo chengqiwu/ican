@@ -4,13 +4,17 @@ import person from 'images/index/famers/person.png'
 class Famer extends Component {
     constructor() {
         super()
+        this.showUpdate = this.showUpdate.bind(this)
+    }
+    showUpdate(e) {
+        this.props.showUpdate(e, this.props.list)
     }
     render() {
         const { list } = this.props
         return (
             <div className='famers'>
                 <div className='famers-img'>
-                    <img src={person} alt=""/>
+                    <img src={person} alt="" onClick={this.showUpdate}/>
                 </div>
                 <div className='famers-mess'>
                     <div>
@@ -30,6 +34,7 @@ class Famer extends Component {
     }
 }
 Famer.propTypes = {
-    list: PropTypes.object
+    list: PropTypes.object,
+    showUpdate: PropTypes.func
 }
 export default Famer

@@ -28,6 +28,7 @@ function getToken() {
 }
 
 export function getUserInfo() {
+    
     const { username, role, icon, phone, email } = JSON.parse(localStorage.getItem('state'))
     return { username, role, icon, phone, email }    
 }

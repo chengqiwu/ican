@@ -4,53 +4,31 @@ import { NavLink } from 'react-router-dom'
 
 import 'css/index/header.scss'
 import css_sprites from 'images/index/css_sprites.png'
-import {updateUserInfo, getUserInfo} from '../../utils/Api'
-const userInfo = getUserInfo()
+import Popup from './Popup'
+import UserInfo from './UserInfo'
 class Header extends Component {
     constructor() {
         super()
-        // { username, role, icon, phone, email }
         this.state = {
-            popup: false,
-            username: userInfo.username,
-            address: '',
-            icon: ''
+            hiden: true,
         }
         this.showUserInfo = this.showUserInfo.bind(this)
-        this.updateUserInfo = this.updateUserInfo.bind(this)
-        this.changeInput = this.changeInput.bind(this)
+        this.fadeHiden = this.fadeHiden.bind(this)
     }
     showUserInfo() {
         this.setState({
-            popup: true
+            hiden: false
         })
     }
-    updateUserInfo(e) {
-        e.preventDefault()
-        const info = {
-            name: this.state.username,
-            address: this.state.address,
-            
-        }
-        const formData = new FormData(this.form)
-        console.log(formData.append)
-        formData.append('icon', this.icon.files[0])
-        formData.append('userVo', JSON.stringify(info))
-        
-        console.log(formData)
-        updateUserInfo(formData).then(res=>console.log(res))
-    }
-    changeInput(e) {
-        const { name, value } = e.target
-        console.log(name)
+    fadeHiden() {
         this.setState({
-            [name]: value
+            hiden: true
         })
     }
     render() {
-  
-        return(
-            <div className='header'>
+        console.log(this.state.hiden)
+        return [
+            <div className='header' key='1'>
                 <div>
                     <div className='title'>
                         <div className='bg-logo'></div>
@@ -84,30 +62,18 @@ class Header extends Component {
                 </div>
                 <div className='header-right'>
                     <div>
-                        <div className='user' onClick={this.showUserInfo.bind(this)}>
-                            <div className='userPopup'>
-                                <h3>用户信息：</h3>
-                                
-                                <form ref={form => this.form = form} onSubmit={this.updateUserInfo} encType="multipart/form-data">
-                                    头像: <input type="file" name='icon'
-                                        value={this.state.icon}
-                                        ref={icon => this.icon = icon}
-                                        onChange={this.changeInput}/>
-                                    name: <input type="text" name='username'
-                                        value={this.state.username} 
-                                        onChange={this.changeInput} />
-                                    address:<input type="text" name='address'
-                                        value={this.state.address}
-                                        onChange={this.changeInput} />
-                                    <input type="submit" value="更新"/>
-                                </form>
-                            </div>
+                        <div className='user' onClick={this.showUserInfo}>
+                           
                         </div>
                         <Language/>
                     </div>
                 </div>
-            </div>
-        )
+            </div>,
+            this.state.hiden ? null : 
+                <Popup key='2' title='用户信息' css={{top: 'calc(50% + 50px)'}} fadeHiden={this.fadeHiden}>
+                    <UserInfo></UserInfo>
+                </Popup>
+        ]
     }
 }
 

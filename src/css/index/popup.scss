@@ -1,0 +1,38 @@
+@charset 'utf-8';
+@import '../common';
+$right: 15px;
+.popup {
+    position: absolute;
+    @include custom-width-height(570px, 360px);
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    top: 50%;
+    left: 50%;
+    margin-top: -180px;
+    margin-left: -285px;
+    z-index: 1;
+    .popup-title {
+        @extend .flex-vertical-center;
+        height: 50px;
+        position: relative;
+        padding: 10px $right;
+        background-color: #f5f5f5;
+        border-bottom: 1px solid #dddddd;
+        .popup-closer {
+            position: absolute;
+            right: $right;
+            &::after {
+                content: "✖";
+            }
+        }
+    }
+    .popup-content {
+        height: calc(100% - 50px);
+        padding: 20px;
+    }
+}
+
+.hiden {
+    display: none;
+}
