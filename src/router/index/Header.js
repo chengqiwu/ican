@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import Language from 'router/common/Language'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Route } from 'react-router-dom'
 
 import 'css/index/header.scss'
 import css_sprites from 'images/index/css_sprites.png'
 import Popup from './Popup'
 import UserInfo from './UserInfo'
+import history from '../history'
 class Header extends Component {
     constructor() {
         super()
@@ -19,6 +20,7 @@ class Header extends Component {
         this.setState({
             hiden: false
         })
+        history.push('/index/userinfo')
     }
     fadeHiden() {
         this.setState({
@@ -70,9 +72,13 @@ class Header extends Component {
                 </div>
             </div>,
             this.state.hiden ? null : 
-                <Popup key='2' title='用户信息' css={{top: 'calc(50% + 50px)'}} fadeHiden={this.fadeHiden}>
-                    <UserInfo></UserInfo>
-                </Popup>
+                <Route key={2} path='/index/userinfo' render={() => {
+                    return <Popup key='2' title='用户信息' css={{ top: 'calc(50% + 50px)' }} fadeHiden={this.fadeHiden}>
+                        <UserInfo></UserInfo>
+                    </Popup>
+                }} />
+               
+               
         ]
     }
 }

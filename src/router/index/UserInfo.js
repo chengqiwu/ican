@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import 'css/index/famers/addFamers.scss'
 import {updateUserInfo, getUserInfo} from 'utils/Api'
-
+import { updateContact, updateContactSuccess } from 'utils/Api'
 class AddFamers extends Component {
     constructor(props) {
         super(props)
@@ -9,13 +9,14 @@ class AddFamers extends Component {
         console.log(userInfo)
         this.state = {
             name: userInfo.username,
-            password: '',
+            email: '',
             phone: userInfo.phone,
             address: ''
         }
         this.closeClick = this.closeClick.bind(this)
         this.inputChange = this.inputChange.bind(this)
         this.formSubmit = this.formSubmit.bind(this)
+        this.modifyContact = this.modifyContact.bind(this)
     }
     closeClick(e) {
         e.preventDefault()
@@ -29,7 +30,7 @@ class AddFamers extends Component {
         })
     }
     formSubmit(e) {
-        e.preventDefault(0)
+        e.preventDefault()
         console.log('form submit!')
         const userInfo = {
             password: this.state.password,
@@ -42,6 +43,18 @@ class AddFamers extends Component {
         formData.append('icon', this.icon.files[0])
         formData.append('userVo', JSON.stringify(userInfo))
         updateUserInfo(formData).then(res=>console.log(res))
+    }
+    modifyContact(e) {
+        e.preventDefault()        
+        const { name } = e.target
+        const data = {
+            verifyWay: name === 'phone' ? '0' : '1',
+            verify: this.state[name]
+        }
+        const formData = new FormData()
+        formData.append('verifyWay', name === 'phone' ? '0' : '1')
+        formData.append('verify', this.state[name])
+        updateContact(formData).then(res=>console.log(res))
     }
     render() {
         return (
@@ -57,12 +70,14 @@ class AddFamers extends Component {
 
                     </div>
                     <div>
-                        <label>密码：</label>
-                        <input type="password" name='password' value={this.state.password} onChange={this.inputChange}/>
+                        <label>邮箱：</label>
+                        <input type="text" name='email' value={this.state.email} onChange={this.inputChange}/>
+                        <input type='button' name='email' value='修改邮箱' onClick={this.modifyContact} />                        
                     </div>
                     <div>
                         <label>联系电话：</label>
-                        <input type="number" name='phone' value={this.state.phone} onChange={this.inputChange}/>
+                        <input type="text" name='phone' value={this.state.phone} onChange={this.inputChange}/>
+                        <input type='button' name='phone' value='修改手机号' onClick={this.modifyContact}/>
                     </div>
                     <div>
                         <label>常用住址：</label>

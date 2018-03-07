@@ -1,13 +1,25 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import person from 'images/index/famers/person.png'
+import { getFarmers } from 'utils/Api'
 class Famer extends Component {
     constructor() {
         super()
         this.showUpdate = this.showUpdate.bind(this)
     }
     showUpdate(e) {
-        this.props.showUpdate(e, this.props.list)
+        const { list } = this.props
+        console.log(list)
+        const formData = new FormData()
+        formData.append('id', list.id)
+        getFarmers(formData).then(res=>{
+            return res.data
+        }).then(data=>{
+            if (data.msg==='200') {
+                this.props.showUpdate(e, data.result)
+            }
+        }) 
+        //
     }
     render() {
         const { list } = this.props

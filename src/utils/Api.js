@@ -64,7 +64,15 @@ export function updateUserInfo(data) {
 }
 
 export function findFarmers() {
+
     return axios.get(url + '/api/user/findFarmers?token=' + getToken())
+}
+
+export function getFarmers(data) {
+    let config = {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    }
+    return axios.post(url + '/api/user/getFarmers?token=' + getToken(), data, config)
 }
 
 export function addFarmers(data) {
@@ -73,7 +81,7 @@ export function addFarmers(data) {
     }
     console.log('data', data)
     
-    axios.post(url + '/api/user/addFarmers?token=' + getToken(), data, config)
+    return axios.post(url + '/api/user/addFarmers?token=' + getToken(), data, config)
 }
 
 
@@ -83,5 +91,21 @@ export function updateFarmers(data) {
     }
     console.log('data', data)
 
-    axios.post(url + '/api/user/updateFarmers?token=' + getToken(), data, config)
+    return axios.post(url + '/api/user/updateFarmers?token=' + getToken(), data, config)
+}
+
+export function updateContact(data) {
+    console.log('data', data)
+    let config = {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }
+    return axios.post(url + '/api/user/updateContact?token=' + getToken(), data)
+}
+
+export function updateContactSuccess(data) {
+    console.log('data', data)
+
+    return axios.post(url + '/api/user/updateContactSuccess?token=' + getToken(), data)
 }
