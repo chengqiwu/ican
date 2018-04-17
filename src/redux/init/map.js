@@ -1,9 +1,40 @@
 import ol from 'openlayers'
+import lyrs from '_redux/init/lyrs'
+
+var sld_body = '<?xml version="1.0" encoding="ISO-8859-1"?>\
+<StyledLayerDescriptor version="1.0.0"\
+    xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd" \
+    xmlns="http://www.opengis.net/sld"\
+    xmlns:ogc="http://www.opengis.net/ogc"\
+    xmlns:xlink="http://www.w3.org/1999/xlink"\
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\
+  <NamedLayer>\
+    <Name>Simple point</Name>\
+    <UserStyle>\
+      <Title>GeoServer SLD Cook Book: Simple point</Title>\
+      <FeatureTypeStyle>\
+        <Rule>\
+          <PointSymbolizer>\
+            <Graphic>\
+              <Mark>\
+                <WellKnownName>circle</WellKnownName>\
+                <Fill>\
+                  <CssParameter name="fill">#00FF0000</CssParameter>\
+                </Fill>\
+              </Mark>\
+              <Size>6</Size>\
+            </Graphic>\
+          </PointSymbolizer>\
+        </Rule>\
+      </FeatureTypeStyle>\
+    </UserStyle>\
+  </NamedLayer>\
+</StyledLayerDescriptor>'
+
+
+
 const map = new ol.Map({
     layers: [
-        new ol.layer.Tile({
-            source: new ol.source.OSM()
-        }),
         // http://47.104.81.112:8080/geoserver/jnGroundwater/wms?
         // service=WMS&
         // version=1.1.0&
@@ -17,23 +48,28 @@ const map = new ol.Map({
         // CQL_FILTER=master_id=%3D%2734067624ef64493fbd5f058ec9c247fe%27&
         // format=application/openlayers
     
-        new ol.layer.Image({
-            source: new ol.source.ImageWMS({
-                ratio: 1,
-                url: 'http://47.104.81.112:8080/geoserver/jnGroundwater/wms',
-                params: {
-                    'FORMAT': 'image/png',
-                    'VERSION': '1.1.1',
-                    STYLES: '',
-                    CQL_FILTER: 'master_id==\'34067624ef64493fbd5f058ec9c247fe\'',
-                    LAYERS: 'jnGroundwater:tb_farmland',
-                }
-            })
-        })
+        // new ol.layer.Image({
+        //     source: new ol.source.ImageWMS({
+        //         ratio: 1,
+        //         url: 'http://47.104.81.112:8080/geoserver/jnGroundwater/wms',
+        //         params: {
+        //             'FORMAT': 'image/png',
+        //             'VERSION': '1.1.1',
+        //             STYLES: '',
+        //             CQL_FILTER: 'master_id==\'34067624ef64493fbd5f058ec9c247fe\'',
+        //             LAYERS: 'jnGroundwater:tb_farmland',
+        //             SLD_BODY: sld_body
+        //         }
+        //     }),
+           
+        // })
     ],
     view: new ol.View({
         center: ol.proj.fromLonLat([37.41, 8.82]),
         zoom: 4
     })
+})
+lyrs.forEach(lyr => {
+    lyr.active && lyr.lyrs.forEach(ly => map.addLayer(ly))
 })
 export default map

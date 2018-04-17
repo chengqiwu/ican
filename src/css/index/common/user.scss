@@ -1,0 +1,80 @@
+@charset 'utf-8';
+.user {
+    position: absolute;
+    z-index: 1;
+    top: 20px;
+    right: 32px;
+    .feature {
+        position: relative;
+        cursor: pointer;
+        .user-message {
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            background-color: #ff0000;
+            display: inline-block;
+            color: #fff;
+            text-align: center;
+        }
+        .mess-abosulte{
+            position: absolute;
+            right: -5px;
+        }
+        .user-feature {
+            position: absolute;
+            background-color: #f2f2f2;
+            right: -12px;
+            top: 73px;
+            border-radius: 10px;     
+            box-shadow: 2px 3px 5px #333333;
+            &::after {
+                content: '';
+                border: solid transparent;
+                position: absolute;
+                top: -32px;
+                right: 24px;
+                width: 0;
+                height: 0;
+                border-bottom-color: #f2f2f2;
+                border-width: 16px;
+            }
+            &::before {
+                content: '';
+                border: solid transparent;
+                position: absolute;
+                top: -30px;
+                right: 24px;
+                width: 0;
+                height: 0;
+                border-bottom-color: white;
+                border-width: 15px;
+            }
+            ul {                
+                li {
+                    display: flex;
+                    align-items: center;
+                    padding: 0 10px;
+                    height: 45px;
+                    width: 123px;
+                    border-bottom: 1px solid #ababab;
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                    img {
+                        width: 20px;
+                        cursor: default;
+                    }
+                    label {
+                        width: 50px;
+                        font-size: 12px;
+                        margin: 0 9px;
+                        cursor: pointer;
+                    }    
+                }
+            }
+        }
+        ul, li {
+            list-style: none;
+        }
+    }
+}

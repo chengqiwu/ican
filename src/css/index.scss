@@ -20,3 +20,50 @@ body {
         }
     }
 }
+
+.test {
+    display: flex;
+    
+}
+#target {
+    position: relative;
+    > div {
+        position: absolute;
+        background-color: #757171;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+
+.ppfix {
+    margin: 0;
+    vertical-align: top;
+    display: inline-block;
+    font-family: "Pontano Sans";
+    font-size: 13px;
+    color: #343434;
+    min-width: 150px;
+    height: 12px;
+    background: #fbfbfb;
+    border: 1px solid #cccdcf;
+    padding: 3px 10px;
+    box-shadow: inset 0 2px 3px #e8e8e8;
+    box-sizing: content-box;
+}
+.post {
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    -moz-border-radius-topleft: 2px;
+    -moz-border-radius-bottomleft: 2px;
+    -webkit-border-top-left-radius: 2px;
+    -webkit-border-bottom-left-radius: 2px;
+  } 
+
+.alt {
+    position: absolute;
+    color: white;
+    width: 65px;
+    text-align: center;
+}

@@ -104,8 +104,41 @@ export function updateContact(data) {
     return axios.post(url + '/api/user/updateContact?token=' + getToken(), data)
 }
 
+export function findPlanDetails() {
+    return axios.post(url + '/api/user/planDetails?token=' + getToken(), data)
+}
+
 export function updateContactSuccess(data) {
     console.log('data', data)
 
     return axios.post(url + '/api/user/updateContactSuccess?token=' + getToken(), data)
+}
+
+export function findCriosAndVarietiesList() {
+    return axios.get(url + '/api/crops/findCriosAndVarietiesList')
+}
+
+export function findSoilList() {
+    return axios.get(url + '/api/soil/findAllList')
+}
+
+export function findPestsByCropsId(id) {
+    return axios.post(url +'/api/diseasePests/findByCropsId', {
+        cropsId: id
+    })
+}
+
+export function findReasonById(data) {
+    return axios.get(url + '/api/quarterCrops/findById?token=' + getToken(), {
+        params: data
+    })
+}
+
+export function saveSeasonInfo(landInfo) {
+    console.log(landInfo)
+    let config = {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    }
+    return axios.post(url + '/api/quarterCrops/saveInfo?token='+getToken(), 
+        landInfo, config)
 }

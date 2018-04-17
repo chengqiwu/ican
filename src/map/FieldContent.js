@@ -31,7 +31,7 @@ class FieldContent extends Component {
         })
     }
     render() {
-
+        console.log('polygon')
         const geojson = new ol.format.GeoJSON()
         let geom = undefined
         if (this.props.feature) {

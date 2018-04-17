@@ -4,13 +4,14 @@ import ol from 'openlayers'
 
 import { connect } from 'react-redux'
 
+import Circle from './common/Circle'
 import 'openlayers/css/ol.css'
 import 'css/map/map.scss'
 
-import Zoom from 'map/Zoom'
-import Position from 'map/Position'
-import Search from 'map/Search'
-import ChangeLayer from 'map/ChangeLayer'
+// import Zoom from 'map/Zoom'
+// import Position from 'map/Position'
+// import Search from 'map/Search'
+// import ChangeLayer from 'map/ChangeLayer'
 
 class Openlayer extends Component {
     constructor() {
@@ -22,15 +23,8 @@ class Openlayer extends Component {
     render() {
         return (
             <div id='map' className='map' ref={map => this.map = map}>
-                
-                <Search/>
-                <ChangeLayer map={this.props.map} />
-                <div className='tools'>
-                    <Position/>
-                    <Zoom map={this.props.map} />
-
-                </div>
-                {this.props.children}
+                <Circle/>
+                {/* {this.props.children} */}
             </div>
         )
     }

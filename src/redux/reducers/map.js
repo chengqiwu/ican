@@ -1,12 +1,17 @@
 import map from '../init/map'
+
 import { SETTARGET } from '../actions/map'
-function mapReducer (state = { map }, action) {
+
+const mapState = {
+    map
+}
+function mapReducer(state = mapState, action) {
     switch (action.type) {
     case SETTARGET:
         map.setTarget(action.target)
-        return { map }
+        return state
     default:
-        return { map }
+        return state
     }
 }
 export default mapReducer

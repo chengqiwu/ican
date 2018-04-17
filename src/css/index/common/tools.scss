@@ -1,0 +1,73 @@
+.showTools {
+    position: absolute;
+    z-index: 1;
+    top: 25px;
+    right: 105px;
+    
+    .tools {
+        display: flex;
+        align-items: center;
+        background-color: #ffffff;
+        padding: 0 3px; 
+        border-radius: 20px;
+        > div, .search {
+            margin-right: 12px;
+        }
+        .search {
+            position: relative;
+            input {
+                height: 32px;
+                width: 180px;
+                border-radius: 20px;
+                padding: 0 28px 0 10px;
+                // border: 1px solid #ababab;
+                outline: none;
+            }
+            img {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+            }
+        }
+        .tools-map {
+            display: flex;
+            align-items: center;
+            div {
+                border: 2px solid #ababab;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 30px;
+                height: 30px;
+                border-right: none;
+                &:last-child {
+                    border-right: 2px solid #ababab;
+                }
+            }
+        }
+        .changeLayer {
+            position: relative;
+            display: flex;
+            align-items: center;
+            ul, li {
+                list-style: none;
+            }
+            .arrow { 
+                position: absolute;
+                bottom: 0px;
+                right: 18px;
+                cursor: pointer;
+            }
+            .map-lists {
+                position: absolute;
+                top: 38px;
+            
+            } 
+        }
+    }
+    .hiden {
+        display: none;
+    }
+  
+    
+}

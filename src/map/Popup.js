@@ -64,6 +64,7 @@ class Popup extends Component {
                 content: '面积: ' + this.getArea(feature)
             })
             this.overlay.setPosition(center)
+
         }
     }
     closeClick(e) {
@@ -125,6 +126,7 @@ class Popup extends Component {
 // }
 Popup.propTypes = {
     map: PropTypes.object,
-    history: PropTypes.object
+    history: PropTypes.object,
+    feature: PropTypes.object
 }
 export default withRouter(Popup)
