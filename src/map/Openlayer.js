@@ -52,16 +52,20 @@ class Openlayer extends Component {
         var vector = new ol.layer.Vector({
             source: vectorSource,
             style: new ol.style.Style({
+                fill: new ol.style.Fill({
+                    color: [117, 172, 71, 0.7]
+                }),
                 stroke: new ol.style.Stroke({
-                    color: 'rgba(0, 0, 255, 1.0)',
-                    width: 2
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    color: [107, 98, 0, 1.0],
+                    width: 3
                 })
             })
         })
         // then post the request and add the received features to a layer
         axios.get('http://192.168.1.23:8081/geoserver/ican/ows', {
             params: {
-                SRS: 'EPSG:3857',
                 service: 'WFS',
                 version: '1.0.0',
                 request: 'GetFeature',
@@ -73,7 +77,7 @@ class Openlayer extends Component {
             return response.data
         }).then(function (data) {
             console.log(data)
-            var features = new ol.format.GeoJSON().readFeatures(data, { dataProjection: 'EPSG:3857'})
+            var features = new ol.format.GeoJSON().readFeatures(data, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' })
             console.log(features)
             vectorSource.addFeatures(features)
             console.log(new ol.format.GeoJSON().writeFeatures(vectorSource.getFeatures(), {
