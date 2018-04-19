@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Rx from 'rxjs/Rx'
 import 'css/index/common/drapDrop.scss'
-import FiledInfo from 'map/common/FiledInfo'
+import FiledInfo from '../content/FiledInfo'
 
 const validValue = (value, max, min) => {
     return Math.min(Math.max(value, min), max)
@@ -45,10 +45,6 @@ class RxDragDrop extends Component {
                 <h3 ref={title => this.title = title} className='dragDrop-title'>{this.props.title}</h3>
                 <a href="#" id="dragDrop-closer" className="dragDrop-closer" onClick={this.destory.bind(this)}></a>
                 <div className="dragDrop-content">
-                    {/* <div>你目前还没有填写田地信息</div> 
-                    <button className='content-btn' onClick={this.start}>开始填写</button> */}
-                    {/* 这是内容 */}
-
                     {this.props.index === 2 && <FiledInfo/>}
                 </div>
             </div>

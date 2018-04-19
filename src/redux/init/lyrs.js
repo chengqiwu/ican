@@ -15,12 +15,14 @@ const imageLayer = new ol.layer.Tile({
         crossOrigin: 'anonymous',
         url: 'http://www.google.cn/maps/vt?lyrs=s@718&gl=cn&x={x}&y={y}&z={z}'
     })
+    
 })
 const textLayer = new ol.layer.Tile({
     source: new ol.source.XYZ({
         crossOrigin: 'anonymous',
         url: 'http://www.google.cn/maps/vt?lyrs=h@733&gl=cn&x={x}&y={y}&z={z}'
     })
+    
 })
 
 export default [

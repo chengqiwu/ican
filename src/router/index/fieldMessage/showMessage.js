@@ -1,16 +1,19 @@
 
 import React, { Component } from 'react'
 import PropTypes  from 'prop-types'
+import { connect } from 'react-redux'
 const ShowMessage = (props) => {
     const {defaultValue} = props
+    const feature = props.feature.feature
+    const area = feature.get('area')
     return (
         <div className='next'>
             <div>
                 <h3>
-                    位置：新疆 克孜勒苏柯尔克孜州 阿扎克乡
+                    位置：{feature.get('position')}
                 </h3>
                 <h3>
-                    面积：12 公顷 / 180亩
+                    面积：{area.acre} 亩 / {area.hectare} 公顷
                 </h3>
             </div>
             <div>
@@ -196,6 +199,14 @@ const ShowMessage = (props) => {
         
 }
 ShowMessage.propTypes = {
-    defaultValue: PropTypes.object
+    defaultValue: PropTypes.object,
+    feature: PropTypes.object
 }
-export default ShowMessage
+const mapStateToProps = (state) => {
+    return {
+        feature: state.feature
+    }
+}
+
+
+export default connect(mapStateToProps)(ShowMessage)

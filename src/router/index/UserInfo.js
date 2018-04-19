@@ -89,7 +89,6 @@ class AddFamers extends Component {
                 </div>
                 
             </form>
-            // </Popup>
         )
     }
 }

@@ -2,6 +2,12 @@ import axios from 'axios'
 axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 import qs from 'qs'
 const url = 'http://192.168.1.23:8080/ican_n'
+import jsonp from 'jsonp'
+
+export function getPosition(callback) {
+    jsonp('http://api.map.baidu.com/location/ip?ak=PKjiNSEtPtxphfaUacba5mieByhERV6x&coor=bd09ll', null, callback)
+}
+
 export function userRegister(data) {
     console.log(data)    
     return axios.get(url + '/api/user/register', {
@@ -23,14 +29,25 @@ export function userLogin(data) {
     })
 }
 function getToken() {
-    const { token } = JSON.parse(localStorage.getItem('state'))
+    const state = sessionStorage.getItem('state')
+    const { token } = JSON.parse(state)
     return token    
 }
-
+export function getUserId() {
+    const state = sessionStorage.getItem('state')
+    try {
+        const { id } = JSON.parse(state)
+        return id
+        
+    } catch (error) {
+        return 
+    }
+    
+}
 export function getUserInfo() {
     
-    const { username, role, icon, phone, email } = JSON.parse(localStorage.getItem('state'))
-    return { username, role, icon, phone, email }    
+    const { username, role, icon, phone, email, id } = JSON.parse(sessionStorage.getItem('state'))
+    return { username, role, icon, phone, email, id }    
 }
 export function farmLandSave(data) {
     data = {

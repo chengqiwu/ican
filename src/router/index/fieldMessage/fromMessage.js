@@ -2,6 +2,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
+import { connect } from 'react-redux'
+import { setMessage } from '_redux/actions/message'
 import { findCriosAndVarietiesList, findSoilList, findPestsByCropsId } from 'utils/Api'
 
 
@@ -123,6 +125,9 @@ class FromMessage extends Component {
     handelefindSoilList() {
         return findSoilList().then(res => res.data).then(data => {
             if (data.msg === '200') {
+                this.props.setMessage({
+                    soilTypes: data.result
+                })
                 this.setState({
                     soils: data.result
                 })
@@ -132,6 +137,9 @@ class FromMessage extends Component {
     handleCriosAndVarieties() {
         return findCriosAndVarietiesList().then(res => res.data).then(data => {
             if (data.msg === '200') {
+                this.props.setMessage({
+                    criosAndVarietiesList: data.result
+                })
                 this.setState({
                     crios: data.result,
                     currVarieties: data.result[0].list,
@@ -146,6 +154,7 @@ class FromMessage extends Component {
         findPestsByCropsId(id).then(res => res.data).then(data => {
             if (data.msg === '200') {
                 const { disease, pests } = data.result
+
                 disease ?
                     pests ? 
                         this.setState({
@@ -490,6 +499,19 @@ class FromMessage extends Component {
 }
 FromMessage.propTypes = {
     feature: PropTypes.object,
-    getMessage: PropTypes.func
+    getMessage: PropTypes.func,
+    setMessage: PropTypes.func
 }
-export default FromMessage
+const mapStateToProps = (state) => {
+    return {
+        message: state.message
+    }
+}
+const mapDispathToProps = (dispatch) => {
+    return {
+        setMessage: function(action) {
+            dispatch(setMessage(action))
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispathToProps)(FromMessage)

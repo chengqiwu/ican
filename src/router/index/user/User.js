@@ -47,8 +47,9 @@ class User extends Component {
         })
     }
     loginout() {
+        sessionStorage.clear()
+        
         history.push('/')
-        localStorage.clear()
     }
     render() {
         return(

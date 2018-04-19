@@ -7,35 +7,30 @@ import Abstract from './Abstract'
 class FiledInfo extends Component {
     constructor(props) {
         super(props)
+        const { feature } = props.feature
+        const isNew = feature.get('isNew')
+        console.log(isNew)
         this.state = {
-            isNew: 1,
+            isNew,
             message: {}
         }
     }
     componentDidMount() {
-        const { feature } = this.props.feature
-        const isNew = feature.get('isNew')
-        if (isNew !== this.state.isNew) {
-
+        if ( 0 === this.state.isNew) {
             const { id } = this.props.feature
-
             findReasonById({
                 farmLandId: id,
-                isNew
+                isNew: 0
             }).then(e => e.data)
                 .then(data => {
                     console.log(data)
                     if (data.msg === '200') {
                         this.setState({
-                            message: data.result,
-                            isNew
+                            message: data.result
                         })
                     }
                 })
-        } 
-        // feautre，如何判断第一次
-        // 获取信息，如果是第一次，则显示这个
-        // 不是第一次，显示摘要
+        }
     }
     start() {
         this.props.fromFeature(true)
@@ -44,13 +39,12 @@ class FiledInfo extends Component {
         return this.state.isNew === 1 ? <div>
             <div>你目前还没有填写田地信息</div>
             <button className='content-btn' onClick={this.start.bind(this)}>开始填写</button>
-        </div>: <Abstract message={this.state.message}/>
+        </div> : <Abstract fieldMessage={this.state.message}/>
     }
 }
 FiledInfo.propTypes = {
     fromFeature: PropTypes.func,
-    feature: PropTypes.object,
-    setFieldMessage: PropTypes.func
+    feature: PropTypes.object
 }
 const mapStateToProps = (state) => {
     return {

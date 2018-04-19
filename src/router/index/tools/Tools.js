@@ -59,11 +59,13 @@ class Tools extends Component {
             mapLists: false
         })
         map.getLayers().getArray().forEach(lyr => {
-            map.removeLayer(lyr)
+            lyr.getPreload && map.removeLayer(lyr)
         })
-        console.log(lyr, lyrs)
         lyrs.forEach(lyr => {
-            lyr.active && lyr.lyrs.forEach(ly => map.addLayer(ly))
+            lyr.active && lyr.lyrs.forEach(ly =>  {
+                map.addLayer(ly)
+                ly.setZIndex(-1)
+            })
         })
     }
     zoomIn() {
@@ -79,10 +81,21 @@ class Tools extends Component {
         view.setZoom(zoom - 1)
     }
     getPosition() {
-        const { map } = this.props.map
-        const view = map.getView()
-        const zoom = view.getZoom()
-        view.setZoom(zoom + 1)
+        const self = this
+        var geolocation = new BMap.Geolocation()
+        geolocation.getCurrentPosition(function(r){
+            if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                console.log([r.point.lng, r.point.lat])
+                self.props.map.map.getView().animate({
+                    center: ol.proj.transform([r.point.lng, r.point.lat], 'EPSG:4326', 'EPSG:3857'),
+                    duration: 2000,
+                    zoom: 14
+                })
+            }
+            else {
+                alert('failed' + this.getStatus())
+            }
+        }, { enableHighAccuracy: true })
     }
     serach(e) {
         e.preventDefault()
@@ -93,20 +106,24 @@ class Tools extends Component {
         const pos = this.parseLonLat(value)
         if(pos.length === 0) {
             alert('输入经纬度不正确，请重新输入经纬度')
+        } else {
+            view.animate({
+                center: ol.proj.transform(pos, 'EPSG:4326', 'EPSG:3857'),
+                duration: 2000,
+                zoom: 10
+            })
         }
-        view.animate({
-            center: ol.proj.transform(pos, 'EPSG:4326', 'EPSG:3857'),
-            duration: 2000,
-            zoom: 10
-        })
+      
 
     }
     parseLonLat(value) {
-        var reg_lngLat = /^[\-\+]?(((\d|([1-9]\d)|(1[0-7]\d))(\.\d*)?)|(180))[,][\-\+]?(((\d|([1-8]\d))(\.\d*)?)|(90))$/
-        var reg_latLng = /^[\-\+]?(((\d|([1-8]\d))(\.\d*)?)|(90))[,][\-\+]?(((\d|([1-9]\d)|(1[0-7]\d))(\.\d*)?)|(180))$/
+        var reg_lngLat = /^[\-\+]?(((\d|([1-9]\d)|(1[0-7]\d))(\.\d*)?)|(180))[, ，]\s*[\-\+]?(((\d|([1-8]\d))(\.\d*)?)|(90))$/
+        var reg_latLng = /^[\-\+]?(((\d|([1-8]\d))(\.\d*)?)|(90))[, ，]\s*[\-\+]?(((\d|([1-9]\d)|(1[0-7]\d))(\.\d*)?)|(180))$/
 
         if (value.match(reg_lngLat)) {
+            value = value.replace(/\s+/g, ' ')
             let result = value.split(' ')
+            console.log(result)
             if (result.length === 2) {
                 return ([
                     Number.parseFloat(result[0]),
@@ -114,17 +131,25 @@ class Tools extends Component {
                 ])
             } else {
                 result = value.split(',')
-                console.log(result)
                 if (result.length == 2) {
                     return ([
                         Number.parseFloat(result[0]),
                         Number.parseFloat(result[1])
                     ])
+                } else {
+                    result = value.split('，')
+                    if (result.length == 2) {
+                        return ([
+                            Number.parseFloat(result[0]),
+                            Number.parseFloat(result[1])
+                        ])
+                    }
                 }
             }
 
         }
         if (value.match(reg_latLng)) {
+            value = value.replace(/\s+/g, ' ')
             let result = value.split(' ')
             if (result.length === 2) {
                 return ([
@@ -138,6 +163,14 @@ class Tools extends Component {
                         Number.parseFloat(result[1]),
                         Number.parseFloat(result[0])
                     ])
+                } else {
+                    result = value.split('，')
+                    if (result.length == 2) {
+                        return ([
+                            Number.parseFloat(result[0]),
+                            Number.parseFloat(result[1])
+                        ])
+                    }
                 }
             }
 

@@ -1,10 +1,18 @@
 .abstract {
     width: 80%;
     margin: 0 auto;
-    td {
-        &:first-child {
-            width: 120px;
-            text-align: right;
+    table {
+        width: 100%;
+        td {
+            &:first-child {
+                width: 130px;
+                text-align: right;
+            }
         }
+    }
+   
+    > div {
+        display: flex;
+        justify-content: flex-end;
     }
 }
