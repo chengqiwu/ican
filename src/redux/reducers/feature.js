@@ -7,7 +7,8 @@ const featureState = {
     flag: false,
     id: undefined,
     name: undefined,
-    isNew: undefined
+    isNew: undefined,
+    growthStatus: undefined
 }
 
 function featureReducer(state = featureState, action) {

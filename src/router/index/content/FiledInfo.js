@@ -8,10 +8,8 @@ class FiledInfo extends Component {
     constructor(props) {
         super(props)
         const { feature } = props.feature
-        const isNew = feature.get('isNew')
-        console.log(isNew)
         this.state = {
-            isNew,
+            isNew: feature.get('isNew') || 1,
             message: {}
         }
     }

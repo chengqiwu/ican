@@ -136,9 +136,9 @@ class Polygon extends Component {
         const { map } = this.props.map
         const feature = map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => layer && feature)
         if (feature) {
+            console.log(feature.getId())
             this.props.saveFeature(feature)
-
-            const id = feature.get('id')
+            const id = feature.getId()
             const name = feature.get('name')
             const isNew = feature.get('isNew')
             if (!id) {
@@ -158,14 +158,14 @@ class Polygon extends Component {
         let extent = feature.getGeometry().getExtent()
         const { name, id, isNew } = this.props.feature
         
-        this.state.feature.set('id', id)
+        this.state.feature.setId(id)
         this.state.feature.set('isNew', isNew)
         const { area, popupText } = this.state
         
         popupText.push({
             id,
             name,
-            status: '闲',
+            growth_status: '0',
             username: getUserInfo().username,
             area: `${area.acre}亩`,
             coord: getCenterOfExtent(extent),
@@ -205,7 +205,6 @@ class Polygon extends Component {
         if(this.draw) {
             this.draw.setActive(this.props.draw)
         }
-        console.log(this.state)
         return (
             <div className='polygon'>
                 {

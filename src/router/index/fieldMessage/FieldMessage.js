@@ -46,14 +46,15 @@ class FiledMessage extends Component {
         this.mess && this.mess.scrollIntoView(true)
     }
     getMessage(defaultValue) {
-        const { id, feature } = this.props.feature
-
+        const { feature } = this.props.feature
+        const id = this.props.feature.feature.getId()
         if (!id) {
             return
         }
+        console.log(feature.get('isNew'))
         findReasonById({
             farmLandId: id,
-            isNew: feature.get('isNew')
+            isNew: feature.get('isNew') || 0
         }).then(e => e.data)
             .then(data => {
                 if (data.msg === '200') {
@@ -78,7 +79,7 @@ class FiledMessage extends Component {
         return  flag 
             ? 
             <div className='filed-message'>
-                <h3 ref={title => this.title = title} className='filed-title'>{this.props.feature.name}-田地信息</h3>
+                <h3 ref={title => this.title = title} className='filed-title'>{this.props.feature.feature.get('name')}-田地信息</h3>
                 <a href="#" className="filed-closer" onClick={this.closer.bind(this)}></a>
                 <div className="filed-content">
                     <ShowMessage defaultValue={message} />                
@@ -86,7 +87,7 @@ class FiledMessage extends Component {
             </div> 
             :
             <form onSubmit={handleSubmit(e => this.nextSubmit(e))} ref={mess => this.mess = mess} className='filed-message'>
-                <h3 ref={title => this.title = title} className='filed-title'>{this.props.feature.name}-田地信息</h3>
+                <h3 ref={title => this.title = title} className='filed-title'>{this.props.feature.feature.get('name')}-田地信息</h3>
                 <a href="#" className="filed-closer" onClick={this.closer.bind(this)}></a>
                 <div className="filed-content">
                     {!this.state.showMessage && <FromMessage feature={this.props.feature.feature} getMessage={this.getMessage.bind(this)}/>}

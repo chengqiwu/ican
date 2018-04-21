@@ -86,7 +86,7 @@ class CreateField extends Component {
                 
                     name: this.input.value,
                     id: data.result,
-                    isNew: 1,
+                    growthStatus: 0
                     
                 })
                 this.props.feature.feature.set('position', this.position.value)

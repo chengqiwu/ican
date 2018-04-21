@@ -223,25 +223,26 @@ class Circle extends Component {
         this.circleOverlay = new ol.Overlay({
             element: this.circle,
             positioning: 'center-center',
-            stopEvent: false
+            // stopEvent: false
         })
         map.addOverlay(this.circleOverlay)
 
 
         map.on('click', (evt) => {
             const feature = map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => layer && feature)
-            if (feature && feature.get('id')) {
+            if (feature && feature.getId()) {
                
                 if (!deepCompare(feature, this.state.feature)){
                     this.setState({
                         feature
                     })
-                    this.circle.setAttribute('class', 'circle')
-
-                    setTimeout(() => {
-                        this.circle.removeAttribute('class')
-                    }, 1000)
+                  
                 }
+                this.circle.setAttribute('class', 'circle')
+
+                setTimeout(() => {
+                    this.circle.removeAttribute('class')
+                }, 1000)
                 this.drawCircle(feature)
             } else {
                 this.circleOverlay.setPosition(undefined)
@@ -252,13 +253,20 @@ class Circle extends Component {
             if (!feature) {
                 return
             }
-            this.drawCircle(feature)
+            this.circleOverlay.getPosition() && this.drawCircle(feature)
             
         })
     }
     drawCircle(feature) {
         const { map } = this.props.map
-        const paths = (feature.getGeometry().getCoordinates()[0]).map(e => map.getPixelFromCoordinate(e))
+        var features = feature.getGeometry().getCoordinates()[0]
+        if (features.length === 1) {
+            features = features[0]
+        }
+        const paths = features.map(e =>{
+            return map.getPixelFromCoordinate(e)
+        })
+        console.log(paths)
         const points = getBound(paths)
         const dir = radius(points[0], points[1])
         this.setState({
