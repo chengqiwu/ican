@@ -18,7 +18,8 @@ class User extends Component {
         this.state = {
             hiden: true,
             draw: false,
-            messCount: 0
+            messCount: 0,
+            clear: false
         }
         this.showFeature = this.showFeature.bind(this)
         this.addField = this.addField.bind(this)
@@ -35,8 +36,10 @@ class User extends Component {
             return
         }
         this.setState({
+            hiden: true,
             draw: true
         })
+        this.child.clearSource()
     }
     removeDraw() {
         if (!this.state.draw) {
@@ -51,6 +54,19 @@ class User extends Component {
         
         history.push('/')
     }
+    // clearSource() {
+    //     this.setState({
+    //         clear: true
+    //     })
+    // }
+    onRef (ref) {
+        this.child = ref
+    }
+    // setClearFalse() {
+    //     this.setState({
+    //         clear: false
+    //     })
+    // }
     render() {
         return(
             <div className='user'>
@@ -65,7 +81,9 @@ class User extends Component {
                             <li>
                                 <img src={filed} alt=""/>
                                 <label onClick={this.addField}>新建田地</label>
-                                <Polygon draw={this.state.draw} removeDraw={this.removeDraw}></Polygon>
+                                <Polygon 
+                                    onRef={this.onRef.bind(this)}
+                                    draw={this.state.draw} removeDraw={this.removeDraw}></Polygon>
                             </li>
                             <li>
                                 <img src={setting} alt=""/>

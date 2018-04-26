@@ -29,6 +29,7 @@ class CreateField extends Component {
         this.props.map.map.addOverlay(this.overlay)
         this.load()
         this.closer.onclick = this.closeClick
+        this.clear.onclick = this.clearHandler.bind(this)
         
         
 
@@ -41,13 +42,19 @@ class CreateField extends Component {
             this.position.value = `${province} ${city} ${distract}`
         })
         
-        
+    }
+    clearHandler(e) {
+        e.preventDefault()
+        this.props.setDefault()
+        this.props.sourceClear()
     }
     componentDidUpdate() {
         this.load()
+        
     }
     componentWillUnmount() {
         this.overlay = null
+        
     }
     load() {
         const { coord } = this.props
@@ -57,6 +64,7 @@ class CreateField extends Component {
         e.preventDefault()
         this.overlay.setPosition(undefined)
         this.closer.blur()
+        this.props.setInitial()
     }
     changeInput(e) {
         e.preventDefault()
@@ -66,6 +74,7 @@ class CreateField extends Component {
     }
     submitHandle(e) {
         e.preventDefault()
+        console.log(e.target)
         const id = this.props.feature.feature.get('id')
         // 圈地
         const geojson = new ol.format.GeoJSON()
@@ -89,10 +98,11 @@ class CreateField extends Component {
                     growthStatus: 0
                     
                 })
-                this.props.feature.feature.set('position', this.position.value)
+                this.props.feature.feature.set('address', this.position.value)
                 this.props.feature.feature.set('area', this.props.area)
+                this.props.feature.feature.set('status', '1')
                 this.props.drawText()
-                // this.overlay.setPosition(undefined)
+                this.input.value = ''
                 
             } else {
                 data.msg === '209'
@@ -115,7 +125,10 @@ class CreateField extends Component {
                             <label>位置：</label><input type="text" style={{ border: 'none' }} disabled ref={position => this.position = position} />
                         </div>
                         <div>面积：{area.acre} 亩 / {area.hectare} 公顷</div>
-                        <button className='button blue'>保存</button>                     
+                        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                            <button className='button blue'>保存</button>                     
+                            <a href='#' className='button blue' ref={clear => this.clear = clear} >清除</a>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -133,8 +146,9 @@ CreateField.propTypes = {
     coord: PropTypes.array,
     drawText: PropTypes.func,
     feature: PropTypes.object,
-    setDefault: PropTypes.func
-
+    setDefault: PropTypes.func,
+    setInitial: PropTypes.func,
+    sourceClear: PropTypes.func
 }
 const mapStateToProps = (state) => {
     return {

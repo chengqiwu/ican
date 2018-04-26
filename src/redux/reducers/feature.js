@@ -7,7 +7,7 @@ const featureState = {
     flag: false,
     id: undefined,
     name: undefined,
-    isNew: undefined,
+    isNew: 1,
     growthStatus: undefined
 }
 

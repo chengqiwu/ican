@@ -11,10 +11,15 @@ import ShowMessage from './showMessage'
 
 import { findReasonById, saveSeasonInfo } from 'utils/Api'
 
-import { setFieldMessage, showFieldMessage } from '_redux/actions/fieldMessage'
-import { fromFeature } from '_redux/actions/feature'
+import { setFieldMessage, showFieldMessage, startFieldMessage } from '_redux/actions/fieldMessage'
 
-
+const getArea = (feature) => {
+    var measurement = feature.getGeometry().getArea() / 1000
+    return {
+        acre: (measurement / 100).toFixed(2),
+        hectare: (measurement / 10000).toFixed(2)
+    }
+}
 import 'css/index/common/filedMessage.scss'
 
 class FiledMessage extends Component {
@@ -27,23 +32,18 @@ class FiledMessage extends Component {
         this.nextSubmit = this.nextSubmit.bind(this)
     }
     nextSubmit(submitData) {
-        var fd = new FormData()
-        fd.append('landInfo', JSON.stringify({
-            ...submitData,
-            landId: this.props.feature.id
-        }))
 
-        saveSeasonInfo(fd).then(e => e.data).then(data => {
-            if (data.msg === '200') {
-                this.props.setFieldMessage(submitData)
-                this.props.showFieldMessage(true)
-                const { feature } = this.props.feature
-                feature.set('isNew', 0)
-            }
-        })
     }
     componentDidUpdate() {
         this.mess && this.mess.scrollIntoView(true)
+        this.showMess && this.showMess.scrollIntoView(true)
+
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log(nextProps, nextState)
+        const { feature } = nextProps
+
+        return true
     }
     getMessage(defaultValue) {
         const { feature } = this.props.feature
@@ -51,53 +51,47 @@ class FiledMessage extends Component {
         if (!id) {
             return
         }
-        console.log(feature.get('isNew'))
         findReasonById({
             farmLandId: id,
-            isNew: feature.get('isNew') || 0
+            isNew: feature.get('status')
         }).then(e => e.data)
             .then(data => {
                 if (data.msg === '200') {
-                    this.props.initialize({
-                        ...defaultValue,
-                        ...data.result
-                    })
+                    console.log(data)
+                    this.props.setFieldMessage(data.result)
                 }
             })
     }
     closer() {
-        this.props.fromFeature(false)
-        this.props.showFieldMessage(false)
+        const { start, show } = this.props.fieldMessage
+        start && this.props.startFieldMessage(false)
+        show  && this.props.showFieldMessage(false)
     }
     render() {
-        const { handleSubmit, pristine, reset, submitting } = this.props
-        if (!this.props.feature.flag) {
-            return null
-        }
-        const { message, flag } = this.props.fieldMessage
-        
-        return  flag 
+        const feature = this.props.feature.feature
+        const { message, start, show } = this.props.fieldMessage
+        return  show 
             ? 
-            <div className='filed-message'>
-                <h3 ref={title => this.title = title} className='filed-title'>{this.props.feature.feature.get('name')}-田地信息</h3>
+            <div className='filed-message' ref={showMess => this.showMess = showMess}>
+                <h3 ref={title => this.title = title} className='filed-title'>{feature.get('name')}-田地信息 | 位置：{feature.get('address')} | 面积：{getArea(feature).acre} 亩 / {getArea(feature).hectare} 公顷</h3>
                 <a href="#" className="filed-closer" onClick={this.closer.bind(this)}></a>
                 <div className="filed-content">
-                    <ShowMessage defaultValue={message} />                
+                    <ShowMessage />                
                 </div>
             </div> 
             :
-            <form onSubmit={handleSubmit(e => this.nextSubmit(e))} ref={mess => this.mess = mess} className='filed-message'>
-                <h3 ref={title => this.title = title} className='filed-title'>{this.props.feature.feature.get('name')}-田地信息</h3>
-                <a href="#" className="filed-closer" onClick={this.closer.bind(this)}></a>
-                <div className="filed-content">
-                    {!this.state.showMessage && <FromMessage feature={this.props.feature.feature} getMessage={this.getMessage.bind(this)}/>}
-                    
-                    {!this.state.showMessage && <div className='submit'>
-                        <button type="submit">保存</button>
-                    </div>}
-                    
+            start 
+                ?
+                <div ref={mess => this.mess = mess} className='filed-message'>
+                    <h3 ref={title => this.title = title} className='filed-title'>{this.props.feature.feature.get('name')}-田地信息</h3>
+                    <a href="#" className="filed-closer" onClick={this.closer.bind(this)}></a>
+                    <div className="filed-content">
+                        <FromMessage {...this.props} feature={this.props.feature.feature} getMessage={this.getMessage.bind(this)}/>
+                                                
+                    </div>
                 </div>
-            </form>
+                :
+                null
         
     }
 }
@@ -112,7 +106,8 @@ FiledMessage.propTypes = {
     initialize: PropTypes.func,
     fieldMessage: PropTypes.object,
     setFieldMessage: PropTypes.func,
-    showFieldMessage: PropTypes.func
+    showFieldMessage: PropTypes.func,
+    startFieldMessage: PropTypes.func
 }
 const mapStateToProps = (state) => {
     return {
@@ -122,18 +117,16 @@ const mapStateToProps = (state) => {
 }
 const mapDispathToProps = (dispatch) => {
     return {
-        fromFeature: (flag) => {
-            dispatch(fromFeature(flag))
+        startFieldMessage: (start) => {
+            dispatch(startFieldMessage(start))
         },
         setFieldMessage: (message) => {
             dispatch(setFieldMessage(message))
         },
-        showFieldMessage: (flag) => {
-            dispatch(showFieldMessage(flag))
+        showFieldMessage: (show) => {
+            dispatch(showFieldMessage(show))
         }
     }
 }
 
-export default reduxForm({
-    form: 'simple',
-})(connect(mapStateToProps, mapDispathToProps)(FiledMessage))
+export default (connect(mapStateToProps, mapDispathToProps)(FiledMessage))

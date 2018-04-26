@@ -1,7 +1,8 @@
 import axios from 'axios'
-axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
+import { apiUrl as url } from '../url'
+axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+// axios.defaults.withCredentials = true
 import qs from 'qs'
-const url = 'http://192.168.1.23:8080/ican_n'
 import jsonp from 'jsonp'
 
 export function getPosition(callback) {
@@ -14,7 +15,22 @@ export function userRegister(data) {
         params: data
     })
 }
- 
+
+export function getVerifyCodeImage() {
+    return axios.get(url + '/api/user/getVerifyCodeImage', { responseType: 'blob' })
+}
+export function verifyCode(verifyCode) {
+    return axios.get(url + '/api/user/verifyCode', {
+        params: verifyCode
+    })
+}
+
+export function registerVerify(data) {
+    console.log(data)
+    return axios.get(url + '/api/user/registerVerify', {
+        params: data
+    })
+}
 export function userVerify(data) {
     console.log(data)    
     return axios.get(url + '/api/user/verifySuccess', {
@@ -22,6 +38,20 @@ export function userVerify(data) {
     })
 }
 
+export function forgetPass(data) {
+    console.log(data)
+    let config = {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    }
+    return axios.post(url + '/api/user/retrievePassword', data, config)
+}
+
+export function resetPass(data) {
+    let config = {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    }
+    return axios.post(url + '/api/user/restPassword', data, config)
+}
 export function userLogin(data) {
     console.log(data)
     return axios.get(url+'/api/user/login', {
@@ -33,11 +63,11 @@ function getToken() {
     const { token } = JSON.parse(state)
     return token    
 }
-export function getUserId() {
+export function getUserToken() {
     const state = sessionStorage.getItem('state')
     try {
-        const { id } = JSON.parse(state)
-        return id
+        const { token } = JSON.parse(state)
+        return token
         
     } catch (error) {
         return 
@@ -140,9 +170,9 @@ export function findSoilList() {
 }
 
 export function findPestsByCropsId(id) {
-    return axios.post(url +'/api/diseasePests/findByCropsId', {
-        cropsId: id
-    })
+    var image = new FormData()
+    image.append('cropsId', id)
+    return axios.post(url +'/api/diseasePests/findByCropsId', image)
 }
 
 export function findReasonById(data) {

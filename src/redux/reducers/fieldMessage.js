@@ -1,10 +1,11 @@
 import {
-    SETFIELDMESSAGE, SHOWFIELDMESSAGE,
+    SETFIELDMESSAGE, SHOWFIELDMESSAGE, STARTFIELDMESSAGE,
     setFieldMessage, showFieldMessage } from '_redux/actions/fieldMessage'
 
 const fieldMessageState = {
     message: {},
-    flag: false
+    start: false,
+    show: false
 }
 const fieldReducer = function(state = fieldMessageState, action) {
     switch (action.type) {
@@ -13,11 +14,16 @@ const fieldReducer = function(state = fieldMessageState, action) {
             ...state,
             message: action.message
         }
+    case STARTFIELDMESSAGE:
+        return {
+            ...state,
+            start: action.start
+        }
     case SHOWFIELDMESSAGE:
         console.log(state, action)
         return {
             ...state,
-            flag: action.flag
+            show: action.show
         }
     default:
         return state

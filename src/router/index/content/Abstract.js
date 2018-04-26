@@ -4,7 +4,15 @@ import 'css/index/common/abstract.scss'
 import { connect } from 'react-redux'
 import { setFieldMessage, showFieldMessage } from '_redux/actions/fieldMessage'
 import { fromFeature } from '_redux/actions/feature'
+const getArea = (feature) => {
+    var measurement = feature.getGeometry().getArea() / 1000
+    return {
+        acre: (measurement / 100).toFixed(2),
+        hectare: (measurement / 10000).toFixed(2)
+    }
+}
 
+const arr = ['无', '滴灌', '喷灌', '漫灌（ 随时）', '漫灌（何时有水不定）']
 class Abstract extends Component {
     constructor(props) {
         super(props)
@@ -14,11 +22,11 @@ class Abstract extends Component {
         this.props.showFieldMessage(true)        
         this.props.fromFeature(true)
     }
+
     render() {
         const { fieldMessage, message} = this.props
         let crop = undefined
         let variety = undefined
-        console.log(fieldMessage, message)
         message.criosAndVarietiesList.map(cav => {
             if (fieldMessage.cropsId === cav.id) {
                 crop = cav.name
@@ -30,16 +38,16 @@ class Abstract extends Component {
             }
             
         })
-        const feature = this.props.feature.feature
-        const area = feature.get('area')
-       
+        const feature = this.props.feature
+        const area = getArea(feature)
+        console.log(feature.getId())
         return (
             <div className='abstract'>
                 <table  >
                     <tbody>
                         <tr>
                             <td>位置：</td>
-                            <td>{feature.get('position')}</td>
+                            <td>{feature.get('address')}</td>
                         </tr>
                         <tr>
                             <td>面积：</td>
@@ -67,7 +75,7 @@ class Abstract extends Component {
                         </tr>
                         <tr>
                             <td>灌溉条件：</td>
-                            <td>{fieldMessage.irrigation}</td>
+                            <td>{arr[fieldMessage.irrigation]}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -84,12 +92,12 @@ Abstract.propTypes = {
     showFieldMessage: PropTypes.func,
     fromFeature: PropTypes.func,
     feature: PropTypes.object,
-    message: PropTypes.object
+    message: PropTypes.object,
 }
 const mapStateToProps = (state) => {
     return {
         message: state.message,
-        feature: state.feature
+        // feature: state.feature
     }
 }
 const mapDispathToProps = (dispatch) => {
@@ -99,7 +107,7 @@ const mapDispathToProps = (dispatch) => {
         },
         fromFeature: (flag) => {
             dispatch(fromFeature(flag))
-        },
+        }
     }
 }
 

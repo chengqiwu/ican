@@ -223,7 +223,7 @@ class Circle extends Component {
         this.circleOverlay = new ol.Overlay({
             element: this.circle,
             positioning: 'center-center',
-            // stopEvent: false
+            stopEvent: false
         })
         map.addOverlay(this.circleOverlay)
 
@@ -238,16 +238,18 @@ class Circle extends Component {
                     })
                   
                 }
-                this.circle.setAttribute('class', 'circle')
+                this.circle && this.circle.setAttribute('class', 'circle')
 
                 setTimeout(() => {
-                    this.circle.removeAttribute('class')
+                    this.circle && this.circle.removeAttribute('class')
                 }, 1000)
                 this.drawCircle(feature)
             } else {
+                console.log(evt)
                 this.circleOverlay.setPosition(undefined)
             }
         })
+
         map.getView().on('change:resolution', () => {
             const { feature } = this.state
             if (!feature) {
@@ -256,6 +258,13 @@ class Circle extends Component {
             this.circleOverlay.getPosition() && this.drawCircle(feature)
             
         })
+
+        this.circle.onclick = (e) => {
+            this.drawCircle(this.state.feature)
+        }
+    }
+    componentWillUnmount() {
+        this.circleOverlay.setPosition(undefined)
     }
     drawCircle(feature) {
         const { map } = this.props.map
@@ -296,20 +305,28 @@ class Circle extends Component {
             arc(o, dir, point, index, bili, this)
         })
     }
-    handler(key) {
+    handler(index) {
         const { box } = this.state
-        box.push(key)
+        const feature = this.state.feature
+        const res = []
+        box.forEach(b => {
+            if(b.index !== index && b.key !== feature.getId() + index) {
+                res.push(b)
+            }
+        })
+        res.push({
+            key: feature.getId() + index,
+            index
+        })
         // 假设为信息
         this.setState({
-            box
+            box: res
         })
     }
-    destory(index) {
+    destory(key) {
+        const { box } = this.state
         this.setState({
-            box: [
-                ...this.state.box.slice(0, index),
-                ...this.state.box.slice(index + 1)
-            ]
+            box: box.filter(b => b.key !== key)
         })
     }
     render() {
@@ -321,10 +338,15 @@ class Circle extends Component {
 
                 </div>
                 {
-                    this.state.box.map((index, i) => 
-                        <DragDrop key={i} title={means[index]} destory={this.destory.bind(this, i)} index={index}>
-                            
-                        </DragDrop>  )
+                    this.state.box.map(b => 
+                        <DragDrop key={b.key}
+                            name={this.props.feature.feature.get('name')}
+                            feature={this.state.feature}
+                            title={means[b.index]} 
+                            destory={this.destory.bind(this, b.key)} 
+                            index={b.index}></DragDrop>                  
+                    ) 
+                        
                 }
             </div>
             
@@ -332,11 +354,13 @@ class Circle extends Component {
     }
 }
 Circle.propTypes = {
-    map: PropTypes.object
+    map: PropTypes.object,
+    feature: PropTypes.object
 }
 const mapStateToProps = (state) => {
     return {
-        map: state.map
+        map: state.map,
+        feature: state.feature
     }
 }
 export default connect(mapStateToProps)(Circle)

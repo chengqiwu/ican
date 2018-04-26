@@ -1,7 +1,7 @@
 @charset 'utf-8';
 @import '../common';
 $bg: url('../../images/common/bg.png');
-.register-bg {
+.forget-bg {
     z-index: -1;
     @include custom-width-height($full,
     $full);
@@ -11,7 +11,7 @@ $bg: url('../../images/common/bg.png');
     background-image: $bg;
 }
 
-.register-content {
+.forget-content {
     min-width: 500px;
     max-width: 1000px;
     @include custom-width-height(52%,
@@ -32,24 +32,19 @@ $bg: url('../../images/common/bg.png');
     12px)
 }
 
-.register-title {
+.forget-title {
     font-size: 34px;
     color: #000000;
     margin: 38px 0;
     text-align: center;
 }
-.error {
-    color: #ff0000;
-}
-.register-from {}
-
 .from-items {
     @extend .flex;
 }
 
 .from-items {
     label {
-        @include custom-width-height(70px,
+        @include custom-width-height(80px,
         38px);
         text-align: right;
         font-size: 16px;
@@ -65,18 +60,33 @@ $bg: url('../../images/common/bg.png');
     flex-direction: column;
 }
 
-.from-item input {
+.from-item input[type=text] {
     @include custom-width-height(400px,
     38px);
     padding: 11px 20px;
 }
-
+.from-item > div {
+    width: 200px;
+    height: 38px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    > div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        > label {
+            display: flex;
+            justify-content: flex-start;
+            margin-left: 5px;
+        }
+    }
+}
 .from-item span {
     font-size: 14px;
     color: #de2f00;
     margin: 20px 0;
 }
-
 .verification-code {
     @extend .flex;
     margin: 20px 0;
@@ -84,7 +94,7 @@ $bg: url('../../images/common/bg.png');
 
 .verification-code {
     label {
-        @include custom-width-height(70px,
+        @include custom-width-height(80px,
         38px);
         text-align: right;
         font-size: 16px;
@@ -101,37 +111,7 @@ $bg: url('../../images/common/bg.png');
         38px);
     }
 }
-
-.verification-code {
-    img {
-        @include custom-width-height(110px,
-        38px);
-        margin: 0 13px 0 18px;
-    }
-}
-
-.from-checkbox {
-    input {
-        @include custom-width-height(13px,
-        13px);
-    }
-}
-
-.from-checkbox {
-    span {
-        @include fontSize-default;
-        color: #999999;
-        margin-left: 10px;
-    }
-}
-
-.from-checkbox {
-    a {
-        color: #e14500;
-    }
-}
-
-.register-submit {
+.forget-submit {
     background-color: #5aa700;
     @include custom-width-height(100px,
     38px);
@@ -139,7 +119,7 @@ $bg: url('../../images/common/bg.png');
     color: #fefefe;
 }
 
-.register-prompt {
+.forget-prompt {
     max-width: 437px;
     font-size: 14px;
     color: #de2f00;

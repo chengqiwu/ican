@@ -19,7 +19,6 @@ class EmailToken extends Component {
         const parsed = this.parsedLocation(location)
 
         userVerify(parsed).then(res=>{
-            console.log(res)
             if (res.data.msg === '200') {
                 this.timer = setInterval(() => {
                     this.setState(prevState => ({

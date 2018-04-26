@@ -5,7 +5,6 @@ const status = ['闲', '优', '良', '差']
 class Popup extends Component {
     componentDidMount() {
         const props = this.props
-        console.log(props)
         this.textOverlay = new ol.Overlay({
             element: this.popup,
             positioning: 'center-center',
@@ -28,15 +27,23 @@ class Popup extends Component {
         const props = this.props
         return (
             <div className='popup' ref={popup => this.popup = popup}>
-                <div>
-                    <h3>{props.name}</h3>
-                   
-                </div>
-                <div>
-                    <label className='status'>{status[Number.parseInt(props.growth_status)]}</label>
-                    <span className='username'>{props.username}</span>
-                    <span className='area' >{props.area}</span>
-                </div>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><label className='status'>{status[Number.parseInt(props.growth_status)]}</label></td>
+                            <td><h3>{props.name}</h3></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <span className='username'>{props.username}</span>
+                                <span> || </span>
+                                <span className='area' >{props.area}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                  
+                </table>
             </div>  
         )
     }

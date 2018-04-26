@@ -35,6 +35,9 @@ class RxDragDrop extends Component {
     componentWillUnmount() {
         this.dd.unsubscribe()
     }
+    shouldComponentUpdate(){
+        return false
+    }
     destory(e) {
         e.preventDefault()
         this.props.destory(this.props.index)
@@ -42,10 +45,10 @@ class RxDragDrop extends Component {
     render() {
         return (
             <div ref={drapDrop => this.drapDrop = drapDrop} className="dragDrop">
-                <h3 ref={title => this.title = title} className='dragDrop-title'>{this.props.title}</h3>
+                <h3 ref={title => this.title = title} className='dragDrop-title'>{this.props.name}-{this.props.title}</h3>
                 <a href="#" id="dragDrop-closer" className="dragDrop-closer" onClick={this.destory.bind(this)}></a>
                 <div className="dragDrop-content">
-                    {this.props.index === 2 && <FiledInfo/>}
+                    {this.props.index === 2 && <FiledInfo {...this.props}/>}
                 </div>
             </div>
         )
@@ -55,6 +58,7 @@ RxDragDrop.propTypes = {
     title: PropTypes.string,
     children: PropTypes.node,
     destory: PropTypes.func,
-    index: PropTypes.number
+    index: PropTypes.number,
+    name: PropTypes.string
 }
 export default RxDragDrop

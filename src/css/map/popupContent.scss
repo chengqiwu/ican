@@ -1,9 +1,7 @@
 .popup {
     font-family: MicrosoftYaHei;
-    > div {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+    > table {
+
         .status {
            background-color: black;
            color: #bd0302;
@@ -17,8 +15,6 @@
         .username, .area {
             font-size: .5em
         }
-        .username{
-            margin-right: 20px;
-        }
+        
     }
 }

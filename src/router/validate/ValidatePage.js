@@ -10,7 +10,7 @@ import 'css/register/validate.scss'
 class ValidatePage extends Component {
     render() {
         const { match } = this.props
-        
+        console.log(this.props.match.path)
         return (
             <div className='register-bg'>
                 <Header />

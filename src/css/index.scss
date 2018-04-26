@@ -20,7 +20,9 @@ body {
         }
     }
 }
-
+a {
+    text-decoration: none !important;
+}
 .test {
     display: flex;
     

@@ -6,14 +6,42 @@ import tools from 'images/common/tools.png'
 import 'css/index/common/tools.scss'
 import ol from 'openlayers'
 
-import zoomin from 'images/tools/zoomin.png'
-import zoomout from 'images/tools/zoomout.png'
+import zoomin from 'images/tools/zoomins.png'
+import zoomout from 'images/tools/zoomouts.png'
 import position from 'images/tools/position.png'
 import search from 'images/tools/search.png'
 import play from 'images/tools/play.png'
 import arrow from 'images/tools/arrow.png'
 
 import lyrs from '_redux/init/lyrs'
+
+function flyTo(view, location, done) {
+    var duration = 3000
+    var zoom = view.getZoom()
+    var parts = 2
+    var called = false
+    function callback(complete) {
+        --parts
+        if (called) {
+            return
+        }
+        if (parts === 0 || !complete) {
+            called = true
+            done(complete)
+        }
+    }
+    view.animate({
+        center: location,
+        duration: duration
+    }, callback)
+    view.animate({
+        zoom: zoom - 1,
+        duration: duration / 2
+    }, {
+        zoom: 10,
+        duration: duration / 2
+    }, callback)
+}
 
 class Tools extends Component {
     constructor(props) {
@@ -72,13 +100,19 @@ class Tools extends Component {
         const { map } = this.props.map
         const view = map.getView()
         const zoom = view.getZoom()
-        view.setZoom(zoom + 1)
+        view.animate({
+            zoom: zoom + 1,
+            duration: 1000
+        })
     }
     zoomOut() {
         const { map } = this.props.map
         const view = map.getView()
         const zoom = view.getZoom()
-        view.setZoom(zoom - 1)
+        view.animate({
+            zoom: zoom-1,
+            duration: 1000
+        })
     }
     getPosition() {
         const self = this
@@ -103,17 +137,29 @@ class Tools extends Component {
         const view = map.getView()
         const value = this.serachInput.value
         // ol.proj.fromLonLat([-0.12755, 51.507222])
-        const pos = this.parseLonLat(value)
-        if(pos.length === 0) {
-            alert('输入经纬度不正确，请重新输入经纬度')
-        } else {
-            view.animate({
-                center: ol.proj.transform(pos, 'EPSG:4326', 'EPSG:3857'),
-                duration: 2000,
-                zoom: 10
+        if (value.match(/[\u4E00-\u9FA5]+/g)) {
+            console.log(value)
+            var myGeo = new BMap.Geocoder()
+            // 将地址解析结果显示在地图上,并调整地图视野
+            myGeo.getPoint(value, function (pos) {
+                if (pos) {
+                    console.log([pos.lng, pos.lat])
+                    flyTo(view, ol.proj.transform([pos.lng, pos.lat], 'EPSG:4326', 'EPSG:3857'), function () { })
+
+                } else {
+                    // alert()
+                }
             })
+        } else {
+            const pos = this.parseLonLat(value)
+            if (pos.length === 0) {
+                alert('输入经纬度不正确，请重新输入经纬度或输入地名')
+            } else {
+                flyTo(view, ol.proj.transform(pos, 'EPSG:4326', 'EPSG:3857'), function () { })
+            } 
         }
-      
+        
+       
 
     }
     parseLonLat(value) {
@@ -189,19 +235,19 @@ class Tools extends Component {
                         <input type="text" className='ppfix post'  
                             ref={serachInput => this.serachInput = serachInput} placeholder='请输入坐标(以逗号隔开)或地名'/>
                         <button style={{border: 'none'}}>
-                            <img src={search} alt="" style={{ cursor: 'pointer' }}/>
+                            <img src={search} alt="" className='btnHover'/>
                         </button>
                         
                     </form>
                     <div className='tools-map'>
-                        <div onClick={this.zoomOut} style={{cursor: 'pointer'}}>
+                        <div onClick={this.zoomOut} className='btnHover'>
                             <img src={zoomout} alt=""/>
                         </div>
-                        <div onClick={this.zoomIn} style={{ cursor: 'pointer' }}>
+                        <div onClick={this.zoomIn} className='btnHover'>
                             <img src={zoomin} alt=""/>
                         </div>
-                        <div>
-                            <img src={position} alt="" onClick={this.getPosition}/>
+                        <div className='btnHover'>
+                            <img src={position} alt=""  onClick={this.getPosition}/>
                         </div>
                     </div>
                     <div className='changeLayer'>
@@ -222,11 +268,12 @@ class Tools extends Component {
                             }
                         </ul>
                     </div>
-                    <img src={play}  alt="" onClick={this.showTools}/>
+                    <img src={play} alt="" onClick={this.showTools} className='btnHover'/>
                 </div>
                
                 <img src={tools} className={classnames({
-                    hiden: this.state.tools
+                    hiden: this.state.tools,
+                    'btnHover': true
                 })} alt="" onClick={this.showTools}/>
             </div>
         )

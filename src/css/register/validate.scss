@@ -103,11 +103,16 @@ $bg: url('../../images/common/bg.png');
             padding: 12px 11px 9px;
         }
         >a {
-            @include custom-width-height(100px, 38px);
+            // @include custom-width-height(100px, 38px);
+            padding: 0 5px;
+            height: 38px;
             @include green-tag;
             color: $color-white;
             @extend .center;
             text-decoration: none;
+        }
+        .gary {
+            background-color: #9a9a9a;
         }
     }
     .token-submit {

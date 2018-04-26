@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ol from 'openlayers'
 import { connect } from 'react-redux'
-import { getUserId } from 'utils/Api' 
+import { getUserToken } from 'utils/Api' 
 import Circle from './common/Circle'
 import 'openlayers/css/ol.css'
 import 'css/map/map.scss'
@@ -15,8 +15,8 @@ class Openlayer extends Component {
     componentDidMount() {
         const map = this.props.map.map
         map.setTarget(this.map)
-
-        const token = getUserId()
+        map.updateSize()
+        const token = getUserToken()
         if (!token) {
             history.push('/')
             return 

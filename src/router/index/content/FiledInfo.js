@@ -1,60 +1,103 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { fromFeature } from '_redux/actions/feature'
 import { findReasonById, saveSeasonInfo } from 'utils/Api'
+
+import { setMessage } from '_redux/actions/message'
+import { findCriosAndVarietiesList, findSoilList, findPestsByCropsId } from 'utils/Api'
+
+import { setFieldMessage, showFieldMessage, startFieldMessage } from '_redux/actions/fieldMessage'
+
 import Abstract from './Abstract'
 class FiledInfo extends Component {
     constructor(props) {
         super(props)
-        const { feature } = props.feature
+        const feature  = props.feature
+        console.log(feature.get('status'))
         this.state = {
-            isNew: feature.get('isNew') || 1,
-            message: {}
+            isNew: feature.get('status'),
+            message: {},
+            flag: false
         }
+    }
+    handelefindSoilList() {
+        return findSoilList().then(res => res.data).then(data => {
+            if (data.msg === '200') {
+                this.props.setMessage({
+                    soilTypes: data.result
+                })
+            }
+        })
+    }
+    handleCriosAndVarieties() {
+        return findCriosAndVarietiesList().then(res => res.data).then(data => {
+            if (data.msg === '200') {
+                this.props.setMessage({
+                    criosAndVarietiesList: data.result
+                })
+            }
+        })
+
     }
     componentDidMount() {
-        if ( 0 === this.state.isNew) {
-            const { id } = this.props.feature
-            findReasonById({
-                farmLandId: id,
-                isNew: 0
-            }).then(e => e.data)
-                .then(data => {
-                    console.log(data)
-                    if (data.msg === '200') {
-                        this.setState({
-                            message: data.result
+        this.handelefindSoilList().then(e => this.handleCriosAndVarieties())
+            .then(e => {
+                if ('0' === this.state.isNew) {
+                    const id = this.props.feature.getId().replace('tb_farmland.', '')
+                    findReasonById({
+                        farmLandId: id,
+                        isNew: 0
+                    }).then(e => e.data)
+                        .then(data => {
+                            
+
+                            if (data.msg === '200') {
+                                this.setState({
+                                    message: data.result,
+                                    flag: true
+                                })
+                                this.props.setFieldMessage(data.result)
+                            }
                         })
-                    }
-                })
-        }
+                }
+            })
+    
+        
     }
     start() {
-        this.props.fromFeature(true)
+        this.props.startFieldMessage(true)
     }
     render() {
-        return this.state.isNew === 1 ? <div>
+        console.log(this.state.message)
+        return this.state.isNew === '1' ? <div>
             <div>你目前还没有填写田地信息</div>
             <button className='content-btn' onClick={this.start.bind(this)}>开始填写</button>
-        </div> : <Abstract fieldMessage={this.state.message}/>
+        </div> : this.state.flag && <Abstract feature={this.props.feature} fieldMessage={this.state.message}/>
     }
 }
 FiledInfo.propTypes = {
-    fromFeature: PropTypes.func,
-    feature: PropTypes.object
+    startFieldMessage: PropTypes.func,
+    feature: PropTypes.object,
+    setMessage: PropTypes.func,
+    setFieldMessage: PropTypes.func
+    
 }
 const mapStateToProps = (state) => {
     return {
-        feature: state.feature,
         fieldMessage: state.fieldMessage
     }
 }
 const mapDispathToProps = (dispatch) => {
     return {
-        fromFeature: (flag) => {
-            dispatch(fromFeature(flag))
+        startFieldMessage: function(start) {
+            dispatch(startFieldMessage(start))
         },
+        setFieldMessage: (message) => {
+            dispatch(setFieldMessage(message))
+        },
+        setMessage: function(message) {
+            dispatch(setMessage(message))
+        }
        
     }
 }

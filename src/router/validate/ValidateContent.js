@@ -4,7 +4,8 @@ import classNames from 'classnames'
 import success from 'images/register/success.png'
 import PropTypes from 'prop-types'
 import history from 'router/history'
-import { userRegister, userVerify } from 'utils/Api'
+import Rx from 'rxjs/Rx'
+import { registerVerify, userVerify } from 'utils/Api'
 class ValidateContent extends Component {
     constructor() {
         super()
@@ -13,6 +14,8 @@ class ValidateContent extends Component {
             phone: '',
             email: '',
             code: '',
+            waitCode: '',
+            active: false,
             phoneSuccess: false, //false 待验证 true 验证成功
             emailSuccess: false,
         }
@@ -23,6 +26,7 @@ class ValidateContent extends Component {
         this.getCode = this.getCode.bind(this)
     }
     changeValidate(e) {
+        e.preventDefault()
         if (this.state.phoneSuccess > 0 || this.state.emailSuccess > 0) {
             this.setState({
                 phoneSuccess: 0,
@@ -35,42 +39,68 @@ class ValidateContent extends Component {
                 type: validateType
             })
         }
+        history.push('#' + e.target.type, history.location.state)
+    }
+    componentDidMount() {
+        console.log(history.location)
+    }
+    //组件将被卸载  
+    componentWillUnmount() {
+        //重写组件的setState方法，直接返回空
+        this.setState = (state, callback) => {
+            return
+        }
     }
     validateHandle(e) {
         e.preventDefault()
         
         const {type, token} = this.state
-        if (type === 'phone') {
-            // userVerify({token}).then(res=>{
-            //     if (res.data.msg === '200') {
-                   
-            //     }
-            // })     
-            this.setState({
-                phoneSuccess: true
-            })  
+        if (type === 'phone') {   
+            if (this.state.code === this.state.waitCode) {
+               
+                userVerify({token}).then(res => res.data)
+                    .then(data => {
+                        if(data.msg === '200') {
+                            this.setState({
+                                phoneSuccess: true
+                            })  
+                        }
+                    })
+            } else {
+                alert('验证码输入错误，请重新输入')
+            }
+           
            
         }
         if (type === 'email') {
             if (!this.state.email) {
                 alert('email')
                 return
-            }
-            // userVerify({token}).then(res=>{
-            //     if (res.data.msg === '200') {
-
-            //     }
-            // })     
+            } 
             this.setState({
                 emailSuccess: true
             })  
-           
+            const { state } = history.location
+            userRegister({
+                ...state,
+                verifyWay: this.state.type === 'phone' ? 0 : 1,
+                verify: this.state.type === 'phone' ? this.state.phone : this.state.email
+            }).then(res => {
+                if (res.data.msg === '200') {
+                    const { data: { result: { token, code } } } = res
+                    this.setState({
+                        code,
+                        token
+                    })
+                }
+
+            })
         }
     }
     validateSuccess(e) {
         e.preventDefault()
         const type = this.state.type
-    
+       
         history.push('/')
     }
     inputChange(e) {
@@ -81,22 +111,48 @@ class ValidateContent extends Component {
             })
         }
     }
-    getCode() {
+    getCode(e) {
+        e.preventDefault()
+        
+        if (this.state.active ) {
+            return
+        }
         if (!this.state.phone) {
             alert('输入手机号')
             return
         }
+
+
+        const obj = e.target
+        let countdown = 60
+        Rx.Observable.interval(1000)
+            .takeWhile(x => x <= countdown)
+            .subscribe(x => {
+                if (x === countdown) {
+                    obj.innerHTML = '获取验证码'
+                    this.setState({
+                        active: false
+                    })
+                    return
+                }
+                obj.setAttribute('disabled', true)
+                obj.innerHTML = '重新发送（' + (countdown - x) + 's)'
+                if (!this.state.active) {
+                    this.setState({
+                        active: true
+                    })
+                }
+            })       
+       
         const { state } = history.location
-        userRegister({
+        console.log(state)
+        registerVerify({
             ...state,
-            // username: '1111',
-            // password: '111',
             verifyWay: this.state.type === 'phone' ? 0 : 1,
             verify: this.state.type === 'phone' ? this.state.phone : this.state.email
         }).then( res=> {
             if (res.data.msg === '200') {
                 const { data: { result: { token, code } } } = res
-                console.log(token)
                 this.setState({
                     code,
                     token
@@ -146,10 +202,10 @@ class ValidateContent extends Component {
                                     可以从下面两种验证方式选择一种。
                                 </div>
                                 <div className='token-way'>
-                                    <a href='#phone' className={classNames({ 'center': true, 'token-active': this.state.type === 'phone' })}
+                                    <a href='#' className={classNames({ 'center': true, 'token-active': this.state.type === 'phone' })}
                                         type='phone'
                                         onClick={this.changeValidate}>通过手机号验证</a>
-                                    <a href='#email' className={classNames({ 'center': true, 'token-active': this.state.type === 'email' })}
+                                    <a href='#' className={classNames({ 'center': true, 'token-active': this.state.type === 'email' })}
                                         type='email'
                                         onClick={this.changeValidate}>通过E-mail验证</a>
                                 </div>
@@ -158,10 +214,12 @@ class ValidateContent extends Component {
                                         <form className='token-form' onSubmit={this.validateHandle}>
                                             {input}
                                             {this.state.type === 'email' ? undefined : <div className='token-code'>
-                                                <input type="text" name="code" placeholder='验证码' 
-                                                    value={this.state.code} 
+                                                <input type="text" name="waitCode" placeholder='验证码' 
+                                                    value={this.state.waitCode} 
                                                     onChange={this.inputChange}/>
-                                                <a href="#" onClick={this.getCode}>获取验证码</a>
+                                                <a href="#" onClick={this.getCode} className={classNames({
+                                                    'gary': this.state.active
+                                                })} >获取验证码</a>
                                             </div>}
                                             <input type="submit" className='token-submit' />
                                         </form> 

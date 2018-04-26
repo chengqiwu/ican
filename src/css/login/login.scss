@@ -53,6 +53,7 @@ $margin-left-right: 20px;
 }
 
 .login-more {
+    margin-top: -250px;
     >div {
         justify-content: flex-end;
         padding-right: 100px;
@@ -101,14 +102,32 @@ $margin-left-right: 20px;
 }
 
 .user-form {
-    div {
+    >div {
         padding: 0 25px;
         height: 75px;
         background-color: $color-white;
         @include border-radius-five;
     }
-}
+    .loading {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        border: 2px solid;
+        border-color: #333 #333 transparent;
+        border-radius: 50%;
+        box-sizing: border-box;
+        animation: loading 1s linear infinite;
 
+    }
+}
+@keyframes loading{
+            0%{
+                transform: rotate(0deg);
+            }
+            100%{
+                transform: rotate(360deg);
+            }
+        }
 .user-form {
     div {
         div {
@@ -139,6 +158,9 @@ $margin-left-right: 20px;
     @include border-radius-five;
     margin: 20px 0 10px 0;
     color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .user-sepate {

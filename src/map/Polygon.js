@@ -4,6 +4,8 @@ import { getUserInfo } from 'utils/Api.js'
 import ol from 'openlayers'
 import { connect } from 'react-redux'
 import { saveFeature, setFeature } from '_redux/actions/feature'
+import { setFieldMessage, showFieldMessage, startFieldMessage } from '_redux/actions/fieldMessage'
+
 import 'css/map/polygon.scss'
 import CreateField from './CreateField'
 import Rx from 'rxjs/Rx'
@@ -33,6 +35,7 @@ class Polygon extends Component {
     }
     componentDidMount() {
         this.load(this.props)
+        this.props.onRef(this)
         Rx.Observable.fromEvent(document, 'keydown')
             .filter(e => e.keyCode === 27)
             .map(e => true)
@@ -45,6 +48,7 @@ class Polygon extends Component {
     }
     componentDidUpdate(prevProps, prveState) {
         prevProps.draw && this.draw.setActive(true)
+        
     }
     load(props) {
         const { map } = props.map
@@ -80,10 +84,12 @@ class Polygon extends Component {
         map.addInteraction(this.draw)
         this.draw.setActive(false)
 
-        // this.polygonModify = new ol.interaction.Modify({
-        //     source: polyonSource
-        // })
-        // map.addInteraction(this.polygonModify)
+        this.polygonModify = new ol.interaction.Modify({
+            source: polyonSource
+        })
+        map.addInteraction(this.polygonModify)
+        this.polygonModify.setActive(false)
+        
         //  备用
         // this.translate = new ol.interaction.Translate({
         //     layers: [this.polyonLayer]
@@ -96,70 +102,79 @@ class Polygon extends Component {
         //     var center = ol.extent.getCenter(feature.getGeometry().getExtent())
         // })
         //  备用end
+
         var geoJson = new ol.format.GeoJSON()
         this.draw.on('drawend', (evt) => {
             var feature = evt.feature
-            this.props.removeDraw()
 
-            // new Promise((resolve, reject) => {
-            //     if (Number.parseFloat(this.getArea(feature)) > 2000) {
-            //         alert('您圈选的田地面积不符合实际情况，请重新圈选')
-            //         resolve('')
-            //     } else {
-            //         reject(this.props.removeDraw)
-            //     }
-            // }).then(() => {
-            //     polyonSource.clear()
-            // }).catch(fn => fn())
-           
+            new Promise((resolve, reject) => {
+                if (Number.parseFloat(this.getArea(feature)) > 2000) {
+                    alert('您圈选的田地面积不符合实际情况，请重新圈选')
+                    resolve('')
+                } else {
+                    reject(this.props.removeDraw)
+                }
+            }).then(() => {
+                polyonSource.clear()
+            }).catch(fn => {
+                this.props.removeDraw()
+                this.draw.setActive(false)
+            })
+            this.polygonModify && this.polygonModify.setActive(true)
             // this.setState({
             //     area: this.getArea(feature),
             //     feature
             // })
             // text 开始作妖
             // this.drawText(evt.feature)
-            this.props.saveFeature(evt.feature)
+            this.props.saveFeature(evt.feature) //
         })
         
-        // this.polygonModify.on('modifyend', (evt) => {
-        //     // this.drawText(evt.features.a[0])
-        //     var feature = evt.features.a[0]
-        //     this.props.saveFeature(evt.feature)
-        //     var payload = geoJson.writeFeature(feature, {
-        //         featureProjection: map.getView().getProjection()
-        //     })
-        //     var center = ol.extent.getCenter(feature.getGeometry().getExtent())
-        // })  
+        this.polygonModify.on('modifyend', (evt) => {
+            // this.drawText(evt.features.a[0])
+            var feature = evt.features.a[0]
+            this.props.saveFeature(feature)
+            this.setState({
+                area: this.getArea(feature),
+                feature,
+                // coord: ol.extent.getCenter(feature.getGeometry().getExtent()),
+            })
+            // var payload = geoJson.writeFeature(feature, {
+            //     featureProjection: map.getView().getProjection()
+            // })
+            // var center = ol.extent.getCenter(feature.getGeometry().getExtent())
+        })  
         map.on('click', (evt) => this.clickListener(evt))
     }
     clickListener(evt) {
         const { map } = this.props.map
         const feature = map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => layer && feature)
         if (feature) {
-            console.log(feature.getId())
             this.props.saveFeature(feature)
+            this.props.startFieldMessage(false)
+            this.props.showFieldMessage(false)
             const id = feature.getId()
             const name = feature.get('name')
-            const isNew = feature.get('isNew')
+            const isNew = feature.get('status')
             if (!id) {
                 this.setState({
                     feature,
                     initial: true,
-                    coord: evt.coordinate,
+                    coord: ol.extent.getCenter(feature.getGeometry().getExtent()),
                     area: this.getArea(feature)
                 })
-            } else {
-                map.un('click', this.clickListener)
             }
         }
     }
     drawText() {        
         const {feature} = this.props.feature
         let extent = feature.getGeometry().getExtent()
-        const { name, id, isNew } = this.props.feature
+        const { name, id, isNew, address } = this.props.feature
         
         this.state.feature.setId(id)
-        this.state.feature.set('isNew', isNew)
+        this.state.feature.set('status', '1')
+        this.state.feature.set('name', name)
+        this.state.feature.set('address', address)
         const { area, popupText } = this.state
         
         popupText.push({
@@ -198,8 +213,30 @@ class Polygon extends Component {
     }
     setInitial() {
         this.setState({
-            coord: undefined
+            coord: undefined,
         })
+    }
+    setDefault() {
+        this.setState({
+            coord: undefined,
+        })
+        this.polygonModify.setActive(false)
+    }
+    sourceClear() {
+        this.polyonLayer.getSource().removeFeature(this.state.feature)
+        this.props.removeDraw()
+        this.polygonModify.setActive(false)
+    }
+    clearSource() {
+        const source = this.polyonLayer.getSource()
+        source.getFeatures().forEach(feature => {
+            !feature.getId() && source.clear(feature)
+        })
+        this.setState({
+            coord: undefined,
+        })
+        this.props.removeDraw()
+        this.polygonModify.setActive(false)
     }
     render() {
         if(this.draw) {
@@ -208,7 +245,13 @@ class Polygon extends Component {
         return (
             <div className='polygon'>
                 {
-                    this.state.initial && <CreateField coord={this.state.coord} setDefault={this.setInitial.bind(this)} drawText={this.drawText.bind(this)} area={this.state.area}/>
+                    this.state.initial && <CreateField coord={this.state.coord} 
+                        setDefault={this.setDefault.bind(this)} 
+                        setInitial={this.setInitial.bind(this)} 
+                        drawText={this.drawText.bind(this)} 
+                        area={this.state.area}
+                        feature={this.state.feature}
+                        sourceClear={this.sourceClear.bind(this)}/>
                 }
                 {this.state.popupText.map(p => <Popup key={p.id} {...p} />)}
                 
@@ -222,12 +265,17 @@ Polygon.propTypes = {
     removeDraw: PropTypes.func,
     feature: PropTypes.object,
     saveFeature: PropTypes.func,
-    setFeature: PropTypes.func
+    setFeature: PropTypes.func,
+    clearSource: PropTypes.func,
+    onRef: PropTypes.func,
+    startFieldMessage: PropTypes.func,
+    showFieldMessage: PropTypes.func
 }
 const mapStateToProps = (state) => {
     return {
         map: state.map,
-        feature: state.feature
+        feature: state.feature,
+        message: state.feature
     }
 }
 const mapDispathToProps = (dispatch) => {
@@ -237,6 +285,12 @@ const mapDispathToProps = (dispatch) => {
         },
         setFeature: (config) => {
             dispatch(setFeature(config))
+        },
+        startFieldMessage: (start) => {
+            dispatch(startFieldMessage(start))
+        },
+        showFieldMessage: (show) => {
+            dispatch(showFieldMessage(show))
         }
     }
 }

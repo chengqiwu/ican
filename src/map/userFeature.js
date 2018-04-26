@@ -3,6 +3,7 @@ import ol from 'openlayers'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 import Popup from './Popup'
+import { geoserverUrl } from '../url'
 import { getUserInfo } from 'utils/Api.js'
 class UserFeature extends Component {
     constructor(props) {
@@ -28,20 +29,39 @@ class UserFeature extends Component {
                 })
             })
         })
+        // console.log(getUserInfo().id)
         // then post the request and add the received features to a layer
-        axios.get('http://192.168.1.23:8081/geoserver/ican/ows', {
+        axios.get(geoserverUrl, {
             params: {
                 service: 'WFS',
                 version: '1.0.0',
                 request: 'GetFeature',
                 typeName: 'ican:tb_farmland',
                 maxFeatures: 50,
-                outputFormat: 'application/json'
+                outputFormat: 'application/json',
+                CQL_FILTER: `master_id=='${getUserInfo().id}'`,
             }
         }).then((response) => {
             return response.data
         }).then((data) => {
             console.log(data)
+            if (data.totalFeatures === 0) {
+                var geolocation = new BMap.Geolocation()
+                geolocation.getCurrentPosition(function (r) {
+                    if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                        map.getView().animate({
+                            center: ol.proj.transform([r.point.lng, r.point.lat], 'EPSG:4326', 'EPSG:3857'),
+                            duration: 2000,
+                            zoom: 14
+                        })
+                    }
+                    else {
+                        alert('failed' + this.getStatus())
+                    }
+                }, { enableHighAccuracy: true })
+
+                return
+            }
             var features = new ol.format.GeoJSON().readFeatures(data, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' })
             
             this.setState({

@@ -24,7 +24,31 @@
         flex-direction: column;
         align-items: center;
         font-size: 13px;
-        .first, .next {
+        form {
+            width: 100%;
+            .submit {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                button {
+                    // background-color: #99cc66;
+                    // color: #;
+                    display: flex; // padding: 20px;
+                    height: 30px;
+                    border-radius: 5px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 150px;
+                    &:hover {
+                        color: #000000;
+                        background-color: #ebebeb;
+                    }
+                }
+            
+            }
+        }
+        .first, .next,  {
             width: 100%;
             // height: 250px;
             display: flex;
@@ -36,6 +60,39 @@
                 padding: 10px 10px;
                 background-color: #ddf5fd;
                 margin: 0 5px;
+                .hiden {
+                    display: none;
+                }
+                .exact {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    .exact-block {
+                        label {
+                            width: 65px;
+                        }
+                    }
+                    div {
+                        display: flex;
+                        height: 20px;
+                        
+                        align-items: center;
+                        input {
+                            margin-right: 5px;
+                        }
+                        span {
+                            margin-right: 5px;
+                        }
+                    }
+                    .exact-block {
+                        width: 206px;
+                    }
+                    .hiden  {
+                        height: 0;
+                        margin: 0;
+                     }
+                }
                 > div {
                     display: flex;
                     justify-content: space-between;
@@ -49,7 +106,7 @@
                         text-align: right;
                         margin-right: 5px;
                     }
-                    .soil, .exact, .weather, .terrain {
+                    .soil, .weather, .terrain {
                         display: flex;
                         align-items: center;
                         input {
@@ -59,9 +116,7 @@
                             margin-right: 5px;
                         }
                     }
-                    .exact {
-                        height: 20px;
-                    }
+
                 }
                 .history {
                     display: flex;
@@ -74,7 +129,7 @@
                         flex-wrap: wrap;
                     }
                     input {
-                        width: 100px;
+                        width: 60px;
                         margin-right: 6px;
                         margin-bottom: 10px;
                     }
@@ -82,7 +137,7 @@
             }
             .second {
                 label {
-                    width: 100px;
+                    width: 65px;
                 }
             }
         }
@@ -114,22 +169,13 @@
                 }
             }
         }
-        .submit {
-            button {
-                // background-color: #99cc66;
-                // color: #;
-                display: flex; // padding: 20px;
-                height: 30px;
-                border-radius: 5px;
-                align-items: center;
-                justify-content: center;
-                width: 150px;
-                &:hover {
-                    color: #000000;
-                    background-color: #ebebeb;
-                }
-            }
-        
-        }
+       
     }
+}
+.Select {
+   display: flex;
+   align-items: center;
+   .Select--multi {
+       min-width: 125px;
+   }
 }

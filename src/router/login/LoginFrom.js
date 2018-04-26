@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PorpTypes from 'prop-types'
+import classnames from 'classnames'
 import 'css/login/login.scss'
 import { Link, Route, Switch } from 'react-router-dom'
 import user from 'images/login/user.png'
@@ -12,7 +13,8 @@ class LoginFrom extends Component {
         super()
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            pending: false
         }
         this.inputChange = this.inputChange.bind(this)
         this.submitHandle = this.submitHandle.bind(this)
@@ -37,20 +39,39 @@ class LoginFrom extends Component {
             alert('输入密码')
             return 
         }
+        this.setState({
+            pending: true
+        })
         userLogin({
-            username,
-            password
+            username: escape(username),
+            password: escape(password)
         }).then(res=>{
-            console.log(res)
             if(res.data.msg === '200') {
+                console.log(res)
                 history.push({ pathname: '/index', state: res.data.result})
+            } else {
+                console.log(res)
+                alert(res.data.result)
+                this.setState({
+                    pending: false
+                })
             }
+           
+        }).catch(err => {
+            alert('登陆异常，请稍候登陆')
+            this.setState({
+                pending: false
+            })
         })
     }
-    forgetPassword() {
+    forgetPassword(e) {
         e.preventDefault()
+        history.push({
+            pathname: '/forget'
+        })
     }
     render () {
+        console.log(this.state.pending)
         return (
             <div className='user-content'>
                 <form className='user-form' onSubmit={this.submitHandle}>
@@ -69,8 +90,15 @@ class LoginFrom extends Component {
                                 onChange={this.inputChange} />
                         </div>
                     </div>
-
-                    <input type="submit" className='user-submit' value="登录" />
+                    <button type='submit' className={classnames({
+                        'user-submit': true,
+                        'disable': this.state.pending
+                    })} style={{ cursor: 'pointer' }}>
+                        <div>登录</div> 
+                        <div className={classnames({
+                            'loading': this.state.pending
+                        })}></div>
+                    </button>
                 </form>
                 <div className='user-help'>
                     <Link to='/register' className='user-register'>新用户注册</Link>
