@@ -36,13 +36,27 @@ class ValidateContent extends Component {
         const validateType = e.target.type
         if (this.state.type !== validateType) {
             this.setState({
-                type: validateType
+                type: validateType,
+               
             })
         }
-        history.push('#' + e.target.type, history.location.state)
+        if (this.subcription) {
+            this.subcription.unsubscribe()
+            this.setState({
+                active: false
+            })
+        }
+        history.push('#' + e.target.type)
     }
     componentDidMount() {
         console.log(history.location)
+        // if (!history.location.state) {
+        //     history.push('/user_reg')
+        // }
+        this.setState({
+            token: history.location.state.token
+        })
+        
     }
     //组件将被卸载  
     componentWillUnmount() {
@@ -77,20 +91,26 @@ class ValidateContent extends Component {
                 alert('email')
                 return
             } 
+            if (!(/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.state.email))) {
+                alert('输入邮箱有误，请重填')
+                this.setState({
+                    email: ''
+                })
+                return
+            }
             this.setState({
                 emailSuccess: true
             })  
             const { state } = history.location
-            userRegister({
-                ...state,
+            registerVerify({
+                token: this.state.token,
                 verifyWay: this.state.type === 'phone' ? 0 : 1,
                 verify: this.state.type === 'phone' ? this.state.phone : this.state.email
             }).then(res => {
                 if (res.data.msg === '200') {
-                    const { data: { result: { token, code } } } = res
+                    const { data: { result: { code } } } = res
                     this.setState({
-                        code,
-                        token
+                        code
                     })
                 }
 
@@ -121,33 +141,38 @@ class ValidateContent extends Component {
             alert('输入手机号')
             return
         }
-
+        if (!(/^1(3|4|5|7|8)\d{9}$/.test(this.state.phone))) {
+            alert('手机号码有误，请重填')
+            this.setState({
+                phone: ''
+            })
+            return
+        } 
 
         const obj = e.target
         let countdown = 60
-        Rx.Observable.interval(1000)
+        let observable = Rx.Observable.interval(1000)
             .takeWhile(x => x <= countdown)
-            .subscribe(x => {
-                if (x === countdown) {
-                    obj.innerHTML = '获取验证码'
-                    this.setState({
-                        active: false
-                    })
-                    return
-                }
-                obj.setAttribute('disabled', true)
-                obj.innerHTML = '重新发送（' + (countdown - x) + 's)'
-                if (!this.state.active) {
-                    this.setState({
-                        active: true
-                    })
-                }
-            })       
+
+        this.subcription = observable.subscribe(x => {
+            if (x === countdown) {
+                obj.innerHTML = '获取验证码'
+                this.setState({
+                    active: false
+                })
+                return
+            }
+            obj.setAttribute('disabled', true)
+            obj.innerHTML = '重新发送（' + (countdown - x) + 's)'
+            if (!this.state.active) {
+                this.setState({
+                    active: true
+                })
+            }
+        })       
        
-        const { state } = history.location
-        console.log(state)
         registerVerify({
-            ...state,
+            token: this.state.token,
             verifyWay: this.state.type === 'phone' ? 0 : 1,
             verify: this.state.type === 'phone' ? this.state.phone : this.state.email
         }).then( res=> {

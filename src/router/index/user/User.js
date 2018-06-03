@@ -5,7 +5,7 @@ import Polygon from 'map/Polygon'
 import user from 'images/common/user.png'
 import 'css/index/common/user.scss'
 import history from 'router/history'
-
+import Cookies from 'js-cookie'
 import filed from 'images/feature/filed.png'
 import setting from 'images/feature/setting.png'
 import remind from 'images/feature/remind.png'
@@ -51,7 +51,7 @@ class User extends Component {
     }
     loginout() {
         sessionStorage.clear()
-        
+        Cookies.remove('name', { path: '' })
         history.push('/')
     }
     // clearSource() {

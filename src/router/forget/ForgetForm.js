@@ -25,7 +25,7 @@ class ForgetForm extends Component {
                 if (data.msg === '200') {
                     history.push('/reset',{username: this.state.username})
                 } else {
-                    alert(data.result+',请选择另一种方式找回密码')
+                    alert(data.result)
                 }
             })
     }

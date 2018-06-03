@@ -4,6 +4,12 @@ axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded'
 // axios.defaults.withCredentials = true
 import qs from 'qs'
 import jsonp from 'jsonp'
+import Cookies from 'js-cookie'
+import md5 from 'js-md5'
+function updateCookies() {
+    console.log(Cookies.get('name'))
+    Cookies.set('name', md5(Cookies.get('name')), { path: '/index', expires: 1 / 24 })
+}
 
 export function getPosition(callback) {
     jsonp('http://api.map.baidu.com/location/ip?ak=PKjiNSEtPtxphfaUacba5mieByhERV6x&coor=bd09ll', null, callback)
@@ -85,7 +91,7 @@ export function farmLandSave(data) {
         token: getToken()
     }
     console.log(data)
-    
+    updateCookies()
     return axios.get(url + '/api/farmLand/save', {
         params: data
     })
@@ -176,12 +182,14 @@ export function findPestsByCropsId(id) {
 }
 
 export function findReasonById(data) {
+    updateCookies()
     return axios.get(url + '/api/quarterCrops/findById?token=' + getToken(), {
         params: data
     })
 }
 
 export function saveSeasonInfo(landInfo) {
+    updateCookies()
     console.log(landInfo)
     let config = {
         headers: { 'Content-Type': 'multipart/form-data' }

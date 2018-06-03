@@ -1,6 +1,6 @@
 @charset 'utf-8';
 @import '../common';
-$bg: url('../../images/common/bg.png');
+$bg: url('../../images/common/bg2.jpg');
 .register-bg {
     z-index: -1;
     @include custom-width-height($full,
@@ -99,6 +99,7 @@ $bg: url('../../images/common/bg.png');
     input {
         @include custom-width-height(100px,
         38px);
+        padding: 11px 20px;
     }
 }
 

@@ -117,9 +117,15 @@ class RegisterForm extends Component {
                     .then(data => {
                         if (data.msg === '200') {
                             history.push({
-                                pathname: '/validate', state: {
-                                    token: data.result
-                                }
+                                state: { some: 'state' },
+                                pathname: '/validate',
+                                // hash: '#123',
+                                // state: {
+                                //     token: data.result
+                                // }
+                                search: '?the=query',
+                               
+
                             })
                         }else {
                             alert(data.result)
@@ -229,7 +235,7 @@ class RegisterForm extends Component {
                         <label>验证码</label>
                         <div className='center'>
                             <input type="text" name='codeNumber' value={this.state.codeNumber} onChange={this.inputChange} required/>
-                            <img ref={img => this.img = img} src={'http://47.104.81.112:8080/ican_n/api/user/getVerifyCodeImage?timestamp=' + this.state.timestamp} alt="" />
+                            <img ref={img => this.img = img} src={'http://39.104.186.71/ican_n/api/user/getVerifyCodeImage?timestamp=' + this.state.timestamp} alt="" />
                             <a href="#" onClick={this.getCode.bind(this)}>看不清？换一张</a>
                         </div>
                     </div>
@@ -239,7 +245,7 @@ class RegisterForm extends Component {
                             <input type="checkbox" className='register' name="protocol"
                                 checked={this.state.protocol}
                                 onChange={this.inputChange} required/>                                
-                            <span>同意 《<a href="/terms.htm" target='_blank'>精禾云平台服务条款</a>》</span>
+                            <span>同意 《<a href="./terms.htm" target='_blank'>精禾云平台服务条款</a>》</span>
                         </div>
                     </div>
                     <div className='from-items'>

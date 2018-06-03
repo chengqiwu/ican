@@ -18,7 +18,7 @@ class Ican extends Component {
                     <Route path='/login' component={createComponent(LoginPage)}></Route>
                     <Route path='/forget' component={createComponent(ForgetPage)}></Route>
                     <Route path='/reset' component={createComponent(ResetPass)}></Route>
-                    <Route path='/register' component={createComponent(RegisterPage)}></Route>
+                    <Route path='/user_reg' component={createComponent(RegisterPage)}></Route>
                     <Route path='/validate' component={createComponent(ValidatePage)}></Route>
                     <Route path='/index' component={createComponent(IcanApp)}></Route>
                 </Switch>

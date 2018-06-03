@@ -14,8 +14,8 @@ class UserFeature extends Component {
     }
     componentDidMount() {
         const map = this.props.map
-        var vectorSource = new ol.source.Vector()
-        var vector = new ol.layer.Vector({
+        const vectorSource = new ol.source.Vector()
+        const vector = new ol.layer.Vector({
             source: vectorSource,
             style: new ol.style.Style({
                 fill: new ol.style.Fill({
@@ -67,10 +67,11 @@ class UserFeature extends Component {
             this.setState({
                 features
             })
+            
             vectorSource.addFeatures(features)       
-
             map.getView().fit(vectorSource.getExtent())
         })
+        console.log(222)
         map.addLayer(vector)
     }
     getArea(feature) {

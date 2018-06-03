@@ -30,7 +30,11 @@ class ResetForm extends Component {
     }
     handleSubmit(e) {
         e.preventDefault()
-        const { username, password, code } = this.state
+        const { username, password, repassword, code } = this.state
+        if (password !== repassword) {
+            alert('两次密码输入不正确')
+            return
+        }
         var image = new FormData()
         image.append('username', this.username.value)
         image.append('password', password)

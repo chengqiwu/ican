@@ -35,14 +35,20 @@ class FiledMessage extends Component {
 
     }
     componentDidUpdate() {
+
         this.mess && this.mess.scrollIntoView(true)
         this.showMess && this.showMess.scrollIntoView(true)
 
     }
     shouldComponentUpdate(nextProps, nextState) {
         console.log(nextProps, nextState)
-        const { feature } = nextProps
-
+        const { feature: {feature} } = nextProps
+        console.log(feature.get('name'))
+        
+        if (!feature.get('name')) {
+            return false
+        }
+        
         return true
     }
     getMessage(defaultValue) {

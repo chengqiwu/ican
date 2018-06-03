@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
-import 'react-select/dist/react-select.css'
+import 'css/react-select.scss'
 import { connect } from 'react-redux'
 import { setMessage } from '_redux/actions/message'
 import { findCriosAndVarietiesList, findSoilList, findPestsByCropsId } from 'utils/Api'
@@ -224,10 +224,9 @@ class FromMessage extends Component {
         // submitData['commonDisease'] = this.commonPests.value.toString()
         
         submitData['hasSample'] = this.state.hasSample
-        this.state.hasSample == 1 && this.soilSamplesPath.length !== 0 && (submitData['soilSamplesPath'] = this.soilSamplesPath.files[0])
 
         this.state.hasSample != 1 && !!this.soilType.value && (submitData['soilType'] = this.soilType.value)
-        this.state.hasSample != 1 && this.profilePath.length !== 0 && (submitData['profilePath'] = this.profilePath.files[0])
+        
         
         this.state.hasSample != 1 &&!!this.soilPh.value && (submitData['soilPh'] = this.soilPh.value)
         this.state.hasSample != 1 &&!!this.organicMatter.value && (submitData['organicMatter'] = this.organicMatter.value)
@@ -258,36 +257,41 @@ class FromMessage extends Component {
         submitData['commonNaturalDisasters'] = this.commonNaturalDisasters.value
         
         submitData['drill'] = this.state.drill
-        this.state.drill === 1 && !!this.drillModel.value && (submitData['drillModel'] = this.drillModel.value)
+        this.state.drill == 1 && !!this.drillModel.value && (submitData['drillModel'] = this.drillModel.value)
         
         submitData['fertilizer'] = this.state.fertilizer
-        this.state.fertilizer === 1 && !!this.fertilizerModel.value && (submitData['fertilizerModel'] = this.fertilizerModel.value)
-        this.state.fertilizer === 1 && !!this.fertilizerHighLimit.value && (submitData['fertilizerHighLimit'] = this.fertilizerHighLimit.value)
+        this.state.fertilizer == 1 && !!this.fertilizerModel.value && (submitData['fertilizerModel'] = this.fertilizerModel.value)
+        this.state.fertilizer == 1 && !!this.fertilizerHighLimit.value && (submitData['fertilizerHighLimit'] = this.fertilizerHighLimit.value)
         
         submitData['ypfj'] = this.state.ypfj
-        this.state.ypfj === 1 && !!this.ypfjModel.value && (submitData['ypfjModel'] = this.ypfjModel.value)
-        this.state.ypfj === 1 && !!this.ypfjHighLimit.value && (submitData['ypfjHighLimit'] = this.ypfjHighLimit.value)
+        this.state.ypfj == 1 && !!this.ypfjModel.value && (submitData['ypfjModel'] = this.ypfjModel.value)
+        this.state.ypfj == 1 && !!this.ypfjHighLimit.value && (submitData['ypfjHighLimit'] = this.ypfjHighLimit.value)
         
         submitData['harvester'] = this.state.harvester
-        this.state.harvester === 1 && !!this.harvesterModel.value && (submitData['harvesterModel'] = this.harvesterModel.value)
+        this.state.harvester == 1 && !!this.harvesterModel.value && (submitData['harvesterModel'] = this.harvesterModel.value)
         
-        submitData['irrigation'] = this.state.irrigation
+        submitData['irrigation'] = this.irrigation.value
 
         console.log(submitData)
-        // var fd = new FormData()
-        // const feature = this.props.feature
-        // fd.append('landInfo', JSON.stringify({
-        //     ...submitData,
-        //     landId: feature.getId().replace('tb_farmland.', '')
-        // }))
+        var fd = new FormData()
+        const feature = this.props.feature
 
-        // saveSeasonInfo(fd).then(e => e.data).then(data => {
-        //     if (data.msg === '200') {
-        //         this.props.setFieldMessage(submitData)
-        //         this.props.showFieldMessage(true)
-        //         feature.set('status', '0')
-        //     }
-        // })
+
+        fd.append('landInfo', JSON.stringify({
+            ...submitData,
+            landId: feature.getId().replace('tb_farmland.', '')
+        }))
+        
+        this.state.hasSample == 0 && this.profilePath.length     !== 0 && fd.append('profilePath',     this.profilePath.files[0])
+        this.state.hasSample == 1 && this.soilSamplesPath.length !== 0 && fd.append('soilSamplesPath', this.soilSamplesPath.files[0])
+        
+        saveSeasonInfo(fd).then(e => e.data).then(data => {
+            if (data.msg === '200') {
+                this.props.setFieldMessage(submitData)
+                this.props.showFieldMessage(true)
+                feature.set('status', '0')
+            }
+        })
     }
     diseaseChange = (commonDisease) => {
         console.log(commonDisease)
@@ -301,7 +305,7 @@ class FromMessage extends Component {
     }
     render() {
         return (
-            <form onSubmit={this.nextSubmit.bind(this)}>
+            <form onSubmit={this.nextSubmit.bind(this)} encType="multipart/form-data">
 
                 <div className='first'>
                     <div>
@@ -399,12 +403,12 @@ class FromMessage extends Component {
                                     }
                                 </select> */}
                                 <Select  ref={select => this.select = select}
-                                    name='commonPests' multi={true}
-                                    value={this.state.commonPests}
+                                    name='commonDisease' multi={true}
+                                    value={this.state.commonDisease}
                                     placeholder='选择类型'
                                     noResultsText='无'
-                                    required={this.state.disease.length !== 0}
-                                    onChange={this.pestChange}
+                                    // required={this.state.disease.length !== 0}
+                                    onChange={this.diseaseChange}
                                     options={
                                         this.state.disease.map(disease => ({
                                             value: disease.key,
@@ -424,11 +428,11 @@ class FromMessage extends Component {
                                 */}
                                 <Select ref={select => this.select = select}
                                     name='commonPests' multi={true}
-                                    value={this.state.commonDisease}
+                                    value={this.state.commonPests}
                                     placeholder='选择类型'
                                     noResultsText='无'
-                                    required={this.state.pests.length !== 0}
-                                    onChange={this.diseaseChange}
+                                    // required={this.state.pests.length !== 0}
+                                    onChange={this.pestChange}
                                     options={
                                         this.state.pests.map(pest => ({
                                             value: pest.key,
@@ -471,7 +475,7 @@ class FromMessage extends Component {
                                         <select name="soilType" ref={soilType => this.soilType = soilType} defaultValue='select'>
                                             <option value="" selected="true" disabled="true">选择类型</option>
                                             {
-                                                this.state.soils.map(soil => <option key={soil.key} value={soil.value}>{soil.value}</option>)
+                                                this.state.soils.map(soil => <option key={soil.key} value={soil.key}>{soil.value}</option>)
                                             }
                                         </select>
                                     </div>
@@ -563,7 +567,7 @@ class FromMessage extends Component {
                                 </div> : null
                             }
                             {
-                                this.state.drill == 1 ? <div className='exact-block'>
+                                this.state.drill == 1 ? <div className='exact-block exact-no-block'>
                                 </div> : null
                             }
                         </div>
@@ -641,7 +645,7 @@ class FromMessage extends Component {
                                 </div> : null
                             }
                             {
-                                this.state.harvester == 1 ? <div className='exact-block'>
+                                this.state.harvester == 1 ? <div className='exact-block exact-no-block'>
                                 </div> : null
                             }
                         </div>

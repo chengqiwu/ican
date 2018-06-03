@@ -1,6 +1,7 @@
 @charset "utf-8";
 @import '../common';
-$bg: url('../../images/common/bg.png');
+@import "~video-react/styles/scss/video-react";
+$bg: url('../../images/common/bg2.jpg');
 $top: url('../../images/login/top.png');
 $margin-left-right: 20px;
 .login-bg {
@@ -53,10 +54,11 @@ $margin-left-right: 20px;
 }
 
 .login-more {
-    margin-top: -250px;
+    display: flex;
+    flex-direction: column;
     >div {
         justify-content: flex-end;
-        padding-right: 100px;
+       
         @extend .flex;
         a {
             font-size: 20px;
@@ -65,8 +67,13 @@ $margin-left-right: 20px;
             height: 60px;
             border: 5px solid #ffffff;
             box-sizing: border-box;
-            cursor: pointer;
+            cursor: pointer; 
+            margin-right: 100px;
         }
+    } 
+    .video-react{
+        margin-top: 20px;
+        align-self: center;
     }
 }
 
@@ -209,4 +216,13 @@ $margin-left-right: 20px;
 
 .center {
     @extend .flex-center;
+}
+.video-react .video-react-poster {
+    background-size: unset
+}
+.video-react {
+    outline: none;
+}
+.video-react-big-play-button {
+    display: none !important;
 }

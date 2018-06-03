@@ -105,6 +105,7 @@ class CreateField extends Component {
                 this.input.value = ''
                 
             } else {
+                this.input.value = ''
                 data.msg === '209'
                 alert(data.result+ ' ，请重绘。。。')
             }

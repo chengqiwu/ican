@@ -73,4 +73,5 @@ const map = new ol.Map({
 lyrs.forEach(lyr => {
     lyr.active && lyr.lyrs.forEach(ly => map.addLayer(ly))
 })
+console.log(111)
 export default map

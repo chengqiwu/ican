@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import Rx from 'rxjs/Rx'
 import 'css/index/common/drapDrop.scss'
 import FiledInfo from '../content/FiledInfo'
+import Scrollbar from 'smooth-scrollbar'
+import More from '../content/More'
 
 const validValue = (value, max, min) => {
     return Math.min(Math.max(value, min), max)
@@ -13,6 +15,9 @@ class RxDragDrop extends Component {
         super(props)
     }
     componentDidMount() {
+
+        Scrollbar.init(this.content)
+
         this.mouseDown = Rx.Observable.fromEvent(this.title, 'mousedown')
         this.mouseUp   = Rx.Observable.fromEvent(document, 'mouseup')
         this.mouseMove = Rx.Observable.fromEvent(document, 'mousemove')
@@ -47,8 +52,9 @@ class RxDragDrop extends Component {
             <div ref={drapDrop => this.drapDrop = drapDrop} className="dragDrop">
                 <h3 ref={title => this.title = title} className='dragDrop-title'>{this.props.name}-{this.props.title}</h3>
                 <a href="#" id="dragDrop-closer" className="dragDrop-closer" onClick={this.destory.bind(this)}></a>
-                <div className="dragDrop-content">
+                <div className="dragDrop-content" ref={content => this.content = content}>
                     {this.props.index === 2 && <FiledInfo {...this.props}/>}
+                    {this.props.index === 0 && <More {...this.props} />}
                 </div>
             </div>
         )

@@ -72,6 +72,11 @@
                         label {
                             width: 65px;
                         }
+                       
+                    }
+                    .exact-no-block {
+                        height: 0;
+                        margin: 0;
                     }
                     div {
                         display: flex;

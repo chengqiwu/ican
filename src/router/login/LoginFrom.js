@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PorpTypes from 'prop-types'
 import classnames from 'classnames'
 import 'css/login/login.scss'
+import md5 from 'js-md5'
+import Cookies from 'js-cookie'
 import { Link, Route, Switch } from 'react-router-dom'
 import user from 'images/login/user.png'
 import password from 'images/login/passw.png'
@@ -35,7 +37,7 @@ class LoginFrom extends Component {
             alert('输入用户名')
             return 
         }
-        if (!username) {
+        if (!password) {
             alert('输入密码')
             return 
         }
@@ -49,6 +51,7 @@ class LoginFrom extends Component {
             if(res.data.msg === '200') {
                 console.log(res)
                 history.push({ pathname: '/index', state: res.data.result})
+                Cookies.set('name', md5(username), { path: '', expires: 1 / 24 })
             } else {
                 console.log(res)
                 alert(res.data.result)
@@ -101,7 +104,7 @@ class LoginFrom extends Component {
                     </button>
                 </form>
                 <div className='user-help'>
-                    <Link to='/register' className='user-register'>新用户注册</Link>
+                    <Link to='/register' className='user-register' onClick={e => { e.preventDefault(); alert('精禾云平台暂不对外开放注册。若有意，请致电15910876860或13309201861开通体验帐户；或静心等待，公开注册功能将很快上线。')}}>新用户注册</Link>
                     <a href="#" className='user-forget' onClick={this.forgetPassword}>忘记密码？</a>
                 </div>
 

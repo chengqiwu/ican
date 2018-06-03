@@ -9,14 +9,17 @@ $fontFamily: MicrosoftYaHei;
     font-family: $fontFamily;
     flex-shrink: 0;
 }
-
 html,
 body {
     @include fullHeight;
     #root {
         @include fullHeight;
-        >div {
+        >div,{
             @include fullHeight;
+        }
+        .map {
+            @include fullHeight;
+            min-height: 400px;
         }
     }
 }
