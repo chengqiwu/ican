@@ -117,15 +117,9 @@ class RegisterForm extends Component {
                     .then(data => {
                         if (data.msg === '200') {
                             history.push({
-                                state: { some: 'state' },
-                                pathname: '/validate',
-                                // hash: '#123',
-                                // state: {
-                                //     token: data.result
-                                // }
-                                search: '?the=query',
-                               
-
+                                pathname: '/validate', state: {
+                                    token: data.result
+                                }
                             })
                         }else {
                             alert(data.result)
