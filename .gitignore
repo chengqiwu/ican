@@ -8,6 +8,8 @@
 
 # production
 # /build
+/ican
+*.zip
 
 # misc
 .DS_Store
