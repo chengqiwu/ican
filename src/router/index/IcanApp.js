@@ -29,7 +29,7 @@ class IcanApp extends Component {
         }
     }
     render() {
-        history.location.state && sessionStorage.setItem('state', JSON.stringify(history.location.state))
+        
         return (
             <Provider store={store}>
                 <div>

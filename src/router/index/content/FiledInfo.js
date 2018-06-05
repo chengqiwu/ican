@@ -40,6 +40,7 @@ class FiledInfo extends Component {
 
     }
     componentDidMount() {
+        console.log(this.props.feature)
         this.handelefindSoilList().then(e => this.handleCriosAndVarieties())
             .then(e => {
                 if ('0' === this.state.isNew) {

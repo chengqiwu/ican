@@ -123,7 +123,7 @@ class CreateField extends Component {
                     <form onSubmit={this.submitHandle}>
                         <input required type="text" className='ppfix post email' name='name' ref={input => this.input = input} />
                         <div>
-                            <label>位置：</label><input type="text" style={{ border: 'none' }} disabled ref={position => this.position = position} />
+                            <label>位置：</label><input type="text" style={{ border: 'none', background: 'none' }} disabled ref={position => this.position = position} />
                         </div>
                         <div>面积：{area.acre} 亩 / {area.hectare} 公顷</div>
                         <div style={{display: 'flex', justifyContent: 'space-between'}}>

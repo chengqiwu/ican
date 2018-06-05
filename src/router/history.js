@@ -1,6 +1,8 @@
 import createHistory from 'history/createBrowserHistory'
-
+const supportsHistory = 'pushState' in window.history
+console.log(supportsHistory)
 export default createHistory({
-    forceRefresh: true,
-    basename: '/ican'
+    
+    basename: '/ican',
+    forceRefresh: true
 })

@@ -49,12 +49,16 @@ class ValidateContent extends Component {
         history.push('#' + e.target.type)
     }
     componentDidMount() {
-        console.log(history.location)
+        const token = sessionStorage.getItem('token')
+        console.log(token)
+        if (!token) {
+            history.push('/user_reg')
+        }
         // if (!history.location.state) {
         //     history.push('/user_reg')
         // }
         this.setState({
-            token: history.location.state.token
+            token
         })
         
     }

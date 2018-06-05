@@ -68,9 +68,18 @@ class RegisterForm extends Component {
             alert('输入用户名')
             return
         }
-        if (!username.match(/^[a-zA-Z\u4e00-\u9fa5]([\u4e00-\u9fa5_a-zA-Z0-9]{5,23})$/)) {
+        // [\s\S]*
+        if (!username.match(/^[a-zA-Z\u4e00-\u9fa5][\s\S]*/)){
+            // ([\u4e00-\u9fa5_a-zA-Z0-9]{5,23})$/)) {
             alert('输入用户名格式不正确')
             return
+        } else {
+            let len = username.replace(/[^x00-xff]/g, 'aa').length
+            console.log(len)
+            if (len >24 || len < 6) {
+                alert('输入用户名格式不正确')
+                return
+            }
         }
         if(!password) {
             alert('输入密码')
@@ -116,11 +125,8 @@ class RegisterForm extends Component {
                 }).then(res => res.data)
                     .then(data => {
                         if (data.msg === '200') {
-                            history.push({
-                                pathname: '/validate', state: {
-                                    token: data.result
-                                }
-                            })
+                            history.push('/validate')
+                            sessionStorage.setItem('token', data.result)
                         }else {
                             alert(data.result)
                         }

@@ -50,7 +50,9 @@ class LoginFrom extends Component {
         }).then(res=>{
             if(res.data.msg === '200') {
                 console.log(res)
-                history.push({ pathname: '/index', state: res.data.result})
+                sessionStorage.setItem('state', JSON.stringify(res.data.result))
+                
+                history.push({ pathname: '/index'})
                 Cookies.set('name', md5(username), { path: '', expires: 1 / 24 })
             } else {
                 console.log(res)
