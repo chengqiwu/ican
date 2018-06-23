@@ -15,7 +15,7 @@ class ValidatePage extends Component {
             <div className='register-bg'>
                 <Header />
                 <Route exact path={`${match.path}`} component={ValidateContent}></Route>
-                <Route path='/emailToken' component={EmailToken}></Route>
+                {/* <Route path='/emailToken' component={EmailToken}></Route> */}
                 <Footer />
             </div>
         )
