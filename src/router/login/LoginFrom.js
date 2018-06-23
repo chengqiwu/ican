@@ -137,13 +137,17 @@ class LoginFrom extends Component {
                 
                 history.push({ pathname: '/index'})
                 Cookies.set('name', md5(username), { path: '', expires: 1 / 24 })
+            } else if(res.data.msg ==='211') {
+                console.log(res.data.result)
+                sessionStorage.setItem('token', res.data.result.token)
+                history.push({ pathname: '/validate' })
+
             } else {
-                console.log(res)
                 alert(res.data.result)
-                this.setState({
-                    pending: false
-                })
             }
+            this.setState({
+                pending: false
+            })
            
         }).catch(err => {
             alert('登陆异常，请稍候登陆')
