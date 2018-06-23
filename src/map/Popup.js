@@ -22,7 +22,7 @@ class Popup extends Component {
             const zoom = props.map.getView().getZoom()
             console.log(zoom)
             if (zoom >10) {
-                this.setPosition(props.coord)
+                // this.setPosition(props.coord)
             } else {
                 this.setPosition(undefined)
             }

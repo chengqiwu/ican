@@ -247,10 +247,17 @@ class Polygon extends Component {
 
         })
         if (feature) {
-            this.setState({
-                feature
-            })
-            console.log(this.child, ol.extent.getCenter(feature.getGeometry().getExtent()))
+            if (feature !== this.state.feature) {
+                this.setState({
+                    feature
+                })
+                
+               
+               
+            } 
+            if (!feature.getId()) {
+                return
+            }
             this.child && this.child.setPosition(ol.extent.getCenter(feature.getGeometry().getExtent()))
         } else {
             this.child && this.child.setPosition(undefined)
@@ -261,6 +268,7 @@ class Polygon extends Component {
         if(this.draw) {
             this.draw.setActive(this.props.draw)
         }
+        const {feature} = this.state
         return (
             <div className='polygon'>
                 {
@@ -273,7 +281,14 @@ class Polygon extends Component {
                         sourceClear={this.sourceClear.bind(this)}/>
                 }
                 {/* {this.state.popupText.map(p => <Popup key={p.id} {...p} />)} */}
-                {this.state.popupText && <Popup ref={child => this.child = child} {...this.state.popupText} />}
+                {this.state.popupText && <Popup ref={child => this.child = child}
+                    name={feature.get('name')}
+                    growth_status={'0'}
+                    map={this.props.map.map}
+                    coord={ol.extent.getCenter(feature.getGeometry().getExtent())}
+                    area={getArea(feature).acre + '亩'}
+                    username={getUserInfo().username}
+                />}
             </div>
         )
     }

@@ -127,12 +127,12 @@ class ShowMessage extends React.Component {
                         <div>
                             <div>
                                 <label>前季作物：</label>
-                                <div>{getCropsName(defaultValue.prevCropsId, criosAndVarietiesList)}</div>
+                                <div>{getCropsName(defaultValue.prevCropsId, criosAndVarietiesList) || '-'}</div>
                             </div>
                             <div>
                                 <label>前季品种：</label>
                                 
-                                <div>{getVarietiesName(defaultValue.prevVarietiesId, criosAndVarietiesList)}</div>
+                                <div>{getVarietiesName(defaultValue.prevVarietiesId, criosAndVarietiesList) || '-'}</div>
                             </div>
                         </div>
 
@@ -205,11 +205,11 @@ class ShowMessage extends React.Component {
                         <div>
                             <div>
                                 <label>土壤酸碱度：</label>
-                                <div>{defaultValue.soilPh}</div>
+                                <div>{defaultValue.soilPh || '-'}</div>
                             </div>
                             <div>
                                 <label>土壤有机质范围：</label>
-                                <div>{defaultValue.organicMatter}</div>
+                                <div>{defaultValue.organicMatter || '-'}</div>
                             </div>
                         </div>
                     </div>

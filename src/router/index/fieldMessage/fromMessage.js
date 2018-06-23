@@ -59,7 +59,7 @@ class FromMessage extends Component {
                 const year = new Date().getFullYear()
                 const season = ['2016-春', '2017-春']
                 for( let y = 2018; y <= year; y ++) {
-                    season.push(...['春', '秋', '夏'].map(e => `${year}-${e}`))
+                    season.push(...['春', '夏', '秋'].map(e => `${year}-${e}`))
                 }
                 this.setState({
                     season
