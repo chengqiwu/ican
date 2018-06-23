@@ -51,6 +51,17 @@ class CreateField extends Component {
     componentDidUpdate() {
         this.load()
         
+
+        var geoc = new BMap.Geocoder()
+        if (this.props.coord) {
+            var pt = ol.proj.transform(this.props.coord, 'EPSG:3857', 'EPSG:4326')
+            console.log(pt)
+            geoc.getLocation(new BMap.Point(...pt), (rs) => {
+                const { province = '', city = '', distract = '' } = rs.addressComponents
+                this.position.value = `${province} ${city} ${distract}`
+            })
+        }
+       
     }
     componentWillUnmount() {
         this.overlay = null
@@ -92,7 +103,7 @@ class CreateField extends Component {
             console.log(data)
             if (data.msg === '200') {
                 this.props.setFeature({
-                
+                    address: this.position.value,
                     name: this.input.value,
                     id: data.result,
                     growthStatus: 0

@@ -11,37 +11,11 @@ $bg: url('../../images/common/bg2.jpg');
     background-image: $bg;
 }
 
-.register-content {
-    min-width: 500px;
-    max-width: 1000px;
-    @include custom-width-height(52%,
-    600px);
-    background-color: #efefef;
-    border-radius: $border-radius;
-}
 
-.center {
-    @extend .flex-center
-}
 
-.topbar {
-    background-color: #000000;
-    border-radius: $border-radius $border-radius 0 0;
-    height: 12px;
-    @include custom-width-height(undefined,
-    12px)
-}
-
-.register-title {
-    font-size: 34px;
-    color: #000000;
-    margin: 38px 0;
-    text-align: center;
-}
 .error {
     color: #ff0000;
 }
-.register-from {}
 
 .from-items {
     @extend .flex;

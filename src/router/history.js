@@ -3,6 +3,6 @@ const supportsHistory = 'pushState' in window.history
 console.log(supportsHistory)
 export default createHistory({
     
-    basename: '/ican',
+    basename: '/',
     forceRefresh: true
 })

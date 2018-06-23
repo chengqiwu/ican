@@ -2,7 +2,7 @@ import React from 'react'
 import 'css/index/common/baner.scss'
 const Baner = (props) => {
     return <div className='baner'>
-        <span>©2018 北京精禾大数据科技有限公司</span>
+        <span>©2018 北京精禾大数据科技有限公司  中关村海淀留创园 info@jinghebigdate.com 电话：15910876860</span>
         <a href="./terms.htm" target='_blank'>使用条款</a>
     </div>
 }

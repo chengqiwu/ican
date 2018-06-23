@@ -8,6 +8,7 @@ import ResetPass from 'bundle-loader?lazy&name=reset!router/reset/ResetPass'
 import RegisterPage from 'bundle-loader?lazy&name=register!router/register/RegisterPage'
 import ValidatePage from 'bundle-loader?lazy&name=success!router/validate/ValidatePage'
 import IcanApp from 'bundle-loader?lazy&name=ican!router/index/IcanApp'
+import EmailToken from 'bundle-loader?lazy&name=success!router/validate/EmailToken'
 
 class Ican extends Component {
     render() {
@@ -20,6 +21,7 @@ class Ican extends Component {
                     <Route path='/reset' component={createComponent(ResetPass)}></Route>
                     <Route path='/user_reg' component={createComponent(RegisterPage)}></Route>
                     <Route path='/validate' component={createComponent(ValidatePage)}></Route>
+                    <Route path='/emailToken' component={createComponent(EmailToken)}></Route>
                     <Route path='/index' component={createComponent(IcanApp)}></Route>
                 </Switch>
             </Router>

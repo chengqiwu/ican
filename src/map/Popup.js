@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
 import ol from 'openlayers'
 import 'css/map/popupContent.scss'
-const status = ['闲', '优', '良', '差']
+import poor from 'images/index/status/poor.png'
+import excellent from 'images/index/status/excellent.png'
+import notBusy from 'images/index/status/notBusy.png'
+import center from 'images/index/status/center.png'
+// ['闲', '优', '良', '差']
+const status = [notBusy, excellent, center, poor]
 class Popup extends Component {
     componentDidMount() {
         const props = this.props
@@ -11,17 +16,20 @@ class Popup extends Component {
             stopEvent: false
         })
         props.map.addOverlay(this.textOverlay)
-        this.textOverlay.setPosition(props.coord)
+        // this.textOverlay.setPosition(props.coord)
 
         props.map.getView().on('change:resolution', (e) => {
             const zoom = props.map.getView().getZoom()
             console.log(zoom)
             if (zoom >10) {
-                this.textOverlay.setPosition(props.coord)
+                this.setPosition(props.coord)
             } else {
-                this.textOverlay.setPosition(undefined)
+                this.setPosition(undefined)
             }
         })
+    }
+    setPosition = (pos) => {
+        this.textOverlay.setPosition(pos)
     }
     render() {
         const props = this.props
@@ -30,15 +38,15 @@ class Popup extends Component {
                 <table>
                     <tbody>
                         <tr>
-                            <td><label className='status'>{status[Number.parseInt(props.growth_status)]}</label></td>
+                            <td rowSpan='2'>
+                                <img style={{marginRight: '5px'}} src={ status[Number.parseInt(props.growth_status)] } alt=""/>
+                               
+                            </td>
                             <td><h3>{props.name}</h3></td>
                         </tr>
                         <tr>
-                            <td></td>
                             <td>
-                                <span className='username'>{props.username}</span>
-                                <span> || </span>
-                                <span className='area' >{props.area}</span>
+                                {props.username} || {props.area}
                             </td>
                         </tr>
                     </tbody>

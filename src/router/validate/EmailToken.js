@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 // import ValidateFrom from './ValidateFrom'
+import Header from '../common/Header'
+import Footer from '../common/Footer'
+import 'css/register/emailToken.scss'
 import classNames from 'classnames'
 import queryString from 'query-string'
 import success from 'images/register/success.png'
@@ -15,6 +18,7 @@ class EmailToken extends Component {
         }
     }
     componentDidMount() {
+        console.log(123)
         const { location } = this.props
         const parsed = this.parsedLocation(location)
 
@@ -40,23 +44,27 @@ class EmailToken extends Component {
     }
     render() {
         return (
-            <div className='center'>
-                <div className='register-content'>
-                    <div className='topbar'></div>
-                    <h2 className='register-title'>注册精禾云平台账号</h2>
-                    <div className='register-success-form center'>
-                        <div>
-                            <div className='success-tip'>
-                                <img src={success} />
-                                <span>恭喜你,邮箱验证成功</span>
-                            </div>
-                            <div className='success-token'>
-                                <button onClick={this.callback}>跳转登录页面</button>
-                                自动跳转倒计时{this.state.count}
+            <div className='register-bg'>
+                <Header/>
+                <div className='center'>
+                    <div className='register-content'>
+                        <div className='topbar'></div>
+                        <h2 className='register-title'>注册精禾云平台账号</h2>
+                        <div className='register-success-form center'>
+                            <div>
+                                <div className='success-tip'>
+                                    <img src={success} />
+                                    <span>恭喜你,邮箱验证成功</span>
+                                </div>
+                                <div className='success-token'>
+                                    <button onClick={this.callback}>跳转登录页面</button>
+                                    自动跳转倒计时{this.state.count}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <Footer/>
             </div>
         )
     }

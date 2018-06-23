@@ -33,6 +33,7 @@
     "ifvisible.js": "^1.0.6",
     "immutable": "^3.8.2",
     "isomorphic-fetch": "^2.2.1",
+    "javascript-blowfish": "^1.0.4",
     "jest": "20.0.4",
     "js-cookie": "^2.2.0",
     "js-cookies": "^1.0.4",

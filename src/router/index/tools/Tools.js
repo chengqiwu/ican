@@ -38,7 +38,7 @@ function flyTo(view, location, done) {
         zoom: zoom - 1,
         duration: duration / 2
     }, {
-        zoom: 10,
+        zoom: 15,
         duration: duration / 2
     }, callback)
 }
@@ -232,7 +232,7 @@ class Tools extends Component {
                     hiden: !this.state.tools,
                 })}>
                     <form className='search' onSubmit={this.serach}>
-                        <input type="text" className='ppfix post'  
+                        <input type="text" className='ppfix post' name='serachInput'
                             ref={serachInput => this.serachInput = serachInput} placeholder='请输入坐标(以逗号隔开)或地名'/>
                         <button style={{border: 'none'}}>
                             <img src={search} alt="" className='btnHover'/>

@@ -79,9 +79,11 @@ class ValidateContent extends Component {
                 userVerify({token}).then(res => res.data)
                     .then(data => {
                         if(data.msg === '200') {
-                            this.setState({
-                                phoneSuccess: true
-                            })  
+                            // this.setState({
+                            //     phoneSuccess: true
+                            // })  
+                            alert('太好了，您已经完成注册，请用您刚才创建的账号登录本平台，\r\n感受精禾为您提供的科学精准服务吧。')
+                            history.push('/')
                         }
                     })
             } else {
@@ -102,9 +104,9 @@ class ValidateContent extends Component {
                 })
                 return
             }
-            this.setState({
-                emailSuccess: true
-            })  
+            // this.setState({
+            //     emailSuccess: true
+            // })  
             const { state } = history.location
             registerVerify({
                 token: this.state.token,
@@ -112,12 +114,13 @@ class ValidateContent extends Component {
                 verify: this.state.type === 'phone' ? this.state.phone : this.state.email
             }).then(res => {
                 if (res.data.msg === '200') {
-                    const { data: { result: { code } } } = res
-                    this.setState({
-                        code
-                    })
+                    // const { data: { result: { code } } } = res
+                    // this.setState({
+                    //     code
+                    // })
+                    alert('一封激活邮件已经发送到你的邮箱，\r\n请接收并按照邮件内提示完成激活操作。')
+                    history.push('/')
                 }
-
             })
         }
     }
@@ -221,11 +224,11 @@ class ValidateContent extends Component {
                         <div>
                             <div className='success-tip'>
                                 <img src={success} />
-                                <span>恭喜你,注册成功</span>
+                                <span>就差一步了！</span>
                             </div>
                             <div className='success-token'>
                                 <div>
-                                    欢迎加入精禾云平台，你必须完成验证才能使用完整功能。
+                                    你必须完成验证才能使用完整功能。
                                 </div>
                                 <div>
                                     可以从下面两种验证方式选择一种。

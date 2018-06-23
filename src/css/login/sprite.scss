@@ -1,0 +1,16 @@
+.sprite {
+    position: absolute;
+    left: 30%;
+    bottom: 10%;
+    cursor: pointer;
+    .line {
+        position: absolute;
+        left: -270px;
+        bottom: -30%;
+    }
+    .head {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+}

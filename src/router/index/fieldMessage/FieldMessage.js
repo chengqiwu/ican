@@ -5,7 +5,7 @@ import classnams from 'classnames'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 
-
+import { getArea } from 'utils/tools'
 import FromMessage from './fromMessage'
 import ShowMessage from './showMessage'
 
@@ -13,13 +13,7 @@ import { findReasonById, saveSeasonInfo } from 'utils/Api'
 
 import { setFieldMessage, showFieldMessage, startFieldMessage } from '_redux/actions/fieldMessage'
 
-const getArea = (feature) => {
-    var measurement = feature.getGeometry().getArea() / 1000
-    return {
-        acre: (measurement / 100).toFixed(2),
-        hectare: (measurement / 10000).toFixed(2)
-    }
-}
+
 import 'css/index/common/filedMessage.scss'
 
 class FiledMessage extends Component {

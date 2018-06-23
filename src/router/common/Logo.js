@@ -9,8 +9,8 @@ const Logo = () => {
                 <img src={logo} alt="精禾大数据" />
 
             </div>
-            <img src={su} className='logo-separate' />
-            <img src={title} style={{height: '40px', marginLeft: '0px'}} className='logo-separate' />
+            {/* <img src={su} className='logo-separate' />
+            <img src={title} style={{height: '40px', marginLeft: '0px'}} className='logo-separate' /> */}
             {/* <span>精禾云平台</span> */}
         </div>
     )

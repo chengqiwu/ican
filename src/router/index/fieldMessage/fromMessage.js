@@ -57,7 +57,10 @@ class FromMessage extends Component {
             .then(() => this.handelefindSoilList())
             .then(() => {
                 const year = new Date().getFullYear()
-                const season = ['春', '秋', '夏'].map(e => `${year}-${e}`)
+                const season = ['2016-春', '2017-春']
+                for( let y = 2018; y <= year; y ++) {
+                    season.push(...['春', '秋', '夏'].map(e => `${year}-${e}`))
+                }
                 this.setState({
                     season
                 })
@@ -231,7 +234,7 @@ class FromMessage extends Component {
         this.state.hasSample != 1 &&!!this.soilPh.value && (submitData['soilPh'] = this.soilPh.value)
         this.state.hasSample != 1 &&!!this.organicMatter.value && (submitData['organicMatter'] = this.organicMatter.value)
         const commonDisease = this.state.commonDisease
-        if (!!commonDisease) {
+        if (!!commonDisease && commonDisease.length !== 0) {
             let disease = '' + commonDisease[0].value
             for (let i = 1; i < commonDisease.length; i++) {
                 disease += (',' + commonDisease[i].value)
@@ -241,7 +244,7 @@ class FromMessage extends Component {
         }
         const commonPests = this.state.commonPests
         console.log(commonPests)
-        if (!!commonPests) {
+        if (!!commonPests && commonPests.length !== 0) {
             let pest = '' + commonPests[0].value
             for (let i = 1; i < commonPests.length; i++) {
                 pest += (',' + commonPests[i].value)

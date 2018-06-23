@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Header from '../common/Header'
 import ValidateContent from './ValidateContent'
-import EmailToken from './EmailToken'
+
 import { Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
@@ -15,7 +15,7 @@ class ValidatePage extends Component {
             <div className='register-bg'>
                 <Header />
                 <Route exact path={`${match.path}`} component={ValidateContent}></Route>
-                <Route path={`${match.path}/emailToken`} component={EmailToken}></Route>
+                <Route path='/emailToken' component={EmailToken}></Route>
                 <Footer />
             </div>
         )

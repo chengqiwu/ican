@@ -4336,6 +4336,10 @@ istanbul-reports@^1.1.3:
   dependencies:
     handlebars "^4.0.3"
 
+javascript-blowfish@^1.0.4:
+  version "1.0.4"
+  resolved "http://registry.npm.taobao.org/javascript-blowfish/download/javascript-blowfish-1.0.4.tgz#b3d2759b27aa19b8fb04dabd084b5d123bdb0cac"
+
 jest-changed-files@^20.0.3:
   version "20.0.3"
   resolved "http://registry.npm.taobao.org/jest-changed-files/download/jest-changed-files-20.0.3.tgz#9394d5cc65c438406149bef1bf4d52b68e03e3f8"

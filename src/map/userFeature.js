@@ -3,19 +3,20 @@ import ol from 'openlayers'
 import axios from 'axios'
 import PropTypes from 'prop-types'
 import Popup from './Popup'
+import { getArea } from 'utils/tools'
 import { geoserverUrl } from '../url'
 import { getUserInfo } from 'utils/Api.js'
 class UserFeature extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            features: []
+            feature: undefined
         }
     }
     componentDidMount() {
         const map = this.props.map
         const vectorSource = new ol.source.Vector()
-        const vector = new ol.layer.Vector({
+        this.vector = new ol.layer.Vector({
             source: vectorSource,
             style: new ol.style.Style({
                 fill: new ol.style.Fill({
@@ -64,33 +65,47 @@ class UserFeature extends Component {
             }
             var features = new ol.format.GeoJSON().readFeatures(data, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' })
             
-            this.setState({
-                features
-            })
             
             vectorSource.addFeatures(features)       
             map.getView().fit(vectorSource.getExtent())
         })
-        console.log(222)
-        map.addLayer(vector)
+        map.addLayer(this.vector)
+
+        map.on('pointermove', (evt) => {
+            if (evt.dragging) {
+
+                return
+            }
+            this.displayFeatureInfo(map.getEventPixel(evt.originalEvent))
+        })
     }
-    getArea(feature) {
-        var measurement = feature.getGeometry().getArea() / 1000
-        return {
-            acre: (measurement / 100).toFixed(2),
-            hectare: (measurement / 10000).toFixed(2)
+    
+    displayFeatureInfo = (pixel) => {
+        const map = this.props.map
+        var feature = map.forEachFeatureAtPixel(pixel, (feature, layer) => {
+            if (layer === this.vector) {
+                return feature
+            }
+           
+        })
+        if (feature) {
+            this.setState({
+                feature
+            })
+            this.child.setPosition(ol.extent.getCenter(feature.getGeometry().getExtent()))
+        } else {
+            this.child && this.child.setPosition(undefined)
         }
+      
     }
     render() {
+        const {feature} = this.state
         return <div>
-            {
-                this.state.features.map(feature =>
-                    <Popup key={feature.getId()} {...feature.getProperties()} 
-                        {...this.props} 
-                        coord={ol.extent.getCenter(feature.getGeometry().getExtent())}
-                        area={this.getArea(feature).acre + '亩'}
-                        username={getUserInfo().username}/>)
-            }
+            {feature && <Popup {...feature.getProperties()} ref={child => this.child = child}
+                {...this.props}
+                coord={ol.extent.getCenter(feature.getGeometry().getExtent())}
+                area={getArea(feature).acre + '亩'}
+                username={getUserInfo().username} />}
         </div>
     }
 }

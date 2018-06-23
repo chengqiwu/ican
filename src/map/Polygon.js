@@ -5,7 +5,7 @@ import ol from 'openlayers'
 import { connect } from 'react-redux'
 import { saveFeature, setFeature } from '_redux/actions/feature'
 import { setFieldMessage, showFieldMessage, startFieldMessage } from '_redux/actions/fieldMessage'
-
+import { getArea } from 'utils/tools'
 import 'css/map/polygon.scss'
 import CreateField from './CreateField'
 import Rx from 'rxjs/Rx'
@@ -30,7 +30,7 @@ class Polygon extends Component {
             coord: [],
             area: null,    // 选中feature的面积
             feature: null,
-            popupText: []
+            popupText: undefined
         }
     }
     componentDidMount() {
@@ -45,6 +45,15 @@ class Polygon extends Component {
                     this.draw.setActive(false)
                 }
             })
+
+        const {map} = this.props.map
+        map.on('pointermove', (evt) => {
+            if (evt.dragging) {
+
+                return
+            }
+            this.displayFeatureInfo(map.getEventPixel(evt.originalEvent))
+        })
     }
     componentDidUpdate(prevProps, prveState) {
         prevProps.draw && this.draw.setActive(true)
@@ -108,7 +117,7 @@ class Polygon extends Component {
             var feature = evt.feature
 
             new Promise((resolve, reject) => {
-                if (Number.parseFloat(this.getArea(feature)) > 2000) {
+                if (Number.parseFloat(getArea(feature)) > 2000) {
                     alert('您圈选的田地面积不符合实际情况，请重新圈选')
                     resolve('')
                 } else {
@@ -135,7 +144,7 @@ class Polygon extends Component {
             var feature = evt.features.a[0]
             this.props.saveFeature(feature)
             this.setState({
-                area: this.getArea(feature),
+                area: getArea(feature),
                 feature,
                 // coord: ol.extent.getCenter(feature.getGeometry().getExtent()),
             })
@@ -162,7 +171,7 @@ class Polygon extends Component {
                     feature,
                     initial: true,
                     coord: ol.extent.getCenter(feature.getGeometry().getExtent()),
-                    area: this.getArea(feature)
+                    area: getArea(feature)
                 })
             }
         }
@@ -178,17 +187,16 @@ class Polygon extends Component {
         this.state.feature.set('address', address)
         const { area, popupText } = this.state
         
-        popupText.push({
-            id,
-            name,
-            growth_status: '0',
-            username: getUserInfo().username,
-            area: `${area.acre}亩`,
-            coord: getCenterOfExtent(extent),
-            map: this.props.map.map
-        })
         this.setState({
-            popupText
+            popupText: {
+                id,
+                name,
+                growth_status: '0',
+                username: getUserInfo().username,
+                area: `${area.acre}亩`,
+                coord: getCenterOfExtent(extent),
+                map: this.props.map.map
+            }
         })
         Array.from(document.getElementsByClassName('test')).forEach((e) => {
             Array.from(e.children).forEach(e => {
@@ -203,15 +211,6 @@ class Polygon extends Component {
         this.draw && this.draw.setActive(false)
     }
 
-   
-    getArea(polygonFeature) {
-        var measurement = polygonFeature.getGeometry().getArea() / 1000
-        // var measurementFormatted = measurement > 100 ? (measurement / 1000).toFixed(2) + 'km' : measurement.toFixed(2) + 'm'
-        return {
-            acre: (measurement / 100).toFixed(2),
-            hectare: (measurement / 10000 ).toFixed(2)
-        }
-    }
     setInitial() {
         this.setState({
             coord: undefined,
@@ -239,6 +238,25 @@ class Polygon extends Component {
         this.props.removeDraw()
         this.polygonModify.setActive(false)
     }
+    displayFeatureInfo = (pixel) => {
+        const { map } = this.props.map
+        var feature = map.forEachFeatureAtPixel(pixel, (feature, layer) => {
+            if (layer === this.polyonLayer) {
+                return feature
+            }
+
+        })
+        if (feature) {
+            this.setState({
+                feature
+            })
+            console.log(this.child, ol.extent.getCenter(feature.getGeometry().getExtent()))
+            this.child && this.child.setPosition(ol.extent.getCenter(feature.getGeometry().getExtent()))
+        } else {
+            this.child && this.child.setPosition(undefined)
+        }
+
+    }
     render() {
         if(this.draw) {
             this.draw.setActive(this.props.draw)
@@ -254,8 +272,8 @@ class Polygon extends Component {
                         feature={this.state.feature}
                         sourceClear={this.sourceClear.bind(this)}/>
                 }
-                {this.state.popupText.map(p => <Popup key={p.id} {...p} />)}
-                
+                {/* {this.state.popupText.map(p => <Popup key={p.id} {...p} />)} */}
+                {this.state.popupText && <Popup ref={child => this.child = child} {...this.state.popupText} />}
             </div>
         )
     }

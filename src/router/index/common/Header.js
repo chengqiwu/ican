@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import logo from 'images/common/logo_.png'
-import title from 'images/common/title.png'
+import title from 'images/common/logo4.png'
 import 'css/index/common/header.scss'
 const Header = (props) => {
     return (
