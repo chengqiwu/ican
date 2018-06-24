@@ -98,7 +98,7 @@ class LoginFrom extends Component {
     }
     changeRemeber = () => {
         if (!this.state.remember) { // !false
-            localStorage.removeItem(this.state.username)
+            localStorage.removeItem('userInfoItem')
         }
         this.setState({
             remember: !this.state.remember
@@ -139,8 +139,12 @@ class LoginFrom extends Component {
                 Cookies.set('name', md5(username), { path: '', expires: 1 / 24 })
             } else if(res.data.msg ==='211') {
                 console.log(res.data.result)
-                sessionStorage.setItem('token', res.data.result.token)
-                history.push({ pathname: '/validate' })
+                const flag = confirm('您还没有通过验证，请点击确认按钮完成验证操作。')
+                if (flag) {
+                    sessionStorage.setItem('token', res.data.result.token)
+                    history.push({ pathname: '/validate' })
+                }
+                
 
             } else {
                 alert(res.data.result)

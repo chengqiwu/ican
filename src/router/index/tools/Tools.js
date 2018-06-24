@@ -147,7 +147,7 @@ class Tools extends Component {
                     flyTo(view, ol.proj.transform([pos.lng, pos.lat], 'EPSG:4326', 'EPSG:3857'), function () { })
 
                 } else {
-                    // alert()
+                    alert('搜索失败，请重新输入')
                 }
             })
         } else {
@@ -231,7 +231,7 @@ class Tools extends Component {
                     tools: true,
                     hiden: !this.state.tools,
                 })}>
-                    <form className='search' onSubmit={this.serach}>
+                    <form className='search' onSubmit={this.serach} autoComplete='on'>
                         <input type="text" className='ppfix post' name='serachInput'
                             ref={serachInput => this.serachInput = serachInput} placeholder='请输入坐标(以逗号隔开)或地名'/>
                         <button style={{border: 'none'}}>
