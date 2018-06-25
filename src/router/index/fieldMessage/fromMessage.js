@@ -290,9 +290,10 @@ class FromMessage extends Component {
         
         saveSeasonInfo(fd).then(e => e.data).then(data => {
             if (data.msg === '200') {
+                feature.set('status', '0')
                 this.props.setFieldMessage(submitData)
                 this.props.showFieldMessage(true)
-                feature.set('status', '0')
+                
             }
         })
     }
