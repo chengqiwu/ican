@@ -23,7 +23,8 @@ class ForgetForm extends Component {
         forgetPass(image).then(res => res.data)
             .then(data => {
                 if (data.msg === '200') {
-                    history.push('/reset',{username: this.state.username})
+                    history.push('/reset')
+                    sessionStorage.setItem('username', username)
                 } else {
                     alert(data.result)
                 }

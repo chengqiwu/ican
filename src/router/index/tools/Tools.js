@@ -5,11 +5,11 @@ import { connect } from 'react-redux'
 import tools from 'images/common/tools.png'
 import 'css/index/common/tools.scss'
 import ol from 'openlayers'
-
+import AutoComplete from './AutoComplete'
 import zoomin from 'images/tools/zoomins.png'
 import zoomout from 'images/tools/zoomouts.png'
 import position from 'images/tools/position.png'
-import search from 'images/tools/search.png'
+
 import play from 'images/tools/play.png'
 import arrow from 'images/tools/arrow.png'
 
@@ -57,7 +57,6 @@ class Tools extends Component {
         this.zoomOut = this.zoomOut.bind(this)
         this.zoomIn = this.zoomIn.bind(this)
         this.getPosition = this.getPosition.bind(this)
-        this.serach = this.serach.bind(this)
     }
     componentDidMount() {
         lyrs.forEach(lyr => {
@@ -131,98 +130,8 @@ class Tools extends Component {
             }
         }, { enableHighAccuracy: true })
     }
-    serach(e) {
-        e.preventDefault()
-        const {map} = this.props.map
-        const view = map.getView()
-        const value = this.serachInput.value
-        // ol.proj.fromLonLat([-0.12755, 51.507222])
-        if (value.match(/[\u4E00-\u9FA5]+/g)) {
-            console.log(value)
-            var myGeo = new BMap.Geocoder()
-            // 将地址解析结果显示在地图上,并调整地图视野
-            myGeo.getPoint(value, function (pos) {
-                if (pos) {
-                    console.log([pos.lng, pos.lat])
-                    flyTo(view, ol.proj.transform([pos.lng, pos.lat], 'EPSG:4326', 'EPSG:3857'), function () { })
 
-                } else {
-                    alert('搜索失败，请重新输入')
-                }
-            })
-        } else {
-            const pos = this.parseLonLat(value)
-            if (pos.length === 0) {
-                alert('输入经纬度不正确，请重新输入经纬度或输入地名')
-            } else {
-                flyTo(view, ol.proj.transform(pos, 'EPSG:4326', 'EPSG:3857'), function () { })
-            } 
-        }
-        
-       
-
-    }
-    parseLonLat(value) {
-        var reg_lngLat = /^[\-\+]?(((\d|([1-9]\d)|(1[0-7]\d))(\.\d*)?)|(180))[, ，]\s*[\-\+]?(((\d|([1-8]\d))(\.\d*)?)|(90))$/
-        var reg_latLng = /^[\-\+]?(((\d|([1-8]\d))(\.\d*)?)|(90))[, ，]\s*[\-\+]?(((\d|([1-9]\d)|(1[0-7]\d))(\.\d*)?)|(180))$/
-
-        if (value.match(reg_lngLat)) {
-            value = value.replace(/\s+/g, ' ')
-            let result = value.split(' ')
-            console.log(result)
-            if (result.length === 2) {
-                return ([
-                    Number.parseFloat(result[0]),
-                    Number.parseFloat(result[1])
-                ])
-            } else {
-                result = value.split(',')
-                if (result.length == 2) {
-                    return ([
-                        Number.parseFloat(result[0]),
-                        Number.parseFloat(result[1])
-                    ])
-                } else {
-                    result = value.split('，')
-                    if (result.length == 2) {
-                        return ([
-                            Number.parseFloat(result[0]),
-                            Number.parseFloat(result[1])
-                        ])
-                    }
-                }
-            }
-
-        }
-        if (value.match(reg_latLng)) {
-            value = value.replace(/\s+/g, ' ')
-            let result = value.split(' ')
-            if (result.length === 2) {
-                return ([
-                    Number.parseFloat(result[1]),
-                    Number.parseFloat(result[0])
-                ])
-            } else {
-                result = value.split(',')
-                if (result.length == 2) {
-                    return ([
-                        Number.parseFloat(result[1]),
-                        Number.parseFloat(result[0])
-                    ])
-                } else {
-                    result = value.split('，')
-                    if (result.length == 2) {
-                        return ([
-                            Number.parseFloat(result[0]),
-                            Number.parseFloat(result[1])
-                        ])
-                    }
-                }
-            }
-
-        }
-        return []
-    }
+    
     render() {
         return (
             <div className='showTools'>
@@ -231,14 +140,7 @@ class Tools extends Component {
                     tools: true,
                     hiden: !this.state.tools,
                 })}>
-                    <form className='search' onSubmit={this.serach} autoComplete='on'>
-                        <input type="text" className='ppfix post' name='serachInput'
-                            ref={serachInput => this.serachInput = serachInput} placeholder='请输入坐标(以逗号隔开)或地名'/>
-                        <button style={{border: 'none'}}>
-                            <img src={search} alt="" className='btnHover'/>
-                        </button>
-                        
-                    </form>
+                    <AutoComplete {...this.props} flyTo={flyTo}/>
                     <div className='tools-map'>
                         <div onClick={this.zoomOut} className='btnHover'>
                             <img src={zoomout} alt=""/>

@@ -20,12 +20,13 @@ class ResetForm extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
     }
     componentDidMount() {
-        console.log(history.location)
-        if (!history.location.state) {
+        // console.log(history.location)
+        
+        let username = sessionStorage.getItem('username')
+        if (!username) {
             history.push('/')
             return
         }
-        let { username } = history.location.state
         this.username.value = username
     }
     handleSubmit(e) {
@@ -81,7 +82,7 @@ class ResetForm extends Component {
                             <label>验证码</label>
                             <div className='center'>
                                 <input type="text" name='code' value={this.state.code} onChange={this.inputChange} 
-                                    required style={{ marginRight: '10px', padding: 'padding: 11px 20px'}}/>
+                                    required style={{ marginRight: '10px', padding: '11px 20px'}}/>
                                 <span className={classNames({
                                     'reset-prompt': true,
                                 })}>请输入上一步操作收到的验证码</span>

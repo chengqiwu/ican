@@ -9,6 +9,9 @@ $fontFamily: MicrosoftYaHei;
     font-family: $fontFamily;
     flex-shrink: 0;
 }
+input {
+    box-shadow: none;
+}
 html,
 body {
     @include fullHeight;

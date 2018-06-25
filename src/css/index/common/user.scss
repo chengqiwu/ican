@@ -2,7 +2,7 @@
 .user {
     position: absolute;
     z-index: 1;
-    top: 20px;
+    bottom: 20px;
     right: 32px;
     .feature {
         position: relative;
@@ -24,29 +24,29 @@
             position: absolute;
             background-color: #f2f2f2;
             right: -12px;
-            top: 73px;
+            bottom: 73px;
             border-radius: 10px;     
             box-shadow: 2px 3px 5px #333333;
             &::after {
                 content: '';
                 border: solid transparent;
                 position: absolute;
-                top: -32px;
+                bottom: -32px;
                 right: 24px;
                 width: 0;
                 height: 0;
-                border-bottom-color: #f2f2f2;
+                border-top-color: #f2f2f2;
                 border-width: 16px;
             }
             &::before {
                 content: '';
                 border: solid transparent;
                 position: absolute;
-                top: -30px;
+                bottom: -30px;
                 right: 24px;
                 width: 0;
                 height: 0;
-                border-bottom-color: white;
+                border-top-color: white;
                 border-width: 15px;
             }
             ul {                
