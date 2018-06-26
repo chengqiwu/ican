@@ -1,6 +1,13 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
 import Polygon from 'map/Polygon'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import Content from './setting/Content'
+import {
+    SHOWDRAGDROP, HIDENDRAGDROP,
+    showDragDrop, hidenDragDrop
+} from '_redux/actions/dragDrop.js'
 
 import user from 'images/common/user.png'
 import 'css/index/common/user.scss'
@@ -19,7 +26,8 @@ class User extends Component {
             hiden: true,
             draw: false,
             messCount: 0,
-            clear: false
+            clear: false,
+            setting: false
         }
         this.showFeature = this.showFeature.bind(this)
         this.addField = this.addField.bind(this)
@@ -62,11 +70,12 @@ class User extends Component {
     onRef (ref) {
         this.child = ref
     }
-    // setClearFalse() {
-    //     this.setState({
-    //         clear: false
-    //     })
-    // }
+    showSetting = () => {
+        this.props.showDragDrop({
+            title: '设置',
+            node: Content
+        })
+    }
     render() {
         return(
             <div className='user'>
@@ -87,7 +96,7 @@ class User extends Component {
                             </li>
                             <li>
                                 <img src={setting} alt=""/>
-                                <label>设&emsp;&emsp;置</label>
+                                <label onClick={this.showSetting}>设&emsp;&emsp;置</label>
                             </li>
 
                             <li>
@@ -112,5 +121,21 @@ class User extends Component {
         )
     }
 }
+User.propTypes = {
+    showDragDrop: PropTypes.func
+}
+const mapStateToProps = (state) => {
+    return {
+        // message: state.message,
+        // fieldMessage: state.fieldMessage
+    }
+}
+const mapDispathToProps = (dispatch) => {
+    return {
+        showDragDrop: function(action) {
+            dispatch(showDragDrop(action))
+        },
 
-export default User
+    }
+}
+export default connect(mapStateToProps, mapDispathToProps)(User)

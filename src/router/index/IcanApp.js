@@ -18,6 +18,7 @@ import Openlayer from 'map/Openlayer'
 import FieldMessage from './fieldMessage/FieldMessage'
 import User from './user/User'
 import Tools from './tools/Tools'
+import RxDragDrop from './RxDragDrop'
 
 import history from '../history'
 const store = createStore(reducers)
@@ -37,7 +38,7 @@ class IcanApp extends Component {
                     <User />
                     <Tools />
                     <Openlayer />
-
+                    <RxDragDrop/>
                     <Baner />
                     <FieldMessage />
                 </div>

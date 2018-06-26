@@ -85,6 +85,15 @@ export function getUserInfo() {
     const { username, role, icon, phone, email, id } = JSON.parse(sessionStorage.getItem('state'))
     return { username, role, icon, phone, email, id }    
 }
+export function getUserName() {
+    return getUserInfo().username
+}
+export function getUserEmail() {
+    return getUserInfo().email
+}
+export function getUserPhone() {
+    return getUserInfo().phone
+}
 export function farmLandSave(data) {
     data = {
         ...data,
@@ -108,13 +117,6 @@ export function farmLandModify(data) {
     })
 }
 
-export function updateUserInfo(data) {
-    let config = {
-        headers: { 'Content-Type': 'multipart/form-data' }
-    }
-    console.log('data', data)
-    return axios.post(url + '/api/user/updateUserInfo?token='+getToken(), data, config)
-}
 
 export function findFarmers() {
 
@@ -166,7 +168,9 @@ export function updateContactSuccess(data) {
 
     return axios.post(url + '/api/user/updateContactSuccess?token=' + getToken(), data)
 }
-
+export function updateContactEmailSuccess(data, token) {
+    return axios.post(`${url}/api/user/updateContactSuccess?token=${token}`, data)
+}
 export function findCriosAndVarietiesList() {
     return axios.get(url + '/api/crops/findCriosAndVarietiesList')
 }
@@ -196,4 +200,18 @@ export function saveSeasonInfo(landInfo) {
     }
     return axios.post(url + '/api/quarterCrops/saveInfo?token='+getToken(), 
         landInfo, config)
+}
+
+export function updateIcon (ican) {
+    let config = {
+        headers: { 'Content-Type': 'multipart/form-data' }
+    }
+    return axios.post(url + '/api/user/updateIcon?token=' + getToken(), ican, config)
+} 
+
+export function updatePassword(password) {
+    return axios.post(url + '/api/user/updatePassword?token=' + getToken(), password)
+}
+export function updateUserInfo(userInfo) {
+    return axios.post(url + '/api/user/updateUserInfo?token=' + getToken(), userInfo)
 }

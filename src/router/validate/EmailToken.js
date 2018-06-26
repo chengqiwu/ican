@@ -8,7 +8,7 @@ import queryString from 'query-string'
 import success from 'images/register/success.png'
 import PropTypes from 'prop-types'
 import history from 'router/history'
-import { userRegister, userVerify } from 'utils/Api'
+import { userRegister, userVerify, updateContactEmailSuccess } from 'utils/Api'
 
 class EmailToken extends Component {
     constructor() {
@@ -21,7 +21,27 @@ class EmailToken extends Component {
         console.log(123)
         const { location } = this.props
         const parsed = this.parsedLocation(location)
+        console.log(parsed)
+        if (parsed.email) {
+            // 修改邮箱
+            var fd = new FormData()
+            fd.append('verifyWay', 1)
+            fd.append('verify', parsed.email)
+            updateContactEmailSuccess(fd, parsed.token)
+                .then(e=>e.data)
+                .then(data => {
+                    this.timer = setInterval(() => {
+                        this.setState(prevState => ({
+                            count: prevState.count - 1
+                        }))
+                        !this.state.count && clearInterval(this.timer)
+                        !this.state.count && this.callback()
 
+                    }, 1000)
+                })
+            return
+
+        }
         userVerify(parsed).then(res=>{
             if (res.data.msg === '200') {
                 this.timer = setInterval(() => {

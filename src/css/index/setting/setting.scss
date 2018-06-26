@@ -1,0 +1,160 @@
+.setting {
+    ul, li {
+        list-style: none;
+    }
+    ul {
+        display: flex;
+       
+        li {
+            flex-basis: 25%;
+            display: flex;
+            justify-content: center;
+            padding: 5px 0;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+             border-bottom: 1px solid #ddd;
+            &.active {
+                border: 1px solid #ddd;
+                border-bottom-color: transparent; 
+               
+            }
+        }
+       
+    }
+    .content {
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+
+        .info {
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+            align-items: flex-start;
+            
+            
+        }
+        .input-group {
+                display: flex;
+                margin: 10px 0;
+                label {
+                    width: 100px;
+                    text-align: right;
+                }
+                
+            }
+        .head-portrait {
+            
+            .logo {
+                display: flex;
+                .img {
+                    border: 1px solid #ddd;
+                    height: 100px;
+                    width: 100px;
+                }
+                
+            }
+        }
+        .safe {
+            width: 100%;
+            .box {
+                display: flex;
+                padding: 10px;
+                border: 1px solid #ddd;
+                align-items: center;
+                margin-bottom: 10px;
+                .tips {
+                    font-size: 12px;
+                    color: #1f6b1f;
+                }
+                #phone {
+                    width: 100px;
+                }
+                a {
+                    color: #3eb9e0;
+                     font-size: 12px;
+                }
+                .noModify {
+                    margin-left: 10px;
+                }
+                .modify {
+                    margin-left: 10px;
+                    .code {
+                        width: 70px;
+                        margin-right: 10px;
+                    }
+                    a {
+                        margin-right: 10px;
+                    }
+                    .submit {
+                        color: #fff;
+                        width: 42px;
+                        background-color: #009cd1;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        margin-right: 5px;
+                    }
+                }
+            }
+        }
+        .head-portrait {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            .preview {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                img {
+                    width: 150px;
+                    height: 150px; 
+                    border: 1px solid #eee;
+                }
+                input {
+                    margin-top: 10px;
+                    color: #fff;
+                    width: 60px;
+                    height: 30px;
+                    background-color: #009cd1;
+                    border-radius: 5px;
+                    cursor: pointer;
+                }
+            }
+            .imgUpload {
+                height: 150px;
+                width: 350px;
+                .preview {
+                    font-size: 12px;
+                    color: #157311;
+                    cursor: pointer;
+                }
+                input[type=file] {
+                    display: none;
+                }
+                .avatarTools {
+                    margin-top: 10px;
+                }
+                .tips {
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border: 1px solid #ddd;
+                    cursor: pointer;
+                }
+            }
+               
+        }
+        .submit {
+            input {
+                margin-left: 100px;
+                color: #fff;
+                width: 100px;
+                height: 40px;
+                background-color: #009cd1;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+        }
+    }
+}
