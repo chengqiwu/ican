@@ -25,8 +25,12 @@ class HeadPortrait extends Component {
             // radius: 0
         }
     }
-    preview = (e) => {
-        const file = e.target.files[0]
+    preview = (files, reject) => {
+        if (reject.length > 1) {
+            alert('上传文件格式有错，请重新上传')
+            return
+        }
+        const file = files[0]
         const reader = new FileReader()
 
         reader.onloadend = () => {
@@ -39,7 +43,7 @@ class HeadPortrait extends Component {
         reader.readAsDataURL(file)
     }
     upload = () => {
-        this.file.click()
+        this.dropzone.open()
     }
     changeInput = (e) => {
         const { name, value } = e.target
@@ -48,6 +52,9 @@ class HeadPortrait extends Component {
         })
     }
     imageChange = () => {
+        if (!this.state.imgURL) {
+            return
+        }
         const canvas = this.editor.getImage().toDataURL()
         this.setState({
             canvas
@@ -77,39 +84,38 @@ class HeadPortrait extends Component {
             </form>
 
             <div className='imgUpload'>
-                {
-                    !this.state.imgURL ? 
-                        <div className='tips' onClick={this.upload}>
-                            上传新头像
-                        </div> :
-                        <div>
-                            <Dropzone
-                                onDrop={this.handleDrop}
-                                disableClick
-                                style={{ width: '350px', height: '150px' }}
-                            >
-                                <AvatarEditor
-                                    ref={editor=>this.editor=editor}
-                                    width={310}
-                                    height={100}
-                                    image={this.state.imgURL}
-                                    scale={Number(this.state.scale)}
-                                    borderRadius={this.state.radius}
-                                />
-                            </Dropzone >
-                            <div className='avatarTools'>
-                                缩放：<input type="range" step="0.01" min="1" max="2" name="scale"
-                                    value={this.state.scale}
-                                    onChange={this.changeInput} />
-                            </div>
-                            <div className='preview' onClick={this.imageChange}>预览</div>
-                            {/* <input type="range" step="1" min="1" max="50" name="radius"
-                                value={this.state.radius}
-                                onChange={this.changeInput} /> */}
-                        </div>
-                      
-                }
-                <input type="file" className='file' ref={file => this.file = file} onChange={this.preview}/>
+                
+                <div>
+                    <Dropzone ref={dropzone => this.dropzone = dropzone}
+                        onDrop={this.preview}
+                        disableClick={!!this.state.imgURL ? true : false}
+                        accept="image/jpeg,image/jpg,image/png"
+                        style={{ width: '250px', height: '250px' }}
+                    >
+                        <AvatarEditor
+                            ref={editor=>this.editor=editor}
+                            width={200}
+                            height={200}
+                            image={this.state.imgURL}
+                            scale={Number(this.state.scale)}
+                            borderRadius={this.state.radius}
+                        />
+                    </Dropzone >
+                        
+
+                </div>
+                <div className='avatarTools'>
+                    <div>
+                        <label htmlFor="scale">缩放：</label>
+                        <input type="range" step="0.01" min="1" max="2" name="scale"
+                            value={this.state.scale}
+                            onChange={this.changeInput} />
+                    </div>
+                    {/* <input type="range" step="1" min="1" max="50" name="radius"
+                        value={this.state.radius}
+                        onChange={this.changeInput} /> */}
+                    <div className='preview' onClick={this.imageChange}>预览</div>
+                </div>
             </div>
             
         </div>
