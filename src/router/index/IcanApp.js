@@ -21,6 +21,8 @@ import Tools from './tools/Tools'
 import RxDragDrop from './RxDragDrop'
 
 import history from '../history'
+import JobLogging from './picture/JobLogging'
+
 const store = createStore(reducers)
 class IcanApp extends Component {
     componentDidMount() {
@@ -41,6 +43,7 @@ class IcanApp extends Component {
                     <RxDragDrop/>
                     <Baner />
                     <FieldMessage />
+                    <JobLogging/>
                 </div>
 
             </Provider>

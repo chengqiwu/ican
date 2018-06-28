@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import Rx from 'rxjs/Rx'
 import 'css/index/common/drapDrop.scss'
 import FiledInfo from '../content/FiledInfo'
-import Scrollbar from 'smooth-scrollbar'
 import More from '../content/More'
+import Picture from '../picture/Picture'
 
 const validValue = (value, max, min) => {
     return Math.min(Math.max(value, min), max)
@@ -54,7 +54,9 @@ class RxDragDrop extends Component {
                 <a href="#" id="dragDrop-closer" className="dragDrop-closer" onClick={this.destory.bind(this)}></a>
                 <div className="dragDrop-content" ref={content => this.content = content}>
                     {this.props.index === 2 && <FiledInfo />}
+                    {this.props.index ===1 && <Picture/>}
                     {this.props.index === 0 && <More {...this.props} />}
+                   
                 </div>
             </div>
         )

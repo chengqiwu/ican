@@ -2,6 +2,7 @@ import polygon from './reducers/polygon'
 import feature from './reducers/feature'
 import map from './reducers/map'
 import dragDrop from './reducers/dragDrop'
+import picture from './reducers/picture'
 import field from './reducers/field'
 import fieldMessage from './reducers/fieldMessage'
 import message from './reducers/message'
@@ -12,6 +13,7 @@ const reducer = combineReducers({
     polygon,
     map,
     // field: map,
+    picture,
     dragDrop,
     feature,
     form: reduxFormReducer,
