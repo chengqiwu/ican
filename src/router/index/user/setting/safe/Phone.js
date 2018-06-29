@@ -20,6 +20,7 @@ class Phone extends Component {
         })
     }
     activeModify = (e) => {
+        e.preventDefault()
         this.setState({
             modify: true
         })

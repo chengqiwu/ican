@@ -4,6 +4,8 @@ import Polygon from 'map/Polygon'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Content from './setting/Content'
+
+import { getUserIcon } from 'utils/Api'
 import {
     SHOWDRAGDROP, HIDENDRAGDROP,
     showDragDrop, hidenDragDrop

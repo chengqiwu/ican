@@ -15,6 +15,7 @@ class Email extends Component {
         })
     }
     activeModify = (e) => {
+        e.preventDefault()
         this.setState({
             modify: true
         })

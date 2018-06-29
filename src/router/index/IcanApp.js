@@ -22,6 +22,7 @@ import RxDragDrop from './RxDragDrop'
 
 import history from '../history'
 import JobLogging from './picture/JobLogging'
+import Company from './common/Company'
 
 const store = createStore(reducers)
 class IcanApp extends Component {
@@ -37,6 +38,7 @@ class IcanApp extends Component {
             <Provider store={store}>
                 <div>
                     <Header />
+                    <Company/>
                     <User />
                     <Tools />
                     <Openlayer />

@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import BasicInfo from './BasicInfo'
 import HeadPortrait from './HeadPortrait'
 import Safe from './Safe'
-// import Custom from './Custom'
+import Custom from './Custom'
 
 class Content extends Component {
     constructor() {
@@ -56,6 +56,10 @@ class Content extends Component {
                     {
                         this.state.active === 3 && <Safe />
                     }
+                    {
+                        this.state.active === 4 && <Custom />
+                    }
+                    
                 </div>
             </div>
         )

@@ -33,19 +33,13 @@ class AddLogger extends Component {
             content: e.target.value
         })
     }
-    upload = (files) => {
+    upload = (file) => {
         const { feature } = this.props.feature
         const id = feature.getId().replace('tb_farmland.', '')
         const quarterCropsId = feature.get('quarterCropsId')
         console.log(id, quarterCropsId)
-        var fd = new FormData()
-        const farmlandLogVo = new FarmlandLogVo(
-            quarterCropsId,
-            id,
-            this.state.startDate.format('YYYY-MM-DD'),
-            this.state.content
-        )
-        console.log(this)
+        const fd = new FormData()
+
         fd.append('farmlandLogStr', JSON.stringify({
             quarterCropsId,
             landId: id,
@@ -53,13 +47,13 @@ class AddLogger extends Component {
             content: this.state.content
         }))
 
-        fd.append('images', this.state.files[0])
+        fd.append('images', file)
         return farmLandLogSave(fd)
     }
     submit = (e) => {
         e.preventDefault()
-        this.upload(this.state.files)
-        // const promise = this.state.files.map(file => this.upload(file))
+        // this.upload(this.state.files)
+        const promise = this.state.files.map(file => this.upload(file))
         // Axios.all(promise).then(e => e.data)
         // fd.append('farmlandLogStr', farmlandLogVo.toString())
         // 

@@ -127,7 +127,7 @@
                 }
             }
             .imgUpload {
-                height: 250px;
+                // height: 250px;
                 width: 380px;
                
                 display: flex;
@@ -149,8 +149,10 @@
                     display: none;
                 }
                 .avatarTools {
-                    margin-left: 10px;
-                    width: 130px;
+                    // margin-left: 10px;
+                    // width: 130px;
+                    display: flex;
+                    justify-content: space-between;
                 }
                 .tips {
                     height: 100%;
@@ -175,5 +177,40 @@
                 cursor: pointer;
             }
         }
+    }
+}
+
+.logger-box {
+    width: 100px;
+    height: 70px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+
+    border: 2.5px solid #ddd;
+    .drop-zone {
+        width: 100px;
+        height: 70px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        label {
+            font-size: 13px;
+            margin-top: 6px;
+            cursor: pointer;
+            text-align: center !important;
+        }
+    }
+}
+.input-group {
+    align-items: center;
+    > img {
+        width: 150px;
+        height: 150px;
+        border: 1px solid #ccc;
+        border-radius: 75px;
+        margin-right: 10px;
     }
 }

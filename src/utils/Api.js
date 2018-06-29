@@ -83,7 +83,7 @@ export function getUserToken() {
 export function getUserInfo() {
     
     const { username, role, icon, phone, email, id } = JSON.parse(sessionStorage.getItem('state'))
-    return { username, role, icon, phone, email, id }    
+    return JSON.parse(sessionStorage.getItem('state'))
 }
 export function getUserName() {
     return getUserInfo().username
@@ -94,6 +94,19 @@ export function getUserEmail() {
 export function getUserPhone() {
     return getUserInfo().phone
 }
+export function getUserIcon() {
+    return getUserInfo().icon
+}
+export function getUserBasicInfo() {
+    const { username, name, address, companyName, companyLogo } = getUserInfo()
+
+    return { username, name, address, companyName, companyLogo }
+}
+
+export function getUserInfo2() {
+    return axios.get(url + '/api/user/getUserInfo?token=' + getToken())
+}
+
 export function farmLandSave(data) {
     data = {
         ...data,

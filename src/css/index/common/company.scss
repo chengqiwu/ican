@@ -1,0 +1,17 @@
+.showCompany {
+    position: absolute;
+    z-index: 1;
+    top: 18px;
+    padding-left: 21px; 
+    img {
+        height: 54px;
+    }
+    div {
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: #c78531;
+        font-size: 30px;
+        color: #fff;
+        font-weight: bold;
+    
+    }
+}
