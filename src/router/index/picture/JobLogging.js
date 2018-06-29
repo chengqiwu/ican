@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { showList } from '_redux/actions/picture.js'
 
 import 'css/index/picture/picture.scss'
 
@@ -11,13 +14,13 @@ import add from 'images/index/picture/add.png'
 class JobLogging extends Component {
     constructor() {
         super()
+        console.log(123)
         this.state = {
-            imgs: []
+            imgs: [],
+            logger: false
         }
     }
-    componentDidMount() {
-       
-
+    componentDidMount() {        
         // 
         //用firefox变量表示火狐代理
         // var firefox = navigator.userAgent.indexOf('Firefox') != -1
@@ -39,31 +42,68 @@ class JobLogging extends Component {
         // //如果是ff就绑定DOMMouseScroll事件，其他浏览器就用onmousewheel事件触发
         // firefox ? this.pictureLists.addEventListener('DOMMouseScroll', MouseWheel, false) : (this.pictureLists.onmousewheel = MouseWheel)
     }
+    componentDidUpdate() {
+        this.jobLogging && this.jobLogging.scrollIntoView(true)
 
+    }
+    
     close = (e) => {
         e.preventDefault()
+        this.props.showList(false)
+        this.setState({
+            logger: false
+        })
+    }
+    handleLogger = (e) => {
+        e.preventDefault()
+        if (!this.state.logger) {
+            this.setState({
+                logger: true
+            })
+        }
+       
     }
     render() {
-
+        const {show} = this.props.picture
         return (
-            <div className='pictureLists'>
+            show ? <div className='pictureLists' ref={jobLogging => this.jobLogging = jobLogging}>
                 <div className='title'>
-                    <h3>山南良田11-23：作业日志</h3>
+                    <h3>{this.props.feature.feature.get('name')}：作业日志</h3>
                     <div className='tools'>
-                        <label htmlFor="addLogger">添加日志</label>
-                        <img src={add} id='addLogger' alt=""/>
+                        <label htmlFor="addLogger" onClick={this.handleLogger}>添加日志</label>
+                        <img src={add} id='addLogger' onClick={this.handleLogger} alt="" />
                         <a href="#" className='closer' onClick={this.close}></a>
                     </div>
-                    
+
                 </div>
-                
+
                 <div className='content'>
-                    <PictureLists/>
-                    <AddLogger/>
+                    <PictureLists {...this.props} />
+                    {this.state.logger && <AddLogger {...this.props}/>}
                 </div>
-            </div>
+            </div> : null
         )
     }
 }
 
-export default JobLogging
+
+JobLogging.propTypes = {
+    picture: PropTypes.object,
+    showList: PropTypes.func,
+    feature: PropTypes.object
+}
+
+const mapStateToProps = function (state) {
+    return {
+        picture: state.picture,
+        feature: state.feature
+    }
+}
+const mapDispatchToProps = function (dispath) {
+    return {
+        showList: (show) => {
+            dispath(showList(show))
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(JobLogging)

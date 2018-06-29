@@ -165,7 +165,6 @@ class Polygon extends Component {
             const id = feature.getId()
             const name = feature.get('name')
             const isNew = feature.get('status')
-            console.log(!id)
             if (!id) {
                 this.setState({
                     feature,

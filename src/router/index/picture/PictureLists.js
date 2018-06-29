@@ -1,67 +1,85 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Scrollbar from 'smooth-scrollbar'
 import baguetteBox from 'baguettebox.js'
-import picture from 'images/circle/blue.png'
+
+import { findLogPhotoList } from 'utils/Api'
 import more from 'images/index/picture/more.png'
 class PictureLists extends Component {
+    constructor() {
+        super()
+        this.state = {
+            list: []
+        }
+    }
     componentDidMount() {
-        Scrollbar.init(this.pictureLists)
-       
+        this.index = 1
+        console.log('PictureLists componentDidMount')
+        this.getMore(this.index ++)
+        // Scrollbar.init(this.pictureLists)
+         
         baguetteBox.run('.gallery', {
             // Custom options
         })
+        
 
     }
+    componentWillUpdate() {
+        console.log('componentWillUpdate')
+        Scrollbar.destroy(this.pictureLists)
+    }
+    componentDidUpdate() {
+        console.log('componentDidUpdate')
+        Scrollbar.init(this.pictureLists)
+        baguetteBox.run('.gallery', {
+            // Custom options
+        })
+    }
+    getMore = (i) => {
+        const { feature } = this.props.feature
+        const id = feature.getId().replace('tb_farmland.', '')
+        const quarterCropsId = feature.get('quarterCropsId')
+        const fd = new FormData()
+        fd.append('pageNo', i)
+        fd.append('pageSize', 14)
+        fd.append('landId', id)
+        fd.append('quarterCropsId', quarterCropsId)
+        findLogPhotoList(fd)
+            .then(e => e.data)
+            .then(data => {
+                if (data.msg === '200') {
+                    const { list } = data.result
+                    if (list) {
+                        this.setState({
+                            list: [
+                                ...this.state.list,
+                                ...list
+                            ]
+                        })
+                    }
+
+                }
+            })
+    }
     render() {
-        this.lists = [
-            { id: 1, url: picture },
-            { id: 2, url: picture },
-            { id: 3, url: picture },
-            { id: 4, url: picture },
-            { id: 5, url: picture },
-            { id: 6, url: picture },
-            { id: 7, url: picture },
-            { id: 8, url: picture },
-            { id: 9, url: picture },
-            { id: 10, url: picture },
-            { id: 11, url: picture },
-            { id: 12, url: picture },
-            { id: 13, url: picture },
-            { id: 14, url: picture },
-            { id: 15, url: picture },
-            { id: 16, url: picture },
-            { id: 17, url: picture },
-            { id: 18, url: picture },
-            { id: 19, url: picture },
-            { id: 20, url: picture },
-            { id: 21, url: picture },
-            { id: 22, url: picture },
-            { id: 23, url: picture },
-            { id: 24, url: picture },
-            { id: 25, url: picture },
-            { id: 26, url: picture },
-            { id: 27, url: picture },
-            { id: 28, url: picture },
-            { id: 29, url: picture },
-            { id: 30, url: picture },
-            { id: 31, url: picture },
-            { id: 32, url: picture },
-        ]
         return (
             <div className='picture-list gallery' ref={pictureLists => this.pictureLists = pictureLists}>
                 {
-                    this.lists.map(list =>
-                        <a href={list.url} data-caption={list.title} key={list.id} className='img-box'>
-                            <img src={list.url} alt="" />
+                    this.state.list.map(list =>
+                        <a href={list.largeThumbnailPath} data-caption={`${list.log.content} [${list.log.createDate}]`} key={list.id} className='img-box'>
+                            <img src={list.smallThumbnailPath} alt="" />
                         </a>
                     )
                 }
-                <div className='img-box more'>
+                <div className='img-box more' onClick={this.getMore.bind(this, this.index ++)}>
 
                     <img src={more} alt="" id='more' /><label htmlFor="more">更多</label>
                 </div>
             </div>
         )
     }
+}
+PictureLists.propTypes = {
+    feature: PropTypes.object
 }
 export default PictureLists

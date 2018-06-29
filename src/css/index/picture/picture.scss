@@ -44,7 +44,11 @@
         .tools {
             display: flex;
             align-items: center;
+            cursor: pointer;
             // margin-right: 200px;
+            label {
+                cursor: pointer;
+            }
             #addLogger {
                 margin-left: 10px;
             }

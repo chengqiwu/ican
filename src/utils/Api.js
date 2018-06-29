@@ -64,7 +64,7 @@ export function userLogin(data) {
         params: data
     })
 }
-function getToken() {
+export function getToken() {
     const state = sessionStorage.getItem('state')
     const { token } = JSON.parse(state)
     return token    
@@ -214,4 +214,18 @@ export function updatePassword(password) {
 }
 export function updateUserInfo(userInfo) {
     return axios.post(url + '/api/user/updateUserInfo?token=' + getToken(), userInfo)
+}
+
+
+export function farmLandLogSave(farmLandLog) {
+    let config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',}
+    }
+    return axios.post(url + '/api/farmlandLog/save?token=' + getToken(), farmLandLog, config)
+}
+// 	api/logPhoto/findList
+
+export function findLogPhotoList(params) {
+    return axios.post(url + '/api/logPhoto/findList?token=' + getToken(), params)
 }

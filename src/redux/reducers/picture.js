@@ -1,4 +1,4 @@
-import { SHOWLISTS, UPDATELISTS } from '_redux/actions/picture'
+import { SHOWLIST, UPDATELISTS } from '_redux/actions/picture'
 
 const pictureState = {
     lists: [],
@@ -6,8 +6,9 @@ const pictureState = {
 }
 
 function pictureReducer (state= pictureState, action) {
+    console.log(state, action)
     switch (action.type) {
-    case SHOWLISTS:
+    case SHOWLIST:
         return {
             ...state,
             show: action.show
