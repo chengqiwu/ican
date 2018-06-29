@@ -12,7 +12,7 @@ import Abstract from './Abstract'
 class FiledInfo extends Component {
     constructor(props) {
         super(props)
-        const {feature}  = props.feature
+        const feature  = props.feature
         console.log(feature.get('status'))
         this.state = {
             isNew: feature.get('status'),
@@ -40,18 +40,17 @@ class FiledInfo extends Component {
 
     }
     componentDidMount() {
+        const feature = this.props.feature
         console.log(this.props.feature)
         this.handelefindSoilList().then(e => this.handleCriosAndVarieties())
             .then(e => {
                 if ('0' === this.state.isNew) {
-                    const id = this.props.feature.feature.getId().replace('tb_farmland.', '')
+                    const id = feature.getId().replace('tb_farmland.', '')
                     findReasonById({
                         farmLandId: id,
                         isNew: 0
                     }).then(e => e.data)
                         .then(data => {
-                            
-
                             if (data.msg === '200') {
                                 this.setState({
                                     message: data.result,
@@ -63,40 +62,40 @@ class FiledInfo extends Component {
                 }
             }) 
     }
-    componentDidUpdate() {
-        const {feature} = this.props.feature
-        const status = feature.get('status')
-        console.error(status, this.state.isNew)
-        if (typeof status !== 'undefined' && status !== this.state.isNew) {
-            this.setState({
-                isNew: status
-            })
-            if (!this.state.flag) {
-                this.handelefindSoilList().then(e => this.handleCriosAndVarieties())
-                    .then(e => {
-                        if ('0' === this.state.isNew) {
-                            const id = this.props.feature.feature.getId().replace('tb_farmland.', '')
-                            findReasonById({
-                                farmLandId: id,
-                                isNew: 0
-                            }).then(e => e.data)
-                                .then(data => {
+    // componentDidUpdate() {
+    //     const {feature} = this.props.feature
+    //     const status = feature.get('status')
+    //     console.error(status, this.state.isNew)
+    //     if (typeof status !== 'undefined' && status !== this.state.isNew) {
+    //         this.setState({
+    //             isNew: status
+    //         })
+    //         if (!this.state.flag) {
+    //             this.handelefindSoilList().then(e => this.handleCriosAndVarieties())
+    //                 .then(e => {
+    //                     if ('0' === this.state.isNew) {
+    //                         const id = this.props.feature.feature.getId().replace('tb_farmland.', '')
+    //                         findReasonById({
+    //                             farmLandId: id,
+    //                             isNew: 0
+    //                         }).then(e => e.data)
+    //                             .then(data => {
 
 
-                                    if (data.msg === '200') {
-                                        this.setState({
-                                            message: data.result,
-                                            flag: true
-                                        })
-                                        this.props.setFieldMessage(data.result)
-                                    }
-                                })
-                        }
-                    })
-            }
-        } 
+    //                                 if (data.msg === '200') {
+    //                                     this.setState({
+    //                                         message: data.result,
+    //                                         flag: true
+    //                                     })
+    //                                     this.props.setFieldMessage(data.result)
+    //                                 }
+    //                             })
+    //                     }
+    //                 })
+    //         }
+    //     } 
         
-    }
+    // }
     start() {
         this.props.startFieldMessage(true)
     }
@@ -104,7 +103,7 @@ class FiledInfo extends Component {
         return this.state.isNew === '1' ? <div>
             <div>你目前还没有填写田地信息</div>
             <button className='content-btn' onClick={this.start.bind(this)}>开始填写</button>
-        </div> : this.state.flag && <Abstract feature={this.props.feature.feature} fieldMessage={this.state.message}/>
+        </div> : this.state.flag && <Abstract feature={this.props.feature} fieldMessage={this.state.message}/>
     }
 }
 FiledInfo.propTypes = {
@@ -118,7 +117,6 @@ FiledInfo.propTypes = {
 const mapStateToProps = (state) => {
     return {
         fieldMessage: state.fieldMessage,
-        feature: state.feature
     }
 }
 const mapDispathToProps = (dispatch) => {

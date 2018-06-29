@@ -40,9 +40,9 @@ class RxDragDrop extends Component {
     componentWillUnmount() {
         this.dd.unsubscribe()
     }
-    // shouldComponentUpdate(){
-    //     return false
-    // }
+    shouldComponentUpdate(){
+        return false
+    }
     destory(e) {
         e.preventDefault()
         this.props.destory(this.props.index)
@@ -53,7 +53,7 @@ class RxDragDrop extends Component {
                 <h3 ref={title => this.title = title} className='dragDrop-title'>{this.props.name}-{this.props.title}</h3>
                 <a href="#" id="dragDrop-closer" className="dragDrop-closer" onClick={this.destory.bind(this)}></a>
                 <div className="dragDrop-content" ref={content => this.content = content}>
-                    {this.props.index === 2 && <FiledInfo />}
+                    {this.props.index === 2 && <FiledInfo {...this.props}/>}
                     {this.props.index ===1 && <Picture/>}
                     {this.props.index === 0 && <More {...this.props} />}
                    
