@@ -42,18 +42,21 @@ class EmailToken extends Component {
             return
 
         }
-        userVerify(parsed).then(res=>{
-            if (res.data.msg === '200') {
-                this.timer = setInterval(() => {
-                    this.setState(prevState => ({
-                        count: prevState.count - 1
-                    }))
-                    !this.state.count && clearInterval(this.timer)
-                    !this.state.count && this.callback()
+        if (parsed.token) {
+            userVerify(parsed).then(res => {
+                if (res.data.msg === '200') {
+                    this.timer = setInterval(() => {
+                        this.setState(prevState => ({
+                            count: prevState.count - 1
+                        }))
+                        !this.state.count && clearInterval(this.timer)
+                        !this.state.count && this.callback()
 
-                }, 1000)
-            }
-        })   
+                    }, 1000)
+                }
+            })
+
+        }
         
     }
     parsedLocation(location) {

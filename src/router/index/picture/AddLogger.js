@@ -8,8 +8,11 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { confirmAlert } from 'react-confirm-alert' // Import
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 import { farmLandLogSave } from 'utils/Api'
-import FarmlandLogVo from './class/FarmlandLogVo'
+// import FarmlandLogVo from './class/FarmlandLogVo'
 import add from 'images/index/picture/+.png'
+
+import { connect } from 'react-redux'
+import { updateLists } from '_redux/actions/picture.js'
 
 class AddLogger extends Component {
     constructor() {
@@ -18,12 +21,14 @@ class AddLogger extends Component {
             files: [],
             startDate: moment(),
             content: '',
+            submiting: false
         }
     }
     componentDidMount() {
         Scrollbar.init(this.logger)
     }
     handleChange = (date) => {
+        console.log(date)
         this.setState({
             startDate: date
         })
@@ -49,11 +54,55 @@ class AddLogger extends Component {
 
         fd.append('images', file)
         return farmLandLogSave(fd)
+            .then(e => e.data)
+            .then(data => {
+                if (data.msg === '200') {
+                    return true
+                }
+            })
+    }
+    simple = () => {
+        const { feature } = this.props.feature
+        const id = feature.getId().replace('tb_farmland.', '')
+        const quarterCropsId = feature.get('quarterCropsId')
+        console.log(id, quarterCropsId)
+        const fd = new FormData()
+
+        fd.append('farmlandLogStr', JSON.stringify({
+            quarterCropsId,
+            landId: id,
+            date: this.state.startDate.format('YYYY-MM-DD'),
+            content: this.state.content
+        }))
+        return farmLandLogSave(fd)
+            .then(e => e.data)
+            .then(data => {
+                if (data.msg === '200') {
+                    return true
+                }
+            })
     }
     submit = (e) => {
         e.preventDefault()
         // this.upload(this.state.files)
+        this.setState({
+            submiting: true
+        })
         const promise = this.state.files.map(file => this.upload(file))
+        if (promise.length === 0) {
+            promise.push(this.simple())
+        }
+        Promise.all(promise).then(e => {
+            
+            const res = e.reduce((a, b) => a && b) 
+            if (res) {
+                this.successCallback()
+                this.props.updateLists(true)
+            } 
+            this.setState({
+                submiting: false
+            })
+        })
         // Axios.all(promise).then(e => e.data)
         // fd.append('farmlandLogStr', farmlandLogVo.toString())
         // 
@@ -74,11 +123,11 @@ class AddLogger extends Component {
             buttons: [
                 {
                     label: '继续添加日志',
-                    onClick: () => alert('Click Yes')
+                    // onClick: () => alert('Click Yes')
                 },
                 {
                     label: '取消',
-                    onClick: () => alert('Click No')
+                    onClick: () => this.props.close()
                 }
             ]
         })
@@ -103,7 +152,18 @@ class AddLogger extends Component {
         // Scrollbar.init(this.logger)
         // Scrollbar.init()
     }
+    deleteFileByIndex = (e) => {
+        e.preventDefault()
+        const index = e.target.getAttribute('data-index')
+        this.setState({
+            files: [
+                ...this.state.files.splice(0, index),
+                ...this.state.files.splice(index+1)
+            ]
+        })
+    }
     render() {
+        console.log(this.state.files)
         return (
             <div className='add-logger'>
                 <form onSubmit={this.submit}>
@@ -112,24 +172,25 @@ class AddLogger extends Component {
                         <DatePicker
                             dateFormat="YYYY-MM-DD"
                             selected={this.state.startDate}
-                            onChange={this.handleChange}
+                            onSelect={this.handleChange}
                         />
                     </div>
                     <div className='input-group'>
                         <label htmlFor="logger"> 日志内容：</label>
-                        <textarea name="logger" id="logger" cols="30" rows="10" 
+                        <textarea name="logger" id="logger"  
                             value={this.state.content}
                             onChange={this.contentChange}/>
                     </div>
                     <div className='submit'>
-                        <input type="submit" value='保存' />
+                        <input type="submit" value={this.state.submiting?'保存中...':'保存'} disabled={this.state.submiting} />
                     </div>
                 </form>
                 <div className='logger-img' ref={logger => this.logger = logger}>
                     {
                         this.state.files.map((file, i) =>
-                            <div key={i} className='logger-box'>
-                                <img src={file.preview} alt="" />
+                            <div key={i} className='logger-box preview' style={{ backgroundImage: `url(${file.preview})`}}>
+                                {/* <img src={file.preview} alt="" /> */}
+                                <a href="#" data-index={i} onClick={this.deleteFileByIndex}></a>
                             </div>)
                     }
                     <div className='logger-box'>
@@ -143,6 +204,21 @@ class AddLogger extends Component {
     }
 }
 AddLogger.propTypes = {
-    feature: PropTypes.object
+    feature: PropTypes.object,
+    close: PropTypes.func,
+    updateLists: PropTypes.func
 }
-export default AddLogger
+const mapStateToProps = function (state) {
+    return {
+        picture: state.picture,
+        feature: state.feature
+    }
+}
+const mapDispatchToProps = function (dispath) {
+    return {
+        updateLists: (show) => {
+            dispath(updateLists(show))
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(AddLogger)

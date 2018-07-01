@@ -50,6 +50,9 @@ class JobLogging extends Component {
     close = (e) => {
         e.preventDefault()
         this.props.showList(false)
+        this.closeLogger()
+    }
+    closeLogger = () => {
         this.setState({
             logger: false
         })
@@ -79,7 +82,7 @@ class JobLogging extends Component {
 
                 <div className='content'>
                     <PictureLists {...this.props} />
-                    {this.state.logger && <AddLogger {...this.props}/>}
+                    {this.state.logger && <AddLogger {...this.props} close={this.closeLogger}/>}
                 </div>
             </div> : null
         )

@@ -1,17 +1,27 @@
 import React, { Component } from 'react'
 import Rx from 'rxjs/Rx'
-import { updateContact, getUserPhone, updateContactSuccess } from 'utils/Api'
+import { updateContact, getUserPhone, updateContactSuccess, getUserInfo2 } from 'utils/Api'
 class Phone extends Component {
     constructor() {
         super()
         this.state = {
-            phone: getUserPhone(),
+            phone: '',
             modify: false,
             code: '',
             pending: false,
             countdown: 60,
             success: false
         }
+    }
+    componentDidMount() {
+        getUserInfo2().then(e => e.data)
+            .then(data => {
+                if (data.msg === '200') {
+                    this.setState({
+                        phone: data.result.phone || ''
+                    })
+                }
+            })
     }
     changeValue = (e) => {
         const { name, value } = e.target

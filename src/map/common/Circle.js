@@ -127,7 +127,7 @@ function deepCompare(x, y) {
 
 
 const images = [red, blue, green, purple, orange]
-const means = ['更多', '田地照片',  '田地信息', '种植计划', '天气']
+const means = ['更多', '生长日志',  '田地信息', '种植计划', '天气']
 
 function getStyle(obj, attr) {
     if (obj.currentStyle) {

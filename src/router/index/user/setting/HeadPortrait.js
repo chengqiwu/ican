@@ -56,6 +56,7 @@ class HeadPortrait extends Component {
         }
         reader.readAsDataURL(file)
     }
+    
     upload = () => {
         this.dropzone.open()
     }
@@ -76,16 +77,16 @@ class HeadPortrait extends Component {
     }
     submit = (e) => {
         e.preventDefault()
-        var fd = new FormData()
-        // console.log(this.state.canvas.toDataURL())
-        var blob = dataURItoBlob(this.state.canvas)
-        fd.append('ican', blob, 'image.png')
-        updateIcon(fd).then(e => e.data)
-            .then(data => {
-                if (data.msg === '200') {
-                    alert('保存成功')
-                }
-            })
+        // var fd = new FormData()
+        // // console.log(this.state.canvas.toDataURL())
+        // var blob = dataURItoBlob(this.state.canvas)
+        // fd.append('ican', blob, 'image.png')
+        // updateIcon(fd).then(e => e.data)
+        //     .then(data => {
+        //         if (data.msg === '200') {
+        //             alert('保存成功')
+        //         }
+        //     })
     }
     render() {
         console.log('HeadPortrait render')
@@ -93,7 +94,7 @@ class HeadPortrait extends Component {
             <form className='preview' onSubmit={this.submit}>
                 <img src={this.state.canvas} alt=""/>
                 <div>
-                    <input type="button" value='上传' onClick={this.upload}/>
+                    <input type="button" value='更改' onClick={this.upload}/>
                     <input type="submit" value='保存' />
                 </div>
                 
@@ -115,6 +116,7 @@ class HeadPortrait extends Component {
                             image={this.state.imgURL}
                             onLoadSuccess={this.imageChange}
                             // onImageReady={this}
+                            // onImageChange={this.imageChange}
                             scale={Number(this.state.scale)}
                             border={[90, 20]}
                         />

@@ -41,8 +41,7 @@ class BasicInfo extends Component {
         var fd = new FormData()
 
         fd.append('userVo', JSON.stringify(userVo))
-        console.log(this.logo.files)
-        this.logo.files && fd.append('companyLogo', this.state.file)
+        fd.append('companyLogo', this.state.file)
         updateUserInfo(fd)
             .then(e => e.data)
             .then(data => {
@@ -52,6 +51,8 @@ class BasicInfo extends Component {
             })
     }
     onDrop = (files) => {
+        const file = files[0]
+        // console.log(file.size)
         this.setState({
             file: files[0],
             companyLogo: files[0].preview
@@ -84,14 +85,21 @@ class BasicInfo extends Component {
                 </div>
                 <div className='input-group'>
                     <label htmlFor="companyLogo">单位LOGO：</label>
-                    <img src={this.state.companyLogo} alt=""/>
-                    <div className='logger-box'>
-                        <Dropzone className='drop-zone' onDrop={this.onDrop} multiple={false}>
-                            <img src={add} alt="" />
-                            <label>添加公司logo</label>
-                        </Dropzone>
+                    <div className='company-logo'>
+                        <img src={this.state.companyLogo} alt="" />
                     </div>
-                   
+                    
+                    <div>
+                        <div className='logger-box'>
+                            <Dropzone className='drop-zone' onDrop={this.onDrop} multiple={false}>
+                                <img src={add} alt="" />
+                                <label>添加公司logo</label>
+                            </Dropzone>
+                        </div>
+                        <div className='tip'>1、png或jpg格式</div>
+                        <div className='tip'>2、文件大小不超过300KB</div>
+                        <div className='tip'>3、建议尺寸：256像素×128像素</div>
+                    </div>
                 </div>
                 <div className='submit'>
                     <input type="submit" value='保存'/>

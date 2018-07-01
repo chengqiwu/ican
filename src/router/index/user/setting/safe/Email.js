@@ -1,13 +1,23 @@
 import React, { Component } from 'react'
-import { updateContact, getUserEmail, updateContactSuccess } from 'utils/Api'
+import { updateContact, getUserEmail, updateContactSuccess, getUserInfo2 } from 'utils/Api'
 class Email extends Component {
     constructor() {
         super()
         this.state = {
-            email: getUserEmail(),
+            email: '',
             modify: false,
             success: false
         }
+    }
+    componentDidMount() {
+        getUserInfo2().then(e => e.data)
+            .then(data => {
+                if (data.msg === '200') {
+                    this.setState({
+                        email: data.result.email || ''
+                    })
+                }
+            })
     }
     changeValue = (e) => {
         this.setState({

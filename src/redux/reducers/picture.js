@@ -2,7 +2,8 @@ import { SHOWLIST, UPDATELISTS } from '_redux/actions/picture'
 
 const pictureState = {
     lists: [],
-    show: false
+    show: false,
+    update: false
 }
 
 function pictureReducer (state= pictureState, action) {
@@ -17,7 +18,7 @@ function pictureReducer (state= pictureState, action) {
     case UPDATELISTS:
         return {
             ...state,
-            lists: action.lists
+            update: action.update
         }
         break
     default:

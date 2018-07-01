@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { updatePassword } from 'utils/Api'
 import { blowfish } from 'utils/tools'
-
+import history from 'router/history'
+import Cookies from 'js-cookie'
 class Password extends Component {
     constructor() {
         super()
@@ -25,6 +26,9 @@ class Password extends Component {
         e.preventDefault()
         console.log(this.state)
         const {password, newPassword,passwordConfirm} = this.state
+        if (!newPassword) {
+            alert('要想修改密码，请输入您的新密码')
+        }
         if (newPassword !== passwordConfirm) {
             alert('两次密码输入不一致，请重新输入...')
             this.setState({
@@ -48,7 +52,18 @@ class Password extends Component {
         // fd.append('password', 1)
         fd.append('password', blowfish(this.state.password))
         fd.append('oldPassword', blowfish(this.state.newPassword))
-        updatePassword(fd).then(e => console.log(e))
+        updatePassword(fd)
+            .then(e => e.data)
+            .then(data => {
+                if (data.msg === '200') {
+                    alert('密码修改成功，请返回登录页重新登陆')
+                    sessionStorage.clear()
+                    Cookies.remove('name', { path: '' })
+                    history.push('/')
+                } else if (data.msg === '217'){
+                    alert('输入原密码错误')
+                }
+            })
     }
     changePassword = (e) => {
         const { value, name } = e.target
@@ -76,6 +91,7 @@ class Password extends Component {
                                 id='newPassword'
                                 onChange={this.changePassword}
                                 value={this.state.newPassword} />
+                            <span className='tip'>不修改密码请置空</span>
                         </div>
                         <div className='input-group'>
                             <label htmlFor="passwordConfirm">确认新密码：</label>

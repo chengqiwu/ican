@@ -34,7 +34,10 @@ class AutoComplete extends Component {
     }
     changeValue= (e) => {
         const {value} = e.target
-        const items = JSON.parse(localStorage.getItem('hisory'))
+        let items = JSON.parse(localStorage.getItem('hisory'))
+        if (!items) {
+            items = []
+        }
         this.setState({
             inputValue: value,
             items: items.filter(item => Base64.decode(item).indexOf(value) > -1).map(e => Base64.decode(e))
