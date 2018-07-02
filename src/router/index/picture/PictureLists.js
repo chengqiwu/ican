@@ -25,12 +25,34 @@ class PictureLists extends Component {
         baguetteBox.run('.gallery', {
             // Custom options
         })
-       
+    
+        // document.addEventListener('click', function(e){
+        //     // 类似事件委托, 判断一下发生事件的元素.
+        //     if( e.target.nodeName.toLowerCase() === 'a' ) {
+                
+        //         e.preventDefault()
+        //         return
+        //     }
+        // }, false)
+        this.setDeault()
 
+    }
+    setDeault() {
+        const xiugai = document.querySelectorAll('.icon-xiugai')
+        const arr = [].slice.call(xiugai)
+        arr.map(i => {
+            i.addEventListener('click', this.editByLoggerId, false)
+        })
+        const xiugai2 = document.querySelectorAll('a.img-box')
+        const arr2 = [].slice.call(xiugai2)
+        arr2.map(i => {
+            i.addEventListener('click', this.editByLoggerId, false)
+        })
     }
     componentWillUpdate() {
         console.log('componentWillUpdate')
         Scrollbar.destroy(this.pictureLists)
+        // baguetteBox.destroy()
     }
     componentDidUpdate() {
         console.log('componentDidUpdate')
@@ -38,7 +60,7 @@ class PictureLists extends Component {
         baguetteBox.run('.gallery', {
             // Custom options
         })
-       
+        this.setDeault()
     }
     getMore = () => {
         const { feature } = this.props.feature
@@ -81,10 +103,10 @@ class PictureLists extends Component {
     editByLoggerId = (e) => {
         e.preventDefault()
         e.stopPropagation()
-        e.nativeEvent.stopImmediatePropagation()
-        // const id = e.target.getAttribute('logger-id')
-        // console.log(id)
-        
+
+
+        const loggerId = e.target.getAttribute('logger-id')
+        this.props.modifyLogger(loggerId)
     }
 
     render() {
@@ -93,9 +115,12 @@ class PictureLists extends Component {
             <div className='picture-list gallery' ref={pictureLists => this.pictureLists = pictureLists}>
                 {
                     lists.map(list =>
-                        <a href={list.largeThumbnailPath} data-caption={`${list.log.content} [${moment(new Date(Number(list.log.logDate))).format('YYYY/MM/D')}]`} key={list.id} className='img-box'>
+                        <a href={list.largeThumbnailPath} 
+                            data-caption={`${list.log.content} [${moment(new Date(Number(list.log.logDate))).format('YYYY/MM/D')}]`} 
+                            key={list.id} 
+                            className='img-box'>
                             <img src={list.smallThumbnailPath} alt={`${list.log.content} [${moment(new Date(Number(list.log.logDate))).format('YYYY/MM/D')}]`} />
-                            <i className="iconfont icon-xiugai" logger-id={list.log.id} onClick={this.editByLoggerId}></i>
+                            <i className="iconfont icon-xiugai" logger-id={list.log.id}></i>
                         </a>
                         
                     )
@@ -104,7 +129,7 @@ class PictureLists extends Component {
                     this.state.list.map(list =>
                         <a href={list.largeThumbnailPath} data-caption={`${list.log.content} [${moment(new Date(Number(list.log.logDate))).format('YYYY/MM/D')}]`} key={list.id} className='img-box'>
                             <img src={list.smallThumbnailPath} alt={`${list.log.content} [${moment(new Date(Number(list.log.logDate))).format('YYYY/MM/D')}]`} />
-                            <i className="iconfont icon-xiugai" logger-id={list.log.id} onClick={this.editByLoggerId}></i>
+                            <i className="iconfont icon-xiugai" logger-id={list.log.id}></i>
                         </a>
 
                     )
@@ -120,7 +145,8 @@ class PictureLists extends Component {
 PictureLists.propTypes = {
     feature: PropTypes.object,
     updateLists: PropTypes.func,
-    picture: PropTypes.object
+    picture: PropTypes.object,
+    modifyLogger: PropTypes.func
 }
 
 const mapStateToProps = function (state) {
@@ -136,7 +162,7 @@ const mapDispatchToProps = function (dispath) {
         },
         updateLists: (update) => {
             dispath(updateLists(update))
-        }
+        },
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PictureLists)

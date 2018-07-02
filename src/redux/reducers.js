@@ -6,6 +6,8 @@ import picture from './reducers/picture'
 import field from './reducers/field'
 import fieldMessage from './reducers/fieldMessage'
 import message from './reducers/message'
+import user from './reducers/user'
+
 import { combineReducers } from 'redux'
 import { reducer as reduxFormReducer } from 'redux-form'
 
@@ -18,6 +20,7 @@ const reducer = combineReducers({
     feature,
     form: reduxFormReducer,
     fieldMessage,
-    message
+    message,
+    user
 })
 export default reducer

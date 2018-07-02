@@ -77,6 +77,7 @@ class Picture extends Component {
             this.props.showList(true)
         }
     }
+
     render() {
 
         const {lists} = this.props.picture

@@ -23,12 +23,12 @@ import history from '../history'
 import JobLogging from './picture/JobLogging'
 import Company from './common/Company'
 
-// import thunk from 'redux-thunk'
+import thunk from 'redux-thunk'
 // import createLogger from 'redux-logger'
 // const logger = createLogger()
 
 
-const store = createStore(reducers)
+const store = createStore(reducers, applyMiddleware(thunk))
 class IcanApp extends Component {
     componentDidMount() {
         console.log(Cookies.get('name'))

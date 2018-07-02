@@ -11,7 +11,7 @@ import {
     showDragDrop, hidenDragDrop
 } from '_redux/actions/dragDrop.js'
 
-import user from 'images/common/user.png'
+import user_img from 'images/common/user.png'
 import 'css/index/common/user.scss'
 import history from 'router/history'
 import Cookies from 'js-cookie'
@@ -79,10 +79,14 @@ class User extends Component {
         })
     }
     render() {
+        const { user } = this.props
         return(
             <div className='user'>
                 <div className='feature'>
-                    <img src={user} alt="" onClick={this.showFeature} />
+                    <div className='user-img' onClick={this.showFeature} style={{backgroundImage: `url(${user.icon||user_img})`}}>
+                        {/* <img src={user.icon||user_img} alt="" onClick={this.showFeature} /> */}
+                    </div>
+                    
                     {this.state.messCount !== 0 && <span className='user-message mess-abosulte'>{this.state.messCount}</span>}
                     <div className={classnames({
                         'user-feature': true,
@@ -124,10 +128,12 @@ class User extends Component {
     }
 }
 User.propTypes = {
-    showDragDrop: PropTypes.func
+    showDragDrop: PropTypes.func,
+    user: PropTypes.object
 }
 const mapStateToProps = (state) => {
     return {
+        user: state.user
         // message: state.message,
         // fieldMessage: state.fieldMessage
     }

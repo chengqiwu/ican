@@ -8,6 +8,7 @@ import 'openlayers/css/ol.css'
 import 'css/map/map.scss'
 import history from 'router/history'
 import UserFeature from './userFeature'
+import {getUserInfo} from '_redux/actions/user'
 class Openlayer extends Component {
     constructor() {
         super()
@@ -17,6 +18,7 @@ class Openlayer extends Component {
         map.setTarget(this.map)
         map.updateSize()
         const token = getUserToken()
+        this.props.getUserInfo()
         if (!token) {
             history.push('/')
             return 
@@ -51,7 +53,8 @@ class Openlayer extends Component {
 Openlayer.propTypes = {
     children: PropTypes.object,
     setTarget: PropTypes.func,
-    map: PropTypes.object
+    map: PropTypes.object,
+    getUserInfo: PropTypes.func
 }
 
 const mapStateToProps = (state) => {
@@ -61,7 +64,8 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispath) => {
     return {
-        setTarget: (target) => dispath({ type: 'changeTarget', target})
+        setTarget: (target) => dispath({ type: 'changeTarget', target}),
+        getUserInfo: () => dispath(getUserInfo())
     }
 }
 Openlayer = connect(mapStateToProps, mapDispatchToProps)(Openlayer)

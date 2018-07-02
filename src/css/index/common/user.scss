@@ -7,6 +7,19 @@
     .feature {
         position: relative;
         cursor: pointer;
+        .user-img {
+            width: 60px;
+            height: 60px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size:cover;
+        }
         .user-message {
             width: 20px;
             height: 20px;

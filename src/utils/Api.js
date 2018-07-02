@@ -94,9 +94,9 @@ export function getUserEmail() {
 export function getUserPhone() {
     return getUserInfo().phone
 }
-export function getUserIcon() {
-    return getUserInfo().icon
-}
+// export function getUserIcon() {
+//     return getUserInfo().icon
+// }
 export function getUserBasicInfo() {
     const { username, name, address, companyName, companyLogo } = getUserInfo()
 
@@ -241,4 +241,10 @@ export function farmLandLogSave(farmLandLog) {
 
 export function findLogPhotoList(params) {
     return axios.post(url + '/api/logPhoto/findList?token=' + getToken(), params)
+}
+export function getUserIcon () {
+    return `${url}/api/user/downLoadUserIcon?token=${getToken()}&timestemp=${Date.now()}`
+}
+export function findLogPhotoById(params) {
+    return axios.post(`${url}/api/logPhoto/findByLogId?token=${getToken()}`,params)
 }

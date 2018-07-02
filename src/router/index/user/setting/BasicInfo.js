@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import Dropzone from 'react-dropzone'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import add from 'images/index/picture/+.png'
 import { updateUserInfo, getUserBasicInfo, getUserInfo2 } from 'utils/Api'
 class BasicInfo extends Component {
@@ -7,6 +9,7 @@ class BasicInfo extends Component {
         super()
         this.state = {
             name: '',
+            username: '',
             address: '',
             companyName: '',
             companyLogo: undefined,
@@ -14,22 +17,15 @@ class BasicInfo extends Component {
         }
     }
     componentDidMount() {
-
-        getUserInfo2()
-            .then(e => e.data)
-            .then(data => {
-                if (data.msg === '200') {
-                    const {result} = data
-                    this.setState({
-                        name: result.name,
-                        address: result.address,
-                        companyName: result.companyName,
-                        companyLogo: result.companyLogo
-                    })
-                } else {
-                    alert('获取用户信息失误')
-                }
-            })
+        console.log(this.props)
+        const {user} = this.props
+        this.setState({
+            username: user.username,
+            name: user.name,
+            address: user.address,
+            companyName: user.companyName,
+            companyLogo: user.companyLogo
+        })
     }
     submit = (e) => {
         e.preventDefault()
@@ -69,7 +65,7 @@ class BasicInfo extends Component {
             <form onSubmit={this.submit}>
                 <div className='input-group'>
                     <label htmlFor="username">用户名：</label>
-                    <input type="text" disabled id='username' value={getUserBasicInfo().username}/>
+                    <input type="text" disabled id='username' value={this.state.username}/>
                 </div>
                 <div className='input-group'>
                     <label htmlFor="name">真实姓名：</label>
@@ -108,4 +104,18 @@ class BasicInfo extends Component {
         </div>
     }
 }
-export default BasicInfo
+
+BasicInfo.propTypes = {
+    user: PropTypes.object
+}
+const mapStateToProps = (state) => {
+    return {
+        user: state.user
+    }
+}
+const mapDispathToProps = (dispatch) => {
+    return {
+
+    }
+}
+export default connect(mapStateToProps, mapDispathToProps)(BasicInfo)

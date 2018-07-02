@@ -158,7 +158,11 @@
                 width: 380px;
                
                 display: flex;
-
+                .drop-zone {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
                 .preview {
                     // margin-left: 100px;
                     display: flex;

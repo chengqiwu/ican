@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
+import PropTypes from 'prop-types'
 import AvatarEditor from 'react-avatar-editor'
 import user from 'images/common/userDefault.png'
-import { updateIcon, getUserInfo2 } from 'utils/Api'
-
+import { updateIcon, getUserIcon, dataUrlToBlob } from 'utils/Api'
+import { connect } from 'react-redux'
+import {getUserInfo} from '_redux/actions/user'
 function dataURItoBlob(dataURI) {
     var byteString = atob(dataURI.split(',')[1])
     var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
@@ -15,39 +17,15 @@ function dataURItoBlob(dataURI) {
     return new Blob([ab], {type: mimeString})
 }
 
-function getBase64Image(img) {
-    var canvas = document.createElement('canvas')
-    canvas.width = img.width
-    canvas.height = img.height
-    var ctx = canvas.getContext('2d')
-    ctx.drawImage(img, 0, 0, img.width, img.height)
-    var dataURL = canvas.toDataURL()
-    return dataURL // return dataURL.replace("data:image/png;base64,", ""); 
-} 
 class HeadPortrait extends Component {
     constructor() {
-
         super()
         this.state = {
-            imgURL: user,
+            imgURL: getUserIcon(),
             scale: 1,
-            canvas: undefined
-            // radius: 0
+            canvas: undefined,
+            loaded: false
         }
-    }
-    componentDidMount() {
-        getUserInfo2()
-            .then(e => e.data)
-            .then(data => {
-                if (data.msg === '200') {
-                    const {result} = data
-                    this.setState({
-                        imgURL: result.icon
-                    })
-                } else {
-                    alert('获取用户信息失误')
-                }
-            })
     }
     preview = (files, reject) => {
         if (reject.length > 1) {
@@ -55,6 +33,8 @@ class HeadPortrait extends Component {
             return
         }
         const file = files[0]
+        this.filename = file.name
+        this.type = file.type
         const reader = new FileReader()
 
         reader.onloadend = () => {
@@ -80,57 +60,75 @@ class HeadPortrait extends Component {
         if (!this.state.imgURL) {
             return
         }
-        const canvas = this.editor.getImage().toDataURL()
+        const canvas = this.editor.getImage().toDataURL(this.type)
         this.setState({
             canvas
         })
     }
+    loadSuccess = () => {
+        const canvas = this.editor.getImage().toDataURL()
+        this.setState({
+            canvas,
+            loaded: true
+        })
+    }
     submit = (e) => {
         e.preventDefault()
-        // var fd = new FormData()
-        // // console.log(this.state.canvas.toDataURL())
-        // var blob = dataURItoBlob(this.state.canvas)
-        // fd.append('ican', blob, 'image.png')
-        // updateIcon(fd).then(e => e.data)
-        //     .then(data => {
-        //         if (data.msg === '200') {
-        //             alert('保存成功')
-        //         }
-        //     })
+        var fd = new FormData()
+        // console.log(this.state.canvas.toDataURL())
+        var blob = dataURItoBlob(this.state.canvas)
+        console.log(blob)
+        // dataUrlToBlob(this.state.canvas)
+        //     .then(e => e.blob())
+        //     .then(blob => console.log(blob))
+        fd.append('ican', blob, this.filename)
+        updateIcon(fd).then(e => e.data)
+            .then(data => {
+                if (data.msg === '200') {
+                    alert('保存成功')
+                    this.props.getUserInfo()
+                }
+            })
     }
     render() {
         console.log('HeadPortrait render')
         return <div className='head-portrait'>
             <form className='preview' onSubmit={this.submit}>
-                <img src={this.state.canvas} alt=""/>
+                {this.state.loaded ? 
+                    <img src={this.state.canvas} alt=""/> : 
+                    <div style={{justifyContent: 'center'}}>加载中...</div>
+                }
                 <div>
                     <input type="button" value='更改' onClick={this.upload}/>
                     <input type="submit" value='保存' />
                 </div>
-                
             </form>
 
             <div className='imgUpload'>
                 <div>
                     <Dropzone 
+                        className='drop-zone'
                         ref={dropzone => this.dropzone = dropzone}
                         onDrop={this.preview}
                         disableClick={!!this.state.imgURL ? true : false}
                         accept="image/jpeg,image/jpg,image/png"
                         style={{ width: '380px', height: '250px' }}
-                    >
+                    >   
                         <AvatarEditor
                             ref={editor=>this.editor=editor}
                             width={200}
                             height={200}
                             image={this.state.imgURL}
                             crossOrigin={'anonymous'}
-                            onLoadSuccess={this.imageChange}
+                            className={!this.state.loaded ? 'hiden' : ''}
+                            onImageReady={e => console.log(e)}
+                            onLoadSuccess={this.loadSuccess}
                             // onImageReady={this}
                             // onImageChange={this.imageChange}
                             scale={Number(this.state.scale)}
                             border={[90, 20]}
                         />
+                        <div className={this.state.loaded ? 'hiden' : ''}>加载中...</div>                 
                     </Dropzone >
                     <div className='avatarTools'>
                         <div>
@@ -152,6 +150,22 @@ class HeadPortrait extends Component {
         </div>
     }
 }
-export default HeadPortrait
+HeadPortrait.propTypes = {
+    getUserInfo: PropTypes.func
+}
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.user
+    }
+}
+const mapDispathToProps = (dispatch) => {
+    return {
+        getUserInfo: function() {
+            dispatch(getUserInfo())
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispathToProps)(HeadPortrait)
 
 

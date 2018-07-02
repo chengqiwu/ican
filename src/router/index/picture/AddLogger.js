@@ -7,7 +7,7 @@ import moment from 'moment'
 import 'react-datepicker/dist/react-datepicker.css'
 import { confirmAlert } from 'react-confirm-alert' // Import
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
-import { farmLandLogSave, findLogPhotoList } from 'utils/Api'
+import { farmLandLogSave, findLogPhotoList, findLogPhotoById } from 'utils/Api'
 
 // import FarmlandLogVo from './class/FarmlandLogVo'
 import add from 'images/index/picture/+.png'
@@ -22,12 +22,23 @@ class AddLogger extends Component {
             files: [],
             startDate: moment(),
             content: '',
-            submiting: false
+            submiting: false,
+            
         }
     }
     componentDidMount() {
+        const {id} = this.props
+        if (id) {
+            const fd = new FormData()
+            fd.append('pageNo', '1')
+            fd.append('pageSize', '-1')
+            fd.append('logId', id)
+            findLogPhotoById(fd).then(e => e.data)
+                .then(data => console.log(data))
+        }
         Scrollbar.init(this.logger)
     }
+    compon
     handleChange = (date) => {
         console.log(date)
         this.setState({
@@ -236,7 +247,8 @@ class AddLogger extends Component {
 AddLogger.propTypes = {
     feature: PropTypes.object,
     close: PropTypes.func,
-    updateLists: PropTypes.func
+    updateLists: PropTypes.func,
+    id: PropTypes.string
 }
 const mapStateToProps = function (state) {
     return {

@@ -17,7 +17,8 @@ class JobLogging extends Component {
         console.log(123)
         this.state = {
             imgs: [],
-            logger: false
+            logger: false,
+            id: undefined
         }
     }
     componentDidMount() {        
@@ -66,6 +67,12 @@ class JobLogging extends Component {
         }
        
     }
+    modifyLogger = (id) => {
+        this.setState({
+            id,
+            logger: true
+        })
+    }
     render() {
         const {show} = this.props.picture
         return (
@@ -81,8 +88,8 @@ class JobLogging extends Component {
                 </div>
 
                 <div className='content'>
-                    <PictureLists {...this.props} />
-                    {this.state.logger && <AddLogger {...this.props} close={this.closeLogger}/>}
+                    <PictureLists {...this.props} modifyLogger={this.modifyLogger}/>
+                    {this.state.logger && <AddLogger {...this.props} close={this.closeLogger} id={this.state.id}/>}
                 </div>
             </div> : null
         )
