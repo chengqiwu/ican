@@ -123,10 +123,10 @@ class Sprite extends Component {
         })
     }
     componentWillUnmount() {
-        cancelAnimationFrame(this.fnReq1())
-        cancelAnimationFrame(this.fnReq2())
-        cancelAnimationFrame(this.fnReq3())
-        cancelAnimationFrame(this.fnReq4())
+        this.fnReq1 && cancelAnimationFrame(this.fnReq1())
+        this.fnReq2 && cancelAnimationFrame(this.fnReq2())
+        this.fnReq3 && cancelAnimationFrame(this.fnReq3())
+        this.fnReq4 && cancelAnimationFrame(this.fnReq4())
     }
     render() {
         return (

@@ -21,6 +21,7 @@ class EmailToken extends Component {
         console.log(123)
         const { location } = this.props
         const parsed = this.parsedLocation(location)
+        // this.email = parsed.email
         console.log(parsed)
         if (parsed.email) {
             // 修改邮箱
@@ -59,6 +60,9 @@ class EmailToken extends Component {
         }
         
     }
+    componentWillUnmount() {
+        clearInterval(this.timer)
+    }
     parsedLocation(location) {
         return queryString.parse(location.search)
     }
@@ -66,13 +70,16 @@ class EmailToken extends Component {
         history.push('/')
     }
     render() {
+        const { location } = this.props
+        const parsed = this.parsedLocation(location)
+        this.email = parsed.email
         return (
             <div className='register-bg'>
                 <Header/>
                 <div className='center'>
                     <div className='register-content'>
                         <div className='topbar'></div>
-                        <h2 className='register-title'>注册精禾云平台账号</h2>
+                        <h2 className='register-title'>{!this.email ? '注册精禾云平台账号' : '修改邮箱'}</h2>
                         <div className='register-success-form center'>
                             <div>
                                 <div className='success-tip'>

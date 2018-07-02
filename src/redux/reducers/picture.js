@@ -18,7 +18,8 @@ function pictureReducer (state= pictureState, action) {
     case UPDATELISTS:
         return {
             ...state,
-            update: action.update
+            // update: action.update,
+            lists: action.lists
         }
         break
     default:

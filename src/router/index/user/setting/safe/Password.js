@@ -24,10 +24,10 @@ class Password extends Component {
     }
     submit = (e) => {
         e.preventDefault()
-        console.log(this.state)
         const {password, newPassword,passwordConfirm} = this.state
         if (!newPassword) {
             alert('要想修改密码，请输入您的新密码')
+            return
         }
         if (newPassword !== passwordConfirm) {
             alert('两次密码输入不一致，请重新输入...')

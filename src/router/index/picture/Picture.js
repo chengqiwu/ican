@@ -53,9 +53,11 @@ class Picture extends Component {
                         if (data.msg === '200') {
                             const {list} = data.result
                             if (list) {
-                                this.setState({
-                                    list
-                                })
+                                // this.setState({
+                                //     list
+                                // })
+                                console.log(list)
+                                this.props.updateLists(list)
                             }
                             
                         } 
@@ -69,30 +71,6 @@ class Picture extends Component {
         baguetteBox.run('.gallery', {
             // Custom options
         })
-        if (this.props.picture.update) {
-            const { feature } = this.props.feature
-            const id = feature.getId().replace('tb_farmland.', '')
-            const quarterCropsId = feature.get('quarterCropsId')
-            const fd = new FormData()
-            fd.append('pageNo', 1)
-            fd.append('pageSize', 14)
-            fd.append('landId', id)
-            fd.append('quarterCropsId', quarterCropsId)
-            findLogPhotoList(fd)
-                .then(e => e.data)
-                .then(data => {
-                    if (data.msg === '200') {
-
-                        const { list } = data.result
-                        if (list) {
-                            this.setState({
-                                list
-                            })
-                        }
-                        this.props.updateLists(false)
-                    }
-                })
-        }
     }
     showMore = () => {
         if (!this.props.picture.show) {
@@ -100,9 +78,12 @@ class Picture extends Component {
         }
     }
     render() {
+
+        const {lists} = this.props.picture
+        console.log(lists)
         return (<div className='pictures gallery'>
             {
-                this.state.list.map(list =>
+                lists.map(list =>
                     <a href={list.largeThumbnailPath} data-caption={`${list.log.content} [${moment(new Date(Number(list.log.logDate))).format('YYYY/MM/D')}]`} key={list.id} className='img-box'>
                         <img src={list.smallThumbnailPath} alt={`${list.log.content} [${moment(new Date(Number(list.log.logDate))).format('YYYY/MM/D')}]`} />
                     </a>

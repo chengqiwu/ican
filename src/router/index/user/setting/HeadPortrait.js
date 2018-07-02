@@ -14,6 +14,16 @@ function dataURItoBlob(dataURI) {
     }
     return new Blob([ab], {type: mimeString})
 }
+
+function getBase64Image(img) {
+    var canvas = document.createElement('canvas')
+    canvas.width = img.width
+    canvas.height = img.height
+    var ctx = canvas.getContext('2d')
+    ctx.drawImage(img, 0, 0, img.width, img.height)
+    var dataURL = canvas.toDataURL()
+    return dataURL // return dataURL.replace("data:image/png;base64,", ""); 
+} 
 class HeadPortrait extends Component {
     constructor() {
 
@@ -101,9 +111,9 @@ class HeadPortrait extends Component {
             </form>
 
             <div className='imgUpload'>
-                
                 <div>
-                    <Dropzone ref={dropzone => this.dropzone = dropzone}
+                    <Dropzone 
+                        ref={dropzone => this.dropzone = dropzone}
                         onDrop={this.preview}
                         disableClick={!!this.state.imgURL ? true : false}
                         accept="image/jpeg,image/jpg,image/png"
@@ -114,6 +124,7 @@ class HeadPortrait extends Component {
                             width={200}
                             height={200}
                             image={this.state.imgURL}
+                            crossOrigin={'anonymous'}
                             onLoadSuccess={this.imageChange}
                             // onImageReady={this}
                             // onImageChange={this.imageChange}

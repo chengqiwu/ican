@@ -3,7 +3,6 @@ import { Link, Route, Switch } from 'react-router-dom'
 
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
-import md5 from 'js-md5'
 
 
 import reducers from '_redux/reducers'
@@ -23,6 +22,11 @@ import RxDragDrop from './RxDragDrop'
 import history from '../history'
 import JobLogging from './picture/JobLogging'
 import Company from './common/Company'
+
+// import thunk from 'redux-thunk'
+// import createLogger from 'redux-logger'
+// const logger = createLogger()
+
 
 const store = createStore(reducers)
 class IcanApp extends Component {

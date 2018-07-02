@@ -7,9 +7,9 @@ export function showList(show) {
         show
     }
 }
-export function updateLists(update) {
+export function updateLists(lists) {
     return {
         type: UPDATELISTS,
-        update
+        lists
     }
 }

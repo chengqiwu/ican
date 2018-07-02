@@ -7,7 +7,8 @@ import moment from 'moment'
 import 'react-datepicker/dist/react-datepicker.css'
 import { confirmAlert } from 'react-confirm-alert' // Import
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
-import { farmLandLogSave } from 'utils/Api'
+import { farmLandLogSave, findLogPhotoList } from 'utils/Api'
+
 // import FarmlandLogVo from './class/FarmlandLogVo'
 import add from 'images/index/picture/+.png'
 
@@ -97,8 +98,37 @@ class AddLogger extends Component {
             const res = e.reduce((a, b) => a && b) 
             if (res) {
                 this.successCallback()
-                this.props.updateLists(true)
-            } 
+
+
+
+                const { feature } = this.props.feature
+                const id = feature.getId().replace('tb_farmland.', '')
+                const quarterCropsId = feature.get('quarterCropsId')
+                const fd = new FormData()
+                fd.append('pageNo', 1)
+                fd.append('pageSize', 14)
+                fd.append('landId', id)
+                fd.append('quarterCropsId', quarterCropsId)
+                findLogPhotoList(fd)
+                    .then(e => e.data)
+                    .then(data => {
+                        if (data.msg === '200') {
+
+                            const { list } = data.result
+                            const { pageNo, cont, pageSize } = data.result
+
+                            if (list) {
+                                this.props.updateLists(list)
+                                // this.setState({
+                                //     list
+                                // })
+                            }
+                            
+
+                        }
+                    })
+                    
+            }
             this.setState({
                 submiting: false
             })
