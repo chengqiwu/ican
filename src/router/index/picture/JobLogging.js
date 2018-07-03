@@ -14,11 +14,10 @@ import add from 'images/index/picture/add.png'
 class JobLogging extends Component {
     constructor() {
         super()
-        console.log(123)
         this.state = {
             imgs: [],
             logger: false,
-            id: undefined
+            log: {}
         }
     }
     componentDidMount() {        
@@ -60,16 +59,16 @@ class JobLogging extends Component {
     }
     handleLogger = (e) => {
         e.preventDefault()
-        if (!this.state.logger) {
+        if (!!this.state.log) {
             this.setState({
-                logger: true
+                log: {} 
             })
         }
        
     }
-    modifyLogger = (id) => {
+    modifyLogger = (log) => {
         this.setState({
-            id,
+            log: JSON.parse(log),
             logger: true
         })
     }
@@ -89,7 +88,7 @@ class JobLogging extends Component {
 
                 <div className='content'>
                     <PictureLists {...this.props} modifyLogger={this.modifyLogger}/>
-                    {this.state.logger && <AddLogger {...this.props} close={this.closeLogger} id={this.state.id}/>}
+                    <AddLogger  {...this.props} close={this.closeLogger} log={this.state.log} logger={this.state.logger}/>
                 </div>
             </div> : null
         )

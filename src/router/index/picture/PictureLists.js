@@ -105,8 +105,8 @@ class PictureLists extends Component {
         e.stopPropagation()
 
 
-        const loggerId = e.target.getAttribute('logger-id')
-        this.props.modifyLogger(loggerId)
+        const logger = e.target.getAttribute('logger-id')
+        this.props.modifyLogger(logger)
     }
 
     render() {
@@ -120,7 +120,7 @@ class PictureLists extends Component {
                             key={list.id} 
                             className='img-box'>
                             <img src={list.smallThumbnailPath} alt={`${list.log.content} [${moment(new Date(Number(list.log.logDate))).format('YYYY/MM/D')}]`} />
-                            <i className="iconfont icon-xiugai" logger-id={list.log.id}></i>
+                            <i className="iconfont icon-xiugai" logger-id={JSON.stringify(list.log)}></i>
                         </a>
                         
                     )
@@ -129,7 +129,7 @@ class PictureLists extends Component {
                     this.state.list.map(list =>
                         <a href={list.largeThumbnailPath} data-caption={`${list.log.content} [${moment(new Date(Number(list.log.logDate))).format('YYYY/MM/D')}]`} key={list.id} className='img-box'>
                             <img src={list.smallThumbnailPath} alt={`${list.log.content} [${moment(new Date(Number(list.log.logDate))).format('YYYY/MM/D')}]`} />
-                            <i className="iconfont icon-xiugai" logger-id={list.log.id}></i>
+                            <i className="iconfont icon-xiugai" logger-id={JSON.stringify(list.log)}></i>
                         </a>
 
                     )

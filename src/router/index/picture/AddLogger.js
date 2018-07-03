@@ -23,22 +23,50 @@ class AddLogger extends Component {
             startDate: moment(),
             content: '',
             submiting: false,
-            
+            list: []
         }
     }
     componentDidMount() {
-        const {id} = this.props
-        if (id) {
+        Scrollbar.init(this.logger)
+    }
+    componentDidUpdate(prevProps, prevState) {
+        Scrollbar.init(this.logger)
+        if (!this.props.log || !prevProps.log) {
+            return
+        }
+        if (this.props.log.id !== prevProps.log.id) {
+            console.log(this.props.log.id)
+            if (!this.props.log.id) {
+                this.setState({
+                    files: [],
+                    startDate: moment(),
+                    content: '',
+                    // submiting: false,
+                    list: []
+                })
+                return
+            }
             const fd = new FormData()
             fd.append('pageNo', '1')
             fd.append('pageSize', '-1')
-            fd.append('logId', id)
+            fd.append('logId', this.props.log.id)
             findLogPhotoById(fd).then(e => e.data)
-                .then(data => console.log(data))
+                .then(data => {
+                    if (data.msg === '200') {
+                        const {list} = data.result
+                        
+                        this.setState({
+                            list,
+                            startDate: moment(new Date(Number(this.props.log.logDate))),
+                            content: this.props.log.content
+                        })
+                    }
+                    
+                }) 
         }
-        Scrollbar.init(this.logger)
+        
+        
     }
-    compon
     handleChange = (date) => {
         console.log(date)
         this.setState({
@@ -110,8 +138,6 @@ class AddLogger extends Component {
             if (res) {
                 this.successCallback()
 
-
-
                 const { feature } = this.props.feature
                 const id = feature.getId().replace('tb_farmland.', '')
                 const quarterCropsId = feature.get('quarterCropsId')
@@ -130,15 +156,9 @@ class AddLogger extends Component {
 
                             if (list) {
                                 this.props.updateLists(list)
-                                // this.setState({
-                                //     list
-                                // })
                             }
-                            
-
                         }
                     })
-                    
             }
             this.setState({
                 submiting: false
@@ -188,11 +208,7 @@ class AddLogger extends Component {
     componentWillUpdate() {
         Scrollbar.destroy(this.logger)
     }
-    componentDidUpdate() {
-        Scrollbar.init(this.logger)
-        // Scrollbar.init(this.logger)
-        // Scrollbar.init()
-    }
+  
     deleteFileByIndex = (e) => {
         e.preventDefault()
         const index = e.target.getAttribute('data-index')
@@ -203,10 +219,15 @@ class AddLogger extends Component {
             ]
         })
     }
+    deletelistByIndex = (e) => {
+        e.preventDefault()
+        const key = e.target.getAttribute('data-index')
+    
+    }
     render() {
-        console.log(this.state.files)
         return (
-            <div className='add-logger'>
+            // }
+            <div className='add-logger' style={{ display: !this.props.logger ? 'none' : 'flex'}}>
                 <form onSubmit={this.submit}>
                     <div className='input-group'>
                         <label htmlFor="date">日期：</label>
@@ -234,6 +255,13 @@ class AddLogger extends Component {
                                 <a href="#" data-index={i} onClick={this.deleteFileByIndex}></a>
                             </div>)
                     }
+                    {
+                        this.state.list.map(list => 
+                            <div key={list.id} className='logger-box preview' style={{ backgroundImage: `url(${list.smallThumbnailPath})`}}>
+                                <a href="#" data-index={list.id} onClick={this.deletelistByIndex}></a>
+                            </div>
+                        )
+                    }
                     <div className='logger-box'>
                         <Dropzone className='drop-zone' onDrop={this.onDrop} multiple={false}>
                             <img src={add} alt="" />
@@ -248,7 +276,8 @@ AddLogger.propTypes = {
     feature: PropTypes.object,
     close: PropTypes.func,
     updateLists: PropTypes.func,
-    id: PropTypes.string
+    log: PropTypes.object,
+    logger: PropTypes.bool
 }
 const mapStateToProps = function (state) {
     return {
