@@ -22,13 +22,13 @@ import RxDragDrop from './RxDragDrop'
 import history from '../history'
 import JobLogging from './picture/JobLogging'
 import Company from './common/Company'
-
+import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
-// import createLogger from 'redux-logger'
+import logger from 'redux-logger'
 // const logger = createLogger()
 
 
-const store = createStore(reducers, applyMiddleware(thunk))
+const store = createStore(reducers, {}, composeWithDevTools(applyMiddleware(logger, thunk)))
 class IcanApp extends Component {
     componentDidMount() {
         console.log(Cookies.get('name'))

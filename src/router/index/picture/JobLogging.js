@@ -49,8 +49,9 @@ class JobLogging extends Component {
     
     close = (e) => {
         e.preventDefault()
-        this.props.showList(false)
         this.closeLogger()
+        this.props.showList(false)
+        
     }
     closeLogger = () => {
         this.setState({
@@ -59,11 +60,11 @@ class JobLogging extends Component {
     }
     handleLogger = (e) => {
         e.preventDefault()
-        if (!!this.state.log) {
-            this.setState({
-                log: {} 
-            })
-        }
+       
+        this.setState({
+            logger: true,
+            log: {}
+        })
        
     }
     modifyLogger = (log) => {

@@ -232,8 +232,9 @@ export function updateUserInfo(userInfo) {
 
 export function farmLandLogSave(farmLandLog) {
     let config = {
-        headers: {
-            'Content-Type': 'multipart/form-data',}
+        // headers: {
+        //     'Content-Type': 'multipart/form-data',},
+        // withCredentials: true
     }
     return axios.post(url + '/api/farmlandLog/save?token=' + getToken(), farmLandLog, config)
 }
@@ -247,4 +248,7 @@ export function getUserIcon () {
 }
 export function findLogPhotoById(params) {
     return axios.post(`${url}/api/logPhoto/findByLogId?token=${getToken()}`,params)
+}
+export function deleteLogPhotoById(id) {
+    return axios.post(`${url}/api/logPhoto/delete?token=${getToken()}`, id)
 }

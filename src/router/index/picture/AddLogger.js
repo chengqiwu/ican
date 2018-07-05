@@ -7,7 +7,7 @@ import moment from 'moment'
 import 'react-datepicker/dist/react-datepicker.css'
 import { confirmAlert } from 'react-confirm-alert' // Import
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
-import { farmLandLogSave, findLogPhotoList, findLogPhotoById } from 'utils/Api'
+import { farmLandLogSave, findLogPhotoList, findLogPhotoById, deleteLogPhotoById } from 'utils/Api'
 
 // import FarmlandLogVo from './class/FarmlandLogVo'
 import add from 'images/index/picture/+.png'
@@ -78,7 +78,7 @@ class AddLogger extends Component {
             content: e.target.value
         })
     }
-    upload = (file) => {
+    upload = () => {
         const { feature } = this.props.feature
         const id = feature.getId().replace('tb_farmland.', '')
         const quarterCropsId = feature.get('quarterCropsId')
@@ -92,13 +92,18 @@ class AddLogger extends Component {
             content: this.state.content
         }))
 
-        fd.append('images', file)
+        this.state.files.map(file => fd.append('images[]', file))
+        
         return farmLandLogSave(fd)
             .then(e => e.data)
             .then(data => {
                 if (data.msg === '200') {
-                    return true
+                    this.successCallback()
+                    this.updateLists()
                 }
+                this.setState({
+                    submiting: false
+                })
             })
     }
     simple = () => {
@@ -128,42 +133,23 @@ class AddLogger extends Component {
         this.setState({
             submiting: true
         })
-        const promise = this.state.files.map(file => this.upload(file))
-        if (promise.length === 0) {
-            promise.push(this.simple())
-        }
-        Promise.all(promise).then(e => {
+        this.upload()
+        // const promise = this.state.files.map(file => this.upload(file))
+        // if (promise.length === 0) {
+        //     promise.push(this.simple())
+        // }
+        // Promise.all(promise).then(e => {
             
-            const res = e.reduce((a, b) => a && b) 
-            if (res) {
-                this.successCallback()
-
-                const { feature } = this.props.feature
-                const id = feature.getId().replace('tb_farmland.', '')
-                const quarterCropsId = feature.get('quarterCropsId')
-                const fd = new FormData()
-                fd.append('pageNo', 1)
-                fd.append('pageSize', 14)
-                fd.append('landId', id)
-                fd.append('quarterCropsId', quarterCropsId)
-                findLogPhotoList(fd)
-                    .then(e => e.data)
-                    .then(data => {
-                        if (data.msg === '200') {
-
-                            const { list } = data.result
-                            const { pageNo, cont, pageSize } = data.result
-
-                            if (list) {
-                                this.props.updateLists(list)
-                            }
-                        }
-                    })
-            }
-            this.setState({
-                submiting: false
-            })
-        })
+        //     const res = e.reduce((a, b) => a && b) 
+        //     if (res) {
+        //         this.successCallback()
+        //         this.updateLists()
+               
+        //     }
+        //     this.setState({
+        //         submiting: false
+        //     })
+        // })
         // Axios.all(promise).then(e => e.data)
         // fd.append('farmlandLogStr', farmlandLogVo.toString())
         // 
@@ -176,6 +162,27 @@ class AddLogger extends Component {
         //             this.successCallback()
         //         }
         //     })
+    }
+    updateLists = () =>{
+        const { feature } = this.props.feature
+        const id = feature.getId().replace('tb_farmland.', '')
+        const quarterCropsId = feature.get('quarterCropsId')
+        const fd = new FormData()
+        fd.append('pageNo', 1)
+        fd.append('pageSize', 14)
+        fd.append('landId', id)
+        fd.append('quarterCropsId', quarterCropsId)
+        findLogPhotoList(fd)
+            .then(e => e.data)
+            .then(data => {
+                if (data.msg === '200') {
+
+                    const { list } = data.result
+                    if (list) {
+                        this.props.updateLists(list)
+                    }
+                }
+            })
     }
     successCallback() {
         confirmAlert({
@@ -219,10 +226,22 @@ class AddLogger extends Component {
             ]
         })
     }
-    deletelistByIndex = (e) => {
+    deletelistById = (e) => {
         e.preventDefault()
-        const key = e.target.getAttribute('data-index')
-    
+        const id = e.target.getAttribute('data-id')
+        const fd = new FormData()
+        fd.append('id', id)
+        deleteLogPhotoById(fd)
+            .then(e => e.data)
+            .then(data => {
+                if (data.msg === '200') {
+                    const {list} = this.state
+                    this.setState({
+                        list: list.filter(list => list.id !== id)
+                    })
+                    this.updateLists()
+                }
+            })
     }
     render() {
         return (
@@ -245,9 +264,11 @@ class AddLogger extends Component {
                     </div>
                     <div className='submit'>
                         <input type="submit" value={this.state.submiting?'保存中...':'保存'} disabled={this.state.submiting} />
+                        <input type="submit" value={'删除'}/>
                     </div>
                 </form>
                 <div className='logger-img' ref={logger => this.logger = logger}>
+                    {/* 本地上传列表 */}
                     {
                         this.state.files.map((file, i) =>
                             <div key={i} className='logger-box preview' style={{ backgroundImage: `url(${file.preview})`}}>
@@ -255,10 +276,11 @@ class AddLogger extends Component {
                                 <a href="#" data-index={i} onClick={this.deleteFileByIndex}></a>
                             </div>)
                     }
+                    {/* 从服务器获得列表 */}
                     {
                         this.state.list.map(list => 
                             <div key={list.id} className='logger-box preview' style={{ backgroundImage: `url(${list.smallThumbnailPath})`}}>
-                                <a href="#" data-index={list.id} onClick={this.deletelistByIndex}></a>
+                                <a href="#" data-id={list.id} onClick={this.deletelistById}></a>
                             </div>
                         )
                     }
