@@ -18,10 +18,13 @@ class List extends Component {
                             <img src={edit} alt="" onClick={this.props.showList.bind(this, list)}/></div>
                         <div className='log-content' >{list.content}</div>
                     </div>
-                    <div className='imgs' onClick={e => this.props.show(list)}>
-                        <span>{list.imageCount}</span>
-                        <img src={camera} alt="" />
-                    </div>
+                    {
+                        list.imageCount !== '0' &&  <div className='imgs' onClick={e => this.props.show(list)}>
+                            <span>{list.imageCount}</span>
+                            <img src={camera} alt="" />
+                        </div>
+                    }
+                   
                 </div>
             </div>
         )

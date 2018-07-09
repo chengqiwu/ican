@@ -13,11 +13,12 @@ class Top extends Component {
     }
     componentDidMount() {
         this.getInfo(this.props.logger)
+        this.index = 0
 
     }
     componentDidUpdate() {
+        console.log('componentDidUpdate')
         if (this.state.list.length > 0) {
-            
             const self = this
             function G(s) {
                 return document.getElementById(s)
@@ -82,7 +83,6 @@ class Top extends Component {
             var num2 = Math.ceil(num / 2)
 
             function Change() {
-
                 Animate(oPicUl, { left: - index * w1 })
 
                 if (index < num2) {
@@ -97,9 +97,8 @@ class Top extends Component {
                     oListLi[i].className = ''
                     if (i == index) {
                         oListLi[i].className = 'on'
-                        self.setState({
-                            activeList: self.state.list[index]
-                        })
+                        self.describe.innerHTML =  self.state.list[index].describe
+
                     }
                 }
             }
@@ -107,7 +106,9 @@ class Top extends Component {
             oNextTop.onclick = oNext.onclick = function () {
 
                 index++
+                
                 index = index == len2 ? 0 : index
+                console.log(index)
                 Change()
             }
             oPrevTop.onclick = oPrev.onclick = function () {
@@ -151,10 +152,11 @@ class Top extends Component {
             <div className='modal'>
                 <span className="close" onClick={e => this.props.closer()}>×</span>
                 <div className='caption'>
-                    {moment(new Date(logger.date)).format('YYYY年MM月DD日')}  {logger.content}
-                    <div className='describe'>
+                    [{moment(new Date(logger.date)).format('YYYY年MM月DD日')}] {logger.content}
+                    <div className='describe' ref={describe => this.describe = describe}>
                         {this.state.activeList.describe}
                     </div>
+                    
                 </div>
                 <div className="mod18">
                     

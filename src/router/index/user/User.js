@@ -10,13 +10,14 @@ import {
     SHOWDRAGDROP, HIDENDRAGDROP,
     showDragDrop, hidenDragDrop
 } from '_redux/actions/dragDrop.js'
-
+import RxDragDrop from './myField/RxDragDrop'
 import user_img from 'images/common/user.png'
 import 'css/index/common/user.scss'
 import history from 'router/history'
 import Cookies from 'js-cookie'
 import filed from 'images/feature/filed.png'
 import setting from 'images/feature/setting.png'
+import myfields from 'images/feature/myfields.png'
 import remind from 'images/feature/remind.png'
 import service from 'images/feature/service.png'
 import loginout from 'images/feature/loginout.png'
@@ -29,7 +30,8 @@ class User extends Component {
             draw: false,
             messCount: 0,
             clear: false,
-            setting: false
+            setting: false,
+            myfield: false
         }
         this.showFeature = this.showFeature.bind(this)
         this.addField = this.addField.bind(this)
@@ -78,6 +80,19 @@ class User extends Component {
             node: Content
         })
     }
+    showMyField = () => {
+
+        this.setState({
+            hiden: true,
+            myfield: true
+        })
+    }
+    myfieldClose = () => {
+        this.setState({
+            // hiden: true,
+            myfield: false
+        })
+    }
     render() {
         const { user } = this.props
         return(
@@ -86,7 +101,7 @@ class User extends Component {
                     <div className='user-img' onClick={this.showFeature} style={{backgroundImage: `url(${user.icon||user_img})`}}>
                         {/* <img src={user.icon||user_img} alt="" onClick={this.showFeature} /> */}
                     </div>
-                    
+                    {this.state.myfield && <RxDragDrop close={this.myfieldClose} title={'我的田地'}/>}
                     {this.state.messCount !== 0 && <span className='user-message mess-abosulte'>{this.state.messCount}</span>}
                     <div className={classnames({
                         'user-feature': true,
@@ -99,6 +114,10 @@ class User extends Component {
                                 <Polygon 
                                     onRef={this.onRef.bind(this)}
                                     draw={this.state.draw} removeDraw={this.removeDraw}></Polygon>
+                            </li>
+                            <li>
+                                <img src={myfields} alt="" />
+                                <label onClick={this.showMyField}>我的田地</label>
                             </li>
                             <li>
                                 <img src={setting} alt=""/>

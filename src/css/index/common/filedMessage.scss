@@ -1,20 +1,22 @@
 .filed-message {
     display: block;
-    padding: 5px;
+    // padding: 5px;
     height: 400px ;
-    position: absolute;
+    position: relative;
     width: 100%;
     .filed-title {
-        background-color: #f5f5f5;
+        background-color: #3478f5;
         height: 50px;
         padding: 10px;
-        border-radius: 5px 5px 0 0;
-        border: 1px solid #ededed;
+        // border-radius: 5px 5px 0 0;
+        color: #fff;
+        // border: 1px solid #ededed;
     }
     .filed-closer {
         position: absolute;
         right: 10px;
         top: 10px;
+        color: #fff;
         &::after {
             content: "✖";
         }
@@ -49,7 +51,7 @@
             }
         }
         .first, .next,  {
-            width: 100%;
+            width: 99%;
             // height: 250px;
             display: flex;
             margin: 10px 0;

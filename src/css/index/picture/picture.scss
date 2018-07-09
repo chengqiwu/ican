@@ -30,7 +30,7 @@
 }
 
 .pictureLists {
-    height: 250px;
+    // height: 250px;
     display: flex;
     flex-direction: column;
     .title {
@@ -72,7 +72,16 @@
         background-color: #eee;
         padding: 10px;
         flex-wrap: wrap;
-        
+        height: 180px;
+        .lists {
+            > div {
+                width: 100%;
+            }
+        }
+        .scroll-content {
+            display: flex;
+            flex-wrap: wrap;
+        }
         .picture-list {
             height: 200px;  
             width: 500px;
@@ -156,7 +165,7 @@
                 .submit {
                     display: flex;
                     justify-content: center;
-                    margin-bottom: 15px;
+                    margin: 15px 0;
                      input {
                         color: #fff;
                         width: 100px;
@@ -171,7 +180,7 @@
             .logger-img {
                 // width:290px;
                 // height:206px;
-
+                height: 510px;
                 .scroll-content {
                     display: flex;
                     flex-wrap: wrap;
@@ -244,7 +253,7 @@
     flex-wrap: wrap;
     .listItems {
         background: #fff;
-        margin: 10px;
+        margin: 7px;
         width: 300px;
         height: 70px;
         padding: 10px;

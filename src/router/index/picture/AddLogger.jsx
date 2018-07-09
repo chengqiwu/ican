@@ -5,6 +5,7 @@ import Dropzone from 'react-dropzone'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import md5 from 'js-md5'
+import arrow from 'images/index/picture/arrow.png'
 import 'react-datepicker/dist/react-datepicker.css'
 import { confirmAlert } from 'react-confirm-alert' // Import
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
@@ -26,7 +27,8 @@ class AddLogger extends Component {
             content: '',
             submiting: false,
             list: [],
-            describe: {}
+            describe: {},
+            showLoggerImg: false
         }
     }
     componentDidMount() {
@@ -108,6 +110,10 @@ class AddLogger extends Component {
     upload = () => {
         const { feature } = this.props.feature
         const id = feature.getId().replace('tb_farmland.', '')
+        if (!id) {
+            alert('该田地还没有种植季信息，不能创建日志！')
+            return
+        }
         const quarterCropsId = feature.get('quarterCropsId')
         console.log(id, quarterCropsId)
         const fd = new FormData()
@@ -200,7 +206,7 @@ class AddLogger extends Component {
             alert('上传文件错误，请重新上传')
             return
         }
-        files[0].md5 = md5(files[0].preview)
+        files[0].md5 = md5(Date.now().toString())
         this.setState({
             files: [
                 ...this.state.files,
@@ -235,6 +241,11 @@ class AddLogger extends Component {
                 }
             })
     }
+    showLoggerImg = () => {
+        this.setState({
+            showLoggerImg: !this.state.showLoggerImg
+        })
+    }
     render() {
         return (
             // }
@@ -256,7 +267,12 @@ class AddLogger extends Component {
                                 onChange={this.contentChange} />
                         </div>
                     </div>
-                    <div className='logger-img' ref={logger => this.logger = logger}>
+                    <div style={{display: 'flex', alignItems: 'center', fontSize: '13px',padding:'0 15px', cursor: 'pointer'}} onClick={this.showLoggerImg}>
+                        <img src={arrow} />
+                        添加照片
+                        <div style={{borderBottom: '1px solid #ddd', flexGrow: 1}}></div>
+                    </div>
+                    <div className='logger-img' ref={logger => this.logger = logger} style={{display: this.state.showLoggerImg ? 'block' : 'none'}}>
                         {/* 本地上传列表 */}
                         {
                             this.state.files.map((file, i) => <Item 

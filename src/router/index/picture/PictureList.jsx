@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import List from './List'
+import Scrollbar from 'smooth-scrollbar'
 import { connect } from 'react-redux'
 import RxDragDrop from './RxDragDrop'
 import Top from './Top'
@@ -31,7 +32,7 @@ class PictureList extends Component {
         const id = feature.getId().replace('tb_farmland.', '')
         const isNew = feature.get('status')
         if (isNew !== '0') {
-            alert('请先保存季节信息')
+            alert('该田地还没有种植季信息，请尽快完善！')
             return
         }
 
@@ -54,7 +55,7 @@ class PictureList extends Component {
                 }
                 const fd = new FormData()
                 fd.append('pageNo', 1)
-                fd.append('pageSize', 14)
+                fd.append('pageSize', 200)
                 fd.append('landId', id)
                 fd.append('quarterCropsId', quarterCropsId)
                 findlandLogList(fd)
@@ -66,13 +67,72 @@ class PictureList extends Component {
                                 // this.setState({
                                 //     list
                                 // })
-                                console.log(list)
                                 this.props.updateLists(list)
+                            } else {
+                                this.props.updateLists([])
                             }
+                           
 
                         }
                     })
             })
+    }
+    componentWillUpdate() {
+        
+        Scrollbar.destroyAll()
+    }
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.feature.feature.getId().replace('tb_farmland.', '') 
+            !== prevProps.feature.feature.getId().replace('tb_farmland.', '')) {
+            const {feature} = this.props.feature
+            const id = feature.getId().replace('tb_farmland.', '')
+            const isNew = feature.get('status')
+            if (isNew !== '0') {
+                alert('该田地还没有种植季信息，请尽快完善！')
+                return
+            }
+
+            findReasonById({
+                farmLandId: id,
+                isNew
+            })
+                .then(e => e.data)
+                .then(data => {
+                    if (data.msg === '200') {
+                        feature.set('quarterCropsId', data.result.quarterCropsId)
+                        return data.result.quarterCropsId
+                    } else {
+                        alert('请求出现问题，请稍后重试')
+                        return undefined
+                    }
+                }).then(quarterCropsId => {
+                    if (!quarterCropsId) {
+                        return
+                    }
+                    const fd = new FormData()
+                    fd.append('pageNo', 1)
+                    fd.append('pageSize', 200)
+                    fd.append('landId', id)
+                    fd.append('quarterCropsId', quarterCropsId)
+                    findlandLogList(fd)
+                        .then(e => e.data)
+                        .then(data => {
+                            if (data.msg === '200') {
+                                const { list } = data.result
+                                if (list) {
+                                    // this.setState({
+                                    //     list
+                                    // })
+                                    this.props.updateLists(list)
+                                }else {
+                                    this.props.updateLists([])
+                                }
+
+                            }
+                        })
+                })
+        }
+        Scrollbar.init(this.lists) 
     }
     destory = () => {
         this.setState({
@@ -96,11 +156,14 @@ class PictureList extends Component {
         console.log(flag)
         return (
             <div className='lists'>
-                { flag && <RxDragDrop title={this.state.logger.id ? '编辑日志' : '新建日志'} logger={this.state.logger} destory={this.destory} />}
+                { flag && <RxDragDrop title={this.state.logger.id ? '编辑日志' : '新建日志'} logger={this.state.logger} close={this.destory} />}
                 {!this.state.close && <Top closer={this.closer} logger={this.state.list}/>}
-                {lists.map(list =>
-                    <List key={list.id} list={list} showList={this.showList} show={this.show}/>
-                )}
+                <div ref={lists => this.lists = lists}>
+                    {lists.map(list =>
+                        <List key={list.id} list={list} showList={this.showList} show={this.show} />
+                    )}
+                </div>
+               
             </div>
             
         )

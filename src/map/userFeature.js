@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import ol from 'openlayers'
 import axios from 'axios'
 import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import { updateFeature } from '_redux/actions/userFeature'
 import Popup from './Popup'
 import { getArea } from 'utils/tools'
 import { geoserverUrl } from '../url'
@@ -38,7 +40,7 @@ class UserFeature extends Component {
                 version: '1.0.0',
                 request: 'GetFeature',
                 typeName: 'ican:tb_farmland',
-                maxFeatures: 50,
+                maxFeatures: 500,
                 outputFormat: 'application/json',
                 CQL_FILTER: `master_id=='${getUserInfo().id}'`,
             }
@@ -46,6 +48,7 @@ class UserFeature extends Component {
             return response.data
         }).then((data) => {
             console.log(data)
+            this.props.update(data.features)
             if (data.totalFeatures === 0) {
                 var geolocation = new BMap.Geolocation()
                 geolocation.getCurrentPosition(function (r) {
@@ -110,6 +113,16 @@ class UserFeature extends Component {
     }
 }
 UserFeature.propTypes = {
-    map: PropTypes.object
+    map: PropTypes.object,
+    update: PropTypes.func
 }
-export default UserFeature
+
+const mapDispatchToProps = function (dispath) {
+    return {
+
+        update: (features) => {
+            dispath(updateFeature(features))
+        }
+    }
+}
+export default connect(null, mapDispatchToProps)(UserFeature)

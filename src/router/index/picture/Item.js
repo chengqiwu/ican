@@ -9,8 +9,10 @@ class Item extends Component {
         }
     }
     componentDidMount() {
+        console.log(this.props.file)
         this.setState({
-            name: this.props.file.name
+            name: this.props.file.name,
+            content: this.props.file.describe || ''
         })  
         this.props.describe({
             name: this.props.file.name,

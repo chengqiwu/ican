@@ -3,7 +3,7 @@ import feature from './reducers/feature'
 import map from './reducers/map'
 import dragDrop from './reducers/dragDrop'
 import picture from './reducers/picture'
-import field from './reducers/field'
+import userFeature from './reducers/userFeature'
 import fieldMessage from './reducers/fieldMessage'
 import message from './reducers/message'
 import user from './reducers/user'
@@ -15,6 +15,7 @@ const reducer = combineReducers({
     polygon,
     map,
     // field: map,
+    userFeature,
     picture,
     dragDrop,
     feature,

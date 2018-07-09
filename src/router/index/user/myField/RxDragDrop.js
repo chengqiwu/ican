@@ -4,7 +4,7 @@ import Rx from 'rxjs/Rx'
 
 import 'css/index/common/drapDrop.scss'
 import Scrollbar from 'smooth-scrollbar'
-import AddLogger from './AddLogger.jsx'
+import Field from './Field'
 
 const validValue = (value, max, min) => {
     return Math.min(Math.max(value, min), max)
@@ -16,7 +16,7 @@ class RxDragDrop extends Component {
 
     }
     componentDidMount() {
-
+        Scrollbar.init(this.content)
         this.mouseDown = Rx.Observable.fromEvent(this.title, 'mousedown')
         this.mouseUp = Rx.Observable.fromEvent(document, 'mouseup')
         this.mouseMove = Rx.Observable.fromEvent(document, 'mousemove')
@@ -48,16 +48,17 @@ class RxDragDrop extends Component {
     }
     render() {
         const style = {
-            top: '30%',
-            left: '30%',
-            width: '900px'
+            top: '20%',
+            left: '85%',
+            // right: '32px',
+            width: '240px'
         }
         return (
             <div ref={drapDrop => this.drapDrop = drapDrop} className="dragDrop" style={style}>
                 <h3 ref={title => this.title = title} className='dragDrop-title'>{this.props.title}</h3>
                 <a href="#" id="dragDrop-closer" className="dragDrop-closer" onClick={this.destory.bind(this)}></a>
-                <div className="dragDrop-content" ref={content => this.content = content} style={{ height: 'auto' }}>
-                    <AddLogger {...this.props}/>
+                <div className="dragDrop-content" ref={content => this.content = content} style={{ height: '400px', minHeight: '100px' }}>
+                    <Field {...this.props} />
                 </div>
             </div>
 

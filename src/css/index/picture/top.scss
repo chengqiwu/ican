@@ -81,17 +81,19 @@
 .caption{
     font-size: 14px;
     // margin:auto;
-    display: block;
+    display: flex;
+    justify-content: space-between;
     // width:80%;
-    padding-left: 30%;
+    align-items: center;
+    padding: 0 10%;
     height: 70px;
     // padding-top: 20%;
     // vertical-align: middle;
     // max-width:700px;
     // text-align: center;
     padding-top: 10px;
-    color: #ccc;
-    background-color: #000;
+    color: #fff;
+    background-color: #3478f5ad;
     // padding:10px 0;
     // height:150px;
 }
@@ -132,6 +134,6 @@
 }
 
 .describe {
-    margin-left: 110px;
-    color: #fbc793;
+    // margin-left: 110px;
+    // color: #fbc793;
 }
