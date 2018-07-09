@@ -62,7 +62,8 @@ class FiledMessage extends Component {
                 }
             })
     }
-    closer() {
+    closer(e) {
+        e.preventDefault()
         const { start, show } = this.props.fieldMessage
         start && this.props.startFieldMessage(false)
         show  && this.props.showFieldMessage(false)

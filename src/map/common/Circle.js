@@ -4,7 +4,7 @@ import ol from 'openlayers'
 
 import { connect } from 'react-redux'
 import DragDrop from 'router/index/common/RxDragDrop'
-
+import { showList, updateLists } from '_redux/actions/picture.js'
 import circle from 'images/circle/circle.png'
 import red from 'images/circle/red.png'
 import blue from 'images/circle/blue.png'
@@ -213,7 +213,7 @@ class Circle extends Component {
         super(props)
         this.state = {
             feature: null,
-            box: []
+            box: [],
         }
     }
     componentDidMount() {
@@ -306,6 +306,11 @@ class Circle extends Component {
         })
     }
     handler(index) {
+        if (index === 1) {
+            console.log(index)
+            this.props.showList(true)
+            return
+        }
         const { box } = this.state
         const feature = this.state.feature
         const res = []
@@ -355,7 +360,8 @@ class Circle extends Component {
 }
 Circle.propTypes = {
     map: PropTypes.object,
-    feature: PropTypes.object
+    feature: PropTypes.object,
+    showList: PropTypes.func
 }
 const mapStateToProps = (state) => {
     return {
@@ -363,4 +369,14 @@ const mapStateToProps = (state) => {
         feature: state.feature
     }
 }
-export default connect(mapStateToProps)(Circle)
+const mapDispatchToProps = function (dispath) {
+    return {
+        showList: (show) => {
+            dispath(showList(show))
+        },
+        updateLists: (update) => {
+            dispath(updateLists(update))
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Circle)

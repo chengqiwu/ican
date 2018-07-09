@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import { Link, Route, Switch } from 'react-router-dom'
 
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
@@ -18,22 +17,27 @@ import FieldMessage from './fieldMessage/FieldMessage'
 import User from './user/User'
 import Tools from './tools/Tools'
 import RxDragDrop from './RxDragDrop'
-
+import { getUserToken} from 'utils/Api'
 import history from '../history'
 import JobLogging from './picture/JobLogging'
 import Company from './common/Company'
-import { composeWithDevTools } from 'redux-devtools-extension'
+// import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
-import logger from 'redux-logger'
+// import logger from 'redux-logger'
 // const logger = createLogger()
 
 
-const store = createStore(reducers, {}, composeWithDevTools(applyMiddleware(logger, thunk)))
+const store = createStore(reducers, {}, applyMiddleware(thunk))
 class IcanApp extends Component {
     componentDidMount() {
         console.log(Cookies.get('name'))
         if (!Cookies.get('name')) {
             history.push('/')
+        }
+        const token = getUserToken()
+        if (!token) {
+            history.push('/')
+            return
         }
     }
     render() {

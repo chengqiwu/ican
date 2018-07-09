@@ -243,6 +243,9 @@ export function farmLandLogSave(farmLandLog) {
 export function findLogPhotoList(params) {
     return axios.post(url + '/api/logPhoto/findList?token=' + getToken(), params)
 }
+export function findlandLogList(params) {
+    return axios.post(url + '/api/farmlandLog/findList?token=' + getToken(), params)
+}
 export function getUserIcon () {
     return `${url}/api/user/downLoadUserIcon?token=${getToken()}&timestemp=${Date.now()}`
 }

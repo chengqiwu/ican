@@ -1,30 +1,40 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { findReasonById, findLogPhotoList } from 'utils/Api'
-import 'css/index/picture/picture.scss'
-import baguetteBox from 'baguettebox.js'
-import moment from 'moment'
+import List from './List'
 import { connect } from 'react-redux'
+import RxDragDrop from './RxDragDrop'
+import Top from './Top'
 import { showList, updateLists } from '_redux/actions/picture.js'
-import more from 'images/index/picture/more.png'
-
-class Picture extends Component {
+import { findReasonById, findlandLogList } from 'utils/Api'
+class PictureList extends Component {
     constructor() {
         super()
         this.state = {
-            list: []
+            show: false,
+            logger: {},
+            close: true,
+            list: {}
         }
     }
+    showList = (list) => {
+        console.log(list)
+        this.setState({
+            show: true,
+            logger: list
+        })
+    }
     componentDidMount() {
-
-        const {feature} = this.props.feature
+        const { feature } = this.props.feature
+        if (!feature) {
+            return
+        }
         const id = feature.getId().replace('tb_farmland.', '')
         const isNew = feature.get('status')
         if (isNew !== '0') {
             alert('请先保存季节信息')
             return
         }
-       
+
         findReasonById({
             farmLandId: id,
             isNew
@@ -47,11 +57,11 @@ class Picture extends Component {
                 fd.append('pageSize', 14)
                 fd.append('landId', id)
                 fd.append('quarterCropsId', quarterCropsId)
-                findLogPhotoList(fd)
-                    .then(e=>e.data)
+                findlandLogList(fd)
+                    .then(e => e.data)
                     .then(data => {
                         if (data.msg === '200') {
-                            const {list} = data.result
+                            const { list } = data.result
                             if (list) {
                                 // this.setState({
                                 //     list
@@ -59,45 +69,44 @@ class Picture extends Component {
                                 console.log(list)
                                 this.props.updateLists(list)
                             }
-                            
-                        } 
+
+                        }
                     })
             })
-        baguetteBox.run('.gallery', {
-            // Custom options
+    }
+    destory = () => {
+        this.setState({
+            show: false
         })
     }
-    componentDidUpdate() {
-        baguetteBox.run('.gallery', {
-            // Custom options
+    closer = () => {
+        this.setState({
+            close: true
         })
     }
-    showMore = () => {
-        if (!this.props.picture.show) {
-            this.props.showList(true)
-        }
+    show = (list) => {
+        this.setState({
+            close: false,
+            list
+        })
     }
-
     render() {
-
-        const {lists} = this.props.picture
-        console.log(lists)
-        return (<div className='pictures gallery'>
-            {/* {
-                lists.map(list =>
-                    <a href={list.largeThumbnailPath} data-caption={`${list.log.content} [${moment(new Date(Number(list.log.logDate))).format('YYYY/MM/D')}]`} key={list.id} className='img-box'>
-                        <img src={list.smallThumbnailPath} alt={`${list.log.content} [${moment(new Date(Number(list.log.logDate))).format('YYYY/MM/D')}]`} />
-                    </a>
-                )
-            } */}
-            <div className='img-box more' onClick={this.showMore}>
-
-                <img src={more} alt="" id='more' /><label htmlFor="more">更多</label>
+        const { picture: { lists }} = this.props
+        const flag = (this.state.show && this.state.logger.id)
+        console.log(flag)
+        return (
+            <div className='lists'>
+                { flag && <RxDragDrop title={this.state.logger.id ? '编辑日志' : '新建日志'} logger={this.state.logger} destory={this.destory} />}
+                {!this.state.close && <Top closer={this.closer} logger={this.state.list}/>}
+                {lists.map(list =>
+                    <List key={list.id} list={list} showList={this.showList} show={this.show}/>
+                )}
             </div>
-        </div>)
+            
+        )
     }
 }
-Picture.propTypes = {
+PictureList.propTypes = {
     picture: PropTypes.object,
     showList: PropTypes.func,
     feature: PropTypes.object,
@@ -115,9 +124,9 @@ const mapDispatchToProps = function (dispath) {
         showList: (show) => {
             dispath(showList(show))
         },
-        updateLists: (update) => {
-            dispath(updateLists(update))
+        updateLists: (list) => {
+            dispath(updateLists(list))
         }
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Picture)
+export default connect(mapStateToProps, mapDispatchToProps)(PictureList)

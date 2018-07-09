@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { showList } from '_redux/actions/picture.js'
+import { showList, updateLists } from '_redux/actions/picture.js'
 
 import 'css/index/picture/picture.scss'
 
-import PictureLists from './PictureLists'
-import AddLogger from './AddLogger'
-
+import PictureLists from './PictureList.jsx'
+// import AddLogger from './AddLogger'
+import RxDragDrop from './RxDragDrop'
 
 import add from 'images/index/picture/add.png'
 
@@ -20,7 +20,8 @@ class JobLogging extends Component {
             log: {}
         }
     }
-    componentDidMount() {        
+    componentDidMount() {  
+        
         // 
         //用firefox变量表示火狐代理
         // var firefox = navigator.userAgent.indexOf('Firefox') != -1
@@ -44,7 +45,7 @@ class JobLogging extends Component {
     }
     componentDidUpdate() {
         this.jobLogging && this.jobLogging.scrollIntoView(true)
-
+      
     }
     
     close = (e) => {
@@ -63,7 +64,7 @@ class JobLogging extends Component {
        
         this.setState({
             logger: true,
-            log: {}
+           
         })
        
     }
@@ -80,7 +81,7 @@ class JobLogging extends Component {
                 <div className='title'>
                     <h3>{this.props.feature.feature.get('name')}：作业日志</h3>
                     <div className='tools'>
-                        <label htmlFor="addLogger" onClick={this.handleLogger}>添加日志</label>
+                        {/* <label htmlFor="addLogger" onClick={this.handleLogger}>添加日志</label> */}
                         <img src={add} id='addLogger' onClick={this.handleLogger} alt="" />
                         <a href="#" className='closer' onClick={this.close}></a>
                     </div>
@@ -89,7 +90,7 @@ class JobLogging extends Component {
 
                 <div className='content'>
                     <PictureLists {...this.props} modifyLogger={this.modifyLogger}/>
-                    <AddLogger  {...this.props} close={this.closeLogger} log={this.state.log} logger={this.state.logger}/>
+                    {this.state.logger && <RxDragDrop  {...this.props} title='新建日志' close={this.closeLogger} log={this.state.log}/>}
                 </div>
             </div> : null
         )
@@ -100,7 +101,8 @@ class JobLogging extends Component {
 JobLogging.propTypes = {
     picture: PropTypes.object,
     showList: PropTypes.func,
-    feature: PropTypes.object
+    feature: PropTypes.object,
+    updateLists: PropTypes.func
 }
 
 const mapStateToProps = function (state) {
@@ -113,6 +115,9 @@ const mapDispatchToProps = function (dispath) {
     return {
         showList: (show) => {
             dispath(showList(show))
+        },
+        updateLists: (list) => {
+            dispath(updateLists(list))
         }
     }
 }

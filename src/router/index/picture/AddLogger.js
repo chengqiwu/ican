@@ -10,7 +10,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 import { farmLandLogSave, findLogPhotoList, findLogPhotoById, deleteLogPhotoById } from 'utils/Api'
 
 // import FarmlandLogVo from './class/FarmlandLogVo'
-import add from 'images/index/picture/+.png'
+// import add from 'images/index/picture/+.png'
 
 import { connect } from 'react-redux'
 import { updateLists } from '_redux/actions/picture.js'
@@ -91,8 +91,7 @@ class AddLogger extends Component {
             date: this.state.startDate.format('YYYY-MM-DD'),
             content: this.state.content
         }))
-
-        this.state.files.map(file => fd.append('images[]', file))
+        this.state.files.map(file => fd.append('images', file))
         
         return farmLandLogSave(fd)
             .then(e => e.data)
@@ -264,7 +263,7 @@ class AddLogger extends Component {
                     </div>
                     <div className='submit'>
                         <input type="submit" value={this.state.submiting?'保存中...':'保存'} disabled={this.state.submiting} />
-                        <input type="submit" value={'删除'}/>
+                        {/* <input type="submit" value={'删除'}/> */}
                     </div>
                 </form>
                 <div className='logger-img' ref={logger => this.logger = logger}>
@@ -286,7 +285,7 @@ class AddLogger extends Component {
                     }
                     <div className='logger-box'>
                         <Dropzone className='drop-zone' onDrop={this.onDrop} multiple={false}>
-                            <img src={add} alt="" />
+                            {/* <img src={add} alt="" /> */}
                             <label>添加照片</label>
                         </Dropzone>
                     </div>
