@@ -14,7 +14,8 @@ class Top extends Component {
     componentDidMount() {
         this.getInfo(this.props.logger)
         this.index = 0
-
+        const picBox = document.getElementById('picBox')
+        picBox.style.width = picBox.clientWidth * 1.5 + 'px'
     }
     componentDidUpdate() {
         console.log('componentDidUpdate')
@@ -165,7 +166,7 @@ class Top extends Component {
                     <div id="picBox" className="picBox">
                         <ul className="cf">
                             {this.state.list.map(list => <li key={list.id}>
-                                <img src={list.largeThumbnailPath} alt={list.describe} />
+                                <div className='img-div' style={{ backgroundImage: `url(${list.largeThumbnailPath})` }}></div>
                             </li>)}
                         </ul>
                     </div>
@@ -175,7 +176,7 @@ class Top extends Component {
                         <ul className="cf">
                             {this.state.list.map((list, i) => <li key={list.id} className={i === 0 ? 'on' : ''}>
                                 <i className="arr2" ></i>
-                                <img src={list.smallThumbnailPath} alt={list.describe} />
+                                <div className='img-div' style={{ backgroundImage: `url(${list.smallThumbnailPath})`}}></div>
                             </li>)}
                             {/* <li className="on">
                                 <i className="arr2"></i>

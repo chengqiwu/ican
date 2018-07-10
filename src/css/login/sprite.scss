@@ -1,7 +1,12 @@
+
+body {
+    overflow: hidden;
+}
 .sprite {
     position: absolute;
     left: 30%;
     bottom: 10%;
+    transform: scale(0.75);
     cursor: pointer;
     .line {
         position: absolute;

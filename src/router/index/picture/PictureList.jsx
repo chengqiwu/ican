@@ -25,6 +25,9 @@ class PictureList extends Component {
         })
     }
     componentDidMount() {
+        this.getLists()
+    }
+    getLists = () => {
         const { feature } = this.props.feature
         if (!feature) {
             return
@@ -55,7 +58,7 @@ class PictureList extends Component {
                 }
                 const fd = new FormData()
                 fd.append('pageNo', 1)
-                fd.append('pageSize', 200)
+                fd.append('pageSize', -1)
                 fd.append('landId', id)
                 fd.append('quarterCropsId', quarterCropsId)
                 findlandLogList(fd)
@@ -71,7 +74,7 @@ class PictureList extends Component {
                             } else {
                                 this.props.updateLists([])
                             }
-                           
+
 
                         }
                     })
@@ -84,53 +87,7 @@ class PictureList extends Component {
     componentDidUpdate(prevProps, prevState) {
         if (this.props.feature.feature.getId().replace('tb_farmland.', '') 
             !== prevProps.feature.feature.getId().replace('tb_farmland.', '')) {
-            const {feature} = this.props.feature
-            const id = feature.getId().replace('tb_farmland.', '')
-            const isNew = feature.get('status')
-            if (isNew !== '0') {
-                alert('该田地还没有种植季信息，请尽快完善！')
-                return
-            }
-
-            findReasonById({
-                farmLandId: id,
-                isNew
-            })
-                .then(e => e.data)
-                .then(data => {
-                    if (data.msg === '200') {
-                        feature.set('quarterCropsId', data.result.quarterCropsId)
-                        return data.result.quarterCropsId
-                    } else {
-                        alert('请求出现问题，请稍后重试')
-                        return undefined
-                    }
-                }).then(quarterCropsId => {
-                    if (!quarterCropsId) {
-                        return
-                    }
-                    const fd = new FormData()
-                    fd.append('pageNo', 1)
-                    fd.append('pageSize', 200)
-                    fd.append('landId', id)
-                    fd.append('quarterCropsId', quarterCropsId)
-                    findlandLogList(fd)
-                        .then(e => e.data)
-                        .then(data => {
-                            if (data.msg === '200') {
-                                const { list } = data.result
-                                if (list) {
-                                    // this.setState({
-                                    //     list
-                                    // })
-                                    this.props.updateLists(list)
-                                }else {
-                                    this.props.updateLists([])
-                                }
-
-                            }
-                        })
-                })
+            this.getLists()
         }
         Scrollbar.init(this.lists) 
     }

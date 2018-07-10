@@ -202,7 +202,7 @@ class LoginFrom extends Component {
                 <div className='user-help'>
                     <div>
                         <input type='checkbox' id='remember' checked={this.state.remember} onChange={this.changeRemeber}/>
-                        <label htmlFor="remember">忘记密码</label>
+                        <label htmlFor="remember">记住密码</label>
                     </div>
                     <div>
                         <Link to='/user_reg' className='user-register'>欢迎注册</Link>

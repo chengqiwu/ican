@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropType from 'prop-types'
 import logo from 'images/common/logo4.png'
-import line from 'images/login/sprite/line.png'
+import line from 'images/login/sprite/line2.png'
 import head from 'images/login/sprite/head.png'
 import weather from 'images/login/sprite/weather.png'
 import robot from 'images/login/sprite/robot.png'
@@ -67,7 +67,7 @@ class Sprite extends Component {
 
 
         let degree2 = 90 / 180 * Math.PI
-        this.fnReq2 = Math.animation(-400, 200, 2200, 'Back.easeInOut', (value, isEnding) => {
+        this.fnReq2 = Math.animation(-600, 200, 2200, 'Back.easeInOut', (value, isEnding) => {
             this.phone.style = `transform: translate(${40}px, ${value - 400 -8}px)`
             this.safe.style = `transform: translate(${-70}px,${value - 400 -83}px)`
             this.data.style = `transform: translate(${30}px, ${value - 400-175}px)`
