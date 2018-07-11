@@ -131,13 +131,14 @@ class FromMessage extends Component {
     handleCriosAndVarieties() {
         return findCriosAndVarietiesList().then(res => res.data).then(data => {
             if (data.msg === '200') {
+                console.log(data.result)
                 this.props.setMessage({
                     criosAndVarietiesList: data.result
                 })
                 this.setState({
                     crios: data.result,
-                    currVarieties: data.result[0].list,
-                    preVarieties: data.result[0].list
+                    currVarieties: data.result[0].list || [],
+                    preVarieties: data.result[0].list || []
                 })
             }
             return data.result[0].id

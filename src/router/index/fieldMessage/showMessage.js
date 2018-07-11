@@ -52,12 +52,15 @@ function handleDisease(commonDisease, disease) {
 const getVarietiesName = (varietiesId, criosAndVarietiesList) => {
     console.log(varietiesId, criosAndVarietiesList)
     for (let item of criosAndVarietiesList) {
-        for(let i of item.list) {
-            if (i.id === varietiesId) {
-                
-                return i['name']
+        if (item.list) {
+            for(let i of item.list) {
+                if (i.id === varietiesId) {
+                    
+                    return i['name']
+                }
             }
         }
+        
     }
     return ''
 }

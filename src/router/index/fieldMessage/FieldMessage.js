@@ -47,7 +47,7 @@ class FiledMessage extends Component {
     }
     getMessage(defaultValue) {
         const { feature } = this.props.feature
-        const id = this.props.feature.feature.getId()
+        const id = feature.getId()
         if (!id) {
             return
         }
