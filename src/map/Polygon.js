@@ -157,7 +157,7 @@ class Polygon extends Component {
     }
     clickListener(evt) {
         const { map } = this.props.map
-        const feature = map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => layer && feature)
+        const feature = map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => layer && !layer.get('id') && feature)
         if (feature) {
             this.props.saveFeature(feature)
             this.props.startFieldMessage(false)

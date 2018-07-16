@@ -88,7 +88,7 @@ class PictureList extends Component {
         if (this.props.feature.feature.getId().replace('tb_farmland.', '') 
             !== prevProps.feature.feature.getId().replace('tb_farmland.', '')) {
             this.getLists()
-        }
+        } 
         Scrollbar.init(this.lists) 
     }
     destory = () => {
@@ -116,7 +116,7 @@ class PictureList extends Component {
                 { flag && <RxDragDrop title={this.state.logger.id ? '编辑日志' : '新建日志'} logger={this.state.logger} close={this.destory} />}
                 {!this.state.close && <Top closer={this.closer} logger={this.state.list}/>}
                 <div ref={lists => this.lists = lists}>
-                    {lists.map(list =>
+                    {lists.sort((a, b) => (new Date(b.date)) - (new Date(a.date))).map(list =>
                         <List key={list.id} list={list} showList={this.showList} show={this.show} />
                     )}
                 </div>

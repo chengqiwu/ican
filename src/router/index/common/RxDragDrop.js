@@ -4,7 +4,6 @@ import Rx from 'rxjs/Rx'
 import 'css/index/common/drapDrop.scss'
 import FiledInfo from '../content/FiledInfo'
 import More from '../content/More'
-import Picture from '../picture/Picture'
 
 const validValue = (value, max, min) => {
     return Math.min(Math.max(value, min), max)

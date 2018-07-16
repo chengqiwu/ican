@@ -6,16 +6,20 @@
     left: 10px;
     .dragDrop-title {
         background-color: #3478f5;
-        height: 50px;
-        padding: 10px;
+        height: 35px;
+        padding: 5px;
         border-radius: 5px 5px 0 0;
         cursor: all-scroll;
         color: #feffff;
+        display: flex;
+        align-items: center;
+        font-size: 1em;
+        font-weight: normal;
     }
     .dragDrop-closer {
         position: absolute;
         right: 10px;
-        top: 10px;
+        top: 5px;
         color: #ffffff;
         &::after {
             content: "✖";
@@ -35,6 +39,9 @@
             height: 40px;
             margin-top: 10px;
             outline: none;
+        }
+        .filed-info {
+            padding: 10px;
         }
     }
 }

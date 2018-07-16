@@ -100,7 +100,7 @@ class FiledInfo extends Component {
         this.props.startFieldMessage(true)
     }
     render() {
-        return this.state.isNew === '1' ? <div>
+        return this.state.isNew === '1' ? <div className='filed-info'>
             <div>你目前还没有填写田地信息</div>
             <button className='content-btn' onClick={this.start.bind(this)}>开始填写</button>
         </div> : this.state.flag && <Abstract feature={this.props.feature} fieldMessage={this.state.message}/>

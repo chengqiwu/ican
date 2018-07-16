@@ -3,6 +3,7 @@ import { Base64 } from 'js-base64'
 import ol from 'openlayers'
 import PropTypes from 'prop-types'
 import search from 'images/tools/search.png'
+import pointer from 'images/index/pointer.png'
 class AutoComplete extends Component {
     constructor() {
         super()
@@ -27,6 +28,20 @@ class AutoComplete extends Component {
     componentDidMount() {
         document.addEventListener('keydown', this.handleEsc)
         document.addEventListener('click', this.handleClick)
+        const { map } = this.props.map
+        this.sourceVector = new ol.source.Vector({})
+        const vectorLayer = new ol.layer.Vector({
+            source: this.sourceVector,
+            zIndex: 9,
+            style: new ol.style.Style({
+                image: new ol.style.Icon({
+                    anchor: [0.5, 1],
+                    src: pointer
+                })
+            })
+        })
+        vectorLayer.set('id', 'no')
+        map.addLayer(vectorLayer)
     }
     componentWillUnmount() {
         document.removeEventListener('keydown', this.handleEsc)
@@ -105,11 +120,14 @@ class AutoComplete extends Component {
         }
         return []
     }
+    transform = (coordinates) => {
+        return ol.proj.transform(coordinates, 'EPSG:4326', 'EPSG:3857')
+    }
     searchValue = (value) => {
         const { map } = this.props.map
         const view = map.getView()
         let items = JSON.parse(localStorage.getItem('hisory'))
-
+        this.sourceVector.clear()
         if (!items) {
             items = []
         }
@@ -124,7 +142,12 @@ class AutoComplete extends Component {
             myGeo.getPoint(value, (pos) => {
                 if (pos) {
                     console.log([pos.lng, pos.lat])
-                    this.props.flyTo(view, ol.proj.transform([pos.lng, pos.lat], 'EPSG:4326', 'EPSG:3857'), function () { })
+                    this.props.flyTo(view, ol.proj.transform([pos.lng, pos.lat], 'EPSG:4326', 'EPSG:3857'), () => {
+
+                        this.sourceVector.addFeature(new ol.Feature({
+                            geometry: new ol.geom.Point(this.transform([pos.lng, pos.lat])),
+                        }))
+                    })
 
                     if (items.indexOf(Base64.encode(value)) === -1) {
                         items.push(Base64.encode(value))
@@ -141,7 +164,12 @@ class AutoComplete extends Component {
                 alert('输入经纬度不正确，请重新输入经纬度或输入地名')
 
             } else {
-                this.props.flyTo(view, ol.proj.transform(pos, 'EPSG:4326', 'EPSG:3857'), function () { })
+                console.log(pos)
+                this.props.flyTo(view, ol.proj.transform(pos, 'EPSG:4326', 'EPSG:3857'), () => { 
+                    this.sourceVector.addFeature(new ol.Feature({
+                        geometry: new ol.geom.Point(this.transform(pos)),
+                    }))
+                })
                 if (items.indexOf(Base64.encode(value)) === -1) {
                     items.push(Base64.encode(value))
                     localStorage.setItem('hisory', JSON.stringify(items))

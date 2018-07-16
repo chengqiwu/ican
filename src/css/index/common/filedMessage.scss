@@ -1,21 +1,26 @@
 .filed-message {
     display: block;
     // padding: 5px;
-    height: 400px ;
+    // height: 350px;
     position: relative;
     width: 100%;
     .filed-title {
         background-color: #3478f5;
-        height: 50px;
-        padding: 10px;
+        height: 35px;
+        // padding: 5px;
+        display: flex;
+        align-items: center;
+        padding-left: 10px;
         // border-radius: 5px 5px 0 0;
         color: #fff;
         // border: 1px solid #ededed;
+        font-size: 1em;
+        font-weight: normal;
     }
     .filed-closer {
         position: absolute;
         right: 10px;
-        top: 10px;
+        top: 6px;
         color: #fff;
         &::after {
             content: "✖";
@@ -32,6 +37,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                margin-bottom: 10px;
                 button {
                     // background-color: #99cc66;
                     // color: #;

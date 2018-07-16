@@ -4,12 +4,14 @@ import Scrollbar from 'smooth-scrollbar'
 import Dropzone from 'react-dropzone'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
+import zh from 'moment/locale/zh-cn'
+moment.locale('zh')
 import md5 from 'js-md5'
 import arrow from 'images/index/picture/arrow.png'
 import 'react-datepicker/dist/react-datepicker.css'
 import { confirmAlert } from 'react-confirm-alert' // Import
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
-import { farmLandLogSave, findlandLogList, findLogPhotoById, deleteLogPhotoById } from 'utils/Api'
+import { farmLandLogSave, findlandLogList, findLogPhotoById, deleteLogPhotoById, findReasonById } from 'utils/Api'
 import Item from './Item'
 
 // import FarmlandLogVo from './class/FarmlandLogVo'
@@ -114,38 +116,57 @@ class AddLogger extends Component {
             alert('该田地还没有种植季信息，不能创建日志！')
             return
         }
-        const quarterCropsId = feature.get('quarterCropsId')
-        console.log(id, quarterCropsId)
-        const fd = new FormData()
 
-        fd.append('farmlandLogStr', JSON.stringify({
-            quarterCropsId,
-            landId: id,
-            date: this.state.startDate.format('YYYY-MM-DD'),
-            content: this.state.content
-        }))
-        this.state.files.map(file => fd.append('images', file))
-        const { describe} = this.state
-        const describeStr = []
-        Object.keys(describe).map(key => {
-            console.log(describe[key])
-            describeStr.push({
-                key,
-                value: describe[key]
-            })
+        const isNew = feature.get('status')
+        findReasonById({
+            farmLandId: id,
+            isNew
         })
-        fd.append('describeStr', JSON.stringify(describeStr))
-        return farmLandLogSave(fd)
             .then(e => e.data)
             .then(data => {
                 if (data.msg === '200') {
-                    this.successCallback()
-                    this.updateLists()
+                    feature.set('quarterCropsId', data.result.quarterCropsId)
+                    return data.result.quarterCropsId
+                } else {
+                    alert('请求出现问题，请稍后重试')
+                    return undefined
                 }
-                this.setState({
-                    submiting: false
+            }).then(() => {
+                const quarterCropsId = feature.get('quarterCropsId')
+                console.log(id, quarterCropsId)
+                const fd = new FormData()
+
+                fd.append('farmlandLogStr', JSON.stringify({
+                    quarterCropsId,
+                    landId: id,
+                    date: this.state.startDate.format('YYYY-MM-DD'),
+                    content: this.state.content,
+                    id: this.props.logger && this.props.logger.id
+                }))
+                this.state.files.map(file => fd.append('images', file))
+                const { describe } = this.state
+                const describeStr = []
+                Object.keys(describe).map(key => {
+                    console.log(describe[key])
+                    describeStr.push({
+                        key,
+                        value: describe[key]
+                    })
                 })
+                fd.append('describeStr', JSON.stringify(describeStr))
+                return farmLandLogSave(fd)
+                    .then(e => e.data)
+                    .then(data => {
+                        if (data.msg === '200') {
+                            this.successCallback()
+                            this.updateLists()
+                        }
+                        this.setState({
+                            submiting: false
+                        })
+                    })
             })
+       
     }
   
     submit = (e) => {
@@ -161,7 +182,7 @@ class AddLogger extends Component {
         const quarterCropsId = feature.get('quarterCropsId')
         const fd = new FormData()
         fd.append('pageNo', 1)
-        fd.append('pageSize', 14)
+        fd.append('pageSize', -1)
         fd.append('landId', id)
         fd.append('quarterCropsId', quarterCropsId)
         findlandLogList(fd)
