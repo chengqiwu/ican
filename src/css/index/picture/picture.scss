@@ -280,8 +280,17 @@
 
         }
         .log-content {
+            // word-wrap: break-word;
+            //  -webkit-box-orient: vertical !important;
             width: 225px;
-            font-size: 14px;
+            font-size: 13px;
+            height: 38px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            word-break: break-all;
+            word-wrap: break-word;
         }
         .imgs {
             background-color: #72b2d6;
@@ -301,4 +310,8 @@
             // justify-content: center;
         }
     }
+}
+.react-confirm-alert-button-group > button {
+    background-color: #3b6f50 !important;
+    color: #fff !important;
 }

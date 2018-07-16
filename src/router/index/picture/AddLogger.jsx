@@ -182,7 +182,7 @@ class AddLogger extends Component {
             message: '一条新的作业日志创建成功，要继续添加下一条日志吗？',
             buttons: [
                 {
-                    label: '继续添加日志',
+                    label: '继续添加',
                     onClick: () => {
                         this.setState({
                             files: [],
@@ -195,7 +195,7 @@ class AddLogger extends Component {
                     }
                 },
                 {
-                    label: '取消',
+                    label: '退出',
                     onClick: () => this.props.close()
                 }
             ]
@@ -206,11 +206,14 @@ class AddLogger extends Component {
             alert('上传文件错误，请重新上传')
             return
         }
-        files[0].md5 = md5(Date.now().toString())
+        files.map((file, i) => {
+            file.md5 = md5((Date.now()+i).toString())
+        })
+        
         this.setState({
             files: [
                 ...this.state.files,
-                files[0]
+                ...files
             ]
         })
     }
@@ -295,7 +298,10 @@ class AddLogger extends Component {
                                 describe={this.describe} />)
                         }
                         <div className='logger-box'>
-                            <Dropzone className='drop-zone' onDrop={this.onDrop} multiple={false}>
+                            <Dropzone className='drop-zone' 
+                                accept="image/*"
+                                onDrop={this.onDrop} 
+                                multiple={true}>
                                 <img src={add} alt="" />
                                 <label>添加照片</label>
                             </Dropzone>

@@ -202,7 +202,7 @@ class AutoComplete extends Component {
                     <div>
                         <ul>
                             {
-                                this.state.items.slice(-5).map((item, index) => {
+                                this.state.items.reverse().slice(-5).map((item, index) => {
                                     return <li key={index} onClick={this.setInputValue.bind(this, item)}>{item}</li>
                                 })
                             }

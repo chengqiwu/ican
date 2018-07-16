@@ -16,7 +16,7 @@ class List extends Component {
                         <div className='date'>
                             {moment(new Date(list.date)).format('YYYY年MM月DD日')}  
                             <img src={edit} alt="" onClick={this.props.showList.bind(this, list)}/></div>
-                        <div className='log-content' >{list.content}</div>
+                        <div className='log-content' style={{WebkitBoxOrient: 'vertical'}} >{list.content}</div>
                     </div>
                     {
                         list.imageCount !== '0' &&  <div className='imgs' onClick={e => this.props.show(list)}>

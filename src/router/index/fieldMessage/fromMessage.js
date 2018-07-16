@@ -68,7 +68,7 @@ class FromMessage extends Component {
             .then(() => {
                 const initialVaule = {
                     cropsId: this.state.crios[0].id,
-                    varietiesId: this.state.currVarieties[0].id,
+                    varietiesId: this.state.currVarieties[0] ? this.state.currVarieties[0].id : undefined,
                     // varietiesName: this.state.currVarieties[0].name,
                     plantingSeason: this.state.season[0],
                     // prevCropsId: this.state.crios[0].id,
@@ -131,17 +131,20 @@ class FromMessage extends Component {
     handleCriosAndVarieties() {
         return findCriosAndVarietiesList().then(res => res.data).then(data => {
             if (data.msg === '200') {
-                console.log(data.result)
+                
+                const result = data.result.filter(res => res.list)
+                console.log(result)
                 this.props.setMessage({
-                    criosAndVarietiesList: data.result
+                    criosAndVarietiesList: result
                 })
                 this.setState({
-                    crios: data.result,
-                    currVarieties: data.result[0].list || [],
-                    preVarieties: data.result[0].list || []
+                    crios: result,
+                    currVarieties: result[0].list || [],
+                    preVarieties: result[0].list || []
                 })
+                return result[0].id
             }
-            return data.result[0].id
+            
         }).then(id => this.handlefindPestsByCropsId(id))
         
     }
@@ -177,7 +180,7 @@ class FromMessage extends Component {
         for (let crio of this.state.crios) {
             if (crio.id === value) {
                 this.setState({
-                    currVarieties: crio.list
+                    currVarieties: crio.list || []
                 })
                 this.handlefindPestsByCropsId(crio.id)
                 break
@@ -210,7 +213,8 @@ class FromMessage extends Component {
         submitData['plantingSeason'] = this.plantingSeason.value
 
         submitData['cropsId'] = this.cropsId.value
-        submitData['varietiesId'] = this.varietiesId.value
+
+        this.varietiesId.value.length !==0 && (submitData['varietiesId'] = this.varietiesId.value)
         // !this.varietiesName.value && (submitData['varietiesName'] = this.varietiesName.value)
         
         !!this.prevCropsId.value && (submitData['prevCropsId'] = this.prevCropsId.value)
@@ -342,7 +346,7 @@ class FromMessage extends Component {
                             </div>
                             <div>
                                 <label>当季品种：</label>
-                                <select ref={varietiesId => this.varietiesId = varietiesId} required disabled={this.cropsId && !this.cropsId.value}>
+                                <select ref={varietiesId => this.varietiesId = varietiesId} disabled={this.cropsId && !this.cropsId.value}>
                                     <option value="" selected="true" disabled="true">选择类型</option>
                                     {
                                         this.state.currVarieties.map(variety => <option key={variety.id} value={variety.id}>{variety.name}</option>)
