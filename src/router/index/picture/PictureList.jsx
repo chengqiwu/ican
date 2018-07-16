@@ -36,6 +36,7 @@ class PictureList extends Component {
         const isNew = feature.get('status')
         if (isNew !== '0') {
             alert('该田地还没有种植季信息，请尽快完善！')
+            this.props.updateLists([])
             return
         }
 

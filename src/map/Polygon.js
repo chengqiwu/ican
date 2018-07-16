@@ -156,6 +156,10 @@ class Polygon extends Component {
         map.on('click', (evt) => this.clickListener(evt))
     }
     clickListener(evt) {
+        const target = evt.originalEvent.target
+        if (target.tagName === 'IMG' && target.getAttribute('index')) {
+            return
+        }
         const { map } = this.props.map
         const feature = map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => layer && !layer.get('id') && feature)
         if (feature) {

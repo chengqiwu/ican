@@ -30,9 +30,17 @@ class RxDragDrop extends Component {
         this.dd = this.mouseDown
             .map(e => this.mouseMove.takeUntil(this.mouseUp))
             .concatAll().withLatestFrom(this.mouseDown, (move, down) => {
-                return {
-                    x: validValue(move.clientX - down.offsetX, window.innerWidth - 500, 0),
-                    y: validValue(move.clientY - down.offsetY, window.innerHeight - 400, 0)
+                const userAgent = navigator.userAgent
+                if (userAgent.indexOf('Firefox') > -1) {
+                    return {
+                        x: validValue(move.clientX - down.layerX, window.innerWidth, 0),
+                        y: validValue(move.clientY - down.layerY, window.innerHeight, 0)
+                    }
+                } else {
+                    return {
+                        x: validValue(move.clientX - down.offsetX, window.innerWidth, 0),
+                        y: validValue(move.clientY - down.offsetY, window.innerHeight, 0)
+                    }
                 }
             })
             .subscribe(({ x, y }) => {

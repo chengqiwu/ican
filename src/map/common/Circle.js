@@ -186,6 +186,7 @@ function arc(o, dir, point, index, bili, self) {
     img.style.width = 115 * bili + 'px'
     img.style.cursor = 'pointer'
     img.setAttribute('alt', means[index])
+    img.setAttribute('index', index)
     div.style.height = 115 * bili + 'px'
     img.style.borderRadius = 115 * bili / 2 + 'px'
     div.style.borderRadius = 115 * bili / 2 + 'px'
@@ -229,6 +230,10 @@ class Circle extends Component {
 
 
         map.on('click', (evt) => {
+            const target = evt.originalEvent.target
+            if (target.tagName === 'IMG' && target.getAttribute('index')) {    
+                return
+            }
             const feature = map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => layer && feature)
             if (feature && feature.getId()) {
                
@@ -305,7 +310,10 @@ class Circle extends Component {
             arc(o, dir, point, index, bili, this)
         })
     }
-    handler(index) {
+    handler(index, e) {
+        console.dir(e)
+        e.preventDefault()
+        e.stopPropagation()
         if (index === 1) {
             console.log(index)
             this.props.showList(true)

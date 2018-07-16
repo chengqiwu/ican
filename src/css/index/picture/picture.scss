@@ -80,6 +80,8 @@
         flex-wrap: wrap;
         height: 180px;
         .lists {
+             height: 160px;
+             overflow: auto;
             > div {
                 width: 100%;
             }
@@ -291,7 +293,7 @@
             //  -webkit-box-orient: vertical !important;
             width: 225px;
             font-size: 13px;
-            height: 38px;
+            // height: 38px;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
