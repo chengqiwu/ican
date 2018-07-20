@@ -47,7 +47,13 @@ class JobLogging extends Component {
         this.jobLogging && this.jobLogging.scrollIntoView(true)
       
     }
-    
+    shouldComponentUpdate(nextProps) {
+        const { feature } = nextProps.feature
+        if (!feature.getId()) {
+            return false
+        }
+        return true
+    }
     close = (e) => {
         e.preventDefault()
         this.closeLogger()

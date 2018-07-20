@@ -3,6 +3,7 @@ import Dropzone from 'react-dropzone'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import add from 'images/index/picture/+.png'
+import { getUserInfo} from '_redux/actions/user'
 import { updateUserInfo, getUserBasicInfo, getUserInfo2 } from 'utils/Api'
 class BasicInfo extends Component {
     constructor() {
@@ -43,6 +44,9 @@ class BasicInfo extends Component {
             .then(data => {
                 if (data.msg === '200') {
                     alert('保存成功')
+                    this.props.getUserInfo()
+                } else {
+                    alert('保存失败！请稍后再试')
                 }
             })
     }
@@ -106,7 +110,8 @@ class BasicInfo extends Component {
 }
 
 BasicInfo.propTypes = {
-    user: PropTypes.object
+    user: PropTypes.object,
+    getUserInfo: PropTypes.func
 }
 const mapStateToProps = (state) => {
     return {
@@ -115,7 +120,9 @@ const mapStateToProps = (state) => {
 }
 const mapDispathToProps = (dispatch) => {
     return {
-
+        getUserInfo: function() {
+            dispatch(getUserInfo())
+        }
     }
 }
 export default connect(mapStateToProps, mapDispathToProps)(BasicInfo)

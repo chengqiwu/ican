@@ -29,7 +29,7 @@ class Popup extends Component {
         })
     }
     setPosition = (pos) => {
-        this.textOverlay.setPosition(pos)
+        this.textOverlay && this.textOverlay.setPosition(pos)
     }
     render() {
         const props = this.props

@@ -11,7 +11,7 @@ $bg: url('../../images/common/bg2.jpg');
     background-image: $bg;    
     @include background-norepeat-cover;
     @extend .flex-top-column-bottom;
-    padding: 20px;
+    // padding: 20px;
 }
 
 .register-content {

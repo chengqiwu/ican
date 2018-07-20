@@ -87,6 +87,8 @@ class HeadPortrait extends Component {
                 if (data.msg === '200') {
                     alert('保存成功')
                     this.props.getUserInfo()
+                } else {
+                    alert('保存失败，请稍后再试！')
                 }
             })
     }

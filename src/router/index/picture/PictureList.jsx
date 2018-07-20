@@ -85,11 +85,23 @@ class PictureList extends Component {
         
         Scrollbar.destroyAll()
     }
+    shouldComponentUpdate(nextProps) {
+        console.log('shouldComponentUpdate')
+        const {feature} = nextProps.feature
+        console.error(feature.getId())
+        if (!feature.getId()) {
+            return false
+        }
+        return true
+    }
     componentDidUpdate(prevProps, prevState) {
+        console.error(prevProps.feature.feature.getId(), this.props.feature.feature.getId())
         if (this.props.feature.feature.getId().replace('tb_farmland.', '') 
             !== prevProps.feature.feature.getId().replace('tb_farmland.', '')) {
             this.getLists()
-        } 
+        } else if(this.props.feature.id !== prevProps.feature.id){
+            this.getLists()
+        }
         Scrollbar.init(this.lists) 
     }
     destory = () => {

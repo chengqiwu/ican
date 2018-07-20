@@ -102,6 +102,11 @@ class CreateField extends Component {
         }).then(res => res.data).then(data => {
             console.log(data)
             if (data.msg === '200') {
+                this.props.feature.feature.set('address', this.position.value)
+                this.props.feature.feature.set('area', this.props.area)
+                this.props.feature.feature.set('name', this.input.value)
+                this.props.feature.feature.set('status', '1')
+                this.props.feature.feature.setId(data.result)
                 this.props.setFeature({
                     address: this.position.value,
                     name: this.input.value,
@@ -109,15 +114,13 @@ class CreateField extends Component {
                     growthStatus: 0
                     
                 })
-                this.props.feature.feature.set('address', this.position.value)
-                this.props.feature.feature.set('area', this.props.area)
-                this.props.feature.feature.set('status', '1')
+              
                 this.props.drawText()
                 this.input.value = ''
                 
-            } else {
+            } else if (data.msg === '209') {
                 this.input.value = ''
-                data.msg === '209'
+                
                 alert(data.result+ ' ，请重绘。。。')
             }
         })
