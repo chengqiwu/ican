@@ -117,7 +117,7 @@ class Polygon extends Component {
             var feature = evt.feature
 
             new Promise((resolve, reject) => {
-                if (Number.parseFloat(getArea(feature)) > 2000) {
+                if (Number(getArea(feature).acre) > 2000) {
                     alert('您圈选的田地面积不符合实际情况，请重新圈选')
                     resolve('')
                 } else {

@@ -219,7 +219,6 @@ class Circle extends Component {
     }
     componentDidMount() {
         const { map } = this.props.map
-        console.log(map)
         // circle
         this.circleOverlay = new ol.Overlay({
             element: this.circle,
@@ -250,7 +249,6 @@ class Circle extends Component {
                 }, 1000)
                 this.drawCircle(feature)
             } else {
-                console.log(evt, this.circleOverlay.getPosition())
                 this.circleOverlay.setPosition(undefined)
             }
         })
@@ -280,7 +278,6 @@ class Circle extends Component {
         const paths = features.map(e =>{
             return map.getPixelFromCoordinate(e)
         })
-        console.log(paths)
         const points = getBound(paths)
         const dir = radius(points[0], points[1])
         this.setState({
@@ -294,7 +291,7 @@ class Circle extends Component {
         const n = 5
         const o = 360 / n
         // 默认有一个始终从-90度开始
-        const arr = [90, 90 + 71.5, 90 + 72 * 2, 90 + 72 * 2 + 71.5, 90 + 72 * 3 + 71.5]
+        const arr = [90, 90 + 71.5, 90 + 72 * 2, 90 + 72 * 2 + 71.5, 90 + 72 * 3 + 71.77]
         // for (let i = 1; i < n; i++) {
         //     arr.push(arr[i - 1] + o)
         // }
@@ -311,11 +308,9 @@ class Circle extends Component {
         })
     }
     handler(index, e) {
-        console.dir(e)
         e.preventDefault()
         e.stopPropagation()
         if (index === 1) {
-            console.log(index)
             this.props.showList(true)
             return
         }

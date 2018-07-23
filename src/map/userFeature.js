@@ -76,7 +76,6 @@ class UserFeature extends Component {
 
         map.on('pointermove', (evt) => {
             if (evt.dragging) {
-
                 return
             }
             this.displayFeatureInfo(map.getEventPixel(evt.originalEvent))
@@ -91,7 +90,7 @@ class UserFeature extends Component {
             }
            
         })
-        if (feature) {
+        if (feature && map.getView().getZoom() >= 7) {
             this.setState({
                 feature
             })

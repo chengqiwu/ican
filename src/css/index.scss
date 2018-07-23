@@ -143,6 +143,13 @@ a {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    > span {
+        width: 0px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        flex-grow: 1;
+    }
     &:hover {
         background-color: #cbdde2;
     

@@ -44,4 +44,13 @@
             padding: 10px;
         }
     }
+    .resize {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 6px;
+        height:6px;
+        cursor: se-resize;
+        z-index: 2;
+    }
 }
