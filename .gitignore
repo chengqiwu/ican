@@ -24,4 +24,4 @@ yarn-error.log*
 
 .zip
 
-src/url.js
+/src/url.js
