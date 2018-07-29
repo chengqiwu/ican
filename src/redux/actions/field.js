@@ -3,8 +3,8 @@ export const STARTFIELD = 'field/STARTFIELD'
 
 
 export function saveField(name) {
-    return { type: SAVEFIELD, name: name }
+  return { type: SAVEFIELD, name: name }
 }
 export function startField() {
-    return { type: STARTFIELD }
+  return { type: STARTFIELD }
 }

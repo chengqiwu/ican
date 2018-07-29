@@ -171,7 +171,7 @@ module.exports = {
               {
                 loader: require.resolve('css-loader'),
                 options: {
-                  importLoaders: 1,
+                  importLoaders: 1
                 },
               },
              
@@ -195,9 +195,9 @@ module.exports = {
                   ],
                 },
               },
-                {
-                    loader: require.resolve('sass-loader')
-                },
+              {
+                loader: require.resolve('sass-loader')
+              },
             ],
           },
           // "file" loader makes sure those assets get served by WebpackDevServer.

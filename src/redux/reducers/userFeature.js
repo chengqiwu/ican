@@ -1,18 +1,17 @@
 import { UPDATE } from '_redux/actions/userFeature'
 
 const featureState = {
-    fields: []
+  fields: []
 }
 function featureReducer(state = featureState, action) {
-    console.log(action)
-    switch (action.type) {
-    case UPDATE:
-        return {
-            fields: action.object
-        }
-
-    default:
-        return state
+  switch (action.type) {
+  case UPDATE:
+    return {
+      fields: action.object
     }
+
+  default:
+    return state
+  }
 }
 export default featureReducer

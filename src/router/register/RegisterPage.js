@@ -6,14 +6,14 @@ import RegisterContent from './RegisterContent'
 import 'css/register/register1.scss'
 class RegisterPage extends Component {
     
-    render() {
-        return (
-            <div className='register-bg'>
-                <Header/>
-                <RegisterContent/>
-                <Footer/>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div className='register-bg'>
+        <Header/>
+        <RegisterContent/>
+        <Footer/>
+      </div>
+    )
+  }
 }
 export default RegisterPage

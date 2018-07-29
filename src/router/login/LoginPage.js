@@ -8,15 +8,15 @@ import Footer from '../common/Footer'
 import 'css/login/login.scss'
 
 class LoginPage extends Component {
-    render() {
-        return (
-            <div className='login-bg'>
-                <Header/>
-                <Content/>
-                <Footer/>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div className='login-bg'>
+        <Header/>
+        <Content/>
+        <Footer/>
+      </div>
+    )
+  }
 }
 LoginPage.propTypes = {
 

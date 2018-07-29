@@ -1,56 +1,58 @@
 .dragDrop {
-    position: fixed;
-    z-index: 1;
-    width: 500px;
-    top: 10px;
-    left: 10px;
-    .dragDrop-title {
-        background-color: #3478f5;
-        height: 35px;
-        padding: 5px;
-        border-radius: 5px 5px 0 0;
-        cursor: all-scroll;
-        color: #feffff;
-        display: flex;
-        align-items: center;
-        font-size: 1em;
-        font-weight: normal;
+  position: fixed;
+  z-index: 1;
+  width: 500px;
+  top: 10px;
+  left: 10px;
+  .dragDrop-title {
+    background-image: linear-gradient(to top, #176be6, #26a4f6 50%, #2fc9ff);
+    background-color: #3478f5;
+    background-blend-mode: normal;
+    height: 35px;
+    padding: 5px;
+    border-radius: 5px 5px 0 0;
+    cursor: all-scroll;
+    color: #feffff;
+    display: flex;
+    align-items: center;
+    font-size: 1em;
+    font-weight: normal;
+  }
+  .dragDrop-closer {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    color: #ffffff;
+    &::after {
+      content: "✖";
     }
-    .dragDrop-closer {
-        position: absolute;
-        right: 10px;
-        top: 5px;
-        color: #ffffff;
-        &::after {
-            content: "✖";
-        }
+  }
+  .dragDrop-content {
+    // padding: 10px;
+    height: 310px;
+    background-color: #fff;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 1px 1px 1px #000000ad;
+    .content-btn {
+      background-color: #00a8d4;
+      color: #fff;
+      border-radius: 5px;
+      width: 100px;
+      height: 40px;
+      margin-top: 10px;
+      outline: none;
     }
-    .dragDrop-content {
-        // padding: 10px;
-        height: 310px;
-        background-color: #eeeeee;
-        border-radius: 0 0 5px 5px;
-        box-shadow: 1px 1px 1px #000000ad;
-        .content-btn {
-            background-color: #00a8d4;
-            color: #fff;
-            border-radius: 5px;
-            width: 100px;
-            height: 40px;
-            margin-top: 10px;
-            outline: none;
-        }
-        .filed-info {
-            padding: 10px;
-        }
+    .filed-info {
+      padding: 10px;
     }
-    .resize {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        width: 6px;
-        height:6px;
-        cursor: se-resize;
-        z-index: 2;
-    }
+  }
+  .resize {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 6px;
+    height: 6px;
+    cursor: se-resize;
+    z-index: 2;
+  }
 }

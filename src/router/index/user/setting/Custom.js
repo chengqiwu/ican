@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 
 class Custom extends Component {
-    render() {
-        return <div>
+  render() {
+    return <div>
             个性设置待开发中
-        </div>
-    }
+    </div>
+  }
 }
 
 export default Custom

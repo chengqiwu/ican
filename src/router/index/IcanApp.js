@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
@@ -14,10 +14,12 @@ import Baner from './common/Baner'
 import Openlayer from 'map/Openlayer'
 
 import FieldMessage from './fieldMessage/FieldMessage'
+import Appends from './Appends'
+
 import User from './user/User'
 import Tools from './tools/Tools'
 import RxDragDrop from './RxDragDrop'
-import { getUserToken} from 'utils/Api'
+import { getUserToken } from 'utils/Api'
 import history from '../history'
 import JobLogging from './picture/JobLogging'
 import Company from './common/Company'
@@ -29,58 +31,59 @@ import thunk from 'redux-thunk'
 
 const store = createStore(reducers, {}, applyMiddleware(thunk))
 class IcanApp extends Component {
-    componentDidMount() {
-        console.log(Cookies.get('name'))
-        if (!Cookies.get('name')) {
-            history.push('/')
-        }
-        const token = getUserToken()
-        if (!token) {
-            history.push('/')
-            return
-        }
+  componentDidMount() {
+    console.log(Cookies.get('name'))
+    if (!Cookies.get('name')) {
+      history.push('/')
     }
-    render() {
-        
-        return (
-            <Provider store={store}>
-                <div>
-                    <Header />
-                    <Company/>
-                    <User />
-                    <Tools />
-                    <Openlayer />
-                    <RxDragDrop/>
-                    <Baner />
-                    <FieldMessage />
-                    <JobLogging/>
-                </div>
-
-            </Provider>
-
-        )
+    const token = getUserToken()
+    if (!token) {
+      history.push('/')
+      return
     }
-    
-    // ifvisible.setIdleDuration(1*60*60)
-    // ifvisible.setIdleDuration(1*3)
-    // ifvisible.active(function () {
-    //     // This code will work when page goes into idle status
-    //     // Cookies.
-    //     console.log(ifvisible.now())
-    //     // if (ifvisible.now('hidden')) {
-    //     //     // Display pop-up if page is not hidden
-           
-    //     // } else {
-    //     //     alert('你好')
-    //     // }
-        
-    //     // Cookies.remove('name')
-    // })
-    // ifvisible.on('wakeup', function () {
-    //     // example code here..
-        
-    //     Cookies.set('name', md5(Cookies.get('name')), { path: '/index', expires: 1 / 24 })
-    // })
-   
+  }
+  render() {
+
+    return (
+      <Provider store={store}>
+        <div>
+          <Header />
+          <Company />
+          <User />
+          <Tools />
+          <Openlayer />
+          <RxDragDrop />
+          <Baner />
+          <Appends/>
+          {/* <FieldMessage />
+          <JobLogging /> */}
+        </div>
+
+      </Provider>
+
+    )
+  }
+
+  // ifvisible.setIdleDuration(1*60*60)
+  // ifvisible.setIdleDuration(1*3)
+  // ifvisible.active(function () {
+  //     // This code will work when page goes into idle status
+  //     // Cookies.
+  //     console.log(ifvisible.now())
+  //     // if (ifvisible.now('hidden')) {
+  //     //     // Display pop-up if page is not hidden
+
+  //     // } else {
+  //     //     alert('你好')
+  //     // }
+
+  //     // Cookies.remove('name')
+  // })
+  // ifvisible.on('wakeup', function () {
+  //     // example code here..
+
+  //     Cookies.set('name', md5(Cookies.get('name')), { path: '/index', expires: 1 / 24 })
+  // })
+
 }
 export default IcanApp

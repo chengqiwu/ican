@@ -1,0 +1,98 @@
+.soil {
+  border: 1px solid #ccc; // margin: 20px;
+  padding: 10px; // width: 400px;
+  .relative {
+    position: relative;
+    .title {
+      position: absolute;
+      top: -20px;
+      background-color: #fff;
+    }
+  }
+  .content {
+    margin-top: 20px;
+    .button {
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 5px;
+      outline: none;
+      cursor: pointer;
+      margin-right: 20px;
+      font-size: 13px;
+    }
+    .items {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+      .item {
+        display: flex;
+        align-items: center;
+        .react-select__control {
+          width: 120px; // height: 30px;
+        }
+      }
+    }
+    .files-list {
+      margin-left: 105px;
+      margin-bottom: 10px;
+      ul,
+      li {
+        list-style-type: disc;
+      }
+    }
+    .item {
+      font-size: 14px;
+      display: flex;
+      margin-bottom: 5px;
+      label {
+        width: 80px;
+        text-align: right;
+        margin-right: 10px;
+      }
+      .file {
+        display: none;
+      }
+    }
+    form>.item {
+      margin-bottom: 10px;
+    }
+    .add,
+    .save,
+    .edit,
+    .delete,
+    .no-save {
+      background-color: #0b77f0;
+      &:hover {
+        background-color: #0065d6
+      }
+    }
+  }
+}
+
+.add-soil {
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  position: relative;
+  .collapse {
+    cursor: pointer;
+    padding: 10px;
+    color: #fff;
+    background-image: linear-gradient(to top, #176be6, #26a4f6 50%, #2fc9ff);
+    background-color: #3478f5;
+    background-blend-mode: normal;
+    border-radius: 5px;
+    &.borderRadius {
+      border-radius: 5px 5px 0 0;
+    }
+  }
+  .panelBody {
+    transition: all 0.5s ease;
+    padding: 20px;
+    &.hide {
+      height: 0;
+      padding: 0 20px;
+      overflow: hidden;
+    }
+  }
+}

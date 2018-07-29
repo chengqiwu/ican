@@ -10,63 +10,63 @@ import history from 'router/history'
 import UserFeature from './userFeature'
 import {getUserInfo} from '_redux/actions/user'
 class Openlayer extends Component {
-    constructor() {
-        super()
+  constructor() {
+    super()
+  }
+  componentDidMount() {
+    const map = this.props.map.map
+    map.setTarget(this.map)
+    map.updateSize()
+    const token = getUserToken()
+    this.props.getUserInfo()
+    if (!token) {
+      history.push('/')
+      return 
     }
-    componentDidMount() {
-        const map = this.props.map.map
-        map.setTarget(this.map)
-        map.updateSize()
-        const token = getUserToken()
-        this.props.getUserInfo()
-        if (!token) {
-            history.push('/')
-            return 
-        }
-        // const lyr= new ol.layer.Image({
-        //     source: new ol.source.ImageWMS({
-        //         ratio: 1,
-        //         url: 'http://192.168.1.23:8081/geoserver/ican/wms',
-        //         params: {
-        //             'FORMAT': 'image/png',
-        //             'VERSION': '1.1.0',
-        //             STYLES: '',
-        //             CQL_FILTER: `master_id==\'${token}\'`,
-        //             LAYERS: 'ican:tb_farmland',
-        //             SRS: 'EPSG:4326'
-        //             // SLD_BODY: sld_body
-        //         }
-        //     }),
+    // const lyr= new ol.layer.Image({
+    //     source: new ol.source.ImageWMS({
+    //         ratio: 1,
+    //         url: 'http://192.168.1.23:8081/geoserver/ican/wms',
+    //         params: {
+    //             'FORMAT': 'image/png',
+    //             'VERSION': '1.1.0',
+    //             STYLES: '',
+    //             CQL_FILTER: `master_id==\'${token}\'`,
+    //             LAYERS: 'ican:tb_farmland',
+    //             SRS: 'EPSG:4326'
+    //             // SLD_BODY: sld_body
+    //         }
+    //     }),
 
-        // })
+    // })
        
-    }
-    render() {
-        return (
-            <div id='map' className='map' ref={map => this.map = map}>
-                <Circle/>
-                <UserFeature map={this.props.map.map}/>
-            </div>
-        )
-    }
+  }
+  render() {
+    return (
+      <div id='map' className='map' ref={map => this.map = map}>
+        <Circle/>
+        <UserFeature map={this.props.map.map}/>
+      </div>
+    )
+  }
 }
 Openlayer.propTypes = {
-    children: PropTypes.object,
-    setTarget: PropTypes.func,
-    map: PropTypes.object,
-    getUserInfo: PropTypes.func
+  children: PropTypes.object,
+  setTarget: PropTypes.func,
+  map: PropTypes.object,
+  getUserInfo: PropTypes.func
 }
 
 const mapStateToProps = (state) => {
-    return {
-        map: state.map
-    }
+  return {
+    map: state.map
+  }
 }
 const mapDispatchToProps = (dispath) => {
-    return {
-        setTarget: (target) => dispath({ type: 'changeTarget', target}),
-        getUserInfo: () => dispath(getUserInfo())
-    }
+  return {
+    setTarget: (target) => dispath({ type: 'changeTarget', target}),
+    getUserInfo: () => dispath(getUserInfo())
+  }
 }
 Openlayer = connect(mapStateToProps, mapDispatchToProps)(Openlayer)
 export default Openlayer
