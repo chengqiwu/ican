@@ -299,13 +299,14 @@ class AddSoil extends Component {
         <div className='files-list'>
           <ul>
             {this.state.pics.map((f) => <li key={f.name}>
-              <span>{f.name}</span>
+              <span><a href={f.preview} target='_blank'>{f.name}</a>
+              </span>
               {this.state.edit && <button type='button' className='button delete' id={f.name} onClick={this.deleteLocal.bind(this, 'pics')}>删除图片</button>}
             </li>)}
           </ul>
           <ul>
             {this.state.urlPics.map((f) => <li key={f.key}>
-              <span>{f.key}</span>
+              <span><a href={f.value} target='_blank'>{f.key}</a></span>
               {this.state.edit && <button type='button' className='button delete' atype='0' id={f.key} onClick={this.deleteUrl.bind(this, 'urlPics')}>删除图片</button>}
             </li>)}
           </ul>
@@ -331,13 +332,13 @@ class AddSoil extends Component {
         <div className='files-list'>
           <ul>
             {this.state.files.map((f) => <li key={f.name}>
-              <span>{f.name}</span>
+              <span><a href={f.preview} target='_blank'>{f.name}</a></span>
               {this.state.edit && <button type='button' className='button delete' id={f.name} onClick={this.deleteLocal.bind(this, 'files')}>删除图片</button>}
             </li>)}
           </ul>
           <ul>
             {this.state.urlFiles.map((f) => <li key={f.key}>
-              <span>{f.key}</span>
+              <span><a href={f.value} target='_blank'>{f.key}</a></span>
               {this.state.edit && <button type='button' className='button delete' atype='1' id={f.key} onClick={this.deleteUrl.bind(this, 'urlFiles')}>删除图片</button>}
             </li>)}
           </ul>

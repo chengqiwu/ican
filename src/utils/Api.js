@@ -276,6 +276,9 @@ export function findPlantingSeasonCrops(plantingSeasonId) {
 export function plantingSeasonCropsSave(info) {
   return axios.post(`${url}/api/plantingSeasonCrops/save?token=${getToken()}`, info)
 }
+export function plantingSeasonCropsDelete(id) {
+  return axios.post(`${url}/api/plantingSeasonCrops/delete?token=${getToken()}`, id)
+}
 export function setInSeason(info) {
   return axios.post(`${url}/api/plantingSeason/inSeason?token=${getToken()}`, info)
 }
@@ -317,4 +320,10 @@ export function findEnvirFac (landId) {
 // 	api/soilLand/deleteFile
 export function deleteSoilLandFile(info) {
   return axios.post(`${url}/api/soilLand/deleteFile?token=${getToken()}`, info)
+}
+// api/plantingSeasonCrops/delete?token=&id=
+
+// api/plantingSeasonCropsFertilizer/delete?token=&id=
+export function plantingSeasonCropDelete (id) {
+  return axios.post(`${url}/api/plantingSeasonCropsFertilizer/delete?token=${getToken()}`, id)
 }

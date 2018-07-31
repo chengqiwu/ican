@@ -7,7 +7,8 @@ import userFeature from './reducers/userFeature'
 import fieldMessage from './reducers/fieldMessage'
 import message from './reducers/message'
 import user from './reducers/user'
-import plantingSeason from './reducers/plaintingSeason'
+import season from './reducers/season'
+import plaintingSeason from './reducers/plaintingSeason'
 import { combineReducers } from 'redux'
 import { reducer as reduxFormReducer } from 'redux-form'
 
@@ -23,6 +24,7 @@ const reducer = combineReducers({
   fieldMessage,
   message,
   user,
-  plantingSeason
+  season,
+  plaintingSeason
 })
 export default reducer

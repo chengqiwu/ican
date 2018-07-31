@@ -33,11 +33,13 @@
       }
     }
     .files-list {
-      margin-left: 105px;
+      margin-left: 90px;
       margin-bottom: 10px;
-      ul,
       li {
-        list-style-type: disc;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 5px;
       }
     }
     .item {

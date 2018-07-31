@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
+import {plantingSeasonCropDelete} from 'utils/Api'
 import Dropzone from 'react-dropzone'
 const typeArr =  [{
   value: '0',
@@ -18,6 +19,7 @@ const typeArr =  [{
   value: '4',
   label: '水肥一体'
 },]
+
 class AddSingFer extends Component {
   constructor() {
     super()
@@ -25,16 +27,13 @@ class AddSingFer extends Component {
       tableData: [],
       frontFile: {},
       backFile: {},
+      model: 0
     }
   }
-  componentDidMount() {
-    const {fertilizers} = this.props
-    console.log(this.props)
-  }
   // 刷新肥的id和文件
-  
   componentDidUpdate(prevProps) {
     const {fertilizers} = this.props
+    let model = 0
     // fertilizers
     if (this.props.update) {
       const fers = fertilizers.map(f => {
@@ -56,8 +55,9 @@ class AddSingFer extends Component {
           type = '',
           zinc = '',
         } = f
-        console.log('dosage', dosage)
-        console.log(typeArr.filter(t => t.value === type)[0])
+        if (f.magnesium) {
+          model = 1
+        }
         return {
           urlBack: backPhoto,
           boron,
@@ -72,15 +72,18 @@ class AddSingFer extends Component {
           nitrogen,
           phosphorus,
           potassium,
-          frontagePhoto: '',
-          backPhoto: '',
           sulfur,
           type: typeArr.filter(t => t.value === type)[0] || '',
           zinc,
+          frontagePhoto: undefined,
+          backPhoto: undefined,
         }
       })
       this.setState({
-        tableData: fers
+        tableData: fers,
+        frontFile: {},
+        backFile: {},
+        model
       })
       this.props.updateNo()
     }
@@ -100,12 +103,11 @@ class AddSingFer extends Component {
       copper: '',
       iron: '',
       manganese: '',
-      frontagePhoto: '',
-      backPhoto: '',
+      frontagePhoto: undefined,
+      backPhoto: undefined,
       dosage: '',
       type: '',
     })
-    console.log(tableData.length)
     this.setState({
       tableData
     })
@@ -128,7 +130,7 @@ class AddSingFer extends Component {
     console.log(i)
     const { tableData } = this.state
     const key = Date.now()
-    tableData[i].frontagePhoto = key
+    tableData[i].frontagePhoto = key.toString()
     this.setState({
       tableData,
       frontFile: {
@@ -141,7 +143,7 @@ class AddSingFer extends Component {
     console.log(i)
     const { tableData } = this.state
     const key = Date.now()
-    tableData[i].backPhoto = key
+    tableData[i].backPhoto = key.toString()
     this.setState({
       tableData,
       backFile: {
@@ -183,13 +185,36 @@ class AddSingFer extends Component {
       backFile
     })
   }
-  removeSingFer = (i) => {
-    console.log(i)
+  removeSingFer = (i, id) => {
+    console.log(i, id)
     const { tableData } = this.state
-
-    this.setState({
-      tableData: tableData.filter((t, index) => index !== i)
-    })
+    // plantingSeasonCropDelete
+    if (!id) {
+      this.setState({
+        tableData:[
+          ...tableData.slice(0, i),
+          ...tableData.slice(i+1)
+        ]
+      })
+    } else if (id.toString().length === 32) {
+      const fd = new FormData()
+      fd.append('id', id)
+      plantingSeasonCropDelete(fd)
+        .then(e => e.data)
+        .then(data => {
+          if (data.msg === '200') {
+            this.setState({
+              tableData:[
+                ...tableData.slice(0, i),
+                ...tableData.slice(i+1)
+              ]
+            })
+          } else {
+            alert('删除失败，请稍后重试')
+          }
+        })
+    }
+   
   }
   typeChange = (i, value) => {
     const { tableData } = this.state
@@ -198,8 +223,31 @@ class AddSingFer extends Component {
       tableData
     })
   }
+  simpleModel = () => {
+    if (this.state.model === 0) {
+      return
+    }
+    this.setState({
+      model: 0
+    })
+  }
+  fullModel = () => {
+    if (this.state.model === 1) {
+      return
+    }
+    this.setState({
+      model: 1
+    })
+  }
   render() {
+    const { disabled } = this.props
     return <div className="add-sing-fer">
+      <div className='switch'>
+        <div className='switch-btn'>
+          <button type='button' className='button' onClick={this.simpleModel}>简易模式</button>
+          <button type='button' className='button' onClick={this.fullModel}>完整模式</button>
+        </div>
+      </div>
       <table>
         <tbody>
           <tr>
@@ -211,10 +259,18 @@ class AddSingFer extends Component {
             <td>硫（S%）</td>
             <td>锌（ZN%）</td>
             <td>硼（B%）</td>
-            <td>镁</td>
-            <td>铜</td>
-            <td>铁</td>
-            <td>锰</td>
+            {
+              this.state.model === 1 && <td>镁</td>
+            }
+            {
+              this.state.model === 1 && <td>铜</td>
+            }
+            {
+              this.state.model === 1 && <td>铁</td>
+            }
+            {
+              this.state.model === 1 && <td>锰</td>
+            }
             <td>肥袋正面照片</td>
             <td>肥袋反面照片</td>
             <td>施肥量</td>
@@ -224,38 +280,46 @@ class AddSingFer extends Component {
           {
             this.state.tableData.map((t, i) =>  <tr key={i}>
               <td>
-                <input type="text" required name='name' value={t.name} onChange={this.inputChange.bind(this, i)}/>
+                <input type="text" disabled={disabled} required name='name' value={t.name} onChange={this.inputChange.bind(this, i)}/>
               </td>
               <td>
-                <input type="text" name='nitrogen' value={t.nitrogen} onChange={this.inputChange.bind(this, i)}/>
+                <input type="number" disabled={disabled} name='nitrogen' value={t.nitrogen} onChange={this.inputChange.bind(this, i)}/>
               </td>
               <td>
-                <input type="text" name='phosphorus' value={t.phosphorus} onChange={this.inputChange.bind(this, i)}/>
+                <input type="number" disabled={disabled} name='phosphorus' value={t.phosphorus} onChange={this.inputChange.bind(this, i)}/>
               </td>
               <td>
-                <input type="text" name='potassium' value={t.potassium} onChange={this.inputChange.bind(this, i)}/>
+                <input type="number" disabled={disabled} name='potassium' value={t.potassium} onChange={this.inputChange.bind(this, i)}/>
               </td>
               <td>
-                <input type="text" name='sulfur' value={t.sulfur} onChange={this.inputChange.bind(this, i)}/>
+                <input type="number" disabled={disabled} name='sulfur' value={t.sulfur} onChange={this.inputChange.bind(this, i)}/>
               </td>
               <td>
-                <input type="text" name='zinc' value={t.zinc} onChange={this.inputChange.bind(this, i)}/>
+                <input type="number" disabled={disabled} name='zinc' value={t.zinc} onChange={this.inputChange.bind(this, i)}/>
               </td>
               <td>
-                <input type="text" name='boron' value={t.boron} onChange={this.inputChange.bind(this, i)}/>
+                <input type="number" disabled={disabled} name='boron' value={t.boron} onChange={this.inputChange.bind(this, i)}/>
               </td>
-              <td>
-                <input type="text" name='magnesium' value={t.magnesium} onChange={this.inputChange.bind(this, i)}/>
-              </td>
-              <td>
-                <input type="text" name='copper' value={t.copper} onChange={this.inputChange.bind(this, i)}/>
-              </td>
-              <td>
-                <input type="text" name='iron' value={t.iron} onChange={this.inputChange.bind(this, i)}/>
-              </td>
-              <td>
-                <input type="text" name='manganese' value={t.manganese} onChange={this.inputChange.bind(this, i)}/>
-              </td>
+              {
+                this.state.model === 1 && <td>
+                  <input type="number" disabled={disabled} name='magnesium' value={t.magnesium} onChange={this.inputChange.bind(this, i)}/>
+                </td>
+              }
+              {
+                this.state.model === 1 && <td>
+                  <input type="number" disabled={disabled} name='copper' value={t.copper} onChange={this.inputChange.bind(this, i)}/>
+                </td>
+              }
+              {
+                this.state.model === 1 && <td>
+                  <input type="number" disabled={disabled} name='iron' value={t.iron} onChange={this.inputChange.bind(this, i)}/>
+                </td>
+              }
+              {
+                this.state.model === 1 && <td>
+                  <input type="number" disabled={disabled} name='manganese' value={t.manganese} onChange={this.inputChange.bind(this, i)}/>
+                </td>
+              }
               <td>
                 <Dropzone 
                   ref={(node) => this[`dropzoneRef${i}`] = node } 
@@ -265,7 +329,7 @@ class AddSingFer extends Component {
                   
                   <p>Drop files here.</p>
                 </Dropzone>
-                {(!this.state.frontFile[t.frontagePhoto] && !t.urlFront) ?<button type="button" onClick={() => { this[`dropzoneRef${i}`].open() }}>
+                {(!this.state.frontFile[t.frontagePhoto] && !t.urlFront) ?<button disabled={disabled} type="button" onClick={() => { this[`dropzoneRef${i}`].open() }}>
                   +选择文件
                 </button> : <div>
                   <label>
@@ -283,7 +347,7 @@ class AddSingFer extends Component {
                   
                   <p>Drop files here.</p>
                 </Dropzone>
-                {(!this.state.backFile[t.backPhoto] && !t.urlBack) ? <button type="button" onClick={() => { this[`dropzoneRef2${i}`].open() }}>
+                {(!this.state.backFile[t.backPhoto] && !t.urlBack) ? <button type="button" disabled={disabled} onClick={() => { this[`dropzoneRef2${i}`].open() }}>
                   +选择文件
                 </button> : <div>
                   <label>
@@ -293,13 +357,14 @@ class AddSingFer extends Component {
                 </div>}
               </td>
               <td>
-                <input type="text" name='dosage' value={t.dosage} onChange={this.inputChange.bind(this, i)} />
+                <input type="number" disabled={disabled} name='dosage' value={t.dosage} onChange={this.inputChange.bind(this, i)} />
               </td>
               <td>
                 <Select
                   classNamePrefix='react-select'
                   placeholder=''
                   noResultsText='无'
+                  isDisabled={disabled}
                   onChange={this.typeChange.bind(this, i)}
                   value={t.type}
                   options={
@@ -309,13 +374,14 @@ class AddSingFer extends Component {
                 ></Select>
               </td>
               <td>
-                <button type='button' className='button' onClick={this.removeSingFer.bind(this, i)}>删除</button>
+                <button type='button' className='button' onClick={this.removeSingFer.bind(this, i, t.id)} disabled={disabled}>删除</button>
+                <div>（直接删除，无需保存）</div>
               </td>
             </tr>)
           }
         </tbody>
       </table>
-      <button type='button' className='button' onClick={this.addSingFer}>+增加肥料</button>
+      <button type='button' className='button' onClick={this.addSingFer} disabled={disabled}>+增加肥料</button>
     </div>
   }
 }
@@ -323,6 +389,7 @@ AddSingFer.propTypes = {
   updateFertilizers: PropTypes.func,
   fertilizers: PropTypes.array,
   updateNo: PropTypes.func,
-  update: PropTypes.bool
+  update: PropTypes.bool,
+  disabled: PropTypes.bool
 }
 export default AddSingFer

@@ -2,10 +2,15 @@
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  padding: 5px;
-  // justify-content: space-between;
-  > div {
+  padding: 5px; // justify-content: space-between;
+  >div {
     margin: 5px;
-    flex-basis: 32.6%;
+    flex-basis: 48.9%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .message>div {
+    flex-basis: 99%;
   }
 }

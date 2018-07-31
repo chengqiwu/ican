@@ -19,9 +19,10 @@ import Appends from './Appends'
 import User from './user/User'
 import Tools from './tools/Tools'
 import RxDragDrop from './RxDragDrop'
+import PlainingSeasonDragDrop from './fieldMessage/season/RxDragDrop'
 import { getUserToken } from 'utils/Api'
 import history from '../history'
-import JobLogging from './picture/JobLogging'
+// import JobLogging from './picture/JobLogging'
 import Company from './common/Company'
 // import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
@@ -53,6 +54,7 @@ class IcanApp extends Component {
           <Tools />
           <Openlayer />
           <RxDragDrop />
+          <PlainingSeasonDragDrop/>
           <Baner />
           <Appends/>
           {/* <FieldMessage />

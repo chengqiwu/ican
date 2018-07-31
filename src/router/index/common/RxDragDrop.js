@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Rx from 'rxjs/Rx'
 import 'css/index/common/drapDrop.scss'
 import FiledInfo from '../content/FiledInfo'
+import PlantingSeason from '../fieldMessage/season/PlantingSeason'
 import More from '../content/More'
 import Scrollbar from 'smooth-scrollbar'
 const validValue = (value, max, min) => {
@@ -62,6 +63,7 @@ class RxDragDrop extends Component {
         <div className="dragDrop-content" ref={content => this.content = content}>
           {this.props.index === 2 && <FiledInfo {...this.props}/>}
           {/* {this.props.index ===1 && <Picture/>} */}
+          {this.props.index === 3 && <PlantingSeason/>}
           {this.props.index === 0 && <More {...this.props} />}
                    
         </div>

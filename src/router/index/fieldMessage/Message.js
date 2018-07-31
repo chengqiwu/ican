@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getArea } from 'utils/tools'
-import PlantingSeason from './season/PlantingSeason'
+// import PlantingSeason from './season/PlantingSeason'
 import EnvirAndFac from './envirAndFac/EnvirAndFac'
 import Soil from './soil/Soil'
 import 'css/index/field/message.scss'
@@ -33,7 +33,7 @@ class Message extends Component {
       <div className="filed-content">
         {/* <ShowMessage /> */}
         <div className='message'>
-          <PlantingSeason/>
+          {/* <PlantingSeason/> */}
           <EnvirAndFac/>
           <Soil/>
         </div>

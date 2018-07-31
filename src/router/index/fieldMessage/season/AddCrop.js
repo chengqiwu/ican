@@ -52,7 +52,9 @@ class AddCrop extends Component {
       minProduction: '',
       fertilizers: [],
       saving: false,
-      update: false
+      update: false,
+      edit: false,
+      store: null
     }
   }
   updateFertilizers = (fertilizers) => {
@@ -123,7 +125,7 @@ class AddCrop extends Component {
             }
             const varieties = crop.list.filter(v => v.id === varietiesId)[0] || ''
             const type = croppingPattern.filter(c => c.id === plantingType)[0] || ''
-            this.setState({
+            const store = {
               id,
               crop: {
                 label: crop.name,
@@ -145,10 +147,20 @@ class AddCrop extends Component {
               maxProduction,
               minProduction,
               fertilizers,
+            }
+            this.setState({
+              store,
+              ...store,
               update: true
             })
           })
       })
+  }
+  restore = () => {
+    this.setState({
+      edit: false,
+      ...this.state.store
+    })
   }
   submitHandler = (e) => {
     e.preventDefault()
@@ -162,7 +174,6 @@ class AddCrop extends Component {
       return
     }
     info.plantingSeasonId = this.props.crops.plantingSeasonId
-    console.log(this.state.crop)
     info.cropsId = this.state.crop.value
     info.cropsName = this.state.crop.label
     if (!!this.state.value) {
@@ -182,15 +193,29 @@ class AddCrop extends Component {
     // info.composites = this.state.composites
     // info.singles = this.state.singles
 
-    const {backFile,frontFile,tableData} = this.fertilizers.state
+    const {backFile,frontFile,tableData, model} = this.fertilizers.state
 
-    !!tableData.length && ( info.fertilizers = tableData.map(t => ({
-      ...t,
-      type: t.type.value
-    })))
+    !!tableData.length && ( info.fertilizers = tableData.map(t => {
+      if (model === 0) {
+        return {
+          ...t,
+          magnesium: undefined,
+          copper: undefined,
+          iron: undefined,
+          manganese: undefined,
+          type: t.type.value
+        }
+      } else {
+        return {
+          ...t,
+          type: t.type.value
+        }
+      }
+    }))
+
     console.log(backFile,frontFile,tableData)
     const fd = new FormData()
-    fd.append('info', encodeURI(JSON.stringify(info)))
+    fd.append('info', (JSON.stringify(info)))
     Object.keys(backFile).map(f => fd.append(f, backFile[f]))
     Object.keys(frontFile).map(f => fd.append(f, frontFile[f]))
     this.setState({
@@ -200,6 +225,7 @@ class AddCrop extends Component {
       .then(e => e.data)
       .then(data => {
         if (data.msg === '200') {
+          this.props.update()
           const {
             id,
             cropsId,
@@ -218,7 +244,7 @@ class AddCrop extends Component {
           }
           const varieties = crop.list.filter(v => v.id === varietiesId)[0] || ''
           const type = this.state.croppingPattern.filter(c => c.id === plantingType)[0] || ''
-          this.setState({
+          const store = {
             id,
             crop: {
               label: crop.name,
@@ -240,8 +266,12 @@ class AddCrop extends Component {
             update: true,
             maxProduction,
             minProduction,
+          }
+          this.setState({
+            store,
+            ...store,
             saving: false,
-            
+            edit: false
           })
         }
       })
@@ -305,6 +335,14 @@ class AddCrop extends Component {
       update: false
     })
   }
+  delete = () => {
+    this.props.deleteCropById()
+  }
+  activeEdit = () => {
+    this.setState({
+      edit: true
+    })
+  }
   render() {
     console.log(this.state.fertilizers)
     const { isLoading, options, value } = this.state
@@ -330,6 +368,7 @@ class AddCrop extends Component {
               <Select
                 classNamePrefix='react-select'
                 placeholder=''
+                isDisabled={!this.state.edit}
                 noResultsText='无'
                 onChange={this.cropChange}
                 value={this.state.crop}
@@ -347,7 +386,8 @@ class AddCrop extends Component {
                 className='react-select1'
                 classNamePrefix='react-select'
                 isClearable
-                isDisabled={isLoading}
+                isDisabled={!this.state.edit}
+                // isDisabled={isLoading}
                 isLoading={isLoading}
                 onChange={this.handleChange}
                 onCreateOption={this.handleCreate}
@@ -366,6 +406,7 @@ class AddCrop extends Component {
                 classNamePrefix='react-select'
                 placeholder=''
                 noResultsText='无'
+                isDisabled={!this.state.edit}
                 value={this.state.status}
                 onChange={this.statusChange}
                 options={
@@ -379,6 +420,7 @@ class AddCrop extends Component {
                 classNamePrefix='react-select'
                 placeholder=''
                 noResultsText='无'
+                isDisabled={!this.state.edit}
                 onChange={this.preparationChange}
                 value={this.state.soilPreparation}
                 options={
@@ -389,8 +431,9 @@ class AddCrop extends Component {
             <div className='input-group'>
               <label htmlFor="">播种密度</label>
               <input 
-                type="text" 
-                name='density' 
+                type="number" 
+                name='density'
+                disabled={!this.state.edit}
                 value={this.state.density} 
                 onChange={this.inputChange}/>
               <span>（株/亩）</span>
@@ -401,6 +444,7 @@ class AddCrop extends Component {
                 classNamePrefix='react-select'
                 placeholder=''
                 noResultsText='无'
+                isDisabled={!this.state.edit}
                 value={this.state.plantingType}
                 onChange={this.plantingTypeChange}
                 options={
@@ -413,7 +457,8 @@ class AddCrop extends Component {
             <div className='input-group'>
               <label htmlFor="">历史最高产量</label>
               <input 
-                type="text" 
+                type="number" 
+                disabled={!this.state.edit}
                 name='maxProduction' 
                 value={this.state.maxProduction} 
                 onChange={this.inputChange}/>
@@ -421,7 +466,8 @@ class AddCrop extends Component {
             <div className='input-group'>
               <label htmlFor="">历史最低产量</label>
               <input
-                type="text" 
+                type="number"
+                disabled={!this.state.edit}
                 name='minProduction' 
                 value={this.state.minProduction} 
                 onChange={this.inputChange}/>
@@ -435,20 +481,28 @@ class AddCrop extends Component {
               update={this.state.update}
               updateNo={this.updateNo}
               fertilizers={this.state.fertilizers} 
+              disabled={!this.state.edit}
               updateFertilizers={this.updateFertilizers} 
               ref={fertilizers => this.fertilizers = fertilizers}/>
           </div>
+          {
+            this.state.edit ? <div className='action'>
+              <input type="submit" className='button' value={this.state.saving ? '保存中' : '保存'} disabled={this.state.saving}/>
+              <button type='button' className='button no-save' onClick={this.restore}>不保存退出</button>
+            </div> : <div className='action'>
+              <button type='button' className='button' onClick={this.activeEdit}>编辑</button>
+              <button type='button' className='button' onClick={this.delete}>删除</button>
+            </div>
+          }
           
-          <div className='action'>
-            <input type="submit" className='button' value={this.state.saving ? '保存中' : '保存'} disabled={this.state.saving}/>
-            <button type='button' className='button'>删除</button>
-          </div>
         </form>
       </div>
     )
   }
 }
 AddCrop.propTypes = {
-  crops: PropTypes.object
+  crops: PropTypes.object,
+  deleteCropById: PropTypes.func,
+  update: PropTypes.func
 }
 export default AddCrop

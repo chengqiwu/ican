@@ -3,15 +3,12 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import 'css/index/field/plantingSeason.scss'
 import { findPlantingSeasonList, setInSeason, deleteSeason } from 'utils/Api'
-import { updateSeason} from '_redux/actions/plaintingSeason'
-import RxDragDrop from './RxDragDrop'
+import { updateSeason } from '_redux/actions/season'
+import { showSeason, updatePSeason, destorySeason} from '_redux/actions/plaintingSeason'
+
 class PlantingSeason extends Component {
   constructor() {
     super()
-    this.state = {
-      show: false,
-
-    }
   }
   componentDidMount() {
     const { feature: {feature}} = this.props
@@ -29,21 +26,15 @@ class PlantingSeason extends Component {
   }
   addSeason = (e) => {
     e.preventDefault()
-    if (this.state.show) {
+    if (this.props.plaintingSeason.show) {
       return 
     }
-
-    this.setState({
-      show: true,
-      plantingSeason: {
-        id: Date.now()
-      }
+    this.props.updatePSeason({
+      id: Date.now()
     })
   }
   hidenDragDrop = () => {
-    this.setState({
-      show: false
-    })
+    this.props.destorySeason()
   }
   setInSeason = (e) => {
     const id = e.target.getAttribute('land-id')
@@ -80,7 +71,6 @@ class PlantingSeason extends Component {
       .then(e => e.data)
       .then(data => {
         if (data.msg === '200') {
-          console.log(data)
           const fd = new FormData()
           fd.append('landId', landid)
 
@@ -96,51 +86,47 @@ class PlantingSeason extends Component {
   }
   getSeasonCrops = (item, e) => {
     e.preventDefault()
-   
-    this.setState({
-      show: true,
-      plantingSeason: item
-    })
+    this.props.updatePSeason(item)
   }
   render() {
-    console.log(this.props.plantingSeason)
     return (
       <div className='plaintingSeason'>
-        {this.state.show && <RxDragDrop hidenDragDrop={this.hidenDragDrop} plantingSeason={this.state.plantingSeason}/>}
-        <div className='relative'>
-          <div className='title'>种植季</div>
-        </div>
-        <div className='content'>
-          <table>
-            <tbody>
-              {this.props.plantingSeason.map(item => (
-                <tr key={item.id}>
-                  <td className='timer'>
-                    <a href="#" onClick={this.getSeasonCrops.bind(this, item)}>{item.name}</a>
-                  </td>
-                  {
-                    item.inSeason === '1' ? 
-                      <td>
-                        <button className='button current' >当季</button>
-                      </td> :
-                      <td>
-                        <button className='button set-current' 
-                          season-id={item.seasonId} 
-                          land-id={item.landId}  
-                          onClick={this.setInSeason}>设为当季</button>
-                        <button className='button delete'
-                          id={item.id}
-                          land-id={item.landId}  
-                          onClick={this.deleteSeason}>删除</button>
-                      </td>
-                  }
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <button className='button add' onClick={this.addSeason}>
+        <div className='season-div'>
+          <div className='relative'>
+            <div className='title'>种植季</div>
+          </div>
+          <div className='content'>
+            <table>
+              <tbody>
+                {this.props.season.map(item => (
+                  <tr key={item.id}>
+                    <td className='timer'>
+                      <a href="#" onClick={this.getSeasonCrops.bind(this, item)}>{item.name}</a>
+                    </td>
+                    {
+                      item.inSeason === '1' ?
+                        <td>
+                          <button className='button current' >当季</button>
+                        </td> :
+                        <td>
+                          <button className='button set-current'
+                            season-id={item.seasonId}
+                            land-id={item.landId}
+                            onClick={this.setInSeason}>设为当季</button>
+                          <button className='button delete'
+                            id={item.id}
+                            land-id={item.landId}
+                            onClick={this.deleteSeason}>删除</button>
+                        </td>
+                    }
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <button className='button add' onClick={this.addSeason}>
               +添加种植季
-          </button>
+            </button>
+          </div>
         </div>
       </div>
     )
@@ -148,20 +134,29 @@ class PlantingSeason extends Component {
 }
 PlantingSeason.propTypes = {
   feature: PropTypes.object,
-  plantingSeason: PropTypes.array,
-  updateSeason: PropTypes.func
-  
+  season: PropTypes.array,
+  updateSeason: PropTypes.func,
+  updatePSeason: PropTypes.func,
+  destorySeason: PropTypes.func,
+  plaintingSeason: PropTypes.object
 }
 const mapStateToProps = (state) => {
   return {
     feature: state.feature,
-    plantingSeason: state.plantingSeason
+    season: state.season,
+    plaintingSeason: state.plaintingSeason
   }
 }
 const mapDispathToProps = (dispatch) => {
   return {
     updateSeason: (season) => {
       dispatch(updateSeason(season))
+    },
+    showSeason: () => {
+      dispatch(showSeason())
+    },
+    updatePSeason: (plantingSeason) => {
+      dispatch(updatePSeason(plantingSeason))
     }
   }
 }

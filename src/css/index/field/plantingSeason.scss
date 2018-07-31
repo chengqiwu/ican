@@ -1,6 +1,9 @@
 .plaintingSeason {
-  border: 1px solid #ccc; // margin: 20px;
   padding: 10px; // width: 400px;
+  .season-div {
+    border: 1px solid #ccc; // margin: 20px;
+    padding: 10px;
+  }
   .relative {
     position: relative;
     .title {
@@ -58,152 +61,6 @@
       }
       margin: 0;
       margin-top: 10px;
-    }
-  }
-  .add-season {
-    padding: 20px;
-    >form {
-      padding-left: 11px;
-    }
-    >.add {
-      background-color: #0b77f0;
-      &:hover {
-        background-color: #0065d6
-      }
-      margin: 0;
-      margin-top: 10px;
-      color: #fff;
-    }
-    .absolute {
-      position: absolute;
-      right: 0;
-      .all {
-        text-align: right;
-      }
-    }
-    .input-group {
-      display: flex;
-      label {
-        width: 100px;
-        text-align: right;
-        margin-right: 10px;
-      }
-      .react-select__control {
-        width: 100px;
-      }
-      .save {
-        margin-left: 10px;
-        color: #fff;
-        background-color: #0b77f0;
-        &:hover {
-          background-color: #0065d6
-        }
-      }
-    }
-    .add-crop {
-      margin-top: 20px;
-      background-color: #eee;
-      border-radius: 5px;
-      .collapse {
-        cursor: pointer;
-        padding: 10px;
-        color: #fff;
-        background-image: linear-gradient(to top, #176be6, #26a4f6 50%, #2fc9ff);
-        background-color: #3478f5;
-        background-blend-mode: normal;
-        border-radius: 5px;
-        &.borderRadius {
-          border-radius: 5px 5px 0 0;
-        }
-      }
-      .panelBody {
-        transition: all 0.5s ease;
-        padding: 20px;
-        &.hide {
-          height: 0;
-          padding: 0 20px;
-          overflow: hidden;
-        }
-        .action {
-          margin-top: 10px;
-        }
-      }
-      .warp {
-        display: flex;
-        flex-wrap: wrap;
-        .input-group {
-          margin-bottom: 10px;
-          .react-select1 {
-            width: 150px; // height: 30px;
-            .react-select__control {
-              width: 150px;
-            }
-          }
-        }
-      }
-      .fer {
-        margin-top: 10px;
-        position: relative;
-        border: 1px solid #ddd;
-        padding: 20px 10px;
-        .fer-title {
-          position: absolute;
-          top: -10px;
-          left: 50%;
-          transform: translate(-50%);
-          background-color: #eee;
-        }
-      }
-      .add-com-fer,
-      .add-sing-fer {
-        .button {
-          color: #fff;
-          background-color: #0b77f0;
-          &:hover {
-            background-color: #0065d6
-          }
-          margin-bottom: 10px;
-        }
-        table {
-          width: 100%;
-          border-collapse: collapse;
-          margin-bottom: 10px;
-          td {
-            text-align: center;
-            border: 1px solid #ddd;
-            padding: 5px 10px;
-            .react-select__control {
-              width: 100px;
-            }
-            .button {
-              width: 60px;
-              margin: 0;
-            }
-            input {
-              width: 100%;
-              &[type=text] {
-                border: none;
-                outline: none;
-                text-align: center;
-                background-color: #eee;
-              }
-              &[type=file] {
-                display: none;
-              }
-            }
-          }
-        }
-      }
-      .action {
-        .button {
-          color: #fff;
-          background-color: #0b77f0;
-          &:hover {
-            background-color: #0065d6
-          }
-          margin-right: 10px;
-        }
-      }
     }
   }
 }

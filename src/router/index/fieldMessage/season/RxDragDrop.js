@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Rx from 'rxjs/Rx'
 import 'css/index/common/drapDrop.scss'
-import Scrollbar from 'smooth-scrollbar'
+import { destorySeason } from '_redux/actions/plaintingSeason'
 import AddSeason from './AddSeason'
+import { connect} from 'react-redux'
 const validValue = (value, max, min) => {
   return Math.min(Math.max(value, min), max)
 }
@@ -13,7 +14,10 @@ class RxDragDrop extends Component {
     super(props)
         
   }
-  componentDidMount() {
+  componentDidUpdate() {
+    if (!this.title) {
+      return
+    }
     this.mouseDown = Rx.Observable.fromEvent(this.title, 'mousedown')
     this.mouseUp   = Rx.Observable.fromEvent(document, 'mouseup')
     this.mouseMove = Rx.Observable.fromEvent(document, 'mousemove')
@@ -44,30 +48,24 @@ class RxDragDrop extends Component {
   componentWillUnmount() {
     this.dd && this.dd.unsubscribe()
   }
-  // shouldComponentUpdate(){
-  //     return false
-  // }
   destory(e) {
     e.preventDefault()
-    // this.setState({
-    //     destory: true
-    // })
-    this.props.hidenDragDrop()
-
+    this.dd && this.dd.unsubscribe()
+    this.props.destorySeason()
   }
   render() {
     const style = {
       top: '30%',
-      left: '30%',
+      left: '5%',
       width: '1280px'
     }
     return (
-      <div>
+      this.props.plaintingSeason.show && <div>
         <div ref={drapDrop => this.drapDrop = drapDrop} className="dragDrop" style={style}>
           <h3 ref={title => this.title = title} className='dragDrop-title'>{'种植季信息'}</h3>
           <a href="#" id="dragDrop-closer" className="dragDrop-closer" onClick={this.destory.bind(this)}></a>
-          <div className="dragDrop-content" ref={content => this.content = content} style={{height: 'auto'}}>
-            <AddSeason {...this.props}/>
+          <div className="dragDrop-content" ref={content => this.content = content} style={{ height: 'auto' }}>
+            <AddSeason plantingSeason = {this.props.plaintingSeason} />
           </div>
         </div>
       </div>
@@ -79,9 +77,23 @@ class RxDragDrop extends Component {
 RxDragDrop.propTypes = {
   title: PropTypes.string,
   node: PropTypes.node,
-  hidenDragDrop: PropTypes.func,
+  destorySeason: PropTypes.func,
   dragDrop: PropTypes.object,
-  show: PropTypes.bool
+  show: PropTypes.bool,
+  plaintingSeason: PropTypes.object
 }
-
-export default RxDragDrop
+// destorySeason
+const mapStateToProps = (state) => {
+  return {
+    plaintingSeason: state.plaintingSeason
+  }
+}
+const mapDispathToProps = (dispatch) => {
+  return {
+    destorySeason: (season) => {
+      dispatch(destorySeason(season))
+    }
+  }
+}
+// updateSeason
+export default connect(mapStateToProps, mapDispathToProps)(RxDragDrop)
