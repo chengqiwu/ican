@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import history from 'router/history'
+import { blowfish } from 'utils/tools'
 import { resetPass } from 'utils/Api'
 import success from 'images/register/success.png'
 class ResetForm extends Component {
@@ -38,7 +39,7 @@ class ResetForm extends Component {
     }
     var image = new FormData()
     image.append('username', this.username.value)
-    image.append('password', password)
+    image.append('password', blowfish(password))
     image.append('code', code)
     resetPass(image).then(res => res.data)
       .then(data => {

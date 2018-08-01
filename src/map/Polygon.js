@@ -5,6 +5,7 @@ import ol from 'openlayers'
 import { connect } from 'react-redux'
 import { saveFeature, setFeature } from '_redux/actions/feature'
 import { setFieldMessage, showFieldMessage, startFieldMessage } from '_redux/actions/fieldMessage'
+import {showList} from '_redux/actions/picture'
 import { getArea } from 'utils/tools'
 import 'css/map/polygon.scss'
 import CreateField from './CreateField'
@@ -117,7 +118,7 @@ class Polygon extends Component {
       var feature = evt.feature
 
       new Promise((resolve, reject) => {
-        if (Number(getArea(feature).acre) > 2000) {
+        if (Number(getArea(feature).acre) > 10000) {
           alert('您圈选的田地面积不符合实际情况，请重新圈选')
           resolve('')
         } else {
@@ -156,7 +157,7 @@ class Polygon extends Component {
     map.on('click', (evt) => this.clickListener(evt))
   }
   clickListener(evt) {
-    const target = evt.originalEvent.target
+    const {target} = evt.originalEvent
     if (target.tagName === 'IMG' && target.getAttribute('index')) {
       return
     }
@@ -166,6 +167,7 @@ class Polygon extends Component {
       this.props.saveFeature(feature)
       this.props.startFieldMessage(false)
       this.props.showFieldMessage(false)
+      this.props.showList(false)
       const id = feature.getId()
       const name = feature.get('name')
       const isNew = feature.get('status')
@@ -306,7 +308,8 @@ Polygon.propTypes = {
   clearSource: PropTypes.func,
   onRef: PropTypes.func,
   startFieldMessage: PropTypes.func,
-  showFieldMessage: PropTypes.func
+  showFieldMessage: PropTypes.func,
+  showList: PropTypes.func
 }
 const mapStateToProps = (state) => {
   return {
@@ -328,6 +331,9 @@ const mapDispathToProps = (dispatch) => {
     },
     showFieldMessage: (show) => {
       dispatch(showFieldMessage(show))
+    },
+    showList: (show) => {
+      dispatch(showList(show))
     }
   }
 }

@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import Select from 'react-select'
 import AddCrop from './AddCrop'
 import { connect } from 'react-redux'
-import { findSeasonLists, plantingSeasonSave, findPlantingSeasonList, findPlantingSeasonCrops, plantingSeasonCropsDelete } from 'utils/Api'
+import { findCriosAndVarietiesList, findSeasonLists, plantingSeasonSave, findPlantingSeasonList, findPlantingSeasonCrops, plantingSeasonCropsDelete } from 'utils/Api'
 import { updateSeason } from '_redux/actions/season'
+import { updatePSeason} from '_redux/actions/plaintingSeason'
 import 'css/index/field/addSeason.scss'
 
 class AddSeason extends Component {
@@ -13,8 +14,9 @@ class AddSeason extends Component {
     this.state = {
       saved: false,
       value: '',
-      seasons: [],
-      plantingSeasonCrops: []
+      seasons: [],             // 季节列表
+      plantingSeasonCrops: [],  // 种植季作物,
+      criosAndVarieties: []
     }
   }
   submitHandler = (e) => {
@@ -35,12 +37,18 @@ class AddSeason extends Component {
       .then(e => e.data)
       .then(data => {
         if (data.msg === '200') {
+          const res= data.result
           fd.append('landId', id)
           findPlantingSeasonList(fd)
             .then(e => e.data)
             .then(data => {
               if (data.msg === '200') {
                 this.props.updateSeason(data.result || [])
+                this.props.updatePSeason({
+                  id: res,
+                  name: this.state.value.label,
+                  inSeason: '0'
+                })
               }
             })
           this.setState({
@@ -58,7 +66,6 @@ class AddSeason extends Component {
   }
   componentDidMount() {
     const { plantingSeason: { plaintSeason} } = this.props
-    console.log(this.props)
     if (plaintSeason.id.toString().length === 32) {
       const fd = new FormData()
       fd.append('plantingSeasonId', plaintSeason.id)
@@ -87,6 +94,15 @@ class AddSeason extends Component {
           }
         })
     }
+    findCriosAndVarietiesList()
+      .then(e => e.data)
+      .then(data => {
+        if(data.msg === '200') {
+          this.setState({
+            criosAndVarieties: data.result
+          })
+        }
+      })
   }
   componentDidUpdate(prevProps) {
     const { plantingSeason: { plaintSeason} } = this.props
@@ -109,17 +125,27 @@ class AddSeason extends Component {
     }
   }
   update = () => {
-    const { plantingSeason: { plaintSeason} } = this.props
-    const fd = new FormData()
-    fd.append('plantingSeasonId', plaintSeason.id)
-    findPlantingSeasonCrops(fd)
+    // const { plantingSeason: { plaintSeason} } = this.props
+    // const fd = new FormData()
+    // fd.append('plantingSeasonId', plaintSeason.id)
+    // findPlantingSeasonCrops(fd)
+    //   .then(e => e.data)
+    //   .then(data => {
+    //     if (data.msg === '200') {
+    //       this.setState({
+    //         saved: true,
+    //         plantingSeasonCrops: data.result || []
+    //       })
+    //     }
+    //   })
+    return findCriosAndVarietiesList()
       .then(e => e.data)
       .then(data => {
-        if (data.msg === '200') {
+        if(data.msg === '200') {
           this.setState({
-            saved: true,
-            plantingSeasonCrops: data.result || []
+            criosAndVarieties: data.result
           })
+          return data.result
         }
       })
   }
@@ -163,7 +189,7 @@ class AddSeason extends Component {
     const { plantingSeason: { plaintSeason} } = this.props
     const {plantingSeasonCrops} = this.state
     return (
-      <div className='add-season'>
+      <div className='add-season' style={{width: (this.state.plantingSeasonCrops.length === 0 ? '700px' : '1280px')}}>
         {
           plaintSeason.id.toString().length===32 &&  <div className='relative'>
             <div className='absolute'>
@@ -189,7 +215,7 @@ class AddSeason extends Component {
               noResultsText='无'
               onChange={this.seasonChange}
               options={
-                this.state.plantingSeasons
+                this.state.seasons
               }
               value={this.state.value}
             ></Select> : <div>{plaintSeason.name}</div>}
@@ -203,11 +229,12 @@ class AddSeason extends Component {
               key={crop.id} 
               crops={crop}
               update={this.update}
+              criosAndVarieties={this.state.criosAndVarieties}
               deleteCropById={this.deleteCropById.bind(this,crop.id)}/>)
         }
-        <button className='button add' onClick={this.addSeasonCrop}>
+        {this.state.saved && <button className='button add' onClick={this.addSeasonCrop}>
           +增加一种作物
-        </button>
+        </button>}
       </div>
     )
   }
@@ -215,7 +242,9 @@ class AddSeason extends Component {
 AddSeason.propTypes = {
   feature: PropTypes.object,
   updateSeason: PropTypes.func,
-  plantingSeason: PropTypes.object
+  plantingSeason: PropTypes.object,
+  updateWidth: PropTypes.func,
+  updatePSeason: PropTypes.func,
 }
 const mapStateToProps = (state) => {
   return {
@@ -226,6 +255,9 @@ const mapDispathToProps = (dispatch) => {
   return {
     updateSeason: (season) => {
       dispatch(updateSeason(season))
+    },
+    updatePSeason: (plaintingSeason) => {
+      dispatch(updatePSeason(plaintingSeason))
     }
   }
 }

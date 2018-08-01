@@ -11,6 +11,7 @@ class PlantingSeason extends Component {
     super()
   }
   componentDidMount() {
+    this.props.updateSeason([])
     const { feature: {feature}} = this.props
     const id = feature.getId().replace(/tb_farmland./g, '')
     const fd = new FormData()
@@ -92,9 +93,9 @@ class PlantingSeason extends Component {
     return (
       <div className='plaintingSeason'>
         <div className='season-div'>
-          <div className='relative'>
+          {/* <div className='relative'>
             <div className='title'>种植季</div>
-          </div>
+          </div> */}
           <div className='content'>
             <table>
               <tbody>

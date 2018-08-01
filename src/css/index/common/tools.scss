@@ -23,16 +23,17 @@
                 // border: 1px solid #ababab;
                 outline: none;
             }
-            img {
+            button {
                 position: absolute;
                 top: 10px;
                 right: 10px;
+                background: none;
+                cursor: pointer;
             }
             .btnHover {
                 cursor: pointer;
                 &:hover {
-                    
-                        transform: scale(1.1)
+                    transform: scale(1.1)
                 }
             }
         }

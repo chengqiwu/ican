@@ -15,7 +15,7 @@
    .absolute {
      position: absolute;
      right: 20px;
-     top: 40px;
+     top: 15px;
      .all {
        text-align: right;
      }
@@ -28,7 +28,7 @@
        margin-right: 10px;
      }
      .react-select__control {
-       width: 100px;
+       width: 130px;
      }
      .save {
        margin-left: 10px;
@@ -73,9 +73,9 @@
        .input-group {
          margin-bottom: 10px;
          .react-select1 {
-           width: 150px; // height: 30px;
+          //  width: 150px; // height: 30px;
            .react-select__control {
-             width: 150px;
+             width: 180px;
            }
          }
        }
@@ -123,7 +123,10 @@
            }
            input {
              width: 100%;
-             &[type=text], &[type=number] {
+             height: 100%;
+             border: 1px solid #ddd;
+             &[type=text],
+             &[type=number] {
                border: none;
                outline: none;
                text-align: center;
@@ -144,6 +147,24 @@
            background-color: #0065d6
          }
          margin-right: 10px;
+       }
+     }
+   }
+ }
+
+ .switch-btn {
+   > label {
+     display: flex;
+     align-items: center;
+     margin-bottom: 10px;
+     > .react-switch {
+       margin: 0 10px;
+     }
+     > span {
+       cursor: pointer;
+       font-size: 13px;
+       &:hover {
+         text-decoration: underline;
        }
      }
    }

@@ -51,8 +51,8 @@ function base64ToHex(str) {
 export const getArea = (feature) => {
   var measurement = ol.Sphere.getArea(feature.getGeometry())
   return {
-    acre: Math.round(measurement / 10000 * 15 * 100) / 100,
-    hectare: Math.round(measurement / 10000 * 100) / 100
+    acre: Math.round(Math.round(measurement / 10000 * 15 * 100) / 100),
+    hectare: (Math.round(measurement / 10000 * 100) / 100).toFixed(2)
   }
 }
 export const blowfish = (origin) => {

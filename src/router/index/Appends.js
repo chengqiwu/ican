@@ -14,7 +14,7 @@ class Appends extends Component {
 
   componentDidUpdate() {
     const { picture, fieldMessage } = this.props
-    console.log(fieldMessage)
+    console.log(picture, fieldMessage)
     this.handler(picture, JobLogging)
     this.handler(fieldMessage, Message)
   }
@@ -35,7 +35,6 @@ class Appends extends Component {
           doms: doms.filter(e => e !== dom)
         })
       }
-      
     }
   }
   render() {

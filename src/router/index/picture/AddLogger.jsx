@@ -34,7 +34,6 @@ class AddLogger extends Component {
     }
   }
   componentDidMount() {
-    console.log(this.props.logger)
     if (!this.props.logger) {
       return
     }
@@ -68,8 +67,13 @@ class AddLogger extends Component {
 
       })
   }
-  componentWillUpdate() {
-    Scrollbar.destroy(this.logger)
+  componentWillUpdate(nextProps, nextState) {
+    const length = this.state.files.length + this.state.list.length
+    const nextLen = nextState.files.length + nextState.list.length
+    if (length !== nextLen) {
+      Scrollbar.destroy(this.logger)
+    }
+   
   }
   //组件将被卸载  
   componentWillUnmount() {
@@ -79,13 +83,11 @@ class AddLogger extends Component {
     }
   }
   componentDidUpdate(prevProps, prevState) {
-
     if (!this.props.logger) {
       Scrollbar.init(this.logger)
       return
     }
     if (prevProps.logger.id !== this.props.logger.id) {
-      console.log(123)
       this.getInfo(this.props.logger)
     }
     Scrollbar.init(this.logger)
@@ -112,29 +114,14 @@ class AddLogger extends Component {
   upload = () => {
     const { feature } = this.props.feature
     const id = feature.getId().replace('tb_farmland.', '')
-    if (!id) {
-      alert('该田地还没有种植季信息，不能创建日志！')
-      return
-    }
+    // if (!id) {
+    //   alert('该田地还没有种植季信息，不能创建日志！')
+    //   return
+    // }
 
-    const isNew = feature.get('status')
-    // findReasonById({
-    //   farmLandId: id,
-    //   isNew
-    // })
-    //   .then(e => e.data)
-    //   .then(data => {
-    //     if (data.msg === '200') {
-    //       feature.set('quarterCropsId', data.result.quarterCropsId)
-    //       return data.result.quarterCropsId
-    //     } else {
-    //       alert('请求出现问题，请稍后重试')
-    //       return undefined
-    //     }
-    //   }).then(() => {
-    const seasonId = feature.get('season-id')
+    const seasonId = feature.get('season_id')
     const fd = new FormData()
-
+    console.log(id, seasonId)
     fd.append('farmlandLogStr', JSON.stringify({
       seasonId,
       landId: id,
@@ -178,7 +165,7 @@ class AddLogger extends Component {
   updateLists = () => {
     const { feature } = this.props.feature
     const id = feature.getId().replace('tb_farmland.', '')
-    const seasonId = feature.get('season-id')
+    const seasonId = feature.get('season_id')
     const fd = new FormData()
     fd.append('pageNo', 1)
     fd.append('pageSize', -1)

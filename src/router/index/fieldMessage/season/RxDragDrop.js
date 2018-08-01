@@ -5,6 +5,7 @@ import 'css/index/common/drapDrop.scss'
 import { destorySeason } from '_redux/actions/plaintingSeason'
 import AddSeason from './AddSeason'
 import { connect} from 'react-redux'
+import Scrollbar from 'smooth-scrollbar'
 const validValue = (value, max, min) => {
   return Math.min(Math.max(value, min), max)
 }
@@ -12,7 +13,6 @@ const validValue = (value, max, min) => {
 class RxDragDrop extends Component {
   constructor(props) {
     super(props)
-        
   }
   componentDidUpdate() {
     if (!this.title) {
@@ -44,6 +44,7 @@ class RxDragDrop extends Component {
         this.drapDrop.style.left = x + 'px'
         this.drapDrop.style.top = y + 'px'
       })
+    Scrollbar.init(this.content)
   }
   componentWillUnmount() {
     this.dd && this.dd.unsubscribe()
@@ -57,14 +58,14 @@ class RxDragDrop extends Component {
     const style = {
       top: '30%',
       left: '5%',
-      width: '1280px'
+      width: 'auto'
     }
     return (
       this.props.plaintingSeason.show && <div>
         <div ref={drapDrop => this.drapDrop = drapDrop} className="dragDrop" style={style}>
           <h3 ref={title => this.title = title} className='dragDrop-title'>{'种植季信息'}</h3>
           <a href="#" id="dragDrop-closer" className="dragDrop-closer" onClick={this.destory.bind(this)}></a>
-          <div className="dragDrop-content" ref={content => this.content = content} style={{ height: 'auto' }}>
+          <div className="dragDrop-content" ref={content => this.content = content} style={{ maxHeight: '500px' }}>
             <AddSeason plantingSeason = {this.props.plaintingSeason} />
           </div>
         </div>

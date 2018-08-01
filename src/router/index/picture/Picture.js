@@ -19,11 +19,11 @@ class Picture extends Component {
 
     const {feature} = this.props.feature
     const id = feature.getId().replace('tb_farmland.', '')
-    const isNew = feature.get('status')
-    if (isNew !== '0') {
-      alert('请先保存季节信息')
-      return
-    }
+    // const isNew = feature.get('status')
+    // if (isNew !== '0') {
+    //   alert('请先保存季节信息')
+    //   return
+    // }
        
     // findReasonById({
     //   farmLandId: id,

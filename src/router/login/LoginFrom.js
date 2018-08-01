@@ -171,7 +171,7 @@ class LoginFrom extends Component {
         <div className='user-content'>
                 
           <form className='user-form' onSubmit={this.submitHandle}>
-            <input type="password" style={{ width: 0, height: 0 }} />
+            <input type="password" style={{ width: 0, height: 0,border: 'none' }} />
             <div>
               <div>
                 <img src={user} alt='' />
@@ -188,7 +188,7 @@ class LoginFrom extends Component {
                                 
               </div>
             </div>
-            <input type="password" style={{ width: 0, height: 0 }} />
+            <input type="password" style={{ width: 0, height: 0,border: 'none' }} />
             <button type='submit' className={classnames({
               'user-submit': true,
               'disable': this.state.pending

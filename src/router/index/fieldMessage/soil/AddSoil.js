@@ -129,7 +129,7 @@ class AddSoil extends Component {
     })
   }
   handlePicDrop = (acceptFiles, rejectFiles) => {
-    if (this.state.pics.length >= 3) {
+    if (acceptFiles.length > 3) {
       alert('只允许上传三张图片')
       return
     }
@@ -147,7 +147,7 @@ class AddSoil extends Component {
     })
   }
   handleFileDrop = (acceptFiles, rejectFiles) => {
-    if (this.state.files.length >= 3) {
+    if (acceptFiles.length > 3) {
       alert('只允许上传三张图片')
       return
     }
@@ -263,6 +263,7 @@ class AddSoil extends Component {
               noResultsText='无'
               onChange={this.soilChange}
               value={this.state.soilType}
+              noOptionsMessage={() => {return '无选项'}}
               options={
                 this.props.soilType
               }>
@@ -324,7 +325,7 @@ class AddSoil extends Component {
               <button type="button" onClick={() => { this.dropzoneRef2.open() }}  disabled={!this.state.edit}>
                 +选择文件
               </button>
-              <span>（允许上传三张文件）</span>
+              <span>（允许上传三个文件）</span>
             </div>
             : <span>（已达图片数量上限）</span>  }
          
@@ -357,7 +358,7 @@ class AddSoil extends Component {
           && this.state.edit 
           && <div className='action'>
             <input className='button save' type="submit" value={this.state.saving ? '保存中':'保存'} disabled={this.state.saving}/>
-            <button type='button' className='button no-save' onClick={this.noSave} disabled={this.state.saving}>不保存退出（文件除外）</button>
+            <button type='button' className='button no-save' onClick={this.noSave} disabled={this.state.saving}>放弃</button>
           </div>}
       </form>
     </div>

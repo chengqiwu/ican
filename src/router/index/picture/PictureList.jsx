@@ -18,7 +18,6 @@ class PictureList extends Component {
     }
   }
   showList = (list) => {
-    console.log(list)
     this.setState({
       show: true,
       logger: list
@@ -28,39 +27,22 @@ class PictureList extends Component {
     this.getLists()
   }
   getLists = () => {
+    console.log(1123)
     const { feature } = this.props.feature
     if (!feature) {
       return
     }
     const id = feature.getId().replace('tb_farmland.', '')
     const isNew = feature.get('status')
-    if (isNew !== '0') {
-      alert('该田地还没有种植季信息，请尽快完善！')
-      this.props.updateLists([])
-      return
-    }
-
-    // findReasonById({
-    //   farmLandId: id,
-    //   isNew
-    // })
-    //   .then(e => e.data)
-    //   .then(data => {
-    //     if (data.msg === '200') {
-    //       feature.set('quarterCropsId', data.result.quarterCropsId)
-    //       return data.result.quarterCropsId
-    //     } else {
-    //       alert('请求出现问题，请稍后重试')
-    //       return undefined
-    //     }
-    //   }).then(quarterCropsId => {
-    //     if (!quarterCropsId) {
-    //       return
+    // if (isNew !== '0') {
+    //   alert('该田地还没有种植季信息，请尽快完善！')
+    //   this.props.updateLists([])
+    //   return
     // }
-    const seasonId = feature.get('season-id')
-    if (!seasonId) {
-      return
-    }
+    const seasonId = feature.get('season_id')
+    // if (!seasonId) {
+    //   return
+    // }
     const fd = new FormData()
     fd.append('pageNo', 1)
     fd.append('pageSize', -1)
@@ -72,41 +54,41 @@ class PictureList extends Component {
         if (data.msg === '200') {
           const { list } = data.result
           if (list) {
-            // this.setState({
-            //     list
-            // })
             this.props.updateLists(list)
           } else {
             this.props.updateLists([])
           }
-
-
         }
       })
-      // })
   }
   componentWillUpdate() {
 
     Scrollbar.destroyAll()
   }
   shouldComponentUpdate(nextProps) {
-    console.log('shouldComponentUpdate')
     const { feature } = nextProps.feature
-    console.error(feature.getId())
+    console.log(feature.getId())
     if (!feature.getId()) {
       return false
     }
     return true
   }
   componentDidUpdate(prevProps, prevState) {
-    console.error(prevProps.feature.feature.getId(), this.props.feature.feature.getId())
+    if (!prevProps.feature.feature.getId()) {
+      if (!!this.props.feature.feature.getId()) {
+        this.getLists()
+      }
+      Scrollbar.init(this.lists)
+      return
+    }
     if (this.props.feature.feature.getId().replace('tb_farmland.', '')
       !== prevProps.feature.feature.getId().replace('tb_farmland.', '')) {
       this.getLists()
     } else if (this.props.feature.id !== prevProps.feature.id) {
       this.getLists()
-    }
+    } 
     Scrollbar.init(this.lists)
+   
   }
   destory = () => {
     this.setState({
@@ -127,7 +109,6 @@ class PictureList extends Component {
   render() {
     const { picture: { lists } } = this.props
     const flag = (this.state.show && this.state.logger.id)
-    console.log(flag)
     return (
       <div className='lists'>
         {flag && <RxDragDrop title={this.state.logger.id ? '编辑日志' : '新建日志'} logger={this.state.logger} close={this.destory} />}

@@ -21,7 +21,7 @@ class JobLogging extends Component {
     }
   }
   componentDidMount() {  
-        
+    this.jobLogging && this.jobLogging.scrollIntoView(true)
     // 
     //用firefox变量表示火狐代理
     // var firefox = navigator.userAgent.indexOf('Firefox') != -1
@@ -91,9 +91,7 @@ class JobLogging extends Component {
               <img src={add} id='addLogger' onClick={this.handleLogger} alt="" />
               <a href="#" className='closer' onClick={this.close}></a>
             </div>
-
           </div>
-
           <div className='content'>
             <PictureLists {...this.props} modifyLogger={this.modifyLogger}/>
             {this.state.logger && <RxDragDrop  {...this.props} title='新建日志' close={this.closeLogger} log={this.state.log}/>}

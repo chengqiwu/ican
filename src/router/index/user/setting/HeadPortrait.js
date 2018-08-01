@@ -20,6 +20,7 @@ function dataURItoBlob(dataURI) {
 class HeadPortrait extends Component {
   constructor() {
     super()
+    console.log(getUserIcon())
     this.state = {
       imgURL: getUserIcon(),
       scale: 1,
@@ -72,15 +73,16 @@ class HeadPortrait extends Component {
         loaded: true
       })
     }
+    loadFailture = (e) => {
+      console.log(e)
+      this.setState({
+        imgURL: user
+      })
+    }
     submit = (e) => {
       e.preventDefault()
       var fd = new FormData()
-      // console.log(this.state.canvas.toDataURL())
       var blob = dataURItoBlob(this.state.canvas)
-      console.log(blob)
-      // dataUrlToBlob(this.state.canvas)
-      //     .then(e => e.blob())
-      //     .then(blob => console.log(blob))
       fd.append('ican', blob, this.filename)
       updateIcon(fd).then(e => e.data)
         .then(data => {
@@ -125,6 +127,7 @@ class HeadPortrait extends Component {
                 className={!this.state.loaded ? 'hiden' : ''}
                 onImageReady={e => console.log(e)}
                 onLoadSuccess={this.loadSuccess}
+                onLoadFailure={this.loadFailture}
                 // onImageReady={this}
                 // onImageChange={this.imageChange}
                 scale={Number(this.state.scale)}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
+import Switch from 'react-switch'
 import {plantingSeasonCropDelete} from 'utils/Api'
 import Dropzone from 'react-dropzone'
 const typeArr =  [{
@@ -33,7 +34,6 @@ class AddSingFer extends Component {
   // 刷新肥的id和文件
   componentDidUpdate(prevProps) {
     const {fertilizers} = this.props
-    let model = 0
     // fertilizers
     if (this.props.update) {
       const fers = fertilizers.map(f => {
@@ -55,9 +55,6 @@ class AddSingFer extends Component {
           type = '',
           zinc = '',
         } = f
-        if (f.magnesium) {
-          model = 1
-        }
         return {
           urlBack: backPhoto,
           boron,
@@ -83,7 +80,7 @@ class AddSingFer extends Component {
         tableData: fers,
         frontFile: {},
         backFile: {},
-        model
+        model: 0
       })
       this.props.updateNo()
     }
@@ -188,7 +185,6 @@ class AddSingFer extends Component {
   removeSingFer = (i, id) => {
     console.log(i, id)
     const { tableData } = this.state
-    // plantingSeasonCropDelete
     if (!id) {
       this.setState({
         tableData:[
@@ -223,29 +219,42 @@ class AddSingFer extends Component {
       tableData
     })
   }
-  simpleModel = () => {
-    if (this.state.model === 0) {
+  modelChange = (model) => {
+    if (!!model === !!this.state.model) {
       return
     }
     this.setState({
-      model: 0
-    })
-  }
-  fullModel = () => {
-    if (this.state.model === 1) {
-      return
-    }
-    this.setState({
-      model: 1
-    })
+      model: model ? 1 : 0
+    }) 
   }
   render() {
+    console.log(this.state.model)
     const { disabled } = this.props
     return <div className="add-sing-fer">
       <div className='switch'>
         <div className='switch-btn'>
-          <button type='button' className='button' onClick={this.simpleModel}>简易模式</button>
-          <button type='button' className='button' onClick={this.fullModel}>完整模式</button>
+          {/* <button type='button' className='button' onClick={this.simpleModel}>简易模式</button>
+          <button type='button' className='button' onClick={this.fullModel}>完整模式</button> */}
+          <label htmlFor="material-switch">
+            <span onClick={disabled ? undefined : this.modelChange.bind(this, false)}>简易模式</span>
+            <Switch
+              disabled={disabled}
+              checked={this.state.model===1}
+              onChange={this.modelChange}
+              onColor="#86d3ff"
+              onHandleColor="#2693e6"
+              handleDiameter={30}
+              uncheckedIcon={false}
+              checkedIcon={false}
+              boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+              activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+              height={20}
+              width={48}
+              className="react-switch"
+              id="material-switch"
+            />
+            <span onClick={disabled ? undefined : this.modelChange.bind(this, true)}>完整模式</span>
+          </label>
         </div>
       </div>
       <table>
@@ -375,7 +384,6 @@ class AddSingFer extends Component {
               </td>
               <td>
                 <button type='button' className='button' onClick={this.removeSingFer.bind(this, i, t.id)} disabled={disabled}>删除</button>
-                <div>（直接删除，无需保存）</div>
               </td>
             </tr>)
           }

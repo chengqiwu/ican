@@ -245,7 +245,7 @@ class RegisterForm extends Component {
     return (
       <div className='register-from center'>
         <form onSubmit={this.handleSubmit}>
-          <input type="password" style={{ width: 0, height: 0 }} />
+          <input type="password" style={{ width: 0, height: 0,border: 'none' }} />
           <div className='from-items'>
             <label>用户名</label>
             <div className='from-item'>
@@ -301,7 +301,7 @@ class RegisterForm extends Component {
               <span>同意 《<a href="./terms.htm" target='_blank'>精禾云平台服务条款</a>》</span>
             </div>
           </div>
-          <input type="password" style={{ width: 0, height: 0 }} />
+          <input type="password" style={{ width: 0, height: 0,border: 'none' }} />
           <div className='from-items'>
             <label></label>
             <input type="submit" className='register-submit' value='下一步' />

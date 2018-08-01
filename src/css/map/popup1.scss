@@ -10,7 +10,7 @@
     border: 1px solid #cccccc;
     bottom: 12px;
     left: -50px;
-    min-width: 280px;
+    min-width: 300px;
     z-index: 2;
 }
 
@@ -79,6 +79,11 @@
         .selected {
             background-color: #183d36;
             color: #ffffff;
+        }
+        .season-status {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
         }
     }
 }

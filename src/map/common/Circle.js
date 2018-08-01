@@ -231,7 +231,7 @@ class Circle extends Component {
 
 
     map.on('click', (evt) => {
-      const target = evt.originalEvent.target
+      const {target} = evt.originalEvent
       if (target.tagName === 'IMG' && target.getAttribute('index')) {    
         return
       }

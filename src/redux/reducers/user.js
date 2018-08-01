@@ -15,7 +15,6 @@ const userState = {
 }
 
 const userReducer = function(state = userState, action) {
-  console.log(123, action)
   switch (action.type) {
   case GETUSERINFO:
     return {

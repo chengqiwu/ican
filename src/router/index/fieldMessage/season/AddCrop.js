@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Select from 'react-select'
-import { findCriosAndVarietiesList, findCroppingPatternList, plantingSeasonCropsSave } from 'utils/Api'
+import { findCroppingPatternList, plantingSeasonCropsSave } from 'utils/Api'
 import CreatableSelect from 'react-select/lib/Creatable'
 // import AddComFer from './AddComFer'
 import AddSingFer from './AddSingFer'
@@ -74,87 +74,78 @@ class AddCrop extends Component {
     })
   }
   componentDidMount() {
-    const { crops } = this.props
-   
-    findCriosAndVarietiesList()
-      .then(e => e.data)
-      .then(data => {
-        if(data.msg === '200') {
+    const { crops, criosAndVarieties } = this.props
+    
+    this.setState({
+      crios: criosAndVarieties,
+      options: criosAndVarieties[0].list || []
+    })
+    if (crops.id.toString().length === 32) {
+      const crop = criosAndVarieties.filter(c => c.id === crops.cropsId)[0]
+      const fd = new FormData()
+      fd.append('cropsId', crop.id)
+      findCroppingPatternList(fd)
+        .then(e => e.data)
+        .then(data => {
+          if (data.msg === '200') {
+            crops.crop = crop
+            crops.croppingPattern = data.result || []
+            return crops
+          }
+        }).then(crops => {
+          const {
+            id,
+            crop,
+            varietiesId = '',
+            croppingPattern = [],
+            status = '',
+            soilPreparation = '',
+            density = '',
+            plantingType = '',
+            maxProduction = '',
+            minProduction = '',
+            fertilizers = []
+          } = crops
+          if (!crop.list) {
+            crop.list = []
+          }
+          const varieties = crop.list.filter(v => v.id === varietiesId)[0] || ''
+          const type = croppingPattern.filter(c => c.id === plantingType)[0] || ''
+          const store = {
+            id,
+            crop: {
+              label: crop.name,
+              value: crop.id
+            },
+            value: varieties.name ? {
+              label: varieties.name,
+              value: varieties.id
+            } : varieties,
+            croppingPattern,
+            options: crop.list,
+            status: statusArr.filter(s => s.value === status)[0] || '',
+            soilPreparation: soilPreArr.filter(s => s.value === soilPreparation)[0] || '',
+            plantingType:type ? {
+              label: type.model,
+              value: type.id
+            } : '',
+            density,
+            maxProduction,
+            minProduction,
+            fertilizers,
+          }
           this.setState({
-            crios: data.result,
-            options: data.result[0].list || []
+            store,
+            ...store,
+            update: true
           })
-        }
-      }).then(() => {
-        if (crops.id.toString().length === 32) {
-          return crops 
-        } else {
-          return undefined
-        }
-      }).then(crops => {
-        if (!crops) {
-          return
-        }
-        const crop = this.state.crios.filter(c => c.id === crops.cropsId)[0]
-        const fd = new FormData()
-        fd.append('cropsId', crop.id)
-        findCroppingPatternList(fd)
-          .then(e => e.data)
-          .then(data => {
-            if (data.msg === '200') {
-              crops.crop = crop
-              crops.croppingPattern = data.result || []
-              return crops
-            }
-          }).then(crops => {
-            const {
-              id,
-              crop,
-              varietiesId = '',
-              croppingPattern = [],
-              status = '',
-              soilPreparation = '',
-              density = '',
-              plantingType = '',
-              maxProduction = '',
-              minProduction = '',
-              fertilizers = []
-            } = crops
-            if (!crop.list) {
-              crop.list = []
-            }
-            const varieties = crop.list.filter(v => v.id === varietiesId)[0] || ''
-            const type = croppingPattern.filter(c => c.id === plantingType)[0] || ''
-            const store = {
-              id,
-              crop: {
-                label: crop.name,
-                value: crop.id
-              },
-              value: varieties.name ? {
-                label: varieties.name,
-                value: varieties.id
-              } : varieties,
-              croppingPattern,
-              options: crop.list,
-              status: statusArr.filter(s => s.value === status)[0] || '',
-              soilPreparation: soilPreArr.filter(s => s.value === soilPreparation)[0] || '',
-              plantingType:type ? {
-                label: type.model,
-                value: type.id
-              } : '',
-              density,
-              maxProduction,
-              minProduction,
-              fertilizers,
-            }
-            this.setState({
-              store,
-              ...store,
-              update: true
-            })
-          })
+        })
+    } else {
+      this.setState({
+        collapsed: true,
+        edit: true
       })
+    }
   }
   restore = () => {
     this.setState({
@@ -213,7 +204,6 @@ class AddCrop extends Component {
       }
     }))
 
-    console.log(backFile,frontFile,tableData)
     const fd = new FormData()
     fd.append('info', (JSON.stringify(info)))
     Object.keys(backFile).map(f => fd.append(f, backFile[f]))
@@ -226,53 +216,59 @@ class AddCrop extends Component {
       .then(data => {
         if (data.msg === '200') {
           this.props.update()
-          const {
-            id,
-            cropsId,
-            varietiesId = '',
-            status = '',
-            soilPreparation = '',
-            density = '',
-            plantingType = '',
-            maxProduction = '',
-            minProduction = '',
-            fertilizers = []
-          } = data.result
-          const crop = this.state.crios.filter(c => c.id === cropsId)[0]
-          if (!crop.list) {
-            crop.list = []
-          }
-          const varieties = crop.list.filter(v => v.id === varietiesId)[0] || ''
-          const type = this.state.croppingPattern.filter(c => c.id === plantingType)[0] || ''
-          const store = {
-            id,
-            crop: {
-              label: crop.name,
-              value: crop.id
-            },
-            value: varieties.name ? {
-              label: varieties.name,
-              value: varieties.id
-            } : varieties,
-            options: crop.list,
-            status: statusArr.filter(s => s.value === status)[0] || '',
-            soilPreparation: soilPreArr.filter(s => s.value === soilPreparation)[0] || '',
-            plantingType: type ? {
-              label: type.model,
-              value: type.id
-            } : '',
-            density,
-            fertilizers,
-            update: true,
-            maxProduction,
-            minProduction,
-          }
-          this.setState({
-            store,
-            ...store,
-            saving: false,
-            edit: false
-          })
+            .then(criosAndVarieties => {
+              this.setState({
+                crios: criosAndVarieties,
+                options: criosAndVarieties[0].list || []
+              })
+              const {
+                id,
+                cropsId,
+                varietiesId = '',
+                status = '',
+                soilPreparation = '',
+                density = '',
+                plantingType = '',
+                maxProduction = '',
+                minProduction = '',
+                fertilizers = []
+              } = data.result
+              const crop = criosAndVarieties.filter(c => c.id === cropsId)[0]
+              if (!crop.list) {
+                crop.list = []
+              }
+              const varieties = crop.list.filter(v => v.id === varietiesId)[0] || ''
+              const type = this.state.croppingPattern.filter(c => c.id === plantingType)[0] || ''
+              const store = {
+                id,
+                crop: {
+                  label: crop.name,
+                  value: crop.id
+                },
+                value: varieties.name ? {
+                  label: varieties.name,
+                  value: varieties.id
+                } : varieties,
+                options: crop.list,
+                status: statusArr.filter(s => s.value === status)[0] || '',
+                soilPreparation: soilPreArr.filter(s => s.value === soilPreparation)[0] || '',
+                plantingType: type ? {
+                  label: type.model,
+                  value: type.id
+                } : '',
+                density,
+                fertilizers,
+                update: true,
+                maxProduction,
+                minProduction,
+              }
+              this.setState({
+                store,
+                ...store,
+                saving: false,
+                edit: false
+              })
+            })
         }
       })
   }
@@ -344,7 +340,6 @@ class AddCrop extends Component {
     })
   }
   render() {
-    console.log(this.state.fertilizers)
     const { isLoading, options, value } = this.state
     return (
       <div className='add-crop'>
@@ -372,6 +367,7 @@ class AddCrop extends Component {
                 noResultsText='无'
                 onChange={this.cropChange}
                 value={this.state.crop}
+                noOptionsMessage={() => {return '无选项'}}
                 options={
                   this.state.crios.map(ciro => ({
                     label: ciro.name,
@@ -380,7 +376,7 @@ class AddCrop extends Component {
                 
                 }></Select>
             </div>
-            <div className='input-group'>
+            <div className='input-group' style={{marginLeft: '23px'}}>
               <label htmlFor="">品种</label>
               <CreatableSelect
                 className='react-select1'
@@ -391,6 +387,9 @@ class AddCrop extends Component {
                 isLoading={isLoading}
                 onChange={this.handleChange}
                 onCreateOption={this.handleCreate}
+                noOptionsMessage={() => {return '无选项'}}
+                placeholder={'选择或创建品种'}
+                formatCreateLabel={(value) => `创建'${value}'品种`}
                 options={
                   options.map(ciro => ({
                     label: ciro.name,
@@ -409,6 +408,7 @@ class AddCrop extends Component {
                 isDisabled={!this.state.edit}
                 value={this.state.status}
                 onChange={this.statusChange}
+                noOptionsMessage={() => {return '无选项'}}
                 options={
                   // （0:未种植;1:种植中;2:已收割;3:已放弃）
                   statusArr
@@ -423,6 +423,7 @@ class AddCrop extends Component {
                 isDisabled={!this.state.edit}
                 onChange={this.preparationChange}
                 value={this.state.soilPreparation}
+                noOptionsMessage={() => {return '无选项'}}
                 options={
                   // (0：免耕;1：浅耕;2：深耕)
                   soilPreArr
@@ -447,6 +448,7 @@ class AddCrop extends Component {
                 isDisabled={!this.state.edit}
                 value={this.state.plantingType}
                 onChange={this.plantingTypeChange}
+                noOptionsMessage={() => {return '无选项'}}
                 options={
                   this.state.croppingPattern.map(crop => ({
                     label: crop.model,
@@ -488,7 +490,7 @@ class AddCrop extends Component {
           {
             this.state.edit ? <div className='action'>
               <input type="submit" className='button' value={this.state.saving ? '保存中' : '保存'} disabled={this.state.saving}/>
-              <button type='button' className='button no-save' onClick={this.restore}>不保存退出</button>
+              {this.state.id && <button type='button' className='button no-save' onClick={this.restore}>放弃</button>}
             </div> : <div className='action'>
               <button type='button' className='button' onClick={this.activeEdit}>编辑</button>
               <button type='button' className='button' onClick={this.delete}>删除</button>
@@ -503,6 +505,7 @@ class AddCrop extends Component {
 AddCrop.propTypes = {
   crops: PropTypes.object,
   deleteCropById: PropTypes.func,
-  update: PropTypes.func
+  update: PropTypes.func,
+  criosAndVarieties: PropTypes.array
 }
 export default AddCrop

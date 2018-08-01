@@ -31,22 +31,17 @@ const irrigationType = [
     label: '漫灌-有限制'
   },
 ]
-const naturals = [{
-  label: '强风',
-  value: '0'
-}, {
-  label: '冰雹',
-  value: '1'
-}, {
-  label: '倒春寒',
-  value: '2'
-}, {
-  label: '干旱',
-  value: '3'
-}, {
-  label: '暴雨',
-  value: '4'
-}]
+// 
+const nat = '0:干旱;1:高温;2:低温;3:寒潮;4:台风;5:龙卷风;6:冰雹;7:风雹;8:霜冻;9:暴雨;10:暴雪;11:冻雨;12:大风;13:结冰;14:霾'
+
+const naturals = nat.split(';').map(n => {
+  const s = n.split(':')
+  return {
+    label: s[1],
+    value: s[0]
+  }
+})
+
 class EnvirAndFac extends Component {
   constructor() {
     super()
@@ -66,7 +61,7 @@ class EnvirAndFac extends Component {
       fertilizerLimitHigh: '0',
       fertilizer: '0',
       uvaYpfj: '0',
-      uvaYpfjLimitHigh: '0',
+      ypfjLimitHigh: '0',
       ypfj: '0',
       laminating: '0',
       fac: [{
@@ -88,7 +83,7 @@ class EnvirAndFac extends Component {
         key: 'uvaYpfj',
         name: '无人机叶喷'
       }, {
-        key: 'uvaYpfjLimitHigh',
+        key: 'ypfjLimitHigh',
         name: '叶喷肥机（限高）'
       }, {
         key: 'ypfj',
@@ -127,15 +122,15 @@ class EnvirAndFac extends Component {
           .then(data => {
             const { result } = data
             const { id,
-              topography,
-              irrigation,
+              topography = '0',
+              irrigation = '0',
               weatherStations = '0',
               drill = '0',
               harvester = '0',
               fertilizerLimitHigh = '0',
               fertilizer = '0',
               uvaYpfj = '0',
-              uvaYpfjLimitHigh = '0',
+              ypfjLimitHigh = '0',
               ypfj = '0',
               laminating = '0',
               commonNaturalDisasters = [],
@@ -153,7 +148,7 @@ class EnvirAndFac extends Component {
               fertilizerLimitHigh,
               fertilizer,
               uvaYpfj,
-              uvaYpfjLimitHigh,
+              ypfjLimitHigh,
               ypfj,
               laminating,
               natural: naturals.filter(natural => commonNaturalDisasters.includes(natural.value)),
@@ -184,7 +179,7 @@ class EnvirAndFac extends Component {
     info.fertilizerLimitHigh = this.state.fertilizerLimitHigh
     info.fertilizer = this.state.fertilizer
     info.uvaYpfj = this.state.uvaYpfj
-    info.uvaYpfjLimitHigh = this.state.uvaYpfjLimitHigh
+    info.ypfjLimitHigh = this.state.ypfjLimitHigh
     info.ypfj = this.state.ypfj
     info.laminating = this.state.laminating
     info.commonNaturalDisasters = this.state.natural.map(i => i.value)
@@ -215,7 +210,7 @@ class EnvirAndFac extends Component {
               fertilizerLimitHigh = '0',
               fertilizer = '0',
               uvaYpfj = '0',
-              uvaYpfjLimitHigh = '0',
+              ypfjLimitHigh = '0',
               ypfj = '0',
               laminating = '0',
               commonNaturalDisasters = [],
@@ -234,7 +229,7 @@ class EnvirAndFac extends Component {
               fertilizerLimitHigh,
               fertilizer,
               uvaYpfj,
-              uvaYpfjLimitHigh,
+              ypfjLimitHigh,
               ypfj,
               laminating,
               natural: naturals.filter(natural => commonNaturalDisasters.includes(natural.value)),
@@ -291,7 +286,7 @@ class EnvirAndFac extends Component {
       fertilizerLimitHigh = '0',
       fertilizer = '0',
       uvaYpfj = '0',
-      uvaYpfjLimitHigh = '0',
+      ypfjLimitHigh = '0',
       ypfj = '0',
       laminating = '0',
       commonNaturalDisasters = [],
@@ -309,7 +304,7 @@ class EnvirAndFac extends Component {
       fertilizerLimitHigh,
       fertilizer,
       uvaYpfj,
-      uvaYpfjLimitHigh,
+      ypfjLimitHigh,
       ypfj,
       laminating,
       natural: naturals.filter(natural => commonNaturalDisasters.includes(natural.value)),
@@ -338,7 +333,7 @@ class EnvirAndFac extends Component {
           <div className='item'>
             <label>灌溉类型</label>
             <Select
-              className='select'
+              className='select1'
               placeholder=''
               isDisabled={this.state.edit}
               noResultsText='无'
@@ -372,6 +367,7 @@ class EnvirAndFac extends Component {
               noResultsText='无'
               onChange={this.diseaseChange}
               value={this.state.disease}
+              maxMenuHeight={'200'}
               options={
                 this.state.diseases
               }>
@@ -389,6 +385,7 @@ class EnvirAndFac extends Component {
               noResultsText='无'
               value={this.state.pest}
               onChange={this.pestChange}
+              maxMenuHeight={'200'}
               options={
                 this.state.pests
               }>
@@ -403,6 +400,7 @@ class EnvirAndFac extends Component {
               isDisabled={this.state.edit}
               placeholder=''
               noResultsText='无'
+              maxMenuHeight={'200'}
               options={  
                 naturals
               }
@@ -419,7 +417,7 @@ class EnvirAndFac extends Component {
               :
               <div className='submit'>
                 <input className='button save' type="submit" value='保存' />
-                <button className='button no-edit' type='button' onClick={this.noSave}>不保存退出</button>
+                <button className='button no-edit' type='button' onClick={this.noSave}>放弃</button>
               </div>
           }
          
