@@ -5,8 +5,8 @@ import Scrollbar from 'smooth-scrollbar'
 import { connect } from 'react-redux'
 import RxDragDrop from './RxDragDrop'
 import Top from './Top'
-import { showList, updateLists } from '_redux/actions/picture.js'
-import { findReasonById, findlandLogList } from 'utils/Api'
+import { showList, updateLists, } from '_redux/actions/picture.js'
+import { findlandLogList, farmLandLogDelete } from 'utils/Api'
 class PictureList extends Component {
   constructor() {
     super()
@@ -27,7 +27,6 @@ class PictureList extends Component {
     this.getLists()
   }
   getLists = () => {
-    console.log(1123)
     const { feature } = this.props.feature
     if (!feature) {
       return
@@ -63,7 +62,7 @@ class PictureList extends Component {
   }
   componentWillUpdate() {
 
-    Scrollbar.destroyAll()
+    Scrollbar.destroy(this.lists)
   }
   shouldComponentUpdate(nextProps) {
     const { feature } = nextProps.feature
@@ -106,6 +105,21 @@ class PictureList extends Component {
       list
     })
   }
+  delete = (logId) => {
+    const fd = new FormData()
+    fd.append('logId', logId)
+    farmLandLogDelete(fd)
+      .then(e => e.data)
+      .then(data => {
+        if (data.msg === '200') {
+          this.getLists()
+        } else {
+          alert('删除失败')
+        }
+      }).catch(err => {
+        alert('删除失败')
+      })
+  }
   render() {
     const { picture: { lists } } = this.props
     const flag = (this.state.show && this.state.logger.id)
@@ -115,10 +129,9 @@ class PictureList extends Component {
         {!this.state.close && <Top closer={this.closer} logger={this.state.list} />}
         <div ref={lists => this.lists = lists}>
           {lists.sort((a, b) => (new Date(b.date)) - (new Date(a.date))).map(list =>
-            <List key={list.id} list={list} showList={this.showList} show={this.show} />
+            <List key={list.id} list={list} showList={this.showList} show={this.show} delete={this.delete}/>
           )}
         </div>
-
       </div>
 
     )

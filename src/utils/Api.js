@@ -238,6 +238,11 @@ export function farmLandLogSave(farmLandLog) {
   }
   return axios.post(url + '/api/farmlandLog/save?token=' + getToken(), farmLandLog, config)
 }
+// 	api/farmlandLog/delete
+export function farmLandLogDelete(logId) {
+  return axios.post(`${url}/api/farmlandLog/delete?token=${getToken()}`, logId)
+}
+
 // 	api/logPhoto/findList
 
 export function findLogPhotoList(params) {

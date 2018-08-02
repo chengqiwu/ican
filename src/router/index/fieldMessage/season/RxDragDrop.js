@@ -65,7 +65,7 @@ class RxDragDrop extends Component {
         <div ref={drapDrop => this.drapDrop = drapDrop} className="dragDrop" style={style}>
           <h3 ref={title => this.title = title} className='dragDrop-title'>{'种植季信息'}</h3>
           <a href="#" id="dragDrop-closer" className="dragDrop-closer" onClick={this.destory.bind(this)}></a>
-          <div className="dragDrop-content" ref={content => this.content = content} style={{ maxHeight: '500px' }}>
+          <div className="dragDrop-content" ref={content => this.content = content} style={{ height: '500px' }}>
             <AddSeason plantingSeason = {this.props.plaintingSeason} />
           </div>
         </div>

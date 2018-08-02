@@ -51,7 +51,8 @@ class PlantingSeason extends Component {
           console.log(data)
           const fd = new FormData()
           fd.append('landId', id)
-
+          const { feature: { feature } } = this.props
+          feature.set('season_id', seasonId)
           findPlantingSeasonList(fd)
             .then(e => e.data)
             .then(data => {

@@ -65,44 +65,47 @@ class AddSeason extends Component {
     })
   }
   componentDidMount() {
-    const { plantingSeason: { plaintSeason} } = this.props
-    if (plaintSeason.id.toString().length === 32) {
-      const fd = new FormData()
-      fd.append('plantingSeasonId', plaintSeason.id)
-      findPlantingSeasonCrops(fd)
-        .then(e => e.data)
-        .then(data => {
-          if (data.msg === '200') {
-            this.setState({
-              saved: true,
-              plantingSeasonCrops: data.result || []
-            })
-          }
-        })
-    } else {
-      findSeasonLists()
-        .then(e => e.data)
-        .then(data => {
-          if (data.msg === '200') {
-            data.result = data.result || []
-            this.setState({
-              seasons: data.result.map((res) => ({
-                label: res.name,
-                value: res.id
-              }))
-            })
-          }
-        })
-    }
     findCriosAndVarietiesList()
       .then(e => e.data)
       .then(data => {
-        if(data.msg === '200') {
+        if (data.msg === '200') {
           this.setState({
             criosAndVarieties: data.result
           })
         }
+      }).then(e => {
+        const { plantingSeason: { plaintSeason } } = this.props
+        if (plaintSeason.id.toString().length === 32) {
+          const fd = new FormData()
+          fd.append('plantingSeasonId', plaintSeason.id)
+          findPlantingSeasonCrops(fd)
+            .then(e => e.data)
+            .then(data => {
+              if (data.msg === '200') {
+                this.setState({
+                  saved: true,
+                  plantingSeasonCrops: data.result || []
+                })
+              }
+            })
+        } else {
+          findSeasonLists()
+            .then(e => e.data)
+            .then(data => {
+              if (data.msg === '200') {
+                data.result = data.result || []
+                this.setState({
+                  seasons: data.result.map((res) => ({
+                    label: res.name,
+                    value: res.id
+                  }))
+                })
+              }
+            })
+        }
       })
+    
+    
   }
   componentDidUpdate(prevProps) {
     const { plantingSeason: { plaintSeason} } = this.props

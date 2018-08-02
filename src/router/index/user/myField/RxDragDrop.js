@@ -23,7 +23,7 @@ class RxDragDrop extends Component {
     }
   }
   componentDidMount() {
-    Scrollbar.init(this.content)
+    Scrollbar.init(this.content1)
     this.mouseDown = Rx.Observable.fromEvent(this.title, 'mousedown')
     this.mouseUp = Rx.Observable.fromEvent(document, 'mouseup')
     this.mouseMove = Rx.Observable.fromEvent(document, 'mousemove')
@@ -77,7 +77,7 @@ class RxDragDrop extends Component {
         // this.drapDrop.style.left = x + 'px'
         // this.drapDrop.style.top = y + 'px'
       })
-    this.mouseUp2.subscribe(e => {
+    this.dd3 = this.mouseUp2.subscribe(e => {
       this.setState({
         defaultW: Number.parseFloat(this.state.width),
         defaultH: Number.parseFloat(this.state.height)
@@ -86,6 +86,8 @@ class RxDragDrop extends Component {
   }
   componentWillUnmount() {
     this.dd && this.dd.unsubscribe()
+    this.dd2 && this.dd2.unsubscribe()
+    this.dd3 && this.dd3.unsubscribe()
   }
   destory(e) {
     e.preventDefault()
@@ -93,27 +95,18 @@ class RxDragDrop extends Component {
   }
   render() {
     return (
-      < div ref = {
-        drapDrop => this.drapDrop = drapDrop
-      }
-      className = "dragDrop"
-      style = {
+      <div ref={ drapDrop => this.drapDrop = drapDrop} className="dragDrop" style = {
         { ...this.state,
           minHeight: '135px'
         }
-      } >
+      }>
         <h3 ref={title => this.title = title} className='dragDrop-title'>{this.props.title}</h3>
         <a href="#" id="dragDrop-closer" className="dragDrop-closer" onClick={this.destory.bind(this)}></a>
-        <div className="dragDrop-content" ref={content => this.content = content} style={{height: 'calc(100% - 35px)'}}>
+        <div className="dragDrop-content" ref={content => this.content1 = content} style={{height: 'calc(100% - 35px)'}}>
           <Field {...this.props} />
         </div>
-        < div className = 'resize'
-          ref = {
-            resize => this.resize = resize
-          } > </div>
+        <div className='resize' ref={resize => this.resize = resize}></div>
       </div>
-
-
     )
   }
 }

@@ -10,7 +10,7 @@ class Field extends Component {
       this.props.map.map.getView().fit(feature1.getGeometry(), { duration: 1000 })
     }
     render() {
-        
+      console.log('Field render')
       return <ul>
         {
           this.props.userFeature.fields.map(feature => 

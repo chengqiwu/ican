@@ -7,7 +7,6 @@ import {
   showDragDrop, hidenDragDrop
 } from '_redux/actions/dragDrop.js'
 import 'css/index/common/drapDrop.scss'
-import Scrollbar from 'smooth-scrollbar'
 
 const validValue = (value, max, min) => {
   return Math.min(Math.max(value, min), max)

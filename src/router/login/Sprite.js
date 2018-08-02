@@ -68,7 +68,7 @@ class Sprite extends Component {
 
       let degree2 = 90 / 180 * Math.PI
       this.fnReq2 = Math.animation(-600, 200, 2200, 'Back.easeInOut', (value, isEnding) => {
-        this.phone.style = `transform: translate(${40}px, ${value - 400 -8}px)`
+        this.phone.style = `transform: translate(${40}px, ${value - 400 +8}px)`
         this.safe.style = `transform: translate(${-70}px,${value - 400 -83}px)`
         this.data.style = `transform: translate(${30}px, ${value - 400-175}px)`
         this.exchange.style = `transform: translate(${171}px, ${value - 400-275}px)`

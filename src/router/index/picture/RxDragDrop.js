@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import Rx from 'rxjs/Rx'
 
 import 'css/index/common/drapDrop.scss'
-import Scrollbar from 'smooth-scrollbar'
 import AddLogger from './AddLogger.jsx'
 
 const validValue = (value, max, min) => {
