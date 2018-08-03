@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ol from 'openlayers'
-
+import { Back} from 'gsap/EasePack'
 import { connect } from 'react-redux'
 import DragDrop from 'router/index/common/RxDragDrop'
 import { showList, updateLists } from '_redux/actions/picture.js'
@@ -12,6 +12,7 @@ import blue from 'images/circle/blue.png'
 import green from 'images/circle/green.png'
 import purple from 'images/circle/purple.png'
 import orange from 'images/circle/orange.png'
+import { TweenMax } from 'gsap/TweenMax'
 
 function deepCompare(x, y) {
   var i, l, leftChain, rightChain
@@ -231,6 +232,7 @@ class Circle extends Component {
 
 
     map.on('click', (evt) => {
+      
       const {target} = evt.originalEvent
       if (target.tagName === 'IMG' && target.getAttribute('index')) {    
         return
@@ -241,14 +243,37 @@ class Circle extends Component {
         if (!deepCompare(feature, this.state.feature)){
           this.setState({
             feature
-          })
-                  
+          })      
         }
-        this.circle && this.circle.setAttribute('class', 'circle')
-
-        setTimeout(() => {
-          this.circle && this.circle.removeAttribute('class')
-        }, 1000)
+        if (this.circle) {
+          // console.log(this.timeout)
+          // clearTimeout(this.timeout)
+          // this.circle.setAttribute('class', '')
+          // this.circle.setAttribute('class', 'circle')
+          // this.timeout = setTimeout(() => {
+          //   this.circle && this.circle.setAttribute('class', '')
+          // }, 1000)
+          // console.log(this.timeout)
+          // TweenLite.to(this.circle, 1000, { autoAlpha: 1})
+          TweenMax.fromTo(this.circle, 2, {
+            autoAlpha: 0,
+            scale: 0
+            // width: 1
+            // transform: 'scale(0)'
+          }, {
+            autoAlpha: 1,
+            // transform: '(1)',
+            scale: 1,
+            // width: 100,
+            ease: Back.easeOut,
+            onStart: () => {},
+            onUpdate: () => {},
+            onComplete: () => {
+              console.log('onComplete')
+            }
+          })
+        }
+        
         this.drawCircle(feature)
       } else {
         this.circleOverlay.setPosition(undefined)

@@ -72,8 +72,24 @@ const map = new ol.Map({
     // projection: 'EPSG:4326'
   })
 })
+
+
+// const dezhou = new ol.layer.Image({
+//   source: new ol.source.ImageWMS({
+//     ratio: 1,
+//     url: 'http://192.168.1.106:8080/geoserver/dezhou/wms',
+//     params: {
+//       'FORMAT': 'image/png',
+//       'VERSION': '1.1.1',
+//       STYLES: '',
+//       LAYERS: 'dezhou:tb_geographic_info',
+//       // SRS: 'EPSG:4326'
+//     }
+//   })
+// })
 lyrs.forEach(lyr => {
   lyr.active && lyr.lyrs.forEach(ly => map.addLayer(ly))
 })
-console.log(111)
+// map.addLayer(dezhou)
+// console.log(111)
 export default map

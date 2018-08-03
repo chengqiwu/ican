@@ -265,8 +265,8 @@ a {
       position: relative;
       .absolute {
         position: absolute;
-        right: 0;
-        top: 0;
+        right: -10px;
+        top: -12px;
         >img {
           cursor: pointer;
         }

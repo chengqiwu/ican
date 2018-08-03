@@ -105,7 +105,6 @@ class AddLogger extends Component {
   }
   describe = (obj) => {
     const { describe } = this.state
-    console.log(obj)
     describe[obj.name] = obj.content
     this.setState({
       describe
@@ -189,7 +188,7 @@ class AddLogger extends Component {
       message: '一条新的作业日志创建成功，要继续添加下一条日志吗？',
       buttons: [
         {
-          label: '继续添加',
+          label: '继续',
           onClick: () => {
             this.setState({
               files: [],

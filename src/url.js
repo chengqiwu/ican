@@ -8,11 +8,13 @@
 // export const codeUrl = 'http://47.104.81.112:8080/ican_n/api/user/getVerifyCodeImage?timestamp='
 // export const videoUrl = 'http://47.104.81.112:8080/video.mp4'
 
-const ip = '39.104.186.71'
-// const ip = '192.168.1.14'
-// const port = '8080'
-const port = '80'
-export const geoserverUrl = `http://${ip}:${port}/geoserver/ican/ows`
+// const ip = '39.104.186.71'
+// const port = '80'
+
+const ip = '192.168.1.14'
+const sql = '47.104.81.112'
+const port = '8080'
+export const geoserverUrl = `http://${sql}:${port}/geoserver/ican/ows`
 export const apiUrl = `http://${ip}:${port}/ican_n`
 export const codeUrl = `http://${ip}:${port}/ican_n/api/user/getVerifyCodeImage?timestamp=`
 export const videoUrl = `http://${ip}:${port}/video.mp4`

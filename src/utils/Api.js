@@ -332,3 +332,21 @@ export function deleteSoilLandFile(info) {
 export function plantingSeasonCropDelete (id) {
   return axios.post(`${url}/api/plantingSeasonCropsFertilizer/delete?token=${getToken()}`, id)
 }
+
+// api/farmLand/getTotalArea
+
+export function farmLandTotalArea() {
+  return axios.post(`${url}/api/farmLand/getTotalArea`)
+}
+// 	api/farmLand /updateSort
+export function farmLandUpdateList(content) {
+  return axios.post(`${url}/api/farmLand/updateSort?token=${getToken()}`, content)
+}
+// 	api/farmLand/findList
+export function farmLandLists () {
+  return axios.post(`${url}/api/farmLand/findList?token=${getToken()}`)
+}
+// 	api/user/validatePassword
+export function validatePassword(password) {
+  return axios.post(`${url}/api/user/validatePassword?token=${getToken()}`, password)
+}

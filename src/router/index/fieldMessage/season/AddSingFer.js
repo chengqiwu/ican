@@ -20,7 +20,13 @@ const typeArr =  [{
   value: '4',
   label: '水肥一体'
 },]
-
+const ferType = '尿素，一铵，二铵，硫酸钾，硫酸锌，硼肥，磷酸二氢钾，芸苔素，氯化钾，菌肥，有机肥，其它'
+const ferArr = ferType
+  .split('，')
+  .map((f, i) => ({
+    value: i.toString(),
+    label: f
+  }))
 class AddSingFer extends Component {
   constructor() {
     super()
@@ -44,6 +50,7 @@ class AddSingFer extends Component {
           dosage = '',
           frontagePhoto,
           id,
+          category = '',
           iron = '',
           magnesium = '',
           manganese = '',
@@ -60,6 +67,7 @@ class AddSingFer extends Component {
           boron,
           copper,
           dosage,
+          category: ferArr.filter(t => t.value === category)[0] || '',
           urlFront: frontagePhoto,
           id,
           iron,
@@ -90,6 +98,7 @@ class AddSingFer extends Component {
     tableData.push({
       id: undefined,
       name: '',
+      category: '',
       nitrogen: '',
       phosphorus: '',
       potassium: '',
@@ -219,6 +228,13 @@ class AddSingFer extends Component {
       tableData
     })
   }
+  categoryChange = (i, value) => {
+    const { tableData } = this.state
+    tableData[i].category = value
+    this.setState({
+      tableData
+    })
+  }
   modelChange = (model) => {
     if (!!model === !!this.state.model) {
       return
@@ -262,11 +278,12 @@ class AddSingFer extends Component {
           <tr>
             {/* 品牌、氮（N%）- 磷 （P2O5%）- 钾 （K2O）- 硫 （S%）- 锌 （ZN%）一硼 （B%）、 镁，铜，铁，锰、肥袋正面照片、肥袋反面照片、施肥量、施肥类型 */}
             <td>品牌</td>
+            <td>施肥类型</td>
             <td>氮（N%）</td>
-            <td>磷（P2O5%）</td>
-            <td>钾（K2O）</td>
+            <td>磷（P<sub>2</sub>O<sub>5</sub>%）</td>
+            <td>钾（K<sub>2</sub>O）</td>
             <td>硫（S%）</td>
-            <td>锌（ZN%）</td>
+            <td>锌（Zn%）</td>
             <td>硼（B%）</td>
             {
               this.state.model === 1 && <td>镁</td>
@@ -291,6 +308,22 @@ class AddSingFer extends Component {
               <td>
                 <input type="text" disabled={disabled} required name='name' value={t.name} onChange={this.inputChange.bind(this, i)}/>
               </td>
+              <td>
+                <Select
+                  classNamePrefix='react-select'
+                  placeholder=''
+                  noResultsText='无'
+                  isDisabled={disabled}
+                  onChange={this.categoryChange.bind(this, i)}
+                  value={t.category}
+                  maxMenuHeight={'200'}
+                  options={
+                    // 底肥，种肥，追肥，叶喷，水肥一体
+                    ferArr
+                  }
+                ></Select>
+              </td>
+              
               <td>
                 <input type="number" disabled={disabled} name='nitrogen' value={t.nitrogen} onChange={this.inputChange.bind(this, i)}/>
               </td>
@@ -376,6 +409,7 @@ class AddSingFer extends Component {
                   isDisabled={disabled}
                   onChange={this.typeChange.bind(this, i)}
                   value={t.type}
+                  maxMenuHeight={'200'}
                   options={
                     // 底肥，种肥，追肥，叶喷，水肥一体
                     typeArr

@@ -4,7 +4,10 @@ import classnames from 'classnames'
 import Select from 'react-select'
 import { findCroppingPatternList, plantingSeasonCropsSave } from 'utils/Api'
 import CreatableSelect from 'react-select/lib/Creatable'
-// import AddComFer from './AddComFer'
+import DatePicker from 'react-datepicker'
+import moment from 'moment'
+import zh from 'moment/locale/zh-cn'
+moment.locale('zh')
 import AddSingFer from './AddSingFer'
 
 const statusArr = [{
@@ -54,7 +57,8 @@ class AddCrop extends Component {
       saving: false,
       update: false,
       edit: false,
-      store: null
+      store: null,
+      sowingDate: moment()
     }
   }
   updateFertilizers = (fertilizers) => {
@@ -175,6 +179,7 @@ class AddCrop extends Component {
         info.varietiesName = this.state.value.label
       }
     }
+    info.sowingDate = this.state.sowingDate
     !!this.state.status.value && (info.status = this.state.status.value)
     !!this.state.soilPreparation.value && (info.soilPreparation = this.state.soilPreparation.value)
     !!this.state.density && (info.density = this.state.density)
@@ -194,12 +199,14 @@ class AddCrop extends Component {
           copper: undefined,
           iron: undefined,
           manganese: undefined,
-          type: t.type.value
+          type: t.type.value,
+          category: t.category.value
         }
       } else {
         return {
           ...t,
-          type: t.type.value
+          type: t.type.value,
+          category: t.category.value
         }
       }
     }))
@@ -231,7 +238,8 @@ class AddCrop extends Component {
                 plantingType = '',
                 maxProduction = '',
                 minProduction = '',
-                fertilizers = []
+                fertilizers = [],
+                sowingDate
               } = data.result
               const crop = criosAndVarieties.filter(c => c.id === cropsId)[0]
               if (!crop.list) {
@@ -257,6 +265,7 @@ class AddCrop extends Component {
                   value: type.id
                 } : '',
                 density,
+                sowingDate: moment(new Date(sowingDate)),
                 fertilizers,
                 update: true,
                 maxProduction,
@@ -339,8 +348,13 @@ class AddCrop extends Component {
       edit: true
     })
   }
+  dateChange = (date) => {
+    this.setState({
+      sowingDate: date
+    })
+  }
   render() {
-    const { isLoading, options, value } = this.state
+    const { isLoading, options, value, crop } = this.state
     return (
       <div className='add-crop'>
         <div
@@ -350,7 +364,7 @@ class AddCrop extends Component {
               borderRadius: this.state.collapsed
             })
           }
-          onClick={this.collapsed}>{!this.state.collapsed ? '展开列表' : '折叠列表'}</div>
+          onClick={this.collapsed}>{!!crop ? `${crop.label} - ` : ''}{!this.state.collapsed ? '展开列表' : '折叠列表'}</div>
         <form onSubmit={this.submitHandler} className={
           classnames({
             panelBody: true,
@@ -367,6 +381,7 @@ class AddCrop extends Component {
                 noResultsText='无'
                 onChange={this.cropChange}
                 value={this.state.crop}
+                maxMenuHeight={'200'}
                 noOptionsMessage={() => {return '无选项'}}
                 options={
                   this.state.crios.map(ciro => ({
@@ -409,6 +424,7 @@ class AddCrop extends Component {
                 value={this.state.status}
                 onChange={this.statusChange}
                 noOptionsMessage={() => {return '无选项'}}
+                maxMenuHeight={'200'}
                 options={
                   // （0:未种植;1:种植中;2:已收割;3:已放弃）
                   statusArr
@@ -424,11 +440,22 @@ class AddCrop extends Component {
                 onChange={this.preparationChange}
                 value={this.state.soilPreparation}
                 noOptionsMessage={() => {return '无选项'}}
+                maxMenuHeight={'200'}
                 options={
                   // (0：免耕;1：浅耕;2：深耕)
                   soilPreArr
                 }></Select>
             </div>
+            <div className='input-group'>
+              <label htmlFor="">播种日期</label>
+              <DatePicker
+                dateFormat="YYYY-MM-DD"
+                selected={this.state.sowingDate}
+                onChange={this.dateChange}
+                disabled={!this.state.edit}
+              />
+            </div>
+            
             <div className='input-group'>
               <label htmlFor="">播种密度</label>
               <input 
@@ -449,6 +476,7 @@ class AddCrop extends Component {
                 value={this.state.plantingType}
                 onChange={this.plantingTypeChange}
                 noOptionsMessage={() => {return '无选项'}}
+                maxMenuHeight={'200'}
                 options={
                   this.state.croppingPattern.map(crop => ({
                     label: crop.model,

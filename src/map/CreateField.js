@@ -40,7 +40,7 @@ class CreateField extends Component {
     var geoc = new BMap.Geocoder()
 
     var pt = ol.proj.transform(this.props.coord, 'EPSG:3857', 'EPSG:4326')
-    console.log(pt)
+
     geoc.getLocation(new BMap.Point(...pt), (rs) => {
       const { province = '', city = '', distract ='' } = rs.addressComponents
       this.position.value = `${province} ${city} ${distract}`
@@ -53,7 +53,6 @@ class CreateField extends Component {
             value: r.id,
             label: r.name
           }))
-          console.log(seasons, seasons[-1])
           this.setState({
             seasons,
             season: seasons[seasons.length-1].value
@@ -71,7 +70,7 @@ class CreateField extends Component {
     var geoc = new BMap.Geocoder()
     if (this.props.coord) {
       var pt = ol.proj.transform(this.props.coord, 'EPSG:3857', 'EPSG:4326')
-      console.log(pt)
+
       geoc.getLocation(new BMap.Point(...pt), (rs) => {
         const { province = '', city = '', distract = '' } = rs.addressComponents
         this.position.value = `${province} ${city} ${distract}`
@@ -100,7 +99,6 @@ class CreateField extends Component {
   }
   submitHandle(e) {
     e.preventDefault()
-    console.log(e.target)
     if (!this.input.value.trim()) {
       alert('地的名称不为空')
       return
@@ -165,7 +163,6 @@ class CreateField extends Component {
     })
   }
   statusChange = (e) => {
-    console.log(e.target.value)
     this.setState({
       status: e.target.value
     })

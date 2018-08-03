@@ -8,7 +8,7 @@ class Header extends Component {
     return (
       <header className='login-header'>
         <Logo/>
-        {/* <Serice/> */}
+        <Serice/>
         <Motto/>
         {/* <Language/> */}
       </header>

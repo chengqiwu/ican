@@ -7,6 +7,11 @@ $fontFamily: MicrosoftYaHei;
   box-sizing: border-box;
   font-family: $fontFamily;
   flex-shrink: 0;
+  font-size: 12px !important;
+}
+
+img {
+  user-select: none !important;
 }
 
 input {
@@ -38,7 +43,9 @@ a {
 }
 
 .circle {
-  animation: opacity 1s;
+  // animation: opacity 1s;
+  // scale: 0
+  // transform: scale(0);
 }
 
 #target {
@@ -183,4 +190,8 @@ a {
   .react-select__dropdown-indicator {
     padding: 6px;
   }
+}
+
+.gu-mirro {
+  cursor: all-scroll;
 }
