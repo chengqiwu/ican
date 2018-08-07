@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ol from 'openlayers'
 import axios from 'axios'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import { updateFeature } from '_redux/actions/userFeature'
 import Popup from './Popup'
 import { getArea } from 'utils/tools'
@@ -47,7 +47,6 @@ class UserFeature extends Component {
     }).then((response) => {
       return response.data
     }).then((data) => {
-      console.log(data)
       this.props.update(data.features)
       if (data.totalFeatures === 0) {
         var geolocation = new BMap.Geolocation()
@@ -67,9 +66,9 @@ class UserFeature extends Component {
         return
       }
       var features = new ol.format.GeoJSON().readFeatures(data, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' })
-            
-            
-      vectorSource.addFeatures(features)       
+
+
+      vectorSource.addFeatures(features)
       map.getView().fit(vectorSource.getExtent())
     })
     map.addLayer(this.vector)
@@ -78,40 +77,40 @@ class UserFeature extends Component {
       if (evt.dragging) {
         return
       }
-      if (map.getView().getZoom() > 8 ) {
+      if (map.getView().getZoom() > 8) {
         this.displayFeatureInfo(map.getEventPixel(evt.originalEvent))
       }
     })
   }
-    
-    displayFeatureInfo = (pixel) => {
-      const map = this.props.map
-      var feature = map.forEachFeatureAtPixel(pixel, (feature, layer) => {
-        if (layer === this.vector) {
-          return feature
-        }
-           
-      })
-      if (feature && map.getView().getZoom() >= 7) {
-        this.setState({
-          feature
-        })
-        this.child.setPosition(ol.extent.getCenter(feature.getGeometry().getExtent()))
-      } else {
-        this.child && this.child.setPosition(undefined)
+
+  displayFeatureInfo = (pixel) => {
+    const map = this.props.map
+    var feature = map.forEachFeatureAtPixel(pixel, (feature, layer) => {
+      if (layer === this.vector) {
+        return feature
       }
-      
+
+    })
+    if (feature && map.getView().getZoom() >= 7) {
+      this.setState({
+        feature
+      })
+      this.child.setPosition(ol.extent.getCenter(feature.getGeometry().getExtent()))
+    } else {
+      this.child && this.child.setPosition(undefined)
     }
-    render() {
-      const {feature} = this.state
-      return <div>
-        {feature && <Popup {...feature.getProperties()} ref={child => this.child = child}
-          {...this.props}
-          coord={ol.extent.getCenter(feature.getGeometry().getExtent())}
-          area={getArea(feature).acre + '亩'}
-          username={getUserInfo().username} />}
-      </div>
-    }
+
+  }
+  render() {
+    const { feature } = this.state
+    return <div>
+      {feature && <Popup {...feature.getProperties()} ref={child => this.child = child}
+        {...this.props}
+        coord={ol.extent.getCenter(feature.getGeometry().getExtent())}
+        area={getArea(feature).acre + '亩'}
+        username={getUserInfo().username} />}
+    </div>
+  }
 }
 UserFeature.propTypes = {
   map: PropTypes.object,

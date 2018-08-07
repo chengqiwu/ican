@@ -4,9 +4,12 @@ import 'css/map/popupContent.scss'
 import poor from 'images/index/status/poor.png'
 import excellent from 'images/index/status/excellent.png'
 import notBusy from 'images/index/status/notBusy.png'
-import center from 'images/index/status/center.png'
-// ['闲', '优', '良', '差']
-const status = [notBusy, excellent, center, poor]
+import abandon from 'images/index/status/abandon.png'
+import good from 'images/index/status/good.png'
+// ['优', '良', '差', '闲', '弃', '不选择']
+// [
+
+const status = [excellent, good, poor, notBusy, abandon]
 class Popup extends Component {
   componentDidMount() {
     const props = this.props
@@ -16,12 +19,10 @@ class Popup extends Component {
       stopEvent: false
     })
     props.map.addOverlay(this.textOverlay)
-    // this.textOverlay.setPosition(props.coord)
 
     props.map.getView().on('change:resolution', (e) => {
       const zoom = props.map.getView().getZoom()
       if (zoom >10) {
-        // this.setPosition(props.coord)
       } else {
         this.setPosition(undefined)
       }
@@ -32,6 +33,7 @@ class Popup extends Component {
     }
     render() {
       const props = this.props
+      console.log(props)
       return (
         <div className='popup' ref={popup => this.popup = popup}>
           <table>
@@ -39,7 +41,7 @@ class Popup extends Component {
               <tr>
                 <td rowSpan='2'>
                   <img style={{marginRight: '5px'}} src={ status[Number.parseInt(props.growth_status)] } alt=""/>
-                               
+                  {/* <div>{status[Number.parseInt(props.growth_status)]}</div> */}
                 </td>
                 <td><h3>{props.name}</h3></td>
               </tr>

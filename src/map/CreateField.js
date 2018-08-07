@@ -119,14 +119,18 @@ class CreateField extends Component {
     this.setState({
       saving: true,
     })
-    farmLandSave({
-      farmLandInfo: JSON.stringify(farmLandInfo)
-    }).then(res => res.data).then(data => {
+    const fd = new FormData()
+    fd.append('farmLandInfo', JSON.stringify(farmLandInfo))
+    // {
+    //   farmLandInfo: JSON.stringify(farmLandInfo)
+    // }
+    farmLandSave(fd).then(res => res.data).then(data => {
       if (data.msg === '200') {
         this.props.feature.feature.set('address', this.position.value)
         this.props.feature.feature.set('area', this.props.area)
         this.props.feature.feature.set('name', this.input.value)
         this.props.feature.feature.set('status', '1')
+        this.props.feature.feature.set('growth_status', this.state.status)
         this.props.feature.feature.set('season_id', this.state.season)
         this.props.feature.feature.setId(data.result)
         this.props.setFeature({
@@ -196,17 +200,28 @@ class CreateField extends Component {
                   {
                     // 0:闲置;1:优;2:中;3:差
                     [{
-                      label: '闲置',
-                      value: '0'
-                    },{
                       label: '优',
+                      value: '0'
+                    },
+                    {
+                      label: '良',
                       value: '1'
-                    },{
-                      label: '中',
-                      value: '2'
-                    },{
+                    },
+                    {
                       label: '差',
+                      value: '2'
+                    },
+                    {
+                      label: '闲',
                       value: '3'
+                    },
+                    {
+                      label: '弃',
+                      value: '4'
+                    },
+                    {
+                      label: '不选择',
+                      value: '5'
                     }].map(status => <option key={status.value} value={status.value}>{status.label}</option>)
                   }
                 </select>
@@ -215,7 +230,7 @@ class CreateField extends Component {
             
             <div style={{display: 'flex', justifyContent: 'space-between'}}>
               <button className='button blue' disabled={this.state.saving}>{!this.state.saving ? '保存' : '保存中'}</button>                   
-              {!this.state.saving && <a href='#' className='button blue' ref={clear => this.clear = clear} >清除</a>}
+              {!this.state.saving && <button className='button blue' ref={clear => this.clear = clear} >清除</button>}
             </div>
           </form>
         </div>

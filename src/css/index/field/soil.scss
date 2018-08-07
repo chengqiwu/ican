@@ -63,9 +63,10 @@
     .edit,
     .delete,
     .no-save {
-      background-color: #0b77f0;
+      color: #fff;
+      background-color: #009cd1;
       &:hover {
-        background-color: #0065d6
+        background-color: #147494
       }
     }
   }

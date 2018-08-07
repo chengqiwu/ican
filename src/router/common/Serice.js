@@ -38,7 +38,7 @@ class Service extends Component {
                     精禾正在服务全球
         </span>
         <div className='sprice'>
-          <label>{this.state.area}</label>
+          <label>{Math.round(this.state.area)}</label>
           <span>亩</span>
         </div>
         <div className='none'></div>

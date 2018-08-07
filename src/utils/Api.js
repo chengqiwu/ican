@@ -108,15 +108,7 @@ export function getUserInfo2() {
 }
 
 export function farmLandSave(data) {
-  data = {
-    ...data,
-    token: getToken()
-  }
-  console.log(data)
-  updateCookies()
-  return axios.get(url + '/api/farmLand/save', {
-    params: data
-  })
+  return axios.post(`${url}/api/farmLand/save?token=${getToken()}`, data)
 }
 
 export function farmLandModify(data) {

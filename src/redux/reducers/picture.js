@@ -8,7 +8,6 @@ const pictureState = {
 }
 
 function pictureReducer (state= pictureState, action) {
-  console.log(state, action)
   switch (action.type) {
   case SHOWLIST:
     return {
@@ -19,7 +18,6 @@ function pictureReducer (state= pictureState, action) {
   case UPDATELISTS:
     return {
       ...state,
-      // update: action.update,
       lists: action.lists
     }
     break

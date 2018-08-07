@@ -222,7 +222,7 @@ class AutoComplete extends Component {
             onFocus={this.showItems} 
             value={this.state.inputValue}
                     
-            placeholder='请输入坐标(经度,纬度)或地名' />
+            placeholder='请输入坐标(纬度，经度)或地名' />
           <button style={{ border: 'none' }}>
             <img src={search} alt="" className='btnHover' />
           </button>

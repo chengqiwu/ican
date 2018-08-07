@@ -1,20 +1,24 @@
 .popup {
-    font-family: MicrosoftYaHei;
-    > table {
-
-        .status {
-           background-color: black;
-           color: #bd0302;
-           width: 1.2em;
-           height: 1.2em;
-           border-radius: .6em;
-           display: flex;
-           justify-content: center;
-           align-items: center;
-        }
-        .username, .area {
-            font-size: .5em
-        }
-        
+  font-family: MicrosoftYaHei;
+  >table {
+    border-collapse: separate;
+    border-spacing: 0px 0px;
+    td {
+      img {
+        width: 2em;
+        vertical-align: middle;
+      }
     }
+    .status {
+      background-color: black;
+      color: #bd0302;
+      width: 1.2em;
+      height: 1.2em;
+      border-radius: .6em;
+    }
+    .username,
+    .area {
+      font-size: .5em
+    }
+  }
 }

@@ -33,7 +33,9 @@ a {
   display: flex;
   flex-direction: column;
   .title {
+    background-image: linear-gradient(to top, #176be6, #26a4f6 50%, #2fc9ff);
     background-color: #3478f5;
+    background-blend-mode: normal;
     height: 35px;
     padding: 10px;
     color: #fff;

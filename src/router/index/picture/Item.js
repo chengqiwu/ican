@@ -5,19 +5,28 @@ class Item extends Component {
     super()
     this.state = {
       name: '',
-      content: ''
+      content: '',
+      id: '',
+      idDescribe: false
     }
   }
   componentDidMount() {
-    console.log(this.props.file)
     this.setState({
+      id: this.props.id,
       name: this.props.file.name,
-      content: this.props.file.describe || ''
+      content: this.props.file.describe || '',
     })  
     this.props.describe({
+      id: this.props.id,
       name: this.props.file.name,
-      content: this.props.file.describe || ''
+      content: this.props.file.describe || '',
+      idDescribe: false
     })
+    if (this.props.file instanceof File) {
+      this.setState({
+        idDescribe: true
+      })
+    }
   }
   handBlur = () => {
     this.props.describe(this.state)
@@ -28,7 +37,7 @@ class Item extends Component {
     })        
   }
   render() {
-    const {file, url} = this.props
+    const {url} = this.props
     return (
       <div>
         <div className='logger-box preview' style={{ backgroundImage: `url(${url})` }}>

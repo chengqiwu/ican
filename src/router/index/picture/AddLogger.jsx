@@ -30,6 +30,7 @@ class AddLogger extends Component {
       submiting: false,
       list: [],
       describe: {},
+      idDescribe: {},
       showLoggerImg: false
     }
   }
@@ -93,7 +94,6 @@ class AddLogger extends Component {
     Scrollbar.init(this.logger)
   }
   handleChange = (date) => {
-    console.log(date)
     this.setState({
       startDate: date
     })
@@ -104,20 +104,21 @@ class AddLogger extends Component {
     })
   }
   describe = (obj) => {
-    const { describe } = this.state
-    describe[obj.name] = obj.content
+    console.log(obj)
+    const { describe, idDescribe } = this.state
+    if (!obj.idDescribe) {
+      idDescribe[obj.id] = obj.content
+    } else {
+      describe[obj.name] = obj.content
+    }
     this.setState({
-      describe
+      describe,
+      idDescribe
     })
   }
   upload = () => {
     const { feature } = this.props.feature
     const id = feature.getId().replace('tb_farmland.', '')
-    // if (!id) {
-    //   alert('该田地还没有种植季信息，不能创建日志！')
-    //   return
-    // }
-
     const seasonId = feature.get('season_id')
     const fd = new FormData()
     console.log(id, seasonId)
@@ -129,16 +130,24 @@ class AddLogger extends Component {
       id: this.props.logger && this.props.logger.id
     }))
     this.state.files.map(file => fd.append('images', file))
-    const { describe } = this.state
+    const { describe, idDescribe } = this.state
     const describeStr = []
     Object.keys(describe).map(key => {
-      console.log(describe[key])
       describeStr.push({
         key,
         value: describe[key]
       })
     })
     fd.append('describeStr', JSON.stringify(describeStr))
+
+    const idDescribeKvsStr = []
+    Object.keys(idDescribe).map(key => {
+      idDescribeKvsStr.push({
+        key,
+        value: idDescribe[key]
+      })
+    })
+    fd.append('idDescribeKvsStr', JSON.stringify(idDescribeKvsStr))
     return farmLandLogSave(fd)
       .then(e => e.data)
       .then(data => {
@@ -150,8 +159,6 @@ class AddLogger extends Component {
           submiting: false
         })
       })
-      // })
-
   }
 
   submit = (e) => {
@@ -174,7 +181,6 @@ class AddLogger extends Component {
       .then(e => e.data)
       .then(data => {
         if (data.msg === '200') {
-
           const { list } = data.result
           if (list) {
             this.props.updateLists(list)

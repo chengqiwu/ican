@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import add from 'images/index/picture/+.png'
 import { getUserInfo} from '_redux/actions/user'
-import { updateUserInfo, getUserBasicInfo, getUserInfo2 } from 'utils/Api'
+import { updateUserInfo } from 'utils/Api'
 class BasicInfo extends Component {
   constructor() {
     super()

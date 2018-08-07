@@ -278,7 +278,7 @@ class AddSingFer extends Component {
           <tr>
             {/* 品牌、氮（N%）- 磷 （P2O5%）- 钾 （K2O）- 硫 （S%）- 锌 （ZN%）一硼 （B%）、 镁，铜，铁，锰、肥袋正面照片、肥袋反面照片、施肥量、施肥类型 */}
             <td>品牌</td>
-            <td>施肥类型</td>
+            <td>肥料类型</td>
             <td>氮（N%）</td>
             <td>磷（P<sub>2</sub>O<sub>5</sub>%）</td>
             <td>钾（K<sub>2</sub>O）</td>

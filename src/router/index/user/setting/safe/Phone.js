@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Rx from 'rxjs/Rx'
-import { updateContact, getUserPhone, updateContactSuccess, getUserInfo2 } from 'utils/Api'
+import { blowfish } from 'utils/tools'
+import { updateContact, updateContactSuccess, getUserInfo2, validatePassword } from 'utils/Api'
 class Phone extends Component {
   constructor() {
     super()
@@ -10,7 +11,9 @@ class Phone extends Component {
       code: '',
       pending: false,
       countdown: 60,
-      success: false
+      success: false,
+      passwordVer: false,
+      password: ''
     }
   }
   componentDidMount() {
@@ -27,6 +30,12 @@ class Phone extends Component {
       const { name, value } = e.target
       this.setState({
         [name]: value
+      })
+    }
+    activePassword = (e) => {
+      e.preventDefault()
+      this.setState({
+        passwordVer: true
       })
     }
     activeModify = (e) => {
@@ -104,35 +113,73 @@ class Phone extends Component {
         modify: false
       })
     }
+    vailPassword = (e) => {
+      e.preventDefault()
+      if (!this.state.password) {
+        alert('请输入密码')
+        return
+      }
+      const fd = new FormData()
+      fd.append('password', blowfish(this.state.password))
+      validatePassword(fd)
+        .then(e => e.data)
+        .then(data => {
+          if (data.msg === '200') {
+            if (data.result === 'true') {
+              alert('密码验证成功')
+              this.setState({
+                modify: true,
+                passwordVer: false,
+                password: ''
+              })
+            } else {
+              alert('密码输入错误')
+              this.setState({
+                password: ''
+              })
+            }
+          } else {
+            alert('网络异常，请稍后重试')
+          }
+        })
+    }
     render() {
       return (
-        <form onSubmit={this.submit}>
-          <div className='box'>
-            <label htmlFor="phone">手机：</label>
-            <input type="text" disabled={!this.state.modify} name="phone" id="phone"
-              value={this.state.phone}
-              onChange={this.changeValue} />
-            {!this.state.modify ?
-              <div className='noModify'><a href="#" onClick={this.activeModify}>更改</a></div>
-              : <div className='modify'>
-                <input type="text" name='code' className='code' value={this.state.code}
-                  onChange={this.changeValue}/>
-                {
-                  !this.state.pending ?
-                    <a href="#" onClick={this.getCode}>获取手机验证码</a> :
-                    <a href="#" onClick={e => e.preventDefault()}>重新获取（{this.state.countdown}s）</a>
-                }
-                <input type="submit" value="保存" className='submit'/>
-                <input type="button" value="取消" className='submit' onClick={this.cancel}/>
-                          
-              </div>
-            }
-            {this.state.success && <div className='tips'>操作成功!!</div>}
+        this.state.passwordVer ?
+          <form onSubmit={this.vailPassword}><div className="box">
+            <label htmlFor="password">验证密码：</label>
+            <input type="password" id='password' name='password' value={this.state.password} onChange={this.changeValue} />
+            <div className="modify">
+              <button className='submit'>验证</button>
+            </div>
           </div>
+          </form> :
+          <form onSubmit={this.submit}>
+            <div className='box'>
+              <label htmlFor="phone">手机：</label>
+              <input type="text" disabled={!this.state.modify} name="phone" id="phone"
+                value={this.state.phone}
+                onChange={this.changeValue} />
+              {!this.state.modify ?
+                <div className='noModify'><a href="#" onClick={this.activePassword}>更改</a></div>
+                : <div className='modify'>
+                  <input type="text" name='code' className='code' value={this.state.code}
+                    onChange={this.changeValue} />
+                  {
+                    !this.state.pending ?
+                      <a href="#" onClick={this.getCode}>获取手机验证码</a> :
+                      <a href="#" onClick={e => e.preventDefault()}>重新获取（{this.state.countdown}s）</a>
+                  }
+                  <input type="submit" value="保存" className='submit' />
+                  <input type="button" value="取消" className='submit' onClick={this.cancel} />
 
-        </form>
+                </div>
+              }
+              {this.state.success && <div className='tips'>操作成功!!</div>}
+            </div>
+          </form>
       )
-        
+      
     }
 }
 

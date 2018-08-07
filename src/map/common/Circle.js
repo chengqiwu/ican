@@ -255,7 +255,7 @@ class Circle extends Component {
           // }, 1000)
           // console.log(this.timeout)
           // TweenLite.to(this.circle, 1000, { autoAlpha: 1})
-          TweenMax.fromTo(this.circle, 2, {
+          TweenMax.fromTo(this.circle, 1, {
             autoAlpha: 0,
             scale: 0
             // width: 1

@@ -1,32 +1,32 @@
 @charset 'utf-8';
 @import '../common';
 .layers {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1;
-    padding: 10px;
-    background-color: #ffffff;
-    @extend .flex;
-    justify-content: space-between;
-    @include custom-width-height(310px, 80px);
-    >div {
-        position: relative;
-        .layer {
-            @include custom-width-height(90px, 60px);
-            cursor: pointer;
-        }
-        span {
-            position: absolute;
-            font-size: 14px;
-            color: #ffffff;
-            font-family: SimSun;
-            background-color: #3385ff;
-            @include custom-width-height(35px, 20px);
-            padding: 3px;
-            right: 0;
-            bottom: 0;
-            @extend .flex-center;
-        }
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1;
+  padding: 10px;
+  background-color: #ffffff;
+  @extend .flex;
+  justify-content: space-between;
+  @include custom-width-height(310px, 80px);
+  >div {
+    position: relative;
+    .layer {
+      @include custom-width-height(90px, 60px);
+      cursor: pointer;
     }
+    span {
+      position: absolute;
+      font-size: 14px;
+      color: #ffffff;
+      font-family: SimSun;
+      background-color: #3385ff;
+      @include custom-width-height(35px, 20px);
+      padding: 3px;
+      right: 0;
+      bottom: 0;
+      @extend .flex-center;
+    }
+  }
 }

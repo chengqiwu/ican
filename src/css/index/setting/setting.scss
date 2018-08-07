@@ -1,257 +1,244 @@
 .setting {
-    ul, li {
-        list-style: none;
+  ul,
+  li {
+    list-style: none;
+  }
+  ul {
+    display: flex;
+    li {
+      flex-basis: 25%;
+      display: flex;
+      justify-content: center;
+      padding: 5px 0;
+      cursor: pointer;
+      border-radius: 5px 5px 0 0;
+      border-bottom: 1px solid #ddd;
+      &.active {
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+      }
     }
-    ul {
+  }
+  .content {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    .info {
+      display: flex;
+      flex-direction: column;
+      width: 95%;
+      align-items: flex-start;
+      input[name=username],
+      input[name=name] {
+        // flex-grow: 1;
+        width: 150px;
+      }
+      input[name=address],
+      input[name=companyName] {
+        flex-grow: 1;
+      }
+    }
+    .input-group {
+      display: flex;
+      margin: 10px 0;
+      label {
+        width: 100px;
+        text-align: right;
+      }
+      .tip {
+        font-size: 12px;
+        margin-left: 10px;
+      }
+      .logger-box {
+        margin-bottom: 10px;
+      }
+    }
+    .head-portrait {
+      .logo {
         display: flex;
-       
-        li {
-            flex-basis: 25%;
-            display: flex;
-            justify-content: center;
-            padding: 5px 0;
+        .img {
+          border: 1px solid #ddd;
+          height: 100px;
+          width: 100px;
+        }
+      }
+    }
+    .safe {
+      width: 100%;
+      .box {
+        display: flex;
+        padding: 10px;
+        border: 1px solid #ddd;
+        align-items: center;
+        margin-bottom: 10px;
+        .tips {
+          font-size: 12px;
+          color: #1f6b1f;
+        }
+        #phone {
+          width: 100px;
+        }
+        a {
+          color: #3eb9e0;
+          font-size: 12px;
+        }
+        .noModify {
+          margin-left: 10px;
+        }
+        .modify {
+          margin-left: 10px;
+          .code {
+            width: 70px;
+            margin-right: 10px;
+          }
+          a {
+            margin-right: 10px;
+          }
+          .submit {
+            color: #fff;
+            width: 42px;
+            background-color: #009cd1;
+            border-radius: 5px;
             cursor: pointer;
-            border-radius: 5px 5px 0 0;
-             border-bottom: 1px solid #ddd;
-            &.active {
-                border: 1px solid #ddd;
-                border-bottom-color: transparent; 
-               
-            }
+            margin-right: 5px;
+          }
         }
-       
+      }
     }
-    .content {
+    .head-portrait {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      .preview {
         display: flex;
-        justify-content: center;
-        padding: 20px;
-
-        .info {
-            display: flex;
-            flex-direction: column;
-            width: 95%;
-            align-items: flex-start;
-            
-            input[name=username], 
-            input[name=name] {
-                // flex-grow: 1;
-                width: 150px;
-            }
-            input[name=address],
-            input[name=companyName] {
-                flex-grow: 1;
-            }
-
+        flex-direction: column; // align-items: flex-end;
+        img {
+          width: 150px;
+          height: 150px; // padding: 4px;
+          border: 1px solid #ccc;
+          border-radius: 75px;
         }
-        .input-group {
-                display: flex;
-                margin: 10px 0;
-                label {
-                    width: 100px;
-                    text-align: right;
-                }
-                .tip {
-                    font-size: 12px;
-                    margin-left: 10px;
-                }
-                .logger-box {
-                    margin-bottom: 10px;
-                }
-                
-            }
-        .head-portrait {
-            
-            .logo {
-                display: flex;
-                .img {
-                    border: 1px solid #ddd;
-                    height: 100px;
-                    width: 100px;
-                }
-                
-            }
+        >div {
+          display: flex;
+          justify-content: space-between;
+          flex-grow: 1;
+          flex-direction: column;
+          align-items: center;
         }
-        .safe {
-            width: 100%;
-            .box {
-                display: flex;
-                padding: 10px;
-                border: 1px solid #ddd;
-                align-items: center;
-                margin-bottom: 10px;
-                .tips {
-                    font-size: 12px;
-                    color: #1f6b1f;
-                }
-                #phone {
-                    width: 100px;
-                }
-                a {
-                    color: #3eb9e0;
-                     font-size: 12px;
-                }
-                .noModify {
-                    margin-left: 10px;
-                }
-                .modify {
-                    margin-left: 10px;
-                    .code {
-                        width: 70px;
-                        margin-right: 10px;
-                    }
-                    a {
-                        margin-right: 10px;
-                    }
-                    .submit {
-                        color: #fff;
-                        width: 42px;
-                        background-color: #009cd1;
-                        border-radius: 5px;
-                        cursor: pointer;
-                        margin-right: 5px;
-                    }
-                }
-            }
+        input {
+          margin-top: 10px;
+          color: #fff;
+          width: 60px;
+          height: 30px;
+          background-color: #009cd1;
+          border-radius: 5px;
+          cursor: pointer;
+          outline: none;
+          &[type=submit] {
+            margin: 0;
+            width: 137px;
+            height: 43px;
+            background-color: #183d36;
+          }
         }
-        .head-portrait {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            .preview {
-                display: flex;
-                flex-direction: column;
-                // align-items: flex-end;
-                img {
-                    width: 150px;
-                    height: 150px; 
-                    // padding: 4px;
-                    border: 1px solid #ccc;
-                    border-radius: 75px;
-                }
-                > div {
-                    display: flex;
-                    justify-content: space-between;
-                    flex-grow: 1;
-                    flex-direction: column;
-                    align-items: center;
-
-                }
-                input {
-                    margin-top: 10px;
-                    color: #fff;
-                    width: 60px;
-                    height: 30px;
-                    background-color: #009cd1;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    &[type=submit] {
-                        margin: 0;
-                        width: 137px;
-                        height: 43px;
-                        background-color: #183d36;
-                    }
-                }
-
-            }
-            .imgUpload {
-                // height: 250px;
-                width: 380px;
-               
-                display: flex;
-                .drop-zone {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-                .preview {
-                    // margin-left: 100px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    color: #fff;
-                    width: 60px;
-                    height: 30px;
-                    font-size: 12px;
-                    background-color: #009cd1;
-                    border-radius: 5px;
-                    cursor: pointer;
-                }
-                input[type=file] {
-                    display: none;
-                }
-                .avatarTools {
-                    // margin-left: 10px;
-                    // width: 130px;
-                    display: flex;
-                    justify-content: space-between;
-                }
-                .tips {
-                    height: 100%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    border: 1px solid #ddd;
-                    cursor: pointer;
-                    width: 250px;
-                }
-            }
-               
+      }
+      .imgUpload {
+        // height: 250px;
+        width: 380px;
+        display: flex;
+        .drop-zone {
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
-        .submit {
-            input {
-                margin-left: 100px;
-                color: #fff;
-                width: 100px;
-                height: 40px;
-                background-color: #009cd1;
-                border-radius: 5px;
-                cursor: pointer;
-            }
+        .preview {
+          // margin-left: 100px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #fff;
+          width: 60px;
+          height: 30px;
+          font-size: 12px;
+          background-color: #009cd1;
+          border-radius: 5px;
+          cursor: pointer;
         }
+        input[type=file] {
+          display: none;
+          outline: none;
+        }
+        .avatarTools {
+          // margin-left: 10px;
+          // width: 130px;
+          display: flex;
+          justify-content: space-between;
+        }
+        .tips {
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid #ddd;
+          cursor: pointer;
+          width: 250px;
+        }
+      }
     }
+    .submit {
+      input {
+        margin-left: 100px;
+        color: #fff;
+        width: 100px;
+        height: 40px;
+        background-color: #009cd1;
+        border-radius: 5px;
+        cursor: pointer;
+        outline: none;
+      }
+    }
+  }
 }
 
 .logger-box {
+  width: 100px;
+  height: 70px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  border: 2.5px solid #ddd;
+  .drop-zone {
     width: 100px;
     height: 70px;
-    overflow: hidden;
     display: flex;
-    justify-content: center;
-
-    border: 2.5px solid #ddd;
-    .drop-zone {
-        width: 100px;
-        height: 70px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        label {
-            font-size: 13px;
-            margin-top: 6px;
-            cursor: pointer;
-            text-align: center !important;
-        }
-    }
-}
-.input-group {
+    flex-direction: column;
     align-items: center;
-    .company-logo {
-        width: 256px;
-        height: 128px;
-        border: 1px solid #ccc;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-         margin-right: 10px;
-         > img {
-            width: auto;
-            height: auto;
-            max-width: 100%;
-            max-height: 100%;
-        
-        }
+    justify-content: center;
+    cursor: pointer;
+    label {
+      font-size: 13px;
+      margin-top: 6px;
+      cursor: pointer;
+      text-align: center !important;
     }
-   
+  }
+}
+
+.input-group {
+  align-items: center;
+  .company-logo {
+    width: 256px;
+    height: 128px;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    >img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
 }

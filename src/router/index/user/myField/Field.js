@@ -46,6 +46,7 @@ class Field extends Component {
         
         const targetIndex = this.state.fields.findIndex(v => v.id === el.getAttribute('v-id'))
         const endSiblingIndex = this.state.fields.findIndex(v => sibling && v.id === sibling.getAttribute('v-id'))
+        console.log(targetIndex, endSiblingIndex)
         // start, end+1
         let fields = []
         if (targetIndex < endSiblingIndex) {
@@ -72,7 +73,7 @@ class Field extends Component {
           fields = [
             ...this.state.fields.slice(0, endSiblingIndex),
             this.state.fields[targetIndex],
-            ...this.state.fields.slice(endSiblingIndex, targetIndex - 1),
+            ...this.state.fields.slice(endSiblingIndex, targetIndex),
             ...this.state.fields.slice(targetIndex + 1)
           ]
           this.setState({

@@ -8,7 +8,7 @@ import 'css/index/picture/picture.scss'
 import PictureLists from './PictureList.jsx'
 // import AddLogger from './AddLogger'
 import RxDragDrop from './RxDragDrop'
-
+import { findSeasonLists} from 'utils/Api'
 import add from 'images/index/picture/add.png'
 
 class JobLogging extends Component {
@@ -17,10 +17,22 @@ class JobLogging extends Component {
     this.state = {
       imgs: [],
       logger: false,
-      log: {}
+      log: {},
+      season: ''
     }
   }
-  componentDidMount() {  
+  componentDidMount() { 
+    const {feature: {feature}} = this.props
+    const season_id = feature.get('season_id')
+    findSeasonLists()
+      .then(e => e.data)
+      .then(data => {
+        if (data.msg === '200') {
+          this.setState({
+            season: data.result.filter(s => season_id === s.id)[0].name
+          })
+        }
+      })
     this.jobLogging && this.jobLogging.scrollIntoView(true)
     // 
     //用firefox变量表示火狐代理
@@ -85,7 +97,7 @@ class JobLogging extends Component {
       return (
         show ? <div className='pictureLists' ref={jobLogging => this.jobLogging = jobLogging}>
           <div className='title'>
-            <h3>{this.props.feature.feature.get('name')}：作业日志</h3>
+            <h3>{this.props.feature.feature.get('name')}：{this.state.season} 作业日志</h3>
             <div className='tools'>
               {/* <label htmlFor="addLogger" onClick={this.handleLogger}>添加日志</label> */}
               <img src={add} id='addLogger' onClick={this.handleLogger} alt="" />
