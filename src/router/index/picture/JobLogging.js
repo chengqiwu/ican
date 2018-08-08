@@ -56,8 +56,11 @@ class JobLogging extends Component {
     // firefox ? this.pictureLists.addEventListener('DOMMouseScroll', MouseWheel, false) : (this.pictureLists.onmousewheel = MouseWheel)
   }
   componentDidUpdate() {
-    this.jobLogging && this.jobLogging.scrollIntoView(true)
-      
+    const {feature: {feature}} = this.props
+    if (feature.getId()) {
+      this.jobLogging && this.jobLogging.scrollIntoView(true)
+
+    }
   }
   shouldComponentUpdate(nextProps) {
     const { feature } = nextProps.feature

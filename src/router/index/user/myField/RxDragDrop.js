@@ -31,7 +31,7 @@ class RxDragDrop extends Component {
 
     this.dd = this.mouseDown
       .filter(e => e.button !== 2)
-      .map(e => this.mouseMove.takeUntil(this.mouseUp))
+      .map(e => this.mouseMove.takeUntil(this.mouseUp.merge(this.mouseDown)))
       .concatAll().withLatestFrom(this.mouseDown, (move, down) => {
         const userAgent = navigator.userAgent
         if (userAgent.indexOf('Firefox') > -1) {
@@ -58,7 +58,7 @@ class RxDragDrop extends Component {
 
        
     this.dd2 = this.mouseDown2
-      .map(e => this.mouseMove2.takeUntil(this.mouseUp2))
+      .map(e => this.mouseMove2.takeUntil(this.mouseUp2.merge(this.mouseDown2)))
       .concatAll().withLatestFrom(this.mouseDown2, (move, down) => {
         const userAgent = navigator.userAgent
         console.log(move, down)

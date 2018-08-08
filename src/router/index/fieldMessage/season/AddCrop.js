@@ -108,7 +108,8 @@ class AddCrop extends Component {
             plantingType = '',
             maxProduction = '',
             minProduction = '',
-            fertilizers = []
+            fertilizers = [],
+            sowingDate
           } = crops
           if (!crop.list) {
             crop.list = []
@@ -137,6 +138,7 @@ class AddCrop extends Component {
             maxProduction,
             minProduction,
             fertilizers,
+            sowingDate: moment(new Date(sowingDate)),
           }
           this.setState({
             store,

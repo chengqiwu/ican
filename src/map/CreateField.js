@@ -230,7 +230,7 @@ class CreateField extends Component {
             
             <div style={{display: 'flex', justifyContent: 'space-between'}}>
               <button className='button blue' disabled={this.state.saving}>{!this.state.saving ? '保存' : '保存中'}</button>                   
-              {!this.state.saving && <button className='button blue' ref={clear => this.clear = clear} >清除</button>}
+              {!this.state.saving && <button type='button' className='button blue' ref={clear => this.clear = clear} >清除</button>}
             </div>
           </form>
         </div>

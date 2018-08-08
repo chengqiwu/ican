@@ -14,9 +14,10 @@ class Message extends Component {
     this.showMess && this.showMess.scrollIntoView(true)
   }
   componentDidUpdate() {
-
-    this.mess && this.mess.scrollIntoView(true)
-    this.showMess && this.showMess.scrollIntoView(true)
+    const { feature: { feature } } = this.props
+    if (feature.getId()) {
+      this.showMess && this.showMess.scrollIntoView(true)
+    }
 
   }
   closer = (e) => {
