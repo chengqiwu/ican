@@ -72,10 +72,10 @@ a {
   }
   .content {
     flex-grow: 1;
-    display: flex;
-    background-color: #eee;
+    display: flex; // background-color: #eee;
     padding: 10px;
     flex-wrap: wrap;
+    background: #eee;
     height: 180px;
     .lists {
       height: 160px;
@@ -212,18 +212,22 @@ a {
           position: relative;
           background-color: #d6d6d6;
           cursor: pointer;
-          a {
+          .trash {
             position: absolute;
             right: 0;
-            top: 0;
-            color: #ff2d2d;
+            width: 270px;
+            padding: 5px;
+            padding-top: 10px;
+            text-align: right;
+            bottom: 20px; // color: #ff2d2d;
+            background-color: rgba(00, 00, 00, 0.3);
             display: none;
-            &::after {
-              content: '✖';
-            }
+            // &::after {
+            //   content: '✖';
+            // }
           }
           &:hover {
-            a {
+            .trash {
               display: block;
             }
           }
@@ -255,22 +259,32 @@ a {
     background: #fff;
     margin: 7px;
     width: 300px;
-    height: 70px;
+    position: relative;
+    height: 90px;
     padding: 10px;
     &:hover {
       .relative {
         display: block;
       }
     }
-    .relative {
-      display: none;
-      position: relative;
-      .absolute {
+    .delete {
+      position: absolute;
+      width: 300px;
+      left: 0px;
+      bottom: 0px;
+      height: 20px;
+      background-color: rgba(72, 144, 251, 0.3);
+      a::after {
+        content: '✖';
         position: absolute;
-        right: -10px;
-        top: -12px;
-        >img {
-          cursor: pointer;
+        font-size: 14px;
+        right: 4px;
+        bottom: 0px;
+        cursor: pointer;
+      }
+      a:hover {
+        &:after{
+          color: #ff0000;
         }
       }
     }

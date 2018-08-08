@@ -391,7 +391,7 @@ class AddCrop extends Component {
                 
                 }></Select>
             </div>
-            <div className='input-group' style={{marginLeft: '23px'}}>
+            <div className='input-group'>
               <label htmlFor="">品种</label>
               <CreatableSelect
                 className='react-select1'
@@ -414,7 +414,7 @@ class AddCrop extends Component {
                 value={value}
               />
             </div>
-            <div className='input-group'>
+            <div className='input-group' style={{marginLeft: '5px'}}>
               <label htmlFor="">当前状态</label>
               <Select
                 classNamePrefix='react-select'

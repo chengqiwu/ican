@@ -14,7 +14,7 @@ class RxDragDrop extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      left: '85%',
+      left: 'calc(100% - 300px)',
       top: '20%',
       width: '240px',
       height: '435px',
@@ -30,6 +30,7 @@ class RxDragDrop extends Component {
 
 
     this.dd = this.mouseDown
+      .filter(e => e.button !== 2)
       .map(e => this.mouseMove.takeUntil(this.mouseUp))
       .concatAll().withLatestFrom(this.mouseDown, (move, down) => {
         const userAgent = navigator.userAgent

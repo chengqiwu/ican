@@ -69,6 +69,7 @@ class FarmLand extends Component {
   submitHandler = e => {
     e.preventDefault()
     const { feature: { feature } } = this.props
+    const {map: {map}} = this.props
     const { id, name, status } = this.state
     const fd = new FormData()
     const farmLandInfo = {
@@ -122,8 +123,9 @@ class FarmLand extends Component {
           />
         </div>
         <div className="input-group">
-          <label htmlFor="framLandStatus"></label>
+          <label htmlFor="framLandStatus">田地状态：</label>
           <Select
+            placeholder='请选择'
             isDisabled={!this.state.edit}
             classNamePrefix='select'
             onChange={this.selectChange}
@@ -142,10 +144,12 @@ class FarmLand extends Component {
   }
 }
 FarmLand.propTypes = {
+  map: PropTypes.object,
   feature: PropTypes.object
 }
 const mapStateToProps = function (state) {
   return {
+    map: state.map,
     feature: state.feature
   }
 }

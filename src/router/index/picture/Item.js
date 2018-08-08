@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import trash from 'images/index/picture/trash.png'
 import PropTypes from 'prop-types'
 class Item extends Component {
   constructor() {
@@ -42,7 +43,10 @@ class Item extends Component {
       <div>
         <div className='logger-box preview' style={{ backgroundImage: `url(${url})` }}>
           {/* <img src={file.preview} alt="" /> */}
-          <a href="#" data-index={this.props.id} onClick={this.props.delete}></a>
+          {/* <a href="#" data-index={this.props.id} onClick={this.props.delete}></a> */}
+          <div className='trash'>
+            <img src={trash} alt="" data-index={this.props.id} onClick={this.props.delete}/>
+          </div>
         </div>
         <input type="text" 
           ref={input => this.input = input}

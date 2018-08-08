@@ -4,7 +4,7 @@ import moment from 'moment'
 import classnames from 'classnames'
 import camera from 'images/index/picture/camera.png'
 import edit from 'images/index/picture/edit.png'
-import delete1 from 'images/index/picture/delete.png'
+import delete1 from 'images/index/picture/trash.png'
 
 function getCss(curEle, attr){
   var val = null, reg = null
@@ -45,20 +45,14 @@ class List extends Component {
       after
     })
   }
-  deleteLandLog = () => {
+  deleteLandLog = (e) => {
+    e.preventDefault()
     this.props.delete(this.props.list.id)
   }
   render() {
     const {list} = this.props
-        
     return (
       <div className='listItems'>
-        {/* {this.state.show && <RxDragDrop logger={list} destory={this.destory}/>} */}
-        <div className='relative'>
-          <div className='absolute'>
-            <img src={delete1} alt="" onClick={this.deleteLandLog}/>
-          </div>
-        </div>
         <div className='item'>
           <div>
             <div className='date'>
@@ -76,6 +70,9 @@ class List extends Component {
             </div>
           }
                    
+        </div>
+        <div className='delete'>
+          <a href='#' onClick={this.deleteLandLog}></a>
         </div>
       </div>
     )

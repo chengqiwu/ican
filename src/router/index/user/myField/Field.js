@@ -1,7 +1,8 @@
-import React,{ Component } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { farmLandLists, farmLandUpdateList} from 'utils/Api'
+import { farmLandLists, farmLandUpdateList } from 'utils/Api'
 import fly from 'images/feature/fly.png'
+import drag from 'images/feature/dragula.png'
 import Dragula from 'react-dragula'
 import { connect } from 'react-redux'
 import ol from 'openlayers'
@@ -43,7 +44,7 @@ class Field extends Component {
       let options = {}
       this.drake = Dragula([componentBackingInstance], options)
       this.drake.on('drop', (el, target, source, sibling) => {
-        
+
         const targetIndex = this.state.fields.findIndex(v => v.id === el.getAttribute('v-id'))
         const endSiblingIndex = this.state.fields.findIndex(v => sibling && v.id === sibling.getAttribute('v-id'))
         console.log(targetIndex, endSiblingIndex)
@@ -100,11 +101,14 @@ class Field extends Component {
   render() {
     return <ul ref={this.dragulaDecorator}>
       {
-        this.state.fields.map(field => 
+        this.state.fields.map(field =>
           <li className='featureLi' v-id={field.id} key={field.id}
             onClick={this.flyTo.bind(this, field)}>
-            <span>{field.name}</span>
-            <img src={fly} alt='定位'/>
+            <div className='drag'>
+              <img src={drag} alt="" />
+              <span>{field.name}</span>
+            </div>
+            <img src={fly} alt='定位' />
           </li>)
       }
     </ul>
@@ -113,7 +117,7 @@ class Field extends Component {
 Field.propTypes = {
   map: PropTypes.object
 }
-const mapStateToProps = function(state) {
+const mapStateToProps = function (state) {
   return {
     map: state.map
   }

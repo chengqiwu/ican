@@ -33,7 +33,6 @@ class Popup extends Component {
     }
     render() {
       const props = this.props
-      console.log(props)
       return (
         <div className='popup' ref={popup => this.popup = popup}>
           <table>

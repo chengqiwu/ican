@@ -146,17 +146,26 @@ a {
 }
 
 .featureLi {
-  padding: 10px 20px;
+  padding: 10px 8px;
   border-bottom: 1px solid #ddd; // list-style: circle inside !important;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  >span {
-    width: 0px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    flex-grow: 1;
+  .drag {
+    display: flex;
+    align-items: center;
+    flex-grow: 1; 
+    span {
+      width: 0px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex-grow: 1;
+      margin-left: 10px;
+    }
+  }
+  > img {
+    width: 12px;
   }
   &:hover {
     background-color: #cbdde2;

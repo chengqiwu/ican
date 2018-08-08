@@ -65,7 +65,8 @@ class Phone extends Component {
             this.subcription = observable.subscribe(x => {
               if (x === countdown) {
                 this.setState({
-                  pending: false
+                  pending: false,
+                  countdown: 60
                 })
                 this.subcription.unsubscribe()
                 return

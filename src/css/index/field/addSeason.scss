@@ -57,6 +57,7 @@
      }
      .panelBody {
        transition: all 0.5s ease;
+       background-color: #fff;
        padding: 20px;
        &.hide {
          height: 0;

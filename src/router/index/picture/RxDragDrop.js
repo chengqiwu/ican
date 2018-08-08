@@ -19,9 +19,8 @@ class RxDragDrop extends Component {
     this.mouseDown = Rx.Observable.fromEvent(this.title, 'mousedown')
     this.mouseUp = Rx.Observable.fromEvent(document, 'mouseup')
     this.mouseMove = Rx.Observable.fromEvent(document, 'mousemove')
-
-
     this.dd = this.mouseDown
+      .filter(e => e.button !== 2)
       .map(e => this.mouseMove.takeUntil(this.mouseUp))
       .concatAll().withLatestFrom(this.mouseDown, (move, down) => {
         const userAgent = navigator.userAgent
@@ -39,7 +38,6 @@ class RxDragDrop extends Component {
                 
       })
       .subscribe(({ x, y }) => {
-        console.log(345)
         this.drapDrop.style.left = x + 'px'
         this.drapDrop.style.top = y + 'px'
       })

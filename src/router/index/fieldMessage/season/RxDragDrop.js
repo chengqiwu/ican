@@ -24,6 +24,7 @@ class RxDragDrop extends Component {
 
         
     this.dd = this.mouseDown
+      .filter(e => e.button !== 2)
       .map(e => this.mouseMove.takeUntil(this.mouseUp))
       .concatAll().withLatestFrom(this.mouseDown, (move, down) => {
         const userAgent = navigator.userAgent

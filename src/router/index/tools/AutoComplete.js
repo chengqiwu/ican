@@ -63,34 +63,7 @@ class AutoComplete extends Component {
       var reg_lngLat = /^[\-\+]?(((\d|([1-9]\d)|(1[0-7]\d))(\.\d*)?)|(180))[, ，]\s*[\-\+]?(((\d|([1-8]\d))(\.\d*)?)|(90))$/
       var reg_latLng = /^[\-\+]?(((\d|([1-8]\d))(\.\d*)?)|(90))[, ，]\s*[\-\+]?(((\d|([1-9]\d)|(1[0-7]\d))(\.\d*)?)|(180))$/
 
-      if (value.match(reg_lngLat)) {
-        value = value.replace(/\s+/g, ' ')
-        let result = value.split(' ')
-        console.log(result)
-        if (result.length === 2) {
-          return ([
-            Number.parseFloat(result[0]),
-            Number.parseFloat(result[1])
-          ])
-        } else {
-          result = value.split(',')
-          if (result.length == 2) {
-            return ([
-              Number.parseFloat(result[0]),
-              Number.parseFloat(result[1])
-            ])
-          } else {
-            result = value.split('，')
-            if (result.length == 2) {
-              return ([
-                Number.parseFloat(result[0]),
-                Number.parseFloat(result[1])
-              ])
-            }
-          }
-        }
-
-      }
+      
       if (value.match(reg_latLng)) {
         value = value.replace(/\s+/g, ' ')
         let result = value.split(' ')
@@ -105,6 +78,34 @@ class AutoComplete extends Component {
             return ([
               Number.parseFloat(result[1]),
               Number.parseFloat(result[0])
+            ])
+          } else {
+            result = value.split('，')
+            if (result.length == 2) {
+              return ([
+                Number.parseFloat(result[0]),
+                Number.parseFloat(result[1])
+              ])
+            }
+          }
+        }
+
+      }
+
+      if (value.match(reg_lngLat)) {
+        value = value.replace(/\s+/g, ' ')
+        let result = value.split(' ')
+        if (result.length === 2) {
+          return ([
+            Number.parseFloat(result[0]),
+            Number.parseFloat(result[1])
+          ])
+        } else {
+          result = value.split(',')
+          if (result.length == 2) {
+            return ([
+              Number.parseFloat(result[0]),
+              Number.parseFloat(result[1])
             ])
           } else {
             result = value.split('，')
@@ -222,7 +223,7 @@ class AutoComplete extends Component {
             onFocus={this.showItems} 
             value={this.state.inputValue}
                     
-            placeholder='请输入坐标(纬度，经度)或地名' />
+            placeholder='纬度，经度或地名' />
           <button style={{ border: 'none' }}>
             <img src={search} alt="" className='btnHover' />
           </button>
