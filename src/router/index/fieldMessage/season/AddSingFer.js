@@ -325,41 +325,41 @@ class AddSingFer extends Component {
               </td>
               
               <td>
-                <input type="number" disabled={disabled} name='nitrogen' value={t.nitrogen} onChange={this.inputChange.bind(this, i)}/>
+                <input type="number" min="0.0" disabled={disabled} name='nitrogen' value={t.nitrogen} onChange={this.inputChange.bind(this, i)}/>
               </td>
               <td>
-                <input type="number" disabled={disabled} name='phosphorus' value={t.phosphorus} onChange={this.inputChange.bind(this, i)}/>
+                <input type="number" min="0.0" disabled={disabled} name='phosphorus' value={t.phosphorus} onChange={this.inputChange.bind(this, i)}/>
               </td>
               <td>
-                <input type="number" disabled={disabled} name='potassium' value={t.potassium} onChange={this.inputChange.bind(this, i)}/>
+                <input type="number" min="0.0" disabled={disabled} name='potassium' value={t.potassium} onChange={this.inputChange.bind(this, i)}/>
               </td>
               <td>
-                <input type="number" disabled={disabled} name='sulfur' value={t.sulfur} onChange={this.inputChange.bind(this, i)}/>
+                <input type="number" min="0.0" disabled={disabled} name='sulfur' value={t.sulfur} onChange={this.inputChange.bind(this, i)}/>
               </td>
               <td>
-                <input type="number" disabled={disabled} name='zinc' value={t.zinc} onChange={this.inputChange.bind(this, i)}/>
+                <input type="number" min="0.0" disabled={disabled} name='zinc' value={t.zinc} onChange={this.inputChange.bind(this, i)}/>
               </td>
               <td>
-                <input type="number" disabled={disabled} name='boron' value={t.boron} onChange={this.inputChange.bind(this, i)}/>
+                <input type="number" min="0.0" disabled={disabled} name='boron' value={t.boron} onChange={this.inputChange.bind(this, i)}/>
               </td>
               {
                 this.state.model === 1 && <td>
-                  <input type="number" disabled={disabled} name='magnesium' value={t.magnesium} onChange={this.inputChange.bind(this, i)}/>
+                  <input type="number" min="0.0" disabled={disabled} name='magnesium' value={t.magnesium} onChange={this.inputChange.bind(this, i)}/>
                 </td>
               }
               {
                 this.state.model === 1 && <td>
-                  <input type="number" disabled={disabled} name='copper' value={t.copper} onChange={this.inputChange.bind(this, i)}/>
+                  <input type="number" min="0.0" disabled={disabled} name='copper' value={t.copper} onChange={this.inputChange.bind(this, i)}/>
                 </td>
               }
               {
                 this.state.model === 1 && <td>
-                  <input type="number" disabled={disabled} name='iron' value={t.iron} onChange={this.inputChange.bind(this, i)}/>
+                  <input type="number" min="0.0" disabled={disabled} name='iron' value={t.iron} onChange={this.inputChange.bind(this, i)}/>
                 </td>
               }
               {
                 this.state.model === 1 && <td>
-                  <input type="number" disabled={disabled} name='manganese' value={t.manganese} onChange={this.inputChange.bind(this, i)}/>
+                  <input type="number" min="0.0" disabled={disabled} name='manganese' value={t.manganese} onChange={this.inputChange.bind(this, i)}/>
                 </td>
               }
               <td>
@@ -399,7 +399,7 @@ class AddSingFer extends Component {
                 </div>}
               </td>
               <td>
-                <input type="number" disabled={disabled} name='dosage' value={t.dosage} onChange={this.inputChange.bind(this, i)} />
+                <input type="number" min="0.0" disabled={disabled} name='dosage' value={t.dosage} onChange={this.inputChange.bind(this, i)} />
               </td>
               <td>
                 <Select

@@ -4,7 +4,7 @@ import classNames from 'classnames'
 import { withRouter } from 'react-router-dom'
 import history from 'router/history'
 import { Blowfish } from 'javascript-blowfish'
-import { getVerifyCodeImage, verifyCode, userRegister } from 'utils/Api'
+import { verifyCode, userRegister } from 'utils/Api'
 import { codeUrl } from '../../url'
 
 if (!window.atob) {
@@ -241,7 +241,6 @@ class RegisterForm extends Component {
        
   }
   render() {
-    console.log(this.state.password)
     return (
       <div className='register-from center'>
         <form onSubmit={this.handleSubmit}>

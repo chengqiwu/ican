@@ -231,7 +231,11 @@ class AddSoil extends Component {
           const files = this.state[type]
           console.log(files, id)
           this.setState({
-            [type]: files.filter(file => file.key !== id)
+            [type]: files.filter(file => file.key !== id),
+            res: {
+              ...this.state.res,
+              profilePaths: this.state.res.profilePaths.filter(path => path.key !== id)
+            }
           })
         }
       })

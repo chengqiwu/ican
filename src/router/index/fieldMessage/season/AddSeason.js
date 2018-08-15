@@ -128,19 +128,18 @@ class AddSeason extends Component {
     }
   }
   update = () => {
-    // const { plantingSeason: { plaintSeason} } = this.props
-    // const fd = new FormData()
-    // fd.append('plantingSeasonId', plaintSeason.id)
-    // findPlantingSeasonCrops(fd)
-    //   .then(e => e.data)
-    //   .then(data => {
-    //     if (data.msg === '200') {
-    //       this.setState({
-    //         saved: true,
-    //         plantingSeasonCrops: data.result || []
-    //       })
-    //     }
-    //   })
+    const { plantingSeason: { plaintSeason} } = this.props
+    const fd = new FormData()
+    fd.append('plantingSeasonId', plaintSeason.id)
+    findPlantingSeasonCrops(fd)
+      .then(e => e.data)
+      .then(data => {
+        if (data.msg === '200') {
+          this.setState({
+            plantingSeasonCrops: data.result || []
+          })
+        }
+      })
     return findCriosAndVarietiesList()
       .then(e => e.data)
       .then(data => {

@@ -121,7 +121,7 @@ class AddLogger extends Component {
     const id = feature.getId().replace('tb_farmland.', '')
     const seasonId = feature.get('season_id')
     const fd = new FormData()
-    console.log(id, seasonId)
+
     fd.append('farmlandLogStr', JSON.stringify({
       seasonId,
       landId: id,
@@ -189,6 +189,19 @@ class AddLogger extends Component {
       })
   }
   successCallback() {
+    if (this.props.logger && this.props.logger.id) {
+      confirmAlert({
+        // title: 'Confirm to submit',
+        message: '修改成功',
+        buttons: [
+          {
+            label: '退出',
+            onClick: () => this.props.close()
+          }
+        ]
+      })
+      return
+    }
     confirmAlert({
       // title: 'Confirm to submit',
       message: '一条新的作业日志创建成功，要继续添加下一条日志吗？',

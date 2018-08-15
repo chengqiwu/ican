@@ -462,6 +462,7 @@ class AddCrop extends Component {
               <label htmlFor="">播种密度</label>
               <input 
                 type="number" 
+                min="0.0"
                 name='density'
                 disabled={!this.state.edit}
                 value={this.state.density} 
@@ -490,6 +491,7 @@ class AddCrop extends Component {
               <label htmlFor="">历史最高产量</label>
               <input 
                 type="number" 
+                min="0.0"
                 disabled={!this.state.edit}
                 name='maxProduction' 
                 value={this.state.maxProduction} 
@@ -499,6 +501,7 @@ class AddCrop extends Component {
               <label htmlFor="">历史最低产量</label>
               <input
                 type="number"
+                min="0.0"
                 disabled={!this.state.edit}
                 name='minProduction' 
                 value={this.state.minProduction} 

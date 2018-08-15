@@ -39,7 +39,7 @@ class Popup extends Component {
             <tbody>
               <tr>
                 <td rowSpan='2'>
-                  <img style={{marginRight: '5px'}} src={ status[Number.parseInt(props.growth_status)] } alt=""/>
+                  <img style={{marginRight: '5px'}} src={ status[Number.parseInt(props.growthStatus)] } alt=""/>
                   {/* <div>{status[Number.parseInt(props.growth_status)]}</div> */}
                 </td>
                 <td><h3>{props.name}</h3></td>

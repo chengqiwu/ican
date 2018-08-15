@@ -4,7 +4,7 @@ import { getUserInfo } from 'utils/Api.js'
 import ol from 'openlayers'
 import { connect } from 'react-redux'
 import { saveFeature, setFeature } from '_redux/actions/feature'
-import { setFieldMessage, showFieldMessage, startFieldMessage } from '_redux/actions/fieldMessage'
+import { showFieldMessage, startFieldMessage } from '_redux/actions/fieldMessage'
 import {showList} from '_redux/actions/picture'
 import { getArea } from 'utils/tools'
 import 'css/map/polygon.scss'
@@ -315,7 +315,7 @@ class Polygon extends Component {
           {/* {this.state.popupText.map(p => <Popup key={p.id} {...p} />)} */}
           {this.state.popupText && <Popup ref={child => this.child = child}
             name={feature.get('name')}
-            growth_status={'0'}
+            growthStatus={feature.get('growth_status')}
             map={this.props.map.map}
             coord={ol.extent.getCenter(feature.getGeometry().getExtent())}
             area={getArea(feature).acre + '亩'}

@@ -154,7 +154,7 @@ a {
   .drag {
     display: flex;
     align-items: center;
-    flex-grow: 1; 
+    flex-grow: 1;
     span {
       width: 0px;
       overflow: hidden;
@@ -164,7 +164,7 @@ a {
       margin-left: 10px;
     }
   }
-  > img {
+  >img {
     width: 12px;
   }
   &:hover {
@@ -197,4 +197,13 @@ a {
 
 .gu-mirro {
   cursor: all-scroll;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
 }

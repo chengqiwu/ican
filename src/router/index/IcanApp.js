@@ -13,7 +13,7 @@ import Header from './common/Header'
 import Baner from './common/Baner'
 import Openlayer from 'map/Openlayer'
 
-import FieldMessage from './fieldMessage/FieldMessage'
+// import FieldMessage from './fieldMessage/FieldMessage'
 import Appends from './Appends'
 
 import User from './user/User'
@@ -50,8 +50,8 @@ class IcanApp extends Component {
         <div>
           <Header />
           <Company />
-          <User />
           <Tools />
+          <User />
           <Openlayer />
           <RxDragDrop />
           <PlainingSeasonDragDrop/>

@@ -137,7 +137,7 @@ class CreateField extends Component {
           address: this.position.value,
           name: this.input.value,
           id: data.result,
-          growthStatus: 0
+          growthStatus: this.state.status
                     
         }) 
         this.props.setDefault()

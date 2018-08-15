@@ -133,6 +133,7 @@ class UserFeature extends Component {
     return <div>
       {feature && <Popup {...feature.getProperties()} ref={child => this.child = child}
         {...this.props}
+        growthStatus={feature.get('growth_status')}
         coord={ol.extent.getCenter(feature.getGeometry().getExtent())}
         area={getArea(feature).acre + '亩'}
         username={getUserInfo().username} />}
