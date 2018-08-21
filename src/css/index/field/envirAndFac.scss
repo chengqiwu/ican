@@ -1,6 +1,6 @@
 .farmland {
   padding: 10px;
-  height: 70px;
+  height: 60px;
   form {
     display: flex;
     align-items: center;
@@ -12,6 +12,7 @@
     }
     .button {
       color: #fff;
+      margin-left: 10px;
       background-color: #009cd1;
       &:hover {
         background-color: #147494
@@ -34,6 +35,15 @@
       background-color: #fff;
     }
   }
+  .flex-left-right {
+    flex-wrap: wrap;
+    .item {
+      flex-basis: 50%;
+      .select2 {
+        width: calc(100% - 120px);
+      }
+    }
+  }
   .content {
     margin-top: 20px;
     .item {
@@ -41,7 +51,7 @@
       align-items: center;
       margin-bottom: 10px;
       label {
-        width: 80px;
+        width: 60px;
         text-align: right;
         margin-right: 20px;
       }
@@ -54,10 +64,19 @@
         }
       }
       .select1 {
-        width: 300px;
+        width: calc(100% - 100px);
+        min-width: 150px;
+      }
+      .select1__control {
+        height: 30px;
+        min-height: 30px;
+      }
+      .select2__control {
+        height: 30px;
+        min-height: 30px;
       }
       .select {
-        width: calc(100% - 150px);
+        width: calc(100% - 120px);
       }
     }
     .fac {
@@ -82,7 +101,7 @@
     }
     .submit {
       display: flex; // justify-content: center;
-      padding-left: 100px;
+      padding-left: 80px;
       .save,
       .edit,
       .no-edit {

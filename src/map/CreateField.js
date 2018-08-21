@@ -62,10 +62,14 @@ class CreateField extends Component {
   }
   clearHandler(e) {
     e.preventDefault()
+    console.log(123)
     this.props.setDefault()
     this.props.sourceClear()
   }
   componentDidUpdate() {
+    if (!this.state.saving) {
+      !this.clear.onclick && (this.clear.onclick = this.clearHandler.bind(this))
+    }
     this.load()
     var geoc = new BMap.Geocoder()
     if (this.props.coord) {

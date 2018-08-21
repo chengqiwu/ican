@@ -319,31 +319,35 @@ class EnvirAndFac extends Component {
       </div>
       <div className='content'>
         <form onSubmit={this.submitHandle}>
-          <div className='item'>
-            <label>地势</label>
-            <div className='input-group'>
-              <input type="radio" name="topography" disabled={this.state.edit} value={0} checked={this.state.topography == 0} onChange={this.topoChange}/>
-              <label htmlFor="flat">平地</label>
+          <div className='flex-left-right'>
+            <div className='item'>
+              <label>地势</label>
+              <div className='input-group'>
+                <input type="radio" name="topography" disabled={this.state.edit} value={0} checked={this.state.topography == 0} onChange={this.topoChange}/>
+                <label htmlFor="flat">平地</label>
+              </div>
+              <div className='input-group'>
+                <input type="radio" name="topography" value={1} disabled={this.state.edit} checked={this.state.topography == 1} onChange={this.topoChange} />
+                <label htmlFor="sloping">坡地</label>
+              </div>
             </div>
-            <div className='input-group'>
-              <input type="radio" name="topography" value={1} disabled={this.state.edit} checked={this.state.topography == 1} onChange={this.topoChange} />
-              <label htmlFor="sloping">坡地</label>
+            <div className='item'>
+              <label>灌溉类型</label>
+              <Select
+                className='select1'
+                classNamePrefix='select1'
+                placeholder=''
+                isDisabled={this.state.edit}
+                noResultsText='无'
+                value={this.state.irrigation}
+                onChange={this.irrigationChange}
+                options={
+                  irrigationType
+                }>
+              </Select>
             </div>
           </div>
-          <div className='item'>
-            <label>灌溉类型</label>
-            <Select
-              className='select1'
-              placeholder=''
-              isDisabled={this.state.edit}
-              noResultsText='无'
-              value={this.state.irrigation}
-              onChange={this.irrigationChange}
-              options={
-                irrigationType
-              }>
-            </Select>
-          </div>
+         
           <div className='item fac'>
             <label>现有设施</label>
             <div className='facs'>
@@ -357,40 +361,44 @@ class EnvirAndFac extends Component {
               }
             </div>
           </div>
-          <div className='item'>
-            <label>病害</label>
-            <Select
-              className='select'
-              isMulti
-              isDisabled={this.state.edit}
-              placeholder=''
-              noResultsText='无'
-              onChange={this.diseaseChange}
-              value={this.state.disease}
-              maxMenuHeight={'200'}
-              options={
-                this.state.diseases
-              }>
-            </Select>
-            <span>（多选）</span>
-          </div>
-          <div className='item'>
-            <label>虫害</label>
-            <Select
-              className='select'
-              name='commonDisease'
-              isMulti
-              isDisabled={this.state.edit}
-              placeholder=''
-              noResultsText='无'
-              value={this.state.pest}
-              onChange={this.pestChange}
-              maxMenuHeight={'200'}
-              options={
-                this.state.pests
-              }>
-            </Select>
-            <span>（多选）</span>
+          <div className='flex-left-right'>
+            <div className='item'>
+              <label>病害</label>
+              <Select
+                className='select2'
+                classNamePrefix='select2'
+                isMulti
+                isDisabled={this.state.edit}
+                placeholder=''
+                noResultsText='无'
+                onChange={this.diseaseChange}
+                value={this.state.disease}
+                maxMenuHeight={'200'}
+                options={
+                  this.state.diseases
+                }>
+              </Select>
+              <span>（多选）</span>
+            </div>
+            <div className='item'>
+              <label>虫害</label>
+              <Select
+                className='select2'
+                classNamePrefix='select2'
+                name='commonDisease'
+                isMulti
+                isDisabled={this.state.edit}
+                placeholder=''
+                noResultsText='无'
+                value={this.state.pest}
+                onChange={this.pestChange}
+                maxMenuHeight={'200'}
+                options={
+                  this.state.pests
+                }>
+              </Select>
+              <span>（多选）</span>
+            </div>
           </div>
           <div className='item'>
             <label>自然灾害</label>

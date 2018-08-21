@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { confirmAlert } from 'react-confirm-alert' // Import
+import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 import { getUserInfo } from 'utils/Api.js'
 import ol from 'openlayers'
 import { connect } from 'react-redux'
@@ -103,8 +105,8 @@ class Polygon extends Component {
           stroke: new ol.style.Stroke({
             lineCap: 'butt',
             lineJoin: 'miter',
-            color: [107, 98, 0, 1.0],
-            width: 3
+            color: [255, 200, 0, 1.0],
+            width: 4
           })
         })
       }
@@ -145,9 +147,22 @@ class Polygon extends Component {
       var feature = evt.feature
 
       new Promise((resolve, reject) => {
-        if (Number(getArea(feature).acre) > 10000) {
-          alert('您圈选的田地面积不符合实际情况，请重新圈选')
-          resolve('')
+        if (Number(getArea(feature).acre) > 20000) {
+          confirmAlert({
+            // title: 'Confirm to submit',
+            message: `该田地面积过大（${Number(getArea(feature).acre)} 亩），请确认与事实相符。`,
+            buttons: [
+              {
+                label: '继续',
+                onClick: () => reject(this.props.removeDraw)
+              },
+              {
+                label: '退出',
+                onClick: () => resolve('')
+              }
+            ]
+          })
+          
         } else {
           reject(this.props.removeDraw)
         }

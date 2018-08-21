@@ -137,7 +137,7 @@ class FarmLand extends Component {
 
         
         {!this.state.edit ? <div><button type='button' className='button edit' onClick={this.activeEdit}>编辑</button></div>
-          : <div><button className="button submit">保存</button><button className="button submit" onClick={this.abandon}>放弃</button></div>}
+          : <div><button className="button submit">保存</button><button type='button' className="button submit" onClick={this.abandon}>放弃</button></div>}
       </form>
       
     </div>

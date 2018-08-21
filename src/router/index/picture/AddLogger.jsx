@@ -203,7 +203,6 @@ class AddLogger extends Component {
       return
     }
     confirmAlert({
-      // title: 'Confirm to submit',
       message: '一条新的作业日志创建成功，要继续添加下一条日志吗？',
       buttons: [
         {
@@ -274,6 +273,25 @@ class AddLogger extends Component {
       showLoggerImg: !this.state.showLoggerImg
     })
   }
+  deleteLandLog = (e) => {
+    confirmAlert({
+      message: '确认删除？',
+      buttons: [
+        {
+          label: '确认',
+          onClick: () => {
+            this.props.delete(this.props.logger.id)
+            this.props.close()
+          }
+        },
+        {
+          label: '取消',
+          onClick: () => {}
+        }
+      ]
+    })
+    
+  }
   render() {
     return (
       // }
@@ -335,6 +353,9 @@ class AddLogger extends Component {
           <div className='submit'>
             <input type="submit" value={this.state.submiting ? '保存中...' : '保存'} disabled={this.state.submiting} />
             {/* <input type="submit" value={'删除'}/> */}
+            {this.props.logger && 
+              this.props.logger.id && 
+              <button type='button' className='button delete' onClick={this.deleteLandLog}>删除</button>}
           </div>
         </form>
 
@@ -346,7 +367,8 @@ AddLogger.propTypes = {
   close: PropTypes.func,
   updateLists: PropTypes.func,
   log: PropTypes.object,
-  logger: PropTypes.object
+  logger: PropTypes.object,
+  delete: PropTypes.func
 }
 const mapStateToProps = function (state) {
   return {

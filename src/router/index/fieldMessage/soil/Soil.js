@@ -33,7 +33,11 @@ class Soil extends Component {
     findsoilLandList(fd)
       .then(e => e.data)
       .then(data => {
-        if (data.msg === '200' && data.result) {
+        if (data.msg === '200') {
+          if (!data.result) {
+            this.addSoilLand()
+            return
+          }
           this.setState({
             soilLands: data.result
           })

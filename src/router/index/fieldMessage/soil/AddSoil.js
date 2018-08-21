@@ -258,24 +258,26 @@ class AddSoil extends Component {
         })
       }>
         <div className='items'>
-          <div className='item'>
-            <label>土壤类型</label>
-            <Select
-              classNamePrefix='react-select'
-              placeholder=''
-              isDisabled={!this.state.edit}
-              noResultsText='无'
-              onChange={this.soilChange}
-              value={this.state.soilType}
-              noOptionsMessage={() => {return '无选项'}}
-              options={
-                this.props.soilType
-              }>
-            </Select>  
-          </div>
-          <div className='item'>
-            <label>酸碱度</label>
-            <input type="text" value={this.state.ph} disabled={!this.state.edit} onChange={this.inputChange} name='ph'/>
+          <div className='flex-left-right'>
+            <div className='item'>
+              <label>土壤类型</label>
+              <Select
+                classNamePrefix='react-select'
+                placeholder=''
+                isDisabled={!this.state.edit}
+                noResultsText='无'
+                onChange={this.soilChange}
+                value={this.state.soilType}
+                noOptionsMessage={() => {return '无选项'}}
+                options={
+                  this.props.soilType
+                }>
+              </Select>  
+            </div>
+            <div className='item'>
+              <label>酸碱度</label>
+              <input type="text" value={this.state.ph} disabled={!this.state.edit} onChange={this.inputChange} name='ph'/>
+            </div>
           </div>
           <div className='item'>
             <label>有机质范围</label>

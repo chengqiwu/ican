@@ -5,7 +5,10 @@
   padding: 5px; // justify-content: space-between;
   >div {
     margin: 5px;
-    flex-basis: 48.9%;
+    width: 65%;
+  }
+  >.soil {
+    width: 33%;
   }
 }
 
@@ -197,8 +200,11 @@
   }
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1024px) {
   .message>div {
+    flex-basis: 99%;
+  }
+  .message>.soil {
     flex-basis: 99%;
   }
 }

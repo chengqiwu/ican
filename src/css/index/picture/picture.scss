@@ -76,9 +76,9 @@ a {
     padding: 10px;
     flex-wrap: wrap;
     background: #eee;
-    height: 180px;
+    height: 270px;
     .lists {
-      height: 160px;
+      height: 255px;
       overflow: auto;
       >div {
         width: 100%;
@@ -166,14 +166,19 @@ a {
           display: flex;
           justify-content: center;
           margin: 15px 0;
-          input {
+          input,
+          .delete {
             color: #fff;
-            width: 100px;
+            width: 80px;
             height: 40px;
             background-image: linear-gradient(to top, #3478f5, #6fa2ff);
             box-shadow: -0.9px 0.5px 2px 0 rgba(15, 68, 165, 0.35);
             border-radius: 5px;
             cursor: pointer;
+            margin: 0 5px;
+          }
+          .delete {
+            background-image: linear-gradient(to top, #ff0000, #f96a6a);
           }
         }
       }
@@ -221,8 +226,7 @@ a {
             text-align: right;
             bottom: 20px; // color: #ff2d2d;
             background-color: rgba(00, 00, 00, 0.3);
-            display: none;
-            // &::after {
+            display: none; // &::after {
             //   content: '✖';
             // }
           }
@@ -257,10 +261,10 @@ a {
   flex-wrap: wrap;
   .listItems {
     background: #fff;
-    margin: 7px;
-    width: 300px;
+    margin: 5px;
+    width: 290px;
     position: relative;
-    height: 90px;
+    height: 75px;
     padding: 10px;
     &:hover {
       .relative {
@@ -283,7 +287,7 @@ a {
         cursor: pointer;
       }
       a:hover {
-        &:after{
+        &:after {
           color: #ff0000;
         }
       }

@@ -53,8 +53,8 @@ class UserFeature extends Component {
           stroke: new ol.style.Stroke({
             lineCap: 'butt',
             lineJoin: 'miter',
-            color: [107, 98, 0, 1.0],
-            width: 3
+            color: [255, 200, 0, 1.0],
+            width: 4
           })
         })
       }

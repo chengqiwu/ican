@@ -9,6 +9,9 @@ $fontFamily: MicrosoftYaHei;
   flex-shrink: 0;
   font-size: 12px !important;
 }
+button,input[type=submit] {
+  border: none;
+}
 
 img {
   user-select: none !important;

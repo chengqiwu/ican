@@ -20,7 +20,7 @@ class Field extends Component {
       .then(e => e.data)
       .then(data => {
         this.setState({
-          fields: data.result
+          fields: data.result || []
         })
       })
   }

@@ -45,10 +45,10 @@ class List extends Component {
       after
     })
   }
-  deleteLandLog = (e) => {
-    e.preventDefault()
-    this.props.delete(this.props.list.id)
-  }
+  // deleteLandLog = (e) => {
+  //   e.preventDefault()
+  //   this.props.delete(this.props.list.id)
+  // }
   render() {
     const {list} = this.props
     return (
@@ -71,9 +71,9 @@ class List extends Component {
           }
                    
         </div>
-        <div className='delete'>
+        {/* <div className='delete'>
           <a href='#' onClick={this.deleteLandLog}></a>
-        </div>
+        </div> */}
       </div>
     )
   }
