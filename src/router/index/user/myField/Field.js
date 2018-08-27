@@ -22,6 +22,8 @@ class Field extends Component {
         this.setState({
           fields: data.result || []
         })
+      }).catch(error => {
+        
       })
   }
   flyTo = (field) => {
@@ -99,6 +101,7 @@ class Field extends Component {
     }
   }
   render() {
+    console.log(this.state.fields)
     return <ul ref={this.dragulaDecorator}>
       {
         this.state.fields.map(field =>

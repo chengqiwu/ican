@@ -7,6 +7,7 @@ $bg: url('../../images/common/bg2.jpg');
     $full);
     @include background-norepeat-cover;
     @extend .flex-top-column-bottom;
+    flex-wrap: nowrap;
     // padding: 20px;
     background-image: $bg;
     background-position: 50%;
@@ -15,11 +16,14 @@ $bg: url('../../images/common/bg2.jpg');
     padding: 20px;
     @extend .flex-left-right;
     align-items: flex-start;
+    flex-wrap: nowrap;
 }
 .register-content {
     min-width: 500px;
     max-width: 1000px;
-    @include custom-width-height(52%, 600px);
+    width: 52%;
+    max-height: 600px;
+    min-height: 520px;
     background-color: #efefef;
     border-radius: $border-radius;
 }

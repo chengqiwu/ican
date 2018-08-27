@@ -342,3 +342,11 @@ export function farmLandLists () {
 export function validatePassword(password) {
   return axios.post(`${url}/api/user/validatePassword?token=${getToken()}`, password)
 }
+// 	api/plantingSeasonCropsFertilizer/save
+export function fertilizerSave(fertilizerStr) {
+  return axios.post(`${url}/api/plantingSeasonCropsFertilizer/save?token=${getToken()}`, fertilizerStr)
+}
+// 	api/plantingSeasonCropsFertilizer/get
+export function getFertilizer(id) {
+  return axios.post(`${url}/api/plantingSeasonCropsFertilizer/get?token=${getToken()}`, id)
+}

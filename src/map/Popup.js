@@ -22,7 +22,7 @@ class Popup extends Component {
 
     props.map.getView().on('change:resolution', (e) => {
       const zoom = props.map.getView().getZoom()
-      if (zoom >10) {
+      if (zoom >12) {
       } else {
         this.setPosition(undefined)
       }

@@ -243,18 +243,18 @@ class AddSoil extends Component {
   }
   render() {
     return <div className='add-soil'>
-      <div
+      {/* <div
         className={
           classnames({
             collapse: true,
             borderRadius: this.state.collapsed
           })
         }
-        onClick={this.collapsed}>{!this.state.collapsed ? '展开列表' : '折叠列表'}</div>
+        onClick={this.collapsed}>{!this.state.collapsed ? '展开列表' : '折叠列表'}</div> */}
       <form onSubmit={this.submitHandler} className={
         classnames({
           panelBody: true,
-          hide: !this.state.collapsed
+          // hide: !this.state.collapsed
         })
       }>
         <div className='items'>

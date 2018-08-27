@@ -49,7 +49,7 @@ class Service extends Component {
     return (
       <div className='warp-box'>
         <span className=''>
-                    精禾正在服务全球
+                    精禾服务全球
         </span>
         <div className='sprice'>
           <label>{Math.round(this.state.area)}</label>

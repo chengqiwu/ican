@@ -143,12 +143,11 @@ class CreateField extends Component {
           id: data.result,
           growthStatus: this.state.status
                     
-        }) 
+        })
         this.props.setDefault()
         this.props.drawText()
         this.input.value = ''
-       
-                
+        this.props.refresh(this.props.feature.feature)
       } else if (data.msg === '209') {
         this.input.value = ''
         this.props.setDefault()  
@@ -255,18 +254,24 @@ CreateField.propTypes = {
   feature: PropTypes.object,
   setDefault: PropTypes.func,
   setInitial: PropTypes.func,
-  sourceClear: PropTypes.func
+  sourceClear: PropTypes.func,
+  source: PropTypes.object,
+  refresh: PropTypes.func
 }
 const mapStateToProps = (state) => {
   return {
     map: state.map,
-    feature: state.feature
+    feature: state.feature,
+    source: state.source
   }
 }
 const mapDispathToProps = (dispatch) => {
   return {
     setFeature: (feature) => {
       dispatch(setFeature(feature))
+    },
+    refresh: (feature) => {
+      dispatch({ type: 'refresh',  feature})
     }
   }
 }

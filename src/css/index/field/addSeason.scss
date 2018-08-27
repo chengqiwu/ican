@@ -1,5 +1,6 @@
  .add-season {
    padding: 20px;
+   width: 860px;
    >form {
      padding-left: 11px;
    }
@@ -43,6 +44,7 @@
      margin-top: 20px;
      background-color: #eee;
      border-radius: 5px;
+     background-color: #feffe1;
      .collapse {
        cursor: pointer;
        padding: 10px;
@@ -55,29 +57,132 @@
          border-radius: 5px 5px 0 0;
        }
      }
+     form {
+       //  background-color: #fff;
+       padding: 20px 15px;
+       position: relative;
+     }
      .panelBody {
        transition: all 0.5s ease;
-       background-color: #fff;
-       padding: 20px;
+       display: flex;
        &.hide {
          height: 0;
          padding: 0 20px;
          overflow: hidden;
        }
        .action {
-         margin-top: 10px;
+          margin-top: 10px;
+          
        }
      }
      .warp {
-       display: flex;
-       flex-wrap: wrap;
+       
+       //  display: flex;
+       //  flex-wrap: wrap;
+       width: 240px;
+       height: 245px;
+       margin: 0 10px;
+       border-radius: 5px; //  &.crop {
+       //    background-color: #fcffe3;
+       //  }
+       //  &.planting {
+       //    background-color: #60dda8;
+       //  }
+       .warp-title {
+         display: none;
+         padding: 2px 5px;
+         background-color: rgba(00, 00, 00, 0.1);
+         border-radius: 5px 5px 0 0;
+       }
+       .warp-content {
+          padding: 0 10px;
+          // padding-top: 12px;
+          height: 245px;
+          background: url('../../../images/index/crop/ceshi.png');
+          .button {
+            color: #fff;
+            background-color: #0b77f0;
+            margin-top: 4px;
+          }
+          ul {
+            li  {
+              height: 31px;
+              padding: 2px 0;
+              div {
+                height: 27px;
+                display: flex;
+                align-items: center;
+                padding: 5px;
+
+                width: 220px;
+                justify-content: space-between;
+                background-color: #fff;
+                button {
+                  height: 13px;
+                  padding: 0;
+                  border-radius: 0px;
+                  color: unset;
+                  background-color: unset;
+                }
+              }
+            }
+          }
+          .input-group {
+           display: flex;
+           align-items: center;
+           height: 31px;
+           margin: 0;
+           .custom-select__control {
+              width: 150px;
+             border: none;
+             outline: none !important;
+             box-shadow: none;
+             height: 20px;
+             min-height: 20px;
+             background-color: #fff;
+            //  border-bottom: 1px solid #ccc;
+             border-radius: 0px;
+             .custom-select__single-value {
+              max-width: unset;
+             }
+             .custom-select__indicator-separator, .custom-select__clear-indicator {
+               display: none;
+              
+             }
+           }
+           label {
+             width: 60px;
+             display: inline-block;
+             text-align: left;
+           }
+           input {
+             border: none;
+             outline: none;
+            //  border-bottom: 1px solid #ccc;
+                 width: 150px;
+             padding-left: 10px;
+            //  text-align: center; // &:-webkit-autofill {
+             //   background-color: #fff !important;
+             // }
+             &[type=number] {
+                   width: 150px;
+             }
+           }
+         }
+       }
+       
        .input-group {
          margin-bottom: 10px;
          .react-select1 {
-          //  width: 150px; // height: 30px;
+           //  width: 150px; // height: 30px;
            .react-select__control {
              width: 180px;
            }
+         }
+       }
+       &.manure {
+         a {
+           color: #0b77f0;
          }
        }
      }
@@ -141,6 +246,10 @@
        }
      }
      .action {
+       margin-top: 10px;
+       position: absolute;
+        bottom: 50px;
+        left: 34px;
        .button {
          color: #fff;
          background-color: #0b77f0;
@@ -154,19 +263,87 @@
  }
 
  .switch-btn {
-   > label {
+   >label {
      display: flex;
      align-items: center;
      margin-bottom: 10px;
-     > .react-switch {
+     >.react-switch {
        margin: 0 10px;
      }
-     > span {
+     >span {
        cursor: pointer;
        font-size: 13px;
        &:hover {
          text-decoration: underline;
        }
+     }
+   }
+ }
+
+ .addFer {
+   width: 200px;
+   padding: 5px 10px;
+   background-color: #fff;
+   .action {
+     display:flex;
+     justify-content: flex-end;
+     padding: 10px 0;
+     button {
+        color: #fff;
+         background-color: #0b77f0;
+         &:hover {
+           background-color: #0065d6
+         }
+     }
+   }
+   .input-group {
+     display: flex;
+     align-items: flex-end;
+     justify-content: space-between;
+     height: 30px;
+     a {
+       margin-right: 10px;
+     }
+     &:first-child {
+        height: 20px;
+     }
+     .custom-select__control {
+       width: 90px;
+       border: none;
+       outline: none !important;
+       box-shadow: none;
+       height: 30px;
+       min-height: 30px;
+       background-color: #fff;
+       border-bottom: 1px solid #ccc;
+       border-radius: 0px;
+       .custom-select__indicator-separator {
+         display: none;
+       }
+     }
+     label {
+       width: 80px;
+       display: inline-block;
+     }
+     input {
+       border: none;
+       outline: none;
+       border-bottom: 1px solid #ccc;
+       width: 90px;
+       padding-left: 10px;
+       text-align: left; // &:-webkit-autofill {
+       //   background-color: #fff !important;
+       // }
+     }
+     .fileButton {
+        width: 90px;
+        background-color: #077c32;
+        height: 24px;
+        border-radius: 5px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
      }
    }
  }

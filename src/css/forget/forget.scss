@@ -7,15 +7,16 @@ $bg: url('../../images/common/bg2.jpg');
     $full);
     @include background-norepeat-cover;
     @extend .flex-top-column-bottom;
-    padding: 20px;
     background-image: $bg;
+    flex-wrap: nowrap;
 }
 
 .forget-content {
     min-width: 500px;
     max-width: 1000px;
-    @include custom-width-height(52%,
-    600px);
+    width: 52%;
+    max-height: 600px;
+    min-height: 520px;
     background-color: #efefef;
     border-radius: $border-radius;
 }

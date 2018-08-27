@@ -1,15 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import Select from 'react-select'
-import { findCroppingPatternList, plantingSeasonCropsSave } from 'utils/Api'
-import CreatableSelect from 'react-select/lib/Creatable'
-import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import zh from 'moment/locale/zh-cn'
 moment.locale('zh')
-import AddSingFer from './AddSingFer'
-
+import { findCroppingPatternList, plantingSeasonCropsSave } from 'utils/Api'
+import Crop from './crops/Crop'
+import Planting from './crops/Planting'
+import Manure from './crops/Manure'
 const statusArr = [{
   label: '未种植',
   value: '0'
@@ -23,7 +21,7 @@ const statusArr = [{
   value: '3',
   label: '已放弃'
 }]
-const soilPreArr =  [{
+const soilPreArr = [{
   value: '0',
   label: '免耕'
 },{
@@ -45,12 +43,12 @@ class AddCrop extends Component {
       crios: [],
       varieties: [],
       croppingPattern: [],
-      crop: '',
+      crop: {},
       variety: '',
-      status: '',
-      soilPreparation: '',
+      status: {},
+      soilPreparation: {},
       density: '',
-      plantingType: '',
+      plantingType: {},
       maxProduction: '',
       minProduction: '',
       fertilizers: [],
@@ -62,13 +60,12 @@ class AddCrop extends Component {
     }
   }
   updateFertilizers = (fertilizers) => {
-    this.setState({
-      fertilizers
-    })
+    this.props.update()
   }
+  
   handleChange = (newValue, actionMeta) => {
     this.setState({ value: newValue })
-  };
+  }
   handleCreate = (inputValue, actionMeta) => {
     this.setState({
       value: {
@@ -102,14 +99,14 @@ class AddCrop extends Component {
             crop,
             varietiesId = '',
             croppingPattern = [],
-            status = '',
-            soilPreparation = '',
+            status = {},
+            soilPreparation = {},
             density = '',
-            plantingType = '',
+            plantingType = {},
             maxProduction = '',
             minProduction = '',
             fertilizers = [],
-            sowingDate
+            sowingDate = Date.now()
           } = crops
           if (!crop.list) {
             crop.list = []
@@ -128,12 +125,12 @@ class AddCrop extends Component {
             } : varieties,
             croppingPattern,
             options: crop.list,
-            status: statusArr.filter(s => s.value === status)[0] || '',
-            soilPreparation: soilPreArr.filter(s => s.value === soilPreparation)[0] || '',
+            status: statusArr.filter(s => s.value === status)[0] || {},
+            soilPreparation: soilPreArr.filter(s => s.value === soilPreparation)[0] || {},
             plantingType:type ? {
               label: type.model,
               value: type.id
-            } : '',
+            } : {},
             density,
             maxProduction,
             minProduction,
@@ -191,32 +188,32 @@ class AddCrop extends Component {
     // info.composites = this.state.composites
     // info.singles = this.state.singles
 
-    const {backFile,frontFile,tableData, model} = this.fertilizers.state
+    // const {backFile,frontFile,tableData, model} = this.fertilizers.state
 
-    !!tableData.length && ( info.fertilizers = tableData.map(t => {
-      if (model === 0) {
-        return {
-          ...t,
-          magnesium: undefined,
-          copper: undefined,
-          iron: undefined,
-          manganese: undefined,
-          type: t.type.value,
-          category: t.category.value
-        }
-      } else {
-        return {
-          ...t,
-          type: t.type.value,
-          category: t.category.value
-        }
-      }
-    }))
+    // !!tableData.length && ( info.fertilizers = tableData.map(t => {
+    //   if (model === 0) {
+    //     return {
+    //       ...t,
+    //       magnesium: undefined,
+    //       copper: undefined,
+    //       iron: undefined,
+    //       manganese: undefined,
+    //       type: t.type.value,
+    //       category: t.category.value
+    //     }
+    //   } else {
+    //     return {
+    //       ...t,
+    //       type: t.type.value,
+    //       category: t.category.value
+    //     }
+    //   }
+    // }))
 
     const fd = new FormData()
     fd.append('info', (JSON.stringify(info)))
-    Object.keys(backFile).map(f => fd.append(f, backFile[f]))
-    Object.keys(frontFile).map(f => fd.append(f, frontFile[f]))
+    // Object.keys(backFile).map(f => fd.append(f, backFile[f]))
+    // Object.keys(frontFile).map(f => fd.append(f, frontFile[f]))
     this.setState({
       saving: true
     })
@@ -234,10 +231,10 @@ class AddCrop extends Component {
                 id,
                 cropsId,
                 varietiesId = '',
-                status = '',
-                soilPreparation = '',
+                status = {},
+                soilPreparation = {},
                 density = '',
-                plantingType = '',
+                plantingType = {},
                 maxProduction = '',
                 minProduction = '',
                 fertilizers = [],
@@ -248,7 +245,7 @@ class AddCrop extends Component {
                 crop.list = []
               }
               const varieties = crop.list.filter(v => v.id === varietiesId)[0] || ''
-              const type = this.state.croppingPattern.filter(c => c.id === plantingType)[0] || ''
+              const type = this.state.croppingPattern.filter(c => c.id === plantingType)[0] || {}
               const store = {
                 id,
                 crop: {
@@ -260,12 +257,12 @@ class AddCrop extends Component {
                   value: varieties.id
                 } : varieties,
                 options: crop.list,
-                status: statusArr.filter(s => s.value === status)[0] || '',
-                soilPreparation: soilPreArr.filter(s => s.value === soilPreparation)[0] || '',
+                status: statusArr.filter(s => s.value === status)[0] || {},
+                soilPreparation: soilPreArr.filter(s => s.value === soilPreparation)[0] || {},
                 plantingType: type ? {
                   label: type.model,
                   value: type.id
-                } : '',
+                } : {},
                 density,
                 sowingDate: moment(new Date(sowingDate)),
                 fertilizers,
@@ -359,166 +356,67 @@ class AddCrop extends Component {
     const { isLoading, options, value, crop } = this.state
     return (
       <div className='add-crop'>
-        <div
+        {/* <div
           className={
             classnames({
               collapse: true,
               borderRadius: this.state.collapsed
             })
           }
-          onClick={this.collapsed}>{!!crop ? `${crop.label} - ` : ''}{!this.state.collapsed ? '展开列表' : '折叠列表'}</div>
-        <form onSubmit={this.submitHandler} className={
-          classnames({
-            panelBody: true,
-            hide: !this.state.collapsed
-          })
-        }>
-          <div className='warp'>
-            <div className='input-group'>
-              <label htmlFor="">作物</label>
-              <Select
-                classNamePrefix='react-select'
-                placeholder=''
-                isDisabled={!this.state.edit}
-                noResultsText='无'
-                onChange={this.cropChange}
-                value={this.state.crop}
-                maxMenuHeight={'200'}
-                noOptionsMessage={() => {return '无选项'}}
-                options={
-                  this.state.crios.map(ciro => ({
-                    label: ciro.name,
-                    value: ciro.id
-                  }))
-                
-                }></Select>
-            </div>
-            <div className='input-group'>
-              <label htmlFor="">品种</label>
-              <CreatableSelect
-                className='react-select1'
-                classNamePrefix='react-select'
-                isClearable
-                isDisabled={!this.state.edit}
-                // isDisabled={isLoading}
-                isLoading={isLoading}
-                onChange={this.handleChange}
-                onCreateOption={this.handleCreate}
-                noOptionsMessage={() => {return '无选项'}}
-                placeholder={'选择或创建品种'}
-                formatCreateLabel={(value) => `创建'${value}'品种`}
-                options={
-                  options.map(ciro => ({
-                    label: ciro.name,
-                    value: ciro.id
-                  }))
-                }
-                value={value}
-              />
-            </div>
-            <div className='input-group' style={{marginLeft: '5px'}}>
-              <label htmlFor="">当前状态</label>
-              <Select
-                classNamePrefix='react-select'
-                placeholder=''
-                noResultsText='无'
-                isDisabled={!this.state.edit}
-                value={this.state.status}
-                onChange={this.statusChange}
-                noOptionsMessage={() => {return '无选项'}}
-                maxMenuHeight={'200'}
-                options={
-                  // （0:未种植;1:种植中;2:已收割;3:已放弃）
-                  statusArr
-                }></Select>
-            </div>
-            <div className='input-group'>
-              <label htmlFor="">整地类型</label>
-              <Select
-                classNamePrefix='react-select'
-                placeholder=''
-                noResultsText='无'
-                isDisabled={!this.state.edit}
-                onChange={this.preparationChange}
-                value={this.state.soilPreparation}
-                noOptionsMessage={() => {return '无选项'}}
-                maxMenuHeight={'200'}
-                options={
-                  // (0：免耕;1：浅耕;2：深耕)
-                  soilPreArr
-                }></Select>
-            </div>
-            <div className='input-group'>
-              <label htmlFor="">播种日期</label>
-              <DatePicker
-                dateFormat="YYYY-MM-DD"
-                selected={this.state.sowingDate}
-                onChange={this.dateChange}
-                disabled={!this.state.edit}
-              />
-            </div>
-            
-            <div className='input-group'>
-              <label htmlFor="">播种密度</label>
-              <input 
-                type="number" 
-                min="0.0"
-                name='density'
-                disabled={!this.state.edit}
-                value={this.state.density} 
-                onChange={this.inputChange}/>
-              <span>（株/亩）</span>
-            </div>
-            <div className='input-group'>
-              <label htmlFor="">种植模式</label>
-              <Select
-                classNamePrefix='react-select'
-                placeholder=''
-                noResultsText='无'
-                isDisabled={!this.state.edit}
-                value={this.state.plantingType}
-                onChange={this.plantingTypeChange}
-                noOptionsMessage={() => {return '无选项'}}
-                maxMenuHeight={'200'}
-                options={
-                  this.state.croppingPattern.map(crop => ({
-                    label: crop.model,
-                    value: crop.id
-                  }))
-                }></Select>
-            </div>
-            <div className='input-group'>
-              <label htmlFor="">历史最高产量</label>
-              <input 
-                type="number" 
-                min="0.0"
-                disabled={!this.state.edit}
-                name='maxProduction' 
-                value={this.state.maxProduction} 
-                onChange={this.inputChange}/>
-            </div>
-            <div className='input-group'>
-              <label htmlFor="">历史最低产量</label>
-              <input
-                type="number"
-                min="0.0"
-                disabled={!this.state.edit}
-                name='minProduction' 
-                value={this.state.minProduction} 
-                onChange={this.inputChange}/>
-              <span>（公斤/亩）</span>
-            </div>
-          </div>
-          <div className='fer'>
-            <div className='fer-title'>用肥情况</div>
-            {/* <AddComFer ref={comFer => this.comFer = comFer}/> */}
-            <AddSingFer 
-              update={this.state.update}
-              updateNo={this.updateNo}
-              fertilizers={this.state.fertilizers} 
+          onClick={this.collapsed}>{!!crop ? `${crop.label} - ` : ''}{!this.state.collapsed ? '展开列表' : '折叠列表'}</div> */}
+        <form onSubmit={this.submitHandler} >
+          <div className='panelBody'>
+            <Crop
+              edit={this.state.edit}
+              crios={this.state.crios}
+              options={this.state.options}
+              croppingPattern={this.state.croppingPattern}
+              crop={this.state.crop}
+              cropChange={this.cropChange}
+              isLoading={isLoading}
+              handleChange={this.handleChange}
+              handleCreate={this.handleCreate}
+              value={value}
+              plantingType={this.state.plantingType}
+              plantingTypeChange={this.plantingTypeChange}
+
+              maxProduction={this.state.maxProduction}
+              minProduction={this.state.minProduction}
+              inputChange={this.inputChange}
+            />
+            <Planting
+              edit={this.state.edit}
+              status={this.state.status}
+              statusChange={this.statusChange}
+
+              sowingDate={this.state.sowingDate}
+              dateChange={this.dateChange}
+              density={this.state.density}
+              inputChange={this.inputChange}
+              preparationChange={this.preparationChange}
+              soilPreparation={this.state.soilPreparation}
+
+              soilPreArr={soilPreArr}
+              statusArr={statusArr}
+            />
+            <Manure
+              fertilizers={this.props.crops.fertilizers || []}
               disabled={!this.state.edit}
-              updateFertilizers={this.updateFertilizers} 
-              ref={fertilizers => this.fertilizers = fertilizers}/>
+              plantingSeasonCropsId={this.state.id}
+              updateFertilizers={this.updateFertilizers}
+              update={this.props.update}
+              updateNo={this.updateNo}
+            />
+            {/* <div className='fer'>
+              <div className='fer-title'>用肥情况</div>
+              <AddSingFer 
+                update={this.state.update}
+                updateNo={this.updateNo}
+                fertilizers={this.state.fertilizers} 
+                disabled={!this.state.edit}
+                updateFertilizers={this.updateFertilizers} 
+                ref={fertilizers => this.fertilizers = fertilizers}/>
+            </div> */}
           </div>
           {
             this.state.edit ? <div className='action'>

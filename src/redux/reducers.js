@@ -9,6 +9,8 @@ import message from './reducers/message'
 import user from './reducers/user'
 import season from './reducers/season'
 import plaintingSeason from './reducers/plaintingSeason'
+import manure from './reducers/manure'
+import cluster from './reducers/source'
 import { combineReducers } from 'redux'
 import { reducer as reduxFormReducer } from 'redux-form'
 
@@ -25,6 +27,8 @@ const reducer = combineReducers({
   message,
   user,
   season,
-  plaintingSeason
+  plaintingSeason,
+  manure,
+  cluster
 })
 export default reducer

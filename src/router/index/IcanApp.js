@@ -20,6 +20,7 @@ import User from './user/User'
 import Tools from './tools/Tools'
 import RxDragDrop from './RxDragDrop'
 import PlainingSeasonDragDrop from './fieldMessage/season/RxDragDrop'
+import ManureDragDrop from './fieldMessage/season/crops/ManureDragDrop'
 import { getUserToken } from 'utils/Api'
 import history from '../history'
 // import JobLogging from './picture/JobLogging'
@@ -55,6 +56,7 @@ class IcanApp extends Component {
           <Openlayer />
           <RxDragDrop />
           <PlainingSeasonDragDrop/>
+          <ManureDragDrop/>
           <Baner />
           <Appends/>
           {/* <FieldMessage />

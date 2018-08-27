@@ -152,7 +152,6 @@ class AddSeason extends Component {
       })
   }
   addSeasonCrop = () => {
-    // this.setState({
     const { plantingSeasonCrops} = this.state
     const { plantingSeason: { plaintSeason}} = this.props
     plantingSeasonCrops.push({
@@ -162,7 +161,6 @@ class AddSeason extends Component {
     this.setState({
       plantingSeasonCrops
     })
-    // })
   }
   deleteCropById = (id) => {
     const { plantingSeasonCrops} = this.state
@@ -191,7 +189,7 @@ class AddSeason extends Component {
     const { plantingSeason: { plaintSeason} } = this.props
     const {plantingSeasonCrops} = this.state
     return (
-      <div className='add-season' style={{width: (this.state.plantingSeasonCrops.length === 0 ? '700px' : '1280px')}}>
+      <div className='add-season'>
         {
           plaintSeason.id.toString().length===32 &&  <div className='relative'>
             <div className='absolute'>
@@ -235,7 +233,7 @@ class AddSeason extends Component {
               deleteCropById={this.deleteCropById.bind(this,crop.id)}/>)
         }
         {this.state.saved && <button className='button add' onClick={this.addSeasonCrop}>
-          +增加一种作物
+          添加作物
         </button>}
       </div>
     )

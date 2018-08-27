@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Rx from 'rxjs/Rx'
 import 'css/index/common/drapDrop.scss'
-import { destorySeason } from '_redux/actions/plaintingSeason'
-import AddSeason from './AddSeason'
+import { destoryManure } from '_redux/actions/manure'
+import AddFer from './AddFer'
 import { connect} from 'react-redux'
-import Scrollbar from 'smooth-scrollbar'
+
 const validValue = (value, max, min) => {
   return Math.min(Math.max(value, min), max)
 }
@@ -45,7 +45,6 @@ class RxDragDrop extends Component {
         this.drapDrop.style.left = x + 'px'
         this.drapDrop.style.top = y + 'px'
       })
-    Scrollbar.init(this.content)
   }
   componentWillUnmount() {
     this.dd && this.dd.unsubscribe()
@@ -53,47 +52,45 @@ class RxDragDrop extends Component {
   destory(e) {
     e.preventDefault()
     this.dd && this.dd.unsubscribe()
-    this.props.destorySeason()
+    this.props.destoryManure()
   }
   render() {
-    const style = {
-      top: '30%',
-      left: '5%',
-      width: 'auto'
-    }
+    const {pos} = this.props.manure
     return (
-      this.props.plaintingSeason.show && <div>
-        <div ref={drapDrop => this.drapDrop = drapDrop} className="dragDrop" style={style}>
-          <h3 ref={title => this.title = title} className='dragDrop-title'>{'种植季信息'}</h3>
+      this.props.manure.show && <div>
+        <div ref={drapDrop => this.drapDrop = drapDrop} className="dragDrop" style={{
+          top: pos.top + 'px',
+          left: pos.left + 'px',
+          width: 'auto'
+        }}>
+          <h3 ref={title => this.title = title} className='dragDrop-title'>{'用肥情况'}</h3>
           <a href="#" id="dragDrop-closer" className="dragDrop-closer" onClick={this.destory.bind(this)}></a>
-          <div className="dragDrop-content" ref={content => this.content = content} style={{ height: '435px' }}>
-            <AddSeason plantingSeason = {this.props.plaintingSeason} />
+          <div className="dragDrop-content" ref={content => this.content = content} style={{ height: '500px' }}>
+            <AddFer {...this.props}/>
           </div>
         </div>
-      </div>
-            
-           
+      </div>  
     )
   }
 }
 RxDragDrop.propTypes = {
   title: PropTypes.string,
   node: PropTypes.node,
-  destorySeason: PropTypes.func,
+  destoryManure: PropTypes.func,
   dragDrop: PropTypes.object,
   show: PropTypes.bool,
-  plaintingSeason: PropTypes.object
+  manure: PropTypes.object
 }
 // destorySeason
 const mapStateToProps = (state) => {
   return {
-    plaintingSeason: state.plaintingSeason
+    manure: state.manure
   }
 }
 const mapDispathToProps = (dispatch) => {
   return {
-    destorySeason: (season) => {
-      dispatch(destorySeason(season))
+    destoryManure: (manure) => {
+      dispatch(destoryManure(manure))
     }
   }
 }

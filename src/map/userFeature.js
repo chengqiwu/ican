@@ -18,6 +18,44 @@ class UserFeature extends Component {
   componentDidMount() {
     const map = this.props.map
     const vectorSource = new ol.source.Vector()
+    const { source } = this.props.cluster
+    let { clusters } = this.props.cluster
+    const clusterSource = new ol.source.Cluster({
+      distance: 40,
+      source: source
+    })
+    const cluster = new ol.layer.Vector({
+      source: clusterSource,
+      style: function (feature) {
+        return setClusterStyle(feature)
+      },
+      zIndex: 99
+    })
+    cluster.set('id', 'cluster')
+    this.props.setCluster(cluster)
+    function setClusterStyle(feature) {
+      var features = feature.get('features')
+      var size = features.length
+      var style = new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: 18,
+          // stroke: new ol.style.Stroke({
+          //   color: '#fff'
+          // }),
+          fill: new ol.style.Fill({
+            color: [51, 133, 255, 0.75]
+          })
+        }),
+        text: new ol.style.Text({
+          font: '15px sans-serif',
+          text: size.toString(),
+          fill: new ol.style.Fill({
+            color: '#fff'
+          })
+        })
+      })
+      return style
+    }
     this.vector = new ol.layer.Vector({
       source: vectorSource,
       style: function (feature) {
@@ -54,7 +92,7 @@ class UserFeature extends Component {
             lineCap: 'butt',
             lineJoin: 'miter',
             color: [255, 200, 0, 1.0],
-            width: 4
+            width: 1
           })
         })
       }
@@ -94,12 +132,14 @@ class UserFeature extends Component {
       }
       var features = new ol.format.GeoJSON().readFeatures(data, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' })
 
-
+      features.map(f => {
+        source.addFeature(new ol.Feature(new ol.geom.Point(ol.extent.getCenter(f.getGeometry().getExtent()))))
+      })
       vectorSource.addFeatures(features)
       map.getView().fit(vectorSource.getExtent())
     })
     map.addLayer(this.vector)
-
+    map.addLayer(cluster)
     map.on('pointermove', (evt) => {
       if (evt.dragging) {
         return
@@ -108,8 +148,21 @@ class UserFeature extends Component {
         this.displayFeatureInfo(map.getEventPixel(evt.originalEvent))
       }
     })
+    map.getView().on('change:resolution',() => {
+      const clusters = this.props.cluster.cluster
+      console.log(clusters)
+      const zoom = map.getView().getZoom()
+      if(zoom >12) {
+        clusters && clusters.getVisible() && clusters.setVisible(false)
+      } else {
+        clusters && !clusters.getVisible() && clusters.setVisible(true)
+      }
+    })
   }
-
+  componentDidUpdate() {
+    // const map = this.props.map
+    // map.get
+  }
   displayFeatureInfo = (pixel) => {
     const map = this.props.map
     var feature = map.forEachFeatureAtPixel(pixel, (feature, layer) => {
@@ -118,7 +171,7 @@ class UserFeature extends Component {
       }
 
     })
-    if (feature && map.getView().getZoom() >= 7) {
+    if (feature && map.getView().getZoom() > 12) {
       this.setState({
         feature
       })
@@ -142,15 +195,23 @@ class UserFeature extends Component {
 }
 UserFeature.propTypes = {
   map: PropTypes.object,
-  update: PropTypes.func
+  update: PropTypes.func,
+  cluster: PropTypes.object,
+  setCluster: PropTypes.func,
 }
-
-const mapDispatchToProps = function (dispath) {
+const mapStateToProps = function ({ cluster}) {
   return {
-
+    cluster
+  }
+}
+const mapDispatchToProps = function (dispatch) {
+  return {
+    setCluster: (cluster) => {
+      dispatch({ type: 'cluster', cluster})
+    },
     update: (features) => {
-      dispath(updateFeature(features))
+      dispatch(updateFeature(features))
     }
   }
 }
-export default connect(null, mapDispatchToProps)(UserFeature)
+export default connect(mapStateToProps, mapDispatchToProps)(UserFeature)

@@ -126,7 +126,7 @@ class PlantingSeason extends Component {
               </tbody>
             </table>
             <button className='button add' onClick={this.addSeason}>
-              +添加种植季
+              添加种植季
             </button>
           </div>
         </div>

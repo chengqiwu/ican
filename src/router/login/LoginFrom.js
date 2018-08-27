@@ -206,7 +206,7 @@ class LoginFrom extends Component {
             </div>
             <div>
               <Link to='/user_reg' className='user-register'>欢迎注册</Link>
-              <a href="#" className='user-forget' onClick={this.forgetPassword}>忘记密码？</a>
+              <a href="#" className='user-forget' onClick={this.forgetPassword}>忘记密码</a>
             </div>
                     
           </div>

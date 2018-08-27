@@ -106,7 +106,7 @@ class Polygon extends Component {
             lineCap: 'butt',
             lineJoin: 'miter',
             color: [255, 200, 0, 1.0],
-            width: 4
+            width: 1
           })
         })
       }

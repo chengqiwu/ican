@@ -77,10 +77,12 @@ class Soil extends Component {
             soilType={this.state.soilType} 
             soilLand={soil}
             updateSoilLands={this.updateSoilLands}
-            collapsed={soil.id.toString().length === 13}/>)
+            // collapsed={soil.id.toString().length === 13}
+            collapsed={false}
+          />)
         }
         <button className='button add' onClick={this.addSoilLand}>
-          +增加一种土壤
+          增加土壤
         </button>
       </div>
     </div>
