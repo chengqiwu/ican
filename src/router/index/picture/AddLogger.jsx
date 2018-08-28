@@ -13,6 +13,7 @@ import { confirmAlert } from 'react-confirm-alert' // Import
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 import { farmLandLogSave, findlandLogList, findLogPhotoById, deleteLogPhotoById, findReasonById } from 'utils/Api'
 import Item from './Item'
+import VideoItem from './VideoItem'
 
 // import FarmlandLogVo from './class/FarmlandLogVo'
 import add from 'images/index/picture/+_.png'
@@ -25,6 +26,7 @@ class AddLogger extends Component {
     super()
     this.state = {
       files: [],
+      videos: [],
       startDate: moment(),
       content: '',
       submiting: false,
@@ -242,7 +244,23 @@ class AddLogger extends Component {
     })
   }
 
+  onVideoDrop = (videos, rejectFiles) => {
+    if (rejectFiles.length > 1) {
+      alert('上传文件错误，请重新上传')
+      return
+    }
+    console.log(videos)
+    videos.map((video, i) => {
+      video.md5 = md5((Date.now() + i).toString())
+    })
 
+    this.setState({
+      videos: [
+        ...this.state.videos,
+        ...videos
+      ]
+    })
+  }
   deleteFileByIndex = (e) => {
     e.preventDefault()
     const md5 = e.target.getAttribute('data-index')
@@ -318,6 +336,19 @@ class AddLogger extends Component {
             添加照片
             <div style={{ borderBottom: '1px solid #ddd', flexGrow: 1 }}></div>
           </div>
+          <div className='logger-video' style={{ display: this.state.showLoggerImg ? 'block': 'none'}}>
+            {/* 本地上传列表 */}
+            {
+              this.state.videos.map(video => <VideoItem
+                key={video.md5}
+                if={video.md5}
+                video={video}
+                url={video.preview}
+                delete={this.deleteVideoById}
+                describe={this.describe}
+              />)
+            }
+          </div>
           <div className='logger-img' ref={logger => this.logger = logger} style={{ display: this.state.showLoggerImg ? 'block' : 'none' }}>
             {/* 本地上传列表 */}
             {
@@ -340,6 +371,15 @@ class AddLogger extends Component {
                 delete={this.deletelistById}
                 describe={this.describe} />)
             }
+            <div className='logger-box'>
+              <Dropzone className='drop-zone'
+                accept="video/*"
+                onDrop={this.onVideoDrop}
+                multiple={false}>
+                <img src={add} alt="" />
+                <label>添加视频</label>
+              </Dropzone>
+            </div>
             <div className='logger-box'>
               <Dropzone className='drop-zone'
                 accept="image/*"

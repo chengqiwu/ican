@@ -20,7 +20,7 @@ class RxDragDrop extends Component {
 
 
     this.dd = this.mouseDown
-      .map(e => this.mouseMove.takeUntil(this.mouseUp))
+      .map(e => this.mouseMove.takeUntil(this.mouseUp.merge(this.mouseDown)))
       .concatAll().withLatestFrom(this.mouseDown, (move, down) => {
         return {
           x: validValue(move.clientX - down.offsetX, window.innerWidth - 853, 0),

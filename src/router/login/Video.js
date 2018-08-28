@@ -73,7 +73,7 @@ class Video extends Component {
           {this.state.show ? <RxDragDrop title={'了解精禾'} destory={this.destory}>                
             <Player ref={player => this.player = player}
               fluid={false}
-              width={833}
+              width={853}
               preload='none'
               // height={496}
                         
