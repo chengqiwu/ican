@@ -69,6 +69,12 @@ class List extends Component {
               <img src={camera} alt="" />
             </div>
           }
+          {
+            list.videoCount !== '0' && <div className='imgs' onClick={e => this.props.show(list)}>
+              <span>{list.videoCount}</span>
+              <img src={camera} alt="" />
+            </div>
+          }
                    
         </div>
         {/* <div className='delete'>

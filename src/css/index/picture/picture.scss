@@ -130,6 +130,16 @@ a {
       }
     }
     .add-logger {
+      form {
+        .log-str {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+        }
+      }
+    }
+    .add-logger,
+    .add-video-logger {
       // height: 300px;
       // width: 100px;
       display: flex;
@@ -141,9 +151,6 @@ a {
       form {
         // width: 300px;
         .log-str {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
           padding: 15px;
           padding-bottom: 0;
         }
@@ -185,7 +192,8 @@ a {
           }
         }
       }
-      .logger-img {
+      .logger-img,
+      .logger-video {
         // width:290px;
         // height:206px;
         height: 510px;

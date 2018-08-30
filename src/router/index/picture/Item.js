@@ -16,18 +16,14 @@ class Item extends Component {
       id: this.props.id,
       name: this.props.file.name,
       content: this.props.file.describe || '',
+      idDescribe: !(this.props.file instanceof File)
     })  
     this.props.describe({
       id: this.props.id,
       name: this.props.file.name,
       content: this.props.file.describe || '',
-      idDescribe: false
+      idDescribe: !(this.props.file instanceof File)
     })
-    if (this.props.file instanceof File) {
-      this.setState({
-        idDescribe: true
-      })
-    }
   }
   handBlur = () => {
     this.props.describe(this.state)

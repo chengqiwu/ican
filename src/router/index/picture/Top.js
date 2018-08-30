@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import 'css/index/picture/top.scss'
-import { findLogPhotoById } from 'utils/Api'
+import { Player } from 'video-react'
+import { findLogPhotoById, findLogVideoById } from 'utils/Api'
 class Top extends Component {
   constructor() {
     super()
     this.state = {
       list: [],
+      videoList: [],
       activeList: {}
     }
   }
@@ -19,7 +21,7 @@ class Top extends Component {
   }
   componentDidUpdate() {
     console.log('componentDidUpdate')
-    if (this.state.list.length > 0) {
+    if (this.state.list.length > 0 || this.state.videoList.length > 0) {
       const self = this
       function G(s) {
         return document.getElementById(s)
@@ -77,7 +79,7 @@ class Top extends Component {
 
       oPicUl.style.width = w1 * len1 + 'px'
       // oListUl.style.width = w2 * len2 + 'px'
-      oList.style.width = this.state.list.length * 220 + 20 + 'px'
+      oList.style.width = this.props.logger.type === '0' ? this.state.list.length * 220 + 20 + 'px' : this.state.videoList.length * 220 + 20 + 'px'
       var index = 0
 
       var num = 5
@@ -98,7 +100,7 @@ class Top extends Component {
           oListLi[i].className = ''
           if (i == index) {
             oListLi[i].className = 'on'
-            self.describe.innerHTML =  self.state.list[index].describe
+            self.describe.innerHTML = this.props.logger.type === '0' ? self.state.list[index].describe : self.state.videoList[index].describe
 
           }
         }
@@ -132,20 +134,36 @@ class Top extends Component {
       fd.append('pageNo', '1')
       fd.append('pageSize', '-1')
       fd.append('logId', logger.id)
-      findLogPhotoById(fd).then(e => e.data)
-        .then(data => {
-          if (data.msg === '200') {
-            const { list } = data.result
-            if (list) {
-              this.setState({
-                list,
-                activeList: list[0]
-              })
+      if (logger.type === '0') {
+        findLogPhotoById(fd).then(e => e.data)
+          .then(data => {
+            if (data.msg === '200') {
+              const { list } = data.result
+              if (list) {
+                this.setState({
+                  list,
+                  activeList: list[0]
+                })
+              }
+
             }
 
-          }
-
-        })
+          })
+      } else {
+        findLogVideoById(fd).then(e => e.data)
+          .then(data => {
+            if (data.msg === '200') {
+              const { list } = data.result
+              if (list) {
+                this.setState({
+                  videoList: list,
+                  activeList: list[0]
+                })
+              }
+            }
+          })
+      }
+      
     }
     render() {
       const { logger} = this.props
@@ -168,6 +186,13 @@ class Top extends Component {
                 {this.state.list.map(list => <li key={list.id}>
                   <div className='img-div' style={{ backgroundImage: `url(${list.largeThumbnailPath})` }}></div>
                 </li>)}
+                {this.state.videoList.map(list => <li key={list.id}>
+                  <Player
+                    // fluid={false}
+                    // width={875}
+                    // height={}
+                    src={list.path} />
+                </li>)}
               </ul>
             </div>
             <div id="listBox" className="listBox">
@@ -177,6 +202,14 @@ class Top extends Component {
                 {this.state.list.map((list, i) => <li key={list.id} className={i === 0 ? 'on' : ''}>
                   <i className="arr2" ></i>
                   <div className='img-div' style={{ backgroundImage: `url(${list.smallThumbnailPath})`}}></div>
+                </li>)}
+                {this.state.videoList.map((list, i) => <li key={list.id} className={i === 0 ? 'on' : ''}>
+                  <i className="arr2" ></i>
+                  <Player
+                    // fluid={false}
+                    // width={875}
+                    // height={}
+                    src={list.path} />
                 </li>)}
                 {/* <li className="on">
                                 <i className="arr2"></i>

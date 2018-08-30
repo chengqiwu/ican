@@ -7,6 +7,8 @@ import RxDragDrop from './RxDragDrop'
 import Top from './Top'
 import { showList, updateLists, } from '_redux/actions/picture.js'
 import { findlandLogList, farmLandLogDelete } from 'utils/Api'
+import AddLogger from './AddLogger'
+import AddVideoLogger from './AddVideoLogger'
 class PictureList extends Component {
   constructor() {
     super()
@@ -125,7 +127,11 @@ class PictureList extends Component {
     const flag = (this.state.show && this.state.logger.id)
     return (
       <div className='lists'>
-        {flag && <RxDragDrop title={this.state.logger.id ? '编辑日志' : '新建日志'} logger={this.state.logger} close={this.destory} delete={this.delete}/>}
+        {flag && <RxDragDrop title={this.state.logger.id ? '编辑日志' : '新建日志'} logger={this.state.logger} close={this.destory} delete={this.delete}>
+          {
+            this.state.logger.type === '0' ? <AddLogger/> : <AddVideoLogger/>
+          }
+        </RxDragDrop>}
         {!this.state.close && <Top closer={this.closer} logger={this.state.list} />}
         <div ref={lists => this.lists = lists}>
           {lists.sort((a, b) => (new Date(b.date)) - (new Date(a.date))).map(list =>
@@ -155,8 +161,8 @@ const mapDispatchToProps = function (dispath) {
     showList: (show) => {
       dispath(showList(show))
     },
-    updateLists: (list) => {
-      dispath(updateLists(list))
+    updateLists: (list, video) => {
+      dispath(updateLists(list, video))
     }
   }
 }

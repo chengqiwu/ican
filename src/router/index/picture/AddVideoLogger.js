@@ -11,8 +11,8 @@ import arrow from 'images/index/picture/arrow.png'
 import 'react-datepicker/dist/react-datepicker.css'
 import { confirmAlert } from 'react-confirm-alert' // Import
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
-import { farmLandLogSave, findlandLogList, findLogPhotoById, deleteLogPhotoById, findReasonById } from 'utils/Api'
-import Item from './Item'
+import { farmLandLogSave, findlandLogList, findLogPhotoById, deleteLogPhotoById, findLogVideoById, deleteLogVideoById } from 'utils/Api'
+import VideoItem from './VideoItem'
 
 // import FarmlandLogVo from './class/FarmlandLogVo'
 import add from 'images/index/picture/+_.png'
@@ -20,18 +20,21 @@ import add from 'images/index/picture/+_.png'
 import { connect } from 'react-redux'
 import { updateLists } from '_redux/actions/picture.js'
 
-class AddLogger extends Component {
+class AddVideoLogger extends Component {
   constructor() {
     super()
     this.state = {
       files: [],
+      videos: [],
       startDate: moment(),
       content: '',
       submiting: false,
       list: [],
+      videoList: [],
       describe: {},
       idDescribe: {},
-      showLoggerImg: false
+      showLoggerImg: false,
+      type: '0'
     }
   }
   componentDidMount() {
@@ -46,35 +49,35 @@ class AddLogger extends Component {
     fd.append('pageNo', '1')
     fd.append('pageSize', '-1')
     fd.append('logId', logger.id)
-    findLogPhotoById(fd).then(e => e.data)
+    findLogVideoById(fd).then(e => e.data)
       .then(data => {
         if (data.msg === '200') {
           const { list } = data.result
           if (list) {
             this.setState({
-              list,
+              type: '1',
+              videoList: list,
               startDate: moment(this.props.logger.date),
               content: this.props.logger.content
             })
           } else {
             this.setState({
-              list: [],
+              type: '1',
+              videoList: [],
               startDate: moment(this.props.logger.date),
               content: this.props.logger.content
             })
           }
-
         }
-
       })
   }
   componentWillUpdate(nextProps, nextState) {
     const length = this.state.files.length + this.state.list.length
     const nextLen = nextState.files.length + nextState.list.length
     if (length !== nextLen) {
-      Scrollbar.destroy(this.logger)
+
     }
-   
+    Scrollbar.destroy(this.logger)
   }
   //组件将被卸载  
   componentWillUnmount() {
@@ -104,7 +107,6 @@ class AddLogger extends Component {
     })
   }
   describe = (obj) => {
-    console.log(obj)
     const { describe, idDescribe } = this.state
     if (obj.idDescribe) {
       idDescribe[obj.id] = obj.content
@@ -128,9 +130,10 @@ class AddLogger extends Component {
       date: this.state.startDate.format('YYYY-MM-DD'),
       content: this.state.content,
       id: this.props.logger && this.props.logger.id,
-      type: '0',
+      type: '1',
     }))
-    this.state.files.map(file => fd.append('images', file))
+    // type
+    this.state.videoList.map(video => fd.append('video', video))
     const { describe, idDescribe } = this.state
     const describeStr = []
     Object.keys(describe).map(key => {
@@ -139,7 +142,7 @@ class AddLogger extends Component {
         value: describe[key]
       })
     })
-    describeStr.length !== 0 &&fd.append('describeStr', JSON.stringify(describeStr))
+    describeStr.length !== 0 && fd.append('describeStr', JSON.stringify(describeStr))
 
     const idDescribeKvsStr = []
     Object.keys(idDescribe).map(key => {
@@ -148,6 +151,7 @@ class AddLogger extends Component {
         value: idDescribe[key]
       })
     })
+
     idDescribeKvsStr.length !== 0 && fd.append('idDescribeKvsStr', JSON.stringify(idDescribeKvsStr))
     return farmLandLogSave(fd)
       .then(e => e.data)
@@ -243,12 +247,34 @@ class AddLogger extends Component {
     })
   }
 
+  onVideoDrop = (videos, rejectFiles) => {
+    if (rejectFiles.length > 1) {
+      alert('上传文件错误，请重新上传')
+      return
+    }
+    videos.map((video, i) => {
+      video.md5 = md5((Date.now() + i).toString())
+    })
 
+    this.setState({
+      videos: [
+        ...this.state.videos,
+        ...videos
+      ]
+    })
+  }
   deleteFileByIndex = (e) => {
     e.preventDefault()
     const md5 = e.target.getAttribute('data-index')
     this.setState({
       files: this.state.files.filter(file => file.md5 !== md5)
+    })
+  }
+  deleteVideoById = (e) => {
+    e.preventDefault()
+    const md5 = e.target.getAttribute('data-index')
+    this.setState({
+      videos: this.state.videos.filter(file => file.md5 !== md5)
     })
   }
   deletelistById = (e) => {
@@ -264,6 +290,24 @@ class AddLogger extends Component {
           const { list } = this.state
           this.setState({
             list: list.filter(list => list.id !== id)
+          })
+          this.updateLists(list)
+        }
+      })
+  }
+
+  deleteVideoListByid = (e) => {
+    e.preventDefault()
+    const id = e.target.getAttribute('data-index')
+    const fd = new FormData()
+    fd.append('id', id)
+    deleteLogVideoById(fd)
+      .then(e => e.data)
+      .then(data => {
+        if (data.msg === '200') {
+          const { list } = this.state
+          this.setState({
+            videoList: list.filter(list => list.id !== id)
           })
           this.updateLists(list)
         }
@@ -287,16 +331,22 @@ class AddLogger extends Component {
         },
         {
           label: '取消',
-          onClick: () => {}
+          onClick: () => { }
         }
       ]
     })
-    
+
+  }
+  switchChange = (type) => {
+    console.log(type)
+    this.setState({
+      type: type ? '1' : '0'
+    })
   }
   render() {
     return (
       // }
-      <div className='add-logger' >
+      <div className='add-video-logger' >
         <form onSubmit={this.submit}>
           <div className='log-str'>
             <div className='input-group'>
@@ -316,46 +366,48 @@ class AddLogger extends Component {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', fontSize: '13px', padding: '0 15px', cursor: 'pointer' }} onClick={this.showLoggerImg}>
             <img src={arrow} />
-            添加照片
+            添加
             <div style={{ borderBottom: '1px solid #ddd', flexGrow: 1 }}></div>
           </div>
-          <div className='logger-img' ref={logger => this.logger = logger} style={{ display: this.state.showLoggerImg ? 'block' : 'none' }}>
+        
+          <div className='logger-video' ref={logger => this.logger = logger} style={{ display: this.state.showLoggerImg ? 'block' : 'none' }}>
             {/* 本地上传列表 */}
             {
-              this.state.files.map((file, i) => <Item
-                key={file.md5}
-                id={file.md5}
-                file={file}
-                url={file.preview}
-                delete={this.deleteFileByIndex}
-                describe={this.describe} />)
-
+              this.state.videos.map(video => <VideoItem
+                key={video.md5}
+                id={video.md5}
+                video={video}
+                url={video.preview}
+                delete={this.deleteVideoById}
+                describe={this.describe}
+              />)
             }
             {/* 从服务器获得列表 */}
             {
-              this.state.list.map(list => <Item
-                key={list.id}
-                file={list}
-                id={list.id}
-                url={list.originalPath}
-                delete={this.deletelistById}
+              this.state.videoList.map(video => <VideoItem
+                key={video.id}
+                video={video}
+                id={video.id}
+                url={video.path}
+                delete={this.deleteVideoListByid}
                 describe={this.describe} />)
             }
+
             <div className='logger-box'>
               <Dropzone className='drop-zone'
-                accept="image/*"
-                onDrop={this.onDrop}
-                multiple={true}>
+                accept="video/*"
+                onDrop={this.onVideoDrop}
+                multiple={false}>
                 <img src={add} alt="" />
-                <label>添加照片</label>
+                <label>添加视频</label>
               </Dropzone>
             </div>
           </div>
           <div className='submit'>
             <input type="submit" value={this.state.submiting ? '保存中...' : '保存'} disabled={this.state.submiting} />
             {/* <input type="submit" value={'删除'}/> */}
-            {this.props.logger && 
-              this.props.logger.id && 
+            {this.props.logger &&
+              this.props.logger.id &&
               <button type='button' className='button delete' onClick={this.deleteLandLog}>删除</button>}
           </div>
         </form>
@@ -363,7 +415,7 @@ class AddLogger extends Component {
       </div>)
   }
 }
-AddLogger.propTypes = {
+AddVideoLogger.propTypes = {
   feature: PropTypes.object,
   close: PropTypes.func,
   updateLists: PropTypes.func,
@@ -384,4 +436,4 @@ const mapDispatchToProps = function (dispath) {
     }
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(AddLogger)
+export default connect(mapStateToProps, mapDispatchToProps)(AddVideoLogger)

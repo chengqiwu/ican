@@ -18,18 +18,14 @@ class VideoItem extends Component {
       id: this.props.id,
       name: this.props.video.name,
       content: this.props.video.describe || '',
+      idDescribe: !(this.props.video instanceof File)
     })
     this.props.describe({
       id: this.props.id,
       name: this.props.video.name,
       content: this.props.video.describe || '',
-      idDescribe: false
+      idDescribe: !(this.props.video instanceof File)
     })
-    if (this.props.video instanceof File) {
-      this.setState({
-        idDescribe: true
-      })
-    }
   }
   handBlur = () => {
     this.props.describe(this.state)
@@ -43,17 +39,22 @@ class VideoItem extends Component {
     const {url} = this.props
     return ( 
       <div>
-        <Player
-          fluid={false}
-          width={875}
-          // height={}
-          src={url} />
+        <div className='logger-box preview'>
+          <Player
+            // fluid={false}
+            // width={875}
+            // height={}
+            src={url} />
+          <div className='trash'>
+            <img src={trash} alt="" data-index={this.props.id} onClick={this.props.delete} />
+          </div>
+        </div>
         <input type="text"
           ref={input => this.input = input}
-          placeholder='图片描述'
+          placeholder='视频描述'
           onBlur={this.handBlur}
           value={this.state.content}
-          onChange={this.handleChange}/>
+          onChange={this.handleChange} />
       </div>
     )
   }

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import Rx from 'rxjs/Rx'
 
 import 'css/index/common/drapDrop.scss'
-import AddLogger from './AddLogger.jsx'
 
 const validValue = (value, max, min) => {
   return Math.min(Math.max(value, min), max)
@@ -55,12 +54,14 @@ class RxDragDrop extends Component {
       left: '30%',
       width: '900px'
     }
+    console.log(this.props)
+
     return (
       <div ref={drapDrop => this.drapDrop = drapDrop} className="dragDrop" style={style}>
         <h3 ref={title => this.title = title} className='dragDrop-title'>{this.props.title}</h3>
         <a href="#" id="dragDrop-closer" className="dragDrop-closer" onClick={this.destory.bind(this)}></a>
         <div className="dragDrop-content" ref={content => this.content = content} style={{ height: 'auto' }}>
-          <AddLogger {...this.props}/>
+          {React.cloneElement(this.props.children, { ...this.props })}
         </div>
       </div>
 
@@ -71,6 +72,7 @@ class RxDragDrop extends Component {
 RxDragDrop.propTypes = {
   close: PropTypes.func,
   title: PropTypes.string,
+  children: PropTypes.node
 }
 
 export default RxDragDrop

@@ -249,8 +249,14 @@ export function getUserIcon() {
 export function findLogPhotoById(params) {
   return axios.post(`${url}/api/logPhoto/findByLogId?token=${getToken()}`, params)
 }
+export function findLogVideoById(params) {
+  return axios.post(`${url}/api/logVideo/findByLogId?token=${getToken()}`, params)
+}
 export function deleteLogPhotoById(id) {
   return axios.post(`${url}/api/logPhoto/delete?token=${getToken()}`, id)
+}
+export function deleteLogVideoById(id) {
+  return axios.post(`${url}/api/logVideo/delete?token=${getToken()}`, id)
 }
 
 export function findSeasonLists() {
