@@ -46,8 +46,9 @@ class Planting extends Component {
             name='density'
             disabled={!this.props.edit}
             value={this.props.density} 
-            placeholder={'株/亩'}
+            // placeholder={'株/亩'}
             onChange={this.props.inputChange}/>
+          <span className='unit'>株/亩</span>
         </div>
         <div className='input-group'>
           <label htmlFor="">种植状态</label>

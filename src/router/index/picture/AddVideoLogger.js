@@ -34,7 +34,8 @@ class AddVideoLogger extends Component {
       describe: {},
       idDescribe: {},
       showLoggerImg: false,
-      type: '0'
+      type: '0',
+      progress: 0
     }
   }
   componentDidMount() {
@@ -133,7 +134,7 @@ class AddVideoLogger extends Component {
       type: '1',
     }))
     // type
-    this.state.videoList.map(video => fd.append('video', video))
+    this.state.videos.map(video => fd.append('video', video))
     const { describe, idDescribe } = this.state
     const describeStr = []
     Object.keys(describe).map(key => {
@@ -151,9 +152,19 @@ class AddVideoLogger extends Component {
         value: idDescribe[key]
       })
     })
-
+    const config = {
+      onUploadProgress: progressEvent => {
+        const complete = (progressEvent.loaded / progressEvent.total * 100 | 0)
+        this.setState({
+          progress: complete
+        })
+      },
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+    }
     idDescribeKvsStr.length !== 0 && fd.append('idDescribeKvsStr', JSON.stringify(idDescribeKvsStr))
-    return farmLandLogSave(fd)
+    return farmLandLogSave(fd, config)
       .then(e => e.data)
       .then(data => {
         if (data.msg === '200') {
@@ -208,23 +219,27 @@ class AddVideoLogger extends Component {
       return
     }
     confirmAlert({
-      message: '一条新的作业日志创建成功，要继续添加下一条日志吗？',
+      message: '日志已创建，是否继续添加？',
       buttons: [
         {
-          label: '继续',
+          label: '是',
           onClick: () => {
             this.setState({
-              files: [],
-              startDate: moment(),
+
+              videos: [],
               content: '',
               submiting: false,
               list: [],
-              describe: {}
+              videoList: [],
+              describe: {},
+              idDescribe: {},
+              showLoggerImg: false,
+              progress: 0
             })
           }
         },
         {
-          label: '退出',
+          label: '否',
           onClick: () => this.props.close()
         }
       ]
@@ -248,9 +263,13 @@ class AddVideoLogger extends Component {
   }
 
   onVideoDrop = (videos, rejectFiles) => {
-    if (rejectFiles.length > 1) {
-      alert('上传文件错误，请重新上传')
+    if (rejectFiles.length >= 1) {
+      alert('上传文件错误(大小不能大于30M)，请重新上传')
       return
+    }
+    if (this.state.videos.length === 1) {
+      alert('视频一次只能上传一个')
+      return 
     }
     videos.map((video, i) => {
       video.md5 = md5((Date.now() + i).toString())
@@ -298,6 +317,7 @@ class AddVideoLogger extends Component {
 
   deleteVideoListByid = (e) => {
     e.preventDefault()
+    
     const id = e.target.getAttribute('data-index')
     const fd = new FormData()
     fd.append('id', id)
@@ -305,13 +325,15 @@ class AddVideoLogger extends Component {
       .then(e => e.data)
       .then(data => {
         if (data.msg === '200') {
-          const { list } = this.state
+          const { videoList } = this.state
           this.setState({
-            videoList: list.filter(list => list.id !== id)
+            videoList: videoList.filter(list => list.id !== id)
           })
-          this.updateLists(list)
+          this.updateLists(videoList)
         }
       })
+      
+    
   }
   showLoggerImg = () => {
     this.setState({
@@ -319,6 +341,7 @@ class AddVideoLogger extends Component {
     })
   }
   deleteLandLog = (e) => {
+    e.preventDefault()
     confirmAlert({
       message: '确认删除？',
       buttons: [
@@ -346,7 +369,7 @@ class AddVideoLogger extends Component {
   render() {
     return (
       // }
-      <div className='add-video-logger' >
+      <div className='add-video-logger' style={{ width: this.props.width }} >
         <form onSubmit={this.submit}>
           <div className='log-str'>
             <div className='input-group'>
@@ -366,7 +389,7 @@ class AddVideoLogger extends Component {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', fontSize: '13px', padding: '0 15px', cursor: 'pointer' }} onClick={this.showLoggerImg}>
             <img src={arrow} />
-            添加
+            添加视频
             <div style={{ borderBottom: '1px solid #ddd', flexGrow: 1 }}></div>
           </div>
         
@@ -395,7 +418,8 @@ class AddVideoLogger extends Component {
 
             <div className='logger-box'>
               <Dropzone className='drop-zone'
-                accept="video/*"
+                accept="video/mp4"
+                maxSize={31457280}
                 onDrop={this.onVideoDrop}
                 multiple={false}>
                 <img src={add} alt="" />
@@ -404,11 +428,15 @@ class AddVideoLogger extends Component {
             </div>
           </div>
           <div className='submit'>
-            <input type="submit" value={this.state.submiting ? '保存中...' : '保存'} disabled={this.state.submiting} />
+            <div>
+              <input type="submit" value={this.state.submiting ? '保存中...' : '保存'} disabled={this.state.submiting} />
+              {this.state.submiting && 
+                (this.state.progress < 100 ? `视频正在上传${this.state.progress}%` : '上传完成，正在处理，请耐心等待')}
+            </div>
             {/* <input type="submit" value={'删除'}/> */}
             {this.props.logger &&
               this.props.logger.id &&
-              <button type='button' className='button delete' onClick={this.deleteLandLog}>删除</button>}
+              <a href='#' className='delete' onClick={this.deleteLandLog}>删除</a>}
           </div>
         </form>
 
@@ -421,7 +449,8 @@ AddVideoLogger.propTypes = {
   updateLists: PropTypes.func,
   log: PropTypes.object,
   logger: PropTypes.object,
-  delete: PropTypes.func
+  delete: PropTypes.func,
+  width: PropTypes.string
 }
 const mapStateToProps = function (state) {
   return {

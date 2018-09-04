@@ -2,7 +2,7 @@
    padding: 20px;
    width: 860px;
    >form {
-     padding-left: 11px;
+    //  padding-left: 11px;
    }
    >.add {
      background-color: #0b77f0;
@@ -24,7 +24,7 @@
    .input-group {
      display: flex;
      label {
-       width: 100px;
+      //  width: 100px;
        text-align: right;
        margin-right: 10px;
      }
@@ -165,9 +165,14 @@
              //   background-color: #fff !important;
              // }
              &[type=number] {
-                   width: 150px;
+                width: 100px;
              }
+             
            }
+           .unit {
+            width: 50px;
+            text-align: right;
+          }
          }
        }
        
@@ -257,6 +262,13 @@
            background-color: #0065d6
          }
          margin-right: 10px;
+       }
+       .delete {
+          position: absolute;
+          right: -700px;
+          top: 5px;
+          color: #3478f5;
+          cursor: pointer;
        }
      }
    }

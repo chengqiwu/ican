@@ -52,9 +52,8 @@ class RxDragDrop extends Component {
     const style = {
       top: '30%',
       left: '30%',
-      width: '900px'
+      width: 'auto'
     }
-    console.log(this.props)
 
     return (
       <div ref={drapDrop => this.drapDrop = drapDrop} className="dragDrop" style={style}>
@@ -72,7 +71,8 @@ class RxDragDrop extends Component {
 RxDragDrop.propTypes = {
   close: PropTypes.func,
   title: PropTypes.string,
-  children: PropTypes.node
+  children: PropTypes.node,
+  width: PropTypes.string
 }
 
 export default RxDragDrop

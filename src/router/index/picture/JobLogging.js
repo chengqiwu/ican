@@ -9,7 +9,8 @@ import PictureLists from './PictureList.jsx'
 // import AddLogger from './AddLogger'
 import RxDragDrop from './RxDragDrop'
 import { findSeasonLists} from 'utils/Api'
-import add from 'images/index/picture/add.png'
+import addVideo from 'images/index/picture/addVideo.png'
+import addPic from 'images/index/picture/addPic.png'
 import AddLogger from './AddLogger'
 import AddVideoLogger from './AddVideoLogger'
 
@@ -111,18 +112,18 @@ class JobLogging extends Component {
       return (
         show ? <div className='pictureLists' ref={jobLogging => this.jobLogging = jobLogging}>
           <div className='title'>
-            <h3>{this.props.feature.feature.get('name')}：{this.state.season} 作业日志</h3>
+            <h3>{this.props.feature.feature.get('name')}：{this.state.season} 生长日志</h3>
             <div className='tools'>
               {/* <label htmlFor="addLogger" onClick={this.handleLogger}>添加日志</label> */}
-              <img src={add} id='addLogger' onClick={this.handleLogger} alt="" />
-              <img src={add} id='addLogger' onClick={this.handleVideoLogger} alt="" />
+              <img src={addPic} id='addLogger' onClick={this.handleLogger} alt="" />
+              <img src={addVideo} id='addLogger' onClick={this.handleVideoLogger} alt="" />
               <a href="#" className='closer' onClick={this.close}></a>
             </div>
           </div>
           <div className='content'>
             <PictureLists {...this.props} modifyLogger={this.modifyLogger}/>
-            {this.state.logger && <RxDragDrop  {...this.props} title='新建图片日志' close={this.closeLogger} log={this.state.log}><AddLogger /></RxDragDrop >}
-            {this.state.videoLogger && <RxDragDrop  {...this.props} title='新建视频日志' close={this.closeLogger} log={this.state.log}><AddVideoLogger /></RxDragDrop>}
+            {this.state.logger && <RxDragDrop  {...this.props} title='新建图片日志' close={this.closeLogger} log={this.state.log}><AddLogger width={'900px'}/></RxDragDrop >}
+            {this.state.videoLogger && <RxDragDrop  {...this.props} title='新建视频日志' close={this.closeLogger} log={this.state.log}><AddVideoLogger width={'640px'}/></RxDragDrop>}
 
           </div>
         </div> : null

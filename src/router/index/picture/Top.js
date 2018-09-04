@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import 'css/index/picture/top.scss'
-import { Player } from 'video-react'
+import { Player, BigPlayButton } from 'video-react'
 import { findLogPhotoById, findLogVideoById } from 'utils/Api'
 class Top extends Component {
   constructor() {
@@ -12,6 +12,7 @@ class Top extends Component {
       videoList: [],
       activeList: {}
     }
+    this.width = 0
   }
   componentDidMount() {
     this.getInfo(this.props.logger)
@@ -62,7 +63,8 @@ class Top extends Component {
       var oNextTop = G('nextTop')
 
       var oPicLi = oPic.getElementsByTagName('li')
-      console.dir(oPic.clientWidth)
+      // this.width = (oPic.clientWidth)
+      console.log(this.player)
       const arr = [].slice.call(oPicLi)
       arr.forEach(li => {
         li.style.width = oPic.clientWidth + 'px'
@@ -86,6 +88,11 @@ class Top extends Component {
       var num2 = Math.ceil(num / 2)
 
       function Change() {
+        const videos = Array.from(document.querySelectorAll('video'))
+        videos.forEach(video => {
+          video.pause()
+        })
+      
         Animate(oPicUl, { left: - index * w1 })
 
         if (index < num2) {
@@ -100,7 +107,7 @@ class Top extends Component {
           oListLi[i].className = ''
           if (i == index) {
             oListLi[i].className = 'on'
-            self.describe.innerHTML = this.props.logger.type === '0' ? self.state.list[index].describe : self.state.videoList[index].describe
+            self.describe.innerHTML = self.props.logger.type === '0' ? self.state.list[index].describe : self.state.videoList[index].describe
 
           }
         }
@@ -113,6 +120,7 @@ class Top extends Component {
         index = index == len2 ? 0 : index
         console.log(index)
         Change()
+
       }
       oPrevTop.onclick = oPrev.onclick = function () {
 
@@ -166,6 +174,7 @@ class Top extends Component {
       
     }
     render() {
+      console.log(this.width)
       const { logger} = this.props
       return (
         <div className='modal'>
@@ -187,11 +196,16 @@ class Top extends Component {
                   <div className='img-div' style={{ backgroundImage: `url(${list.largeThumbnailPath})` }}></div>
                 </li>)}
                 {this.state.videoList.map(list => <li key={list.id}>
-                  <Player
-                    // fluid={false}
-                    // width={875}
-                    // height={}
-                    src={list.path} />
+                  <div className='img-div'>
+                    <Player
+                      ref={player => this.player = player}
+                      // fluid={false}
+                      // width={this.width}
+                      // height={650}
+                      src={list.path} >
+                      <BigPlayButton position="center" />
+                    </Player>
+                  </div> 
                 </li>)}
               </ul>
             </div>
@@ -205,11 +219,12 @@ class Top extends Component {
                 </li>)}
                 {this.state.videoList.map((list, i) => <li key={list.id} className={i === 0 ? 'on' : ''}>
                   <i className="arr2" ></i>
-                  <Player
+                  {/* <Player
                     // fluid={false}
                     // width={875}
                     // height={}
-                    src={list.path} />
+                    src={list.path} /> */}
+                  <div className='img-div' style={{ backgroundImage: `url(${list.vcsPath})` }}></div>
                 </li>)}
                 {/* <li className="on">
                                 <i className="arr2"></i>

@@ -135,6 +135,11 @@ a {
           display: flex;
           justify-content: space-between;
           align-items: flex-start;
+          .react-datepicker__input-container {
+            input {
+              width: 90px;
+            }
+          }
         }
       }
     }
@@ -153,6 +158,11 @@ a {
         .log-str {
           padding: 15px;
           padding-bottom: 0;
+          .react-datepicker__input-container {
+            input {
+              width: 90px;
+            }
+          }
         }
         .input-group {
           display: flex;
@@ -172,15 +182,16 @@ a {
         }
         .submit {
           display: flex;
-          justify-content: space-between;
+          justify-content: center;
+          align-items: center;
           padding-left: 10px;
           padding-right: 10px;
           margin: 15px 0;
-          input,
-          .delete {
+          position: relative;
+          input {
             color: #fff;
-            width: 80px;
-            height: 40px;
+            width: 88px;
+            height: 30px;
             background-image: linear-gradient(to top, #3478f5, #6fa2ff);
             box-shadow: -0.9px 0.5px 2px 0 rgba(15, 68, 165, 0.35);
             border-radius: 5px;
@@ -188,7 +199,9 @@ a {
             margin: 0 5px;
           }
           .delete {
-            background-image: linear-gradient(to top, #ff0000, #f96a6a);
+            color: #3478f5;
+            position: absolute;
+            right: 20px;
           }
         }
       }

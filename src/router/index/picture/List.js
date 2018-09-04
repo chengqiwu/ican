@@ -4,6 +4,7 @@ import moment from 'moment'
 import classnames from 'classnames'
 import camera from 'images/index/picture/camera.png'
 import edit from 'images/index/picture/edit.png'
+import video from 'images/index/picture/video.png'
 import delete1 from 'images/index/picture/trash.png'
 
 function getCss(curEle, attr){
@@ -72,7 +73,7 @@ class List extends Component {
           {
             list.videoCount !== '0' && <div className='imgs' onClick={e => this.props.show(list)}>
               <span>{list.videoCount}</span>
-              <img src={camera} alt="" />
+              <img src={video} alt="" />
             </div>
           }
                    

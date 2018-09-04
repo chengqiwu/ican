@@ -352,13 +352,13 @@ class AddSoil extends Component {
         </div>
         {this.state.id.toString().length === 13 && <div className='action'>
           <input className='button save' type="submit" value={this.state.saving ? '保存中':'保存'} disabled={this.state.saving}/>
-          <button type='button' className='button delete' disabled={this.state.saving} onClick={this.deleteSoilLandById.bind(this, this.props.soilLand.id)}>删除</button>
+          <a href='#' className='delete' disabled={this.state.saving} onClick={this.deleteSoilLandById.bind(this, this.props.soilLand.id)}>删除</a>
         </div> }
         {this.state.id.toString().length === 32 
           && !this.state.edit 
           && <div className='action'>
             <button type='button' className='button edit' onClick={this.activeEdit}>编辑</button>
-            <button type='button' className='button delete' onClick={this.deleteSoilLandById.bind(this, this.props.soilLand.id)}>删除</button>
+            <a href='#' className='delete' onClick={this.deleteSoilLandById.bind(this, this.props.soilLand.id)}>删除</a>
           </div>}
         {this.state.id.toString().length === 32 
           && this.state.edit 

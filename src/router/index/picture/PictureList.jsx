@@ -129,7 +129,7 @@ class PictureList extends Component {
       <div className='lists'>
         {flag && <RxDragDrop title={this.state.logger.id ? '编辑日志' : '新建日志'} logger={this.state.logger} close={this.destory} delete={this.delete}>
           {
-            this.state.logger.type === '0' ? <AddLogger/> : <AddVideoLogger/>
+            this.state.logger.type === '0' ? <AddLogger width={'900px'} /> : <AddVideoLogger width={'640px'}/>
           }
         </RxDragDrop>}
         {!this.state.close && <Top closer={this.closer} logger={this.state.list} />}

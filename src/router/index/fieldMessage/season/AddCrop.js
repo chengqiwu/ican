@@ -161,9 +161,8 @@ class AddCrop extends Component {
     const info = {}
     if (this.state.id.toString().length === 32) {
       info.id = this.state.id
-      
     }
-    if (!this.state.crop) {
+    if (!this.state.crop.value) {
       alert('请选择作物')
       return
     }
@@ -424,7 +423,7 @@ class AddCrop extends Component {
               {this.state.id && <button type='button' className='button no-save' onClick={this.restore}>放弃</button>}
             </div> : <div className='action'>
               <button type='button' className='button' onClick={this.activeEdit}>编辑</button>
-              <button type='button' className='button' onClick={this.delete}>删除</button>
+              <a className='delete' onClick={this.delete}>删除</a>
             </div>
           }
           

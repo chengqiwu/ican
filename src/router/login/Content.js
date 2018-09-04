@@ -43,7 +43,7 @@ class Content extends Component {
           <div className='user-login' style={{ display: (!this.state.loginClose ? 'none' : 'block')}}>
             <div>
               <a href="#" className='login-closer' onClick={this.closeClick}></a>
-              <img src={logo} alt=""/>
+              {/* <img src={logo} alt=""/> */}
               <SecondLogin />
               <LoginFrom />
             </div>

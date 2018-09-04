@@ -84,20 +84,21 @@ class Crop extends Component {
             min="0.0"
             disabled={!this.props.edit}
             name='maxProduction' 
-            placeholder={'公斤/亩'}
             value={this.props.maxProduction} 
             onChange={this.props.inputChange}/>
+          <span className='unit'>公斤/亩</span>
         </div>
         <div className='input-group'>
           <label htmlFor="">最低产量</label>
           <input
             type="number"
             min="0.0"
-            placeholder={'公斤/亩'}
+            // placeholder={'公斤/亩'}
             disabled={!this.props.edit}
             name='minProduction' 
             value={this.props.minProduction} 
             onChange={this.props.inputChange}/>
+          <span className='unit'>公斤/亩</span>
         </div>
       </div>
     </div>

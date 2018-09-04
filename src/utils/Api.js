@@ -222,12 +222,7 @@ export function updateUserInfo(userInfo) {
 }
 
 
-export function farmLandLogSave(farmLandLog) {
-  let config = {
-    // headers: {
-    //     'Content-Type': 'multipart/form-data',},
-    // withCredentials: true
-  }
+export function farmLandLogSave(farmLandLog, config = {}) {
   return axios.post(url + '/api/farmlandLog/save?token=' + getToken(), farmLandLog, config)
 }
 // 	api/farmlandLog/delete

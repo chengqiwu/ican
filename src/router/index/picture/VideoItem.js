@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import trash from 'images/index/picture/trash.png'
 import PropTypes from 'prop-types'
-import { Player } from 'video-react'
+import { Player, BigPlayButton } from 'video-react'
 
 class VideoItem extends Component {
   constructor() {
@@ -41,10 +41,12 @@ class VideoItem extends Component {
       <div>
         <div className='logger-box preview'>
           <Player
-            // fluid={false}
-            // width={875}
-            // height={}
-            src={url} />
+            fluid={false}
+            width={270}
+            height={180}
+            src={url} >
+            <BigPlayButton position="center" />
+          </Player>
           <div className='trash'>
             <img src={trash} alt="" data-index={this.props.id} onClick={this.props.delete} />
           </div>

@@ -88,8 +88,8 @@ $margin-left-right: 20px;
 }
 
 .user-login {
-  width: 430px;
-  height: 450px;
+  width: 362px;
+  height: 305px;
   position: absolute;
   top: 30%;
   margin: auto;
@@ -97,13 +97,13 @@ $margin-left-right: 20px;
   bottom: 30%;
   border-radius: 10px;
   padding: 15px;
-  background-color: rgba($color: #ffffff, $alpha: 0.3);
+  background-color: rgba(255, 255, 255, 0.3);
   border: 1px solid #fff;
   >div {
     background-color: #eee;
     border-radius: 10px;
     height: 100%;
-    padding: 14px 50px;
+    padding: 14px;
     display: flex;
     flex-direction: column; // justify-content: space-between;
     align-items: center;
@@ -187,9 +187,8 @@ $margin-left-right: 20px;
 .user-submit {
   width: 300px;
   background-color: #55a532;
-  height: 50px;
+  height: 38px;
   @include border-radius-five;
-  margin: 10px 0 10px 0;
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -232,7 +231,7 @@ $margin-left-right: 20px;
 .user-help {
   @extend .flex-left-right;
   align-items: center;
-  margin-top: 17px;
+  margin-top: 10px;
   >div {
     display: flex;
     align-items: center;
@@ -257,6 +256,10 @@ $margin-left-right: 20px;
 
 .second-login {
   @extend .flex-horizontal-center;
+  align-items: center;
+  > img {
+    width: 32px;
+  }
 }
 
 .second-login {
@@ -374,10 +377,10 @@ $margin-left-right: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
+  padding: 10px 5px;
+  padding-left: 15px;
   width: 100%;
-  margin-top: 27px;
-  margin-bottom: 13px;
+  margin-top: 7px;
   label {
     font-weight: bold;
     color: #666;

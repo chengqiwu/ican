@@ -204,10 +204,10 @@ class AddLogger extends Component {
       return
     }
     confirmAlert({
-      message: '一条新的作业日志创建成功，要继续添加下一条日志吗？',
+      message: '日志已创建，是否继续添加？',
       buttons: [
         {
-          label: '继续',
+          label: '是',
           onClick: () => {
             this.setState({
               files: [],
@@ -215,12 +215,13 @@ class AddLogger extends Component {
               content: '',
               submiting: false,
               list: [],
-              describe: {}
+              describe: {},
+              showLoggerImg: false,
             })
           }
         },
         {
-          label: '退出',
+          label: '否',
           onClick: () => this.props.close()
         }
       ]
@@ -268,6 +269,7 @@ class AddLogger extends Component {
           this.updateLists(list)
         }
       })
+       
   }
   showLoggerImg = () => {
     this.setState({
@@ -275,6 +277,7 @@ class AddLogger extends Component {
     })
   }
   deleteLandLog = (e) => {
+    e.preventDefault()
     confirmAlert({
       message: '确认删除？',
       buttons: [
@@ -296,7 +299,7 @@ class AddLogger extends Component {
   render() {
     return (
       // }
-      <div className='add-logger' >
+      <div className='add-logger' style={{width: this.props.width}} >
         <form onSubmit={this.submit}>
           <div className='log-str'>
             <div className='input-group'>
@@ -356,7 +359,7 @@ class AddLogger extends Component {
             {/* <input type="submit" value={'删除'}/> */}
             {this.props.logger && 
               this.props.logger.id && 
-              <button type='button' className='button delete' onClick={this.deleteLandLog}>删除</button>}
+              <a href='#' className='delete' onClick={this.deleteLandLog}>删除</a>}
           </div>
         </form>
 
@@ -369,7 +372,8 @@ AddLogger.propTypes = {
   updateLists: PropTypes.func,
   log: PropTypes.object,
   logger: PropTypes.object,
-  delete: PropTypes.func
+  delete: PropTypes.func,
+  width: PropTypes.string
 }
 const mapStateToProps = function (state) {
   return {
