@@ -6,6 +6,7 @@ import history from 'router/history'
 import { Blowfish } from 'javascript-blowfish'
 import { verifyCode, userRegister } from 'utils/Api'
 import { codeUrl } from '../../url'
+import { toast } from 'react-toastify'
 
 if (!window.atob) {
   var tableStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
@@ -114,36 +115,71 @@ class RegisterForm extends Component {
 
     const { username, password, repassword, protocol } = this.state
     if (!username) {
-      alert('输入用户名')
+      toast.info('请输入用户名', {
+        position: toast.POSITION.BOTTOM_CENTER,
+        pauseOnHover: false,
+        hideProgressBar: true,
+        autoClose: 3000,
+      })
       return
     }
     // [\s\S]*
     if (!username.match(/^[a-zA-Z\u4e00-\u9fa5][\s\S]*/)){
       // ([\u4e00-\u9fa5_a-zA-Z0-9]{5,23})$/)) {
-      alert('输入用户名格式不正确')
+      toast.info('输入用户名格式不正确', {
+        position: toast.POSITION.BOTTOM_CENTER,
+        pauseOnHover: false,
+        hideProgressBar: true,
+        autoClose: 3000,
+      })
       return
     } else {
       let len = username.replace(/[^x00-xff]/g, 'aa').length
       console.log(len)
       if (len >24 || len < 6) {
-        alert('输入用户名格式不正确')
+        toast.info('输入用户名格式不正确', {
+          position: toast.POSITION.BOTTOM_CENTER,
+          pauseOnHover: false,
+          hideProgressBar: true,
+          autoClose: 3000,
+        })
         return
       }
     }
     if(!password) {
-      alert('输入密码')
+      toast.info('输入密码', {
+        position: toast.POSITION.BOTTOM_CENTER,
+        pauseOnHover: false,
+        hideProgressBar: true,
+        autoClose: 3000,
+      })
       return
     }
     if (!password.match(/^[^\u4e00-\u9fa5]{6,24}$/)) {
-      alert('输入密码格式不正确')
+      toast.info('输入密码格式不正确', {
+        position: toast.POSITION.BOTTOM_CENTER,
+        pauseOnHover: false,
+        hideProgressBar: true,
+        autoClose: 3000,
+      })
       return
     }
     if (!repassword) {
-      alert('请确认密码')
+      toast.info('请确认密码', {
+        position: toast.POSITION.BOTTOM_CENTER,
+        pauseOnHover: false,
+        hideProgressBar: true,
+        autoClose: 3000,
+      })
       return
     }
     if (repassword !== password) {
-      alert('两次密码不一样')
+      toast.info('两次密码不一样', {
+        position: toast.POSITION.BOTTOM_CENTER,
+        pauseOnHover: false,
+        hideProgressBar: true,
+        autoClose: 3000,
+      })
       this.setState({
         password: '',
         repassword: ''
@@ -157,13 +193,16 @@ class RegisterForm extends Component {
       .then(data => {
         if (data.msg === '200') {
           if (!protocol) {
-            alert('必须同意《精禾云平台服务条款》后才能继续')
+            toast.info('必须同意《精禾云平台服务条款》后才能继续', {
+              position: toast.POSITION.BOTTOM_CENTER,
+              pauseOnHover: false,
+              hideProgressBar: true,
+              autoClose: 3000,
+            })
             return
           } else {
             return true
           }
-        } else {
-          alert(data.result)
         }
       })
       .then(flag => {
@@ -177,10 +216,14 @@ class RegisterForm extends Component {
                 }).then(res => res.data)
                   .then(data => {
                     if (data.msg === '200') {
-                      history.push('/validate')
+                      toast.success('注册成功，请验证', {
+                        position: toast.POSITION.BOTTOM_CENTER,
+                        pauseOnHover: false,
+                        hideProgressBar: true,
+                        autoClose: 1000,
+                        onClose: () => history.push('/validate')
+                      })
                       sessionStorage.setItem('token', data.result)
-                    }else {
-                      alert(data.result)
                     }
 
                   })

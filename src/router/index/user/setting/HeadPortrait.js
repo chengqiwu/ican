@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Dropzone from 'react-dropzone'
 import PropTypes from 'prop-types'
+import { toast } from 'react-toastify'
 import AvatarEditor from 'react-avatar-editor'
 import user from 'images/common/userDefault.png'
 import { updateIcon, getUserIcon, dataUrlToBlob } from 'utils/Api'
@@ -29,8 +30,12 @@ class HeadPortrait extends Component {
     }
   }
   preview = (files, reject) => {
-    if (reject.length > 1) {
-      alert('上传文件格式有错，请重新上传')
+    if (reject.length >= 1) {
+      toast.error('上传文件格式有错，请重新上传', {
+        position: toast.POSITION.BOTTOM_CENTER,
+        pauseOnHover: false,
+        hideProgressBar: true,
+      })
       return
     }
     const file = files[0]
@@ -87,10 +92,10 @@ class HeadPortrait extends Component {
     updateIcon(fd).then(e => e.data)
       .then(data => {
         if (data.msg === '200') {
-          alert('保存成功')
+          toast.success('保存成功', {
+            autoClose: 2000,
+          })
           this.props.getUserInfo()
-        } else {
-          alert('保存失败，请稍后再试！')
         }
       })
   }

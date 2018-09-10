@@ -6,6 +6,7 @@ import { updateManure } from '_redux/actions/manure'
 import Scrollbar from 'smooth-scrollbar'
 import { plantingSeasonCropDelete, getFertilizer } from 'utils/Api'
 import delete1 from 'images/index/crop/delete.png'
+import { toast } from 'react-toastify'
 // import delete1 from 'images/circle/red.png'
 const ferType = '尿素，一铵，二铵，硫酸钾，硫酸锌，硼肥，磷酸二氢钾，芸苔素，氯化钾，菌肥，有机肥，其它'.split('，')
 class Manure extends Component {
@@ -25,7 +26,7 @@ class Manure extends Component {
     }
     const { manure, updateManure, plantingSeasonCropsId, update, updateNo } = this.props
     if (!plantingSeasonCropsId) {
-      alert('保存作物之后才能添加肥料')
+      toast.info('保存作物之后才能添加肥料')
       return
     }
     if (manure.show) {
@@ -46,8 +47,6 @@ class Manure extends Component {
           //   fertilizers: this.state.fertilizers.filter(fer => fer.id !== id)
           // })
           this.props.updateFertilizers()
-        } else {
-          alert('删除失败，请稍后重试')
         }
       })
 

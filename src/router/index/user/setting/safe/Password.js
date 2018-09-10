@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { updatePassword } from 'utils/Api'
 import { blowfish } from 'utils/tools'
+import { toast } from 'react-toastify'
 import history from 'router/history'
 import Cookies from 'js-cookie'
 class Password extends Component {
@@ -24,13 +25,18 @@ class Password extends Component {
     }
     submit = (e) => {
       e.preventDefault()
+      console.log(this.state)
       const {password, newPassword,passwordConfirm} = this.state
+      if (!password) {
+        toast.info('要想修改密码，请先输入你的旧密码')
+        return
+      }
       if (!newPassword) {
-        alert('要想修改密码，请输入您的新密码')
+        toast.info('要想修改密码，请输入您的新密码')
         return
       }
       if (newPassword !== passwordConfirm) {
-        alert('两次密码输入不一致，请重新输入...')
+        toast.info('两次密码输入不一致，请重新输入')
         this.setState({
           password: '',
           newPassword: '',
@@ -39,7 +45,7 @@ class Password extends Component {
         return 
       }
       if (!newPassword.match(/^[^\u4e00-\u9fa5]{6,24}$/)) {
-        alert('输入密码格式不正确')
+        toast.info('输入密码格式不正确')
         this.setState({
           password: '',
           newPassword: '',
@@ -50,18 +56,18 @@ class Password extends Component {
       }
       var fd = new FormData()
       // fd.append('password', 1)
-      fd.append('password', blowfish(this.state.password))
-      fd.append('oldPassword', blowfish(this.state.newPassword))
+      fd.append('password', blowfish(this.state.newPassword))
+      fd.append('oldPassword', blowfish(this.state.password))
       updatePassword(fd)
         .then(e => e.data)
         .then(data => {
           if (data.msg === '200') {
-            alert('密码修改成功，请返回登录页重新登陆')
+            toast.success('密码修改成功，请返回登录页重新登陆', {
+              autoClose: 1000,
+              onClose: () => history.push('/')
+            })
             sessionStorage.clear()
             Cookies.remove('name', { path: '' })
-            history.push('/')
-          } else if (data.msg === '217'){
-            alert('输入原密码错误')
           }
         })
     }

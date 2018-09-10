@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import classNames from 'classnames'
 import success from 'images/register/success.png'
 import PropTypes from 'prop-types'
+import { toast } from 'react-toastify'
 import history from 'router/history'
 import Rx from 'rxjs/Rx'
 import { registerVerify, userVerify } from 'utils/Api'
@@ -82,23 +83,37 @@ class ValidateContent extends Component {
               // this.setState({
               //     phoneSuccess: true
               // })  
-              alert('太好了，您已经完成注册，请用您刚才创建的账号登录本平台，\r\n感受精禾为您提供的科学精准服务吧。')
-              history.push('/')
+              toast.success('太好了，您已经完成注册，请用您刚才创建的账号登录本平台，\r\n感受精禾为您提供的科学精准服务吧。', {
+                position: toast.POSITION.BOTTOM_CENTER,
+                pauseOnHover: false,
+                hideProgressBar: true,
+                autoClose: 3000,
+                onClose: () => history.push('/')
+              })
             }
           })
       } else {
-        alert('验证码输入错误，请重新输入')
+        toast.error('验证码输入错误，请重新输入', {
+          position: toast.POSITION.BOTTOM_CENTER,
+          pauseOnHover: false,
+          hideProgressBar: true,
+          autoClose: 3000,
+        })
       }
            
            
     }
     if (type === 'email') {
       if (!this.state.email) {
-        alert('email')
         return
       } 
       if (!(/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.state.email))) {
-        alert('输入邮箱有误，请重填')
+        toast.info('输入邮箱有误，请重填', {
+          position: toast.POSITION.BOTTOM_CENTER,
+          pauseOnHover: false,
+          hideProgressBar: true,
+          autoClose: 3000,
+        })
         this.setState({
           email: ''
         })
@@ -118,8 +133,15 @@ class ValidateContent extends Component {
           // this.setState({
           //     code
           // })
-          alert('一封激活邮件已经发送到你的邮箱，\r\n请接收并按照邮件内提示完成激活操作。')
-          history.push('/')
+          toast.success('一封激活邮件已经发送到你的邮箱，\r\n请接收并按照邮件内提示完成激活操作。', {
+            position: toast.POSITION.BOTTOM_CENTER,
+            pauseOnHover: false,
+            hideProgressBar: true,
+            autoClose: 3000,
+            onClose: () => history.push('/')
+          })
+          // alert('一封激活邮件已经发送到你的邮箱，\r\n请接收并按照邮件内提示完成激活操作。')
+          
         }
       })
     }
@@ -145,11 +167,21 @@ class ValidateContent extends Component {
       return
     }
     if (!this.state.phone) {
-      alert('输入手机号')
+      toast.info('输入手机号', {
+        position: toast.POSITION.BOTTOM_CENTER,
+        pauseOnHover: false,
+        hideProgressBar: true,
+        autoClose: 3000,
+      })
       return
     }
     if (!(/^1(3|4|5|7|8)\d{9}$/.test(this.state.phone))) {
-      alert('手机号码有误，请重填')
+      toast.info('手机号码有误，请重填', {
+        position: toast.POSITION.BOTTOM_CENTER,
+        pauseOnHover: false,
+        hideProgressBar: true,
+        autoClose: 3000,
+      })
       this.setState({
         phone: ''
       })

@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Select from 'react-select'
+import { toast } from 'react-toastify'
 import { farmLandSave } from 'utils/Api'
+import { geoserverUrl } from '../../../../url'
+import download from 'images/index/picture/download.png'
 const statusArr = [
   {
     label: '优',
@@ -88,9 +91,9 @@ class FarmLand extends Component {
           this.setState({
             edit: false
           })
-          alert('修改成功')
-        } else {
-          alert('修改失败，请稍后重试')
+          toast.success('修改成功', {
+            autoClose: 2000
+          })
         }
       })
   }
@@ -109,6 +112,7 @@ class FarmLand extends Component {
     })
   }
   render() {
+    const { feature: { feature } } = this.props
     return <div className='farmland'>
       <form onSubmit={this.submitHandler}>
         <div className="input-group">
@@ -136,8 +140,10 @@ class FarmLand extends Component {
         
 
         
-        {!this.state.edit ? <div><button type='button' className='button edit' onClick={this.activeEdit}>编辑</button></div>
+        {!this.state.edit ? <div className='action'><button type='button' className='button edit' onClick={this.activeEdit}>编辑</button> <a className='download' href={`${geoserverUrl}?service=WFS&version=1.0.0&request=GetFeature&typeName=ican:tb_farmland&outputFormat=application%2Fvnd.google-earth.kml%2Bxml&featureID=${feature.getId()}`}>
+          <img src={download} alt="" />KML</a></div>
           : <div><button className="button submit">保存</button><button type='button' className="button submit" onClick={this.abandon}>放弃</button></div>}
+       
       </form>
       
     </div>

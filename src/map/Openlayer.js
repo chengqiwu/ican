@@ -9,6 +9,9 @@ import 'css/map/map.scss'
 import history from 'router/history'
 import UserFeature from './userFeature'
 import {getUserInfo} from '_redux/actions/user'
+import { saveFeature, setFeature } from '_redux/actions/feature'
+import { showFieldMessage, startFieldMessage } from '_redux/actions/fieldMessage'
+import { showList } from '_redux/actions/picture'
 class Openlayer extends Component {
   constructor() {
     super()
@@ -39,7 +42,23 @@ class Openlayer extends Component {
     //     }),
 
     // })
+    map.on('click', (evt) => this.clickListener(evt))
        
+  }
+  clickListener(evt) {
+    console.log('cick')
+    const { target } = evt.originalEvent
+    if (target.tagName === 'IMG' && target.getAttribute('index')) {
+      return
+    }
+    const { map } = this.props.map
+    const feature = map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => layer && (layer.get('id') === 'vector'||layer.get('id') === 'input' || !layer.get('id')) && feature)
+    if (feature) {
+      this.props.saveFeature(feature)
+      this.props.startFieldMessage(false)
+      this.props.showFieldMessage(false)
+      this.props.showList(false)
+    }
   }
   render() {
     return (
@@ -54,7 +73,11 @@ Openlayer.propTypes = {
   children: PropTypes.object,
   setTarget: PropTypes.func,
   map: PropTypes.object,
-  getUserInfo: PropTypes.func
+  getUserInfo: PropTypes.func,
+  saveFeature: PropTypes.func,
+  startFieldMessage: PropTypes.func,
+  showFieldMessage: PropTypes.func,
+  showList: PropTypes.func,
 }
 
 const mapStateToProps = (state) => {
@@ -62,10 +85,22 @@ const mapStateToProps = (state) => {
     map: state.map
   }
 }
-const mapDispatchToProps = (dispath) => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    setTarget: (target) => dispath({ type: 'changeTarget', target}),
-    getUserInfo: () => dispath(getUserInfo())
+    setTarget: (target) => dispatch({ type: 'changeTarget', target}),
+    getUserInfo: () => dispatch(getUserInfo()),
+    saveFeature: (feature) => {
+      dispatch(saveFeature(feature))
+    },
+    startFieldMessage: (start) => {
+      dispatch(startFieldMessage(start))
+    },
+    showFieldMessage: (show) => {
+      dispatch(showFieldMessage(show))
+    },
+    showList: (show) => {
+      dispatch(showList(show))
+    }
   }
 }
 Openlayer = connect(mapStateToProps, mapDispatchToProps)(Openlayer)

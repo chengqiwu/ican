@@ -9,8 +9,7 @@ import PictureLists from './PictureList.jsx'
 // import AddLogger from './AddLogger'
 import RxDragDrop from './RxDragDrop'
 import { findSeasonLists} from 'utils/Api'
-import addVideo from 'images/index/picture/addVideo.png'
-import addPic from 'images/index/picture/addPic.png'
+import add from 'images/index/picture/add.png'
 import AddLogger from './AddLogger'
 import AddVideoLogger from './AddVideoLogger'
 
@@ -115,8 +114,16 @@ class JobLogging extends Component {
             <h3>{this.props.feature.feature.get('name')}：{this.state.season} 生长日志</h3>
             <div className='tools'>
               {/* <label htmlFor="addLogger" onClick={this.handleLogger}>添加日志</label> */}
-              <img src={addPic} id='addLogger' onClick={this.handleLogger} alt="" />
-              <img src={addVideo} id='addLogger' onClick={this.handleVideoLogger} alt="" />
+              {/* <img src={addPic} id='addLogger' onClick={this.handleLogger} alt="" />
+              <img src={addVideo} id='addLogger' onClick={this.handleVideoLogger} alt="" /> */}
+              <div className='add' onClick={this.handleLogger}>
+                <img src={add} alt="" />
+                <span>添加图片</span>
+              </div>
+              <div className='add' onClick={this.handleVideoLogger}>
+                <img src={add} alt=""/>
+                <span>添加视频</span>
+              </div>
               <a href="#" className='closer' onClick={this.close}></a>
             </div>
           </div>

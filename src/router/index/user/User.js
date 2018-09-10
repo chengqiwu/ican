@@ -4,13 +4,15 @@ import Polygon from 'map/Polygon'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Content from './setting/Content'
-
+import Field from './myField/Field'
+import KML from './options/KML'
 import { getUserIcon } from 'utils/Api'
 import {
   SHOWDRAGDROP, HIDENDRAGDROP,
   showDragDrop, hidenDragDrop
 } from '_redux/actions/dragDrop.js'
 import RxDragDrop from './myField/RxDragDrop'
+import Input from './options/Input'
 import user_img from 'images/common/user.png'
 import 'css/index/common/user.scss'
 import history from 'router/history'
@@ -27,15 +29,16 @@ class User extends Component {
     super(props)
     this.state = {
       hiden: true,
-      draw: false,
       messCount: 0,
       clear: false,
       setting: false,
-      myfield: false
+      myfield: false,
+      draw: false,
+      createField: false,
+      kml: false
     }
     this.showFeature = this.showFeature.bind(this)
     this.addField = this.addField.bind(this)
-    this.removeDraw = this.removeDraw.bind(this)
     this.loginout = this.loginout.bind(this)
   }
   showFeature() {
@@ -51,16 +54,8 @@ class User extends Component {
       hiden: true,
       draw: true
     })
-    this.child.clearSource()
   }
-  removeDraw() {
-    if (!this.state.draw) {
-      return
-    }
-    this.setState({
-      draw: false
-    })
-  }
+ 
   loginout() {
     sessionStorage.clear()
     Cookies.remove('name', { path: '' })
@@ -71,9 +66,7 @@ class User extends Component {
   //         clear: true
   //     })
   // }
-  onRef (ref) {
-    this.child = ref
-  }
+ 
     showSetting = () => {
       this.props.showDragDrop({
         title: '设置',
@@ -93,6 +86,43 @@ class User extends Component {
         myfield: false
       })
     }
+    onRef = (ref) => {
+      this.child = ref
+    }
+    removeDraw = () => {
+      if (!this.state.draw) {
+        return
+      }
+      this.setState({
+        draw: false
+      })
+    }
+    createFieldClose = () => {
+      this.setState({
+        // hiden: true,
+        createField: false
+      })
+    }
+    activeInput = () => {
+      if (this.state.createField) {
+        return
+      }
+      this.setState({
+        hiden: true,
+        createField: true
+      })
+    }
+    addKML = () => {
+      this.setState({
+        kml: true,
+        hiden: true,
+      })
+    }
+    removeKML = () => {
+      this.setState({
+        kml: false,
+      })
+    }
     render() {
       const { user } = this.props
       return(
@@ -101,19 +131,32 @@ class User extends Component {
             <div className='user-img' onClick={this.showFeature} style={{backgroundImage: `url(${user.icon||user_img})`}}>
               {/* <img src={user.icon||user_img} alt="" onClick={this.showFeature} /> */}
             </div>
-            {this.state.myfield && <RxDragDrop close={this.myfieldClose} title={'我的田地'}/>}
+            {this.state.myfield && <RxDragDrop close={this.myfieldClose} title={'我的田地'}><Field /></RxDragDrop>}
             {this.state.messCount !== 0 && <span className='user-message mess-abosulte'>{this.state.messCount}</span>}
+            {this.state.createField && <RxDragDrop width={'309px'} height={'269x'} close={this.createFieldClose} title={'输入坐标创建田地'}><Input map={this.props.map.map}/></RxDragDrop>}
+            {this.state.kml && <KML map={this.props.map.map} removeKML={this.removeKML} />}
             <div className={classnames({
               'user-feature': true,
               'hiden': this.state.hiden
             })}>
               <ul>
-                <li>
+                <li className='add-field'>
                   <img src={filed} alt=""/>
-                  <label onClick={this.addField}>新建田地</label>
-                  <Polygon 
-                    onRef={this.onRef.bind(this)}
-                    draw={this.state.draw} removeDraw={this.removeDraw}></Polygon>
+                  <label>新建田地</label>
+                  <ul className='second'>
+                    <li>
+                      <label onClick={this.addField}>手动框选</label>
+                      <Polygon
+                        onRef={this.onRef.bind(this)}
+                        draw={this.state.draw} removeDraw={this.removeDraw}></Polygon>
+                    </li>
+                    <li>
+                      <label onClick={this.activeInput}>输入坐标</label>
+                    </li>
+                    <li>
+                      <label onClick={this.addKML}>导入KML</label>
+                    </li>
+                  </ul>
                 </li>
                 <li>
                   <img src={myfields} alt="" />
@@ -148,11 +191,13 @@ class User extends Component {
 }
 User.propTypes = {
   showDragDrop: PropTypes.func,
-  user: PropTypes.object
+  user: PropTypes.object,
+  map: PropTypes.object
 }
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
+    map: state.map,
     // message: state.message,
     // fieldMessage: state.fieldMessage
   }

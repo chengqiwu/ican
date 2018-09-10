@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Rx from 'rxjs/Rx'
+import { toast } from 'react-toastify'
 import { blowfish } from 'utils/tools'
 import { updateContact, updateContactSuccess, getUserInfo2, validatePassword } from 'utils/Api'
 class Phone extends Component {
@@ -76,8 +77,6 @@ class Phone extends Component {
               })
             })
 
-          } else {
-            alert('获取验证码失败，请稍后重试')
           }
         })
     }
@@ -92,6 +91,9 @@ class Phone extends Component {
           .then(e => e.data)
           .then(data => {
             if (data.msg === '200') {
+              toast.success('密码修改成功', {
+                autoClose: 1000
+              })
               this.setState({
                 success: true
               })
@@ -102,7 +104,6 @@ class Phone extends Component {
             }
           })
       } else {
-        alert('输入验证码不正确，请重新输入')
         this.setState({
           code: ''
         })
@@ -117,7 +118,7 @@ class Phone extends Component {
     vailPassword = (e) => {
       e.preventDefault()
       if (!this.state.password) {
-        alert('请输入密码')
+        toast.info('请输入密码')
         return
       }
       const fd = new FormData()
@@ -127,20 +128,19 @@ class Phone extends Component {
         .then(data => {
           if (data.msg === '200') {
             if (data.result === 'true') {
-              alert('密码验证成功')
+              toast.success('密码验证成功', {
+                autoClose: 2000
+              })
               this.setState({
                 modify: true,
                 passwordVer: false,
                 password: ''
               })
             } else {
-              alert('密码输入错误')
               this.setState({
                 password: ''
               })
             }
-          } else {
-            alert('网络异常，请稍后重试')
           }
         })
     }
@@ -176,7 +176,7 @@ class Phone extends Component {
 
                 </div>
               }
-              {this.state.success && <div className='tips'>操作成功!!</div>}
+              {/* {this.state.success && <div className='tips'>操作成功!!</div>} */}
             </div>
           </form>
       )

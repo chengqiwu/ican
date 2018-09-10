@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { toast } from 'react-toastify'
 import { updateContact, getUserEmail, updateContactSuccess, getUserInfo2 } from 'utils/Api'
 class Email extends Component {
   constructor() {
@@ -39,6 +40,9 @@ class Email extends Component {
         .then(e=> e.data)
         .then(data => {
           if (data.msg === '200') {
+            toast.success('邮箱发送成功', {
+              autoClose: 1000
+            })
             this.setState({
               success: true
             })
@@ -75,7 +79,7 @@ class Email extends Component {
                 <input type="button" value="取消" className='submit' onClick={this.cancel}/> 
               </div>
             }
-            {this.state.success && <div className='tips'>发送成功!!</div>}
+            {/* {this.state.success && <div className='tips'>发送成功!!</div>} */}
           </div>
 
         </form>

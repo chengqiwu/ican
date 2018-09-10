@@ -7,6 +7,7 @@ import { findCriosAndVarietiesList, findSeasonLists, plantingSeasonSave, findPla
 import { updateSeason } from '_redux/actions/season'
 import { updatePSeason} from '_redux/actions/plaintingSeason'
 import 'css/index/field/addSeason.scss'
+import { toast } from 'react-toastify'
 
 class AddSeason extends Component {
   constructor() {
@@ -25,7 +26,7 @@ class AddSeason extends Component {
     const { feature: { feature } } = this.props
     const id = feature.getId().replace(/tb_farmland./g, '')
     if (!this.state.value) {
-      alert('请先选择季节！')
+      toast.info('请先选择季节')
       return
     }
     const info = {
@@ -54,8 +55,6 @@ class AddSeason extends Component {
           this.setState({
             saved: true
           })
-        } else {
-          alert(data.result)
         }
       })
   }

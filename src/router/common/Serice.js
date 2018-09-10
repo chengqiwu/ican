@@ -38,8 +38,9 @@ class Service extends Component {
     return farmLandTotalArea()
       .then(e => e.data)
       .then(area => {
+        console.log(area)
         this.setState({
-          area
+          area: Number(area)
         })
       }).catch(err => {
         this.dd.unsubscribe()
@@ -49,7 +50,7 @@ class Service extends Component {
     return (
       <div className='warp-box'>
         <span className=''>
-                    精禾服务全球
+          精禾服务全球
         </span>
         <div className='sprice'>
           <label>{Math.round(this.state.area)}</label>

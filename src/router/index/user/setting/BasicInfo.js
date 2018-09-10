@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import Dropzone from 'react-dropzone'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { toast } from 'react-toastify'
 import add from 'images/index/picture/+.png'
 import { getUserInfo} from '_redux/actions/user'
 import { updateUserInfo } from 'utils/Api'
@@ -43,10 +44,10 @@ class BasicInfo extends Component {
         .then(e => e.data)
         .then(data => {
           if (data.msg === '200') {
-            alert('保存成功')
+            toast.success('保存成功', {
+              autoClose: 2000,
+            })
             this.props.getUserInfo()
-          } else {
-            alert('保存失败！请稍后再试')
           }
         })
     }

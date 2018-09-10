@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { ToastContainer, toast } from 'react-toastify'
 class Bundle extends Component {
     state = {
       // short for "module" but that's a keyword in js, so "mod"
@@ -42,8 +43,16 @@ const createComponent = (component) => class WarppedComponent extends Component 
     return (
       <Bundle load={component}>
         {
-          (Component) => Component ? <Component {...this.props} /> : null
+          (Component) => Component ? <div>
+            <Component {...this.props} />
+            <ToastContainer
+              autoClose={3000}
+              position={toast.POSITION.BOTTOM_CENTER}
+              // pauseOnHover={false}
+              hideProgressBar={true}
+            /></div> : null
         }
+        
       </Bundle>
     )
   }

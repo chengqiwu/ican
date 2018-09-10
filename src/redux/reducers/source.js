@@ -5,10 +5,14 @@ const defaultState = {
 }
 const refresh = 'refresh'
 function sourceReducer(state = defaultState, action) {
+ 
   switch (action.type) {
   case refresh:
-    state.source.addFeature(new ol.Feature(new ol.geom.Point(ol.extent.getCenter(action.feature.getGeometry().getExtent()))))
-    state.cluster.refresh()
+    console.log('refresh')
+    const feature = new ol.Feature(new ol.geom.Point(ol.extent.getCenter(action.feature.getGeometry().getExtent())))
+    feature.setId(action.feature.getId())
+    state.source.addFeature(feature)
+    state.source.refresh()
     return state
   case 'cluster':
 

@@ -66,7 +66,7 @@ const map = new ol.Map({
   ],
   view: new ol.View({
     center: ol.proj.fromLonLat([104, 30.7]),
-    zoom: 12,
+    zoom: 2,
     maxZoom: 20,
     minZoom: 4
     // projection: 'EPSG:4326'

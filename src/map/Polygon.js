@@ -71,7 +71,6 @@ class Polygon extends Component {
     })
     this.polyonLayer = new ol.layer.Vector({
       source: polyonSource,
-      zIndex: 13,
       style: function (feature) {
         const growth_status = feature.get('growth_status')
         let color = [117, 172, 71, 0.7]
@@ -141,8 +140,6 @@ class Polygon extends Component {
     //     var center = ol.extent.getCenter(feature.getGeometry().getExtent())
     // })
     //  备用end
-
-    var geoJson = new ol.format.GeoJSON()
     this.draw.on('drawend', (evt) => {
       var feature = evt.feature
 
@@ -198,21 +195,25 @@ class Polygon extends Component {
     })  
     map.on('click', (evt) => this.clickListener(evt))
   }
+  
   clickListener(evt) {
+    
     const {target} = evt.originalEvent
     if (target.tagName === 'IMG' && target.getAttribute('index')) {
       return
     }
     const { map } = this.props.map
-    const feature = map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => layer && !layer.get('id') && feature)
+    const feature = map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => layer && (layer.get('id') === 'vector'||layer.get('id') === 'input' || !layer.get('id')) && feature)
     if (feature) {
+      console.log((new ol.format.GeoJSON()).writeGeometry(feature.getGeometry(), {
+        dataProjection: 'EPSG:4326',
+        featureProjection: 'EPSG:3857'
+      }))
       this.props.saveFeature(feature)
       this.props.startFieldMessage(false)
       this.props.showFieldMessage(false)
       this.props.showList(false)
       const id = feature.getId()
-      const name = feature.get('name')
-      const isNew = feature.get('status')
       if (!id) {
         this.setState({
           feature,
@@ -224,6 +225,7 @@ class Polygon extends Component {
     }
   }
   drawText() {        
+    console.log(123)
     const {feature} = this.props.feature
     let extent = feature.getGeometry().getExtent()
     const { name, id, isNew, address } = this.props.feature
@@ -256,6 +258,7 @@ class Polygon extends Component {
     const { map } = this.props.map
     this.polyonLayer && map.removeLayer(this.polyonLayer)
     this.draw && this.draw.setActive(false)
+    map.un('click', (evt) => this.clickListener(evt))
   }
 
   setInitial() {
@@ -270,7 +273,11 @@ class Polygon extends Component {
     this.polygonModify.setActive(false)
   }
   sourceClear() {
-    this.polyonLayer.getSource().removeFeature(this.state.feature)
+    const {map} = this.props.map
+    map.getLayers().getArray().forEach(lyr => {
+      lyr.get('id') === 'input' && lyr.getSource().clear()
+    })
+    this.polyonLayer.getSource().clear()
     this.props.removeDraw()
     this.polygonModify.setActive(false)
   }
@@ -288,7 +295,7 @@ class Polygon extends Component {
     displayFeatureInfo = (pixel) => {
       const { map } = this.props.map
       var feature = map.forEachFeatureAtPixel(pixel, (feature, layer) => {
-        if (layer === this.polyonLayer) {
+        if (layer === this.polyonLayer || (layer&&layer.get('id') === 'input')) {
           return feature
         }
 
@@ -312,6 +319,7 @@ class Polygon extends Component {
 
     }
     render() {
+      console.log(this.props.draw)
       if(this.draw) {
         this.draw.setActive(this.props.draw)
       }

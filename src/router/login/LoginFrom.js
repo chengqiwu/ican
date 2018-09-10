@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PorpTypes from 'prop-types'
 import classnames from 'classnames'
+import { toast } from 'react-toastify'
 import 'css/login/login.scss'
 import md5 from 'js-md5'
 import { Blowfish } from 'javascript-blowfish'
@@ -108,11 +109,21 @@ class LoginFrom extends Component {
       e.preventDefault()
       const { username, password } = this.state
       if (!username) {
-        alert('输入用户名')
+        toast.info('请输入用户名', {
+          position: toast.POSITION.BOTTOM_CENTER,
+          pauseOnHover: false,
+          hideProgressBar: true,
+          autoClose: 3000,
+        })
         return 
       }
       if (!password) {
-        alert('输入密码')
+        toast.info('请输入密码', {
+          position: toast.POSITION.BOTTOM_CENTER,
+          pauseOnHover: false,
+          hideProgressBar: true,
+          autoClose: 3000,
+        })
         return 
       }
       this.setState({
@@ -132,29 +143,30 @@ class LoginFrom extends Component {
         password: pass.replace(/\s/g, '')
       }).then(res=>{
         if(res.data.msg === '200') {
-          console.log(res)
+          toast.success('登录成功', {
+            position: toast.POSITION.BOTTOM_CENTER,
+            pauseOnHover: false,
+            hideProgressBar: true,
+            autoClose: 1000,
+            onClose: () => history.push({ pathname: '/index' })
+          })
           sessionStorage.setItem('state', JSON.stringify(res.data.result))
                 
-          history.push({ pathname: '/index'})
+          
           Cookies.set('name', md5(username), { path: '', expires: 1 / 24 })
         } else if(res.data.msg ==='211') {
-          console.log(res.data.result)
           const flag = confirm('您还没有通过验证，请点击确认按钮完成验证操作。')
           if (flag) {
             sessionStorage.setItem('token', res.data.result.token)
             history.push({ pathname: '/validate' })
           }
-                
-
-        } else {
-          alert(res.data.result)
-        }
+        } 
         this.setState({
           pending: false
         })
            
       }).catch(err => {
-        alert('登陆异常，请稍候登陆')
+        // alert('登陆异常，请稍候登陆')
         this.setState({
           pending: false
         })

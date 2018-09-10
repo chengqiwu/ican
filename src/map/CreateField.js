@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types' 
 import { farmLandSave, findSeasonLists } from '../utils/Api.js'
+import { removeFeature, addFeature } from '_redux/actions/userFeature'
+import { getMyField } from '_redux/actions/myField'
 import ol from 'openlayers'
 import { connect } from 'react-redux'
 import 'css/index/common/createFiled.scss'
@@ -109,10 +111,9 @@ class CreateField extends Component {
     }
     const id = this.props.feature.feature.get('id')
     // 圈地
-    const geojson = new ol.format.GeoJSON()
     const farmLandInfo = {
       name: this.input.value,
-      geom: geojson.writeGeometry(this.props.feature.feature.getGeometry(), {
+      geom: (new ol.format.GeoJSON()).writeGeometry(this.props.feature.feature.getGeometry(), {
         dataProjection: 'EPSG:4326',
         featureProjection: 'EPSG:3857'
       }),
@@ -128,6 +129,8 @@ class CreateField extends Component {
     // {
     //   farmLandInfo: JSON.stringify(farmLandInfo)
     // }
+    const { map } = this.props.map 
+    this.vector = map.getLayers().getArray().filter(lyr => lyr.get('id') === 'vector')[0]
     farmLandSave(fd).then(res => res.data).then(data => {
       if (data.msg === '200') {
         this.props.feature.feature.set('address', this.position.value)
@@ -147,7 +150,13 @@ class CreateField extends Component {
         this.props.setDefault()
         this.props.drawText()
         this.input.value = ''
+        this.props.sourceClear()
+        this.props.getMyField()
+        this.vector.getSource().addFeature(this.props.feature.feature)
+        this.vector.getSource().refresh()
+        this.props.addFeature(this.props.feature.feature)
         this.props.refresh(this.props.feature.feature)
+        
       } else if (data.msg === '209') {
         this.input.value = ''
         this.props.setDefault()  
@@ -256,7 +265,9 @@ CreateField.propTypes = {
   setInitial: PropTypes.func,
   sourceClear: PropTypes.func,
   source: PropTypes.object,
-  refresh: PropTypes.func
+  refresh: PropTypes.func,
+  addFeature: PropTypes.func,
+  getMyField: PropTypes.func
 }
 const mapStateToProps = (state) => {
   return {
@@ -272,6 +283,12 @@ const mapDispathToProps = (dispatch) => {
     },
     refresh: (feature) => {
       dispatch({ type: 'refresh',  feature})
+    },
+    addFeature: (feature) => {
+      dispatch(addFeature(feature))
+    },
+    getMyField: function () {
+      dispatch(getMyField())
     }
   }
 }

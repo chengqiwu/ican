@@ -8,6 +8,7 @@ import { findCroppingPatternList, plantingSeasonCropsSave } from 'utils/Api'
 import Crop from './crops/Crop'
 import Planting from './crops/Planting'
 import Manure from './crops/Manure'
+import { toast } from 'react-toastify'
 const statusArr = [{
   label: '未种植',
   value: '0'
@@ -163,7 +164,7 @@ class AddCrop extends Component {
       info.id = this.state.id
     }
     if (!this.state.crop.value) {
-      alert('请选择作物')
+      toast.info('请选择作物')
       return
     }
     info.plantingSeasonId = this.props.crops.plantingSeasonId

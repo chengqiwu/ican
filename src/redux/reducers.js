@@ -11,9 +11,10 @@ import season from './reducers/season'
 import plaintingSeason from './reducers/plaintingSeason'
 import manure from './reducers/manure'
 import cluster from './reducers/source'
+import fields from './reducers/myField'
 import { combineReducers } from 'redux'
 import { reducer as reduxFormReducer } from 'redux-form'
-
+console.log(fields)
 const reducer = combineReducers({
   polygon,
   map,
@@ -29,6 +30,7 @@ const reducer = combineReducers({
   season,
   plaintingSeason,
   manure,
-  cluster
+  cluster,
+  fields,
 })
 export default reducer

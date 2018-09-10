@@ -5,6 +5,7 @@ import classnames from 'classnames'
 import { connect } from 'react-redux'
 import { soilLandSave, deleteSoilLand, deleteSoilLandFile } from 'utils/Api'
 import Dropzone from 'react-dropzone'
+import { toast } from 'react-toastify'
 class AddSoil extends Component {
   constructor() {
     super()
@@ -63,7 +64,7 @@ class AddSoil extends Component {
   submitHandler = (e) => {
     e.preventDefault()
     if (!this.state.soilType) {
-      alert('土壤类型必须选择')
+      toast.info('土壤类型必须选择')
       return
     }
     const soilLandInfo = {}
@@ -91,6 +92,9 @@ class AddSoil extends Component {
       .then(e => e.data)
       .then(data => {
         if(data.msg === '200') {
+          toast.success('保存成功', {
+            autoClose: 2000
+          })
           const {
             id,
             landId,
@@ -130,12 +134,12 @@ class AddSoil extends Component {
   }
   handlePicDrop = (acceptFiles, rejectFiles) => {
     if (acceptFiles.length > 3) {
-      alert('只允许上传三张图片')
+      toast.info('只允许上传三张图片')
       return
     }
     for (let file of this.state.pics) {
       if (acceptFiles[0].name === file.name) {
-        alert('上传的文件重复文件名')
+        toast.info('上传的文件重复文件名')
         return
       }
     }
@@ -148,7 +152,7 @@ class AddSoil extends Component {
   }
   handleFileDrop = (acceptFiles, rejectFiles) => {
     if (acceptFiles.length > 3) {
-      alert('只允许上传三张图片')
+      toast.info('只允许上传三张图片')
       return
     }
     this.setState({
@@ -168,7 +172,8 @@ class AddSoil extends Component {
       collapsed: !this.state.collapsed
     })
   }
-  deleteSoilLandById = (id) => {
+  deleteSoilLandById = (id, e) => {
+    e.preventDefault()
     if (id.toString().length === 32) {
       const fd = new FormData()
       fd.append('id', id)
@@ -352,13 +357,13 @@ class AddSoil extends Component {
         </div>
         {this.state.id.toString().length === 13 && <div className='action'>
           <input className='button save' type="submit" value={this.state.saving ? '保存中':'保存'} disabled={this.state.saving}/>
-          <a href='#' className='delete' disabled={this.state.saving} onClick={this.deleteSoilLandById.bind(this, this.props.soilLand.id)}>删除</a>
+          <a href='#' className='delete1' disabled={this.state.saving} onClick={this.deleteSoilLandById.bind(this, this.props.soilLand.id)}>删除</a>
         </div> }
         {this.state.id.toString().length === 32 
           && !this.state.edit 
           && <div className='action'>
             <button type='button' className='button edit' onClick={this.activeEdit}>编辑</button>
-            <a href='#' className='delete' onClick={this.deleteSoilLandById.bind(this, this.props.soilLand.id)}>删除</a>
+            <a href='#' className='delete1' onClick={this.deleteSoilLandById.bind(this, this.props.soilLand.id)}>删除</a>
           </div>}
         {this.state.id.toString().length === 32 
           && this.state.edit 

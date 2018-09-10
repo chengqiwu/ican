@@ -4,6 +4,7 @@ import Select from 'react-select'
 import { fertilizerSave } from 'utils/Api'
 
 import Dropzone from 'react-dropzone'
+import { toast } from 'react-toastify'
 const typeArr = [{
   value: '0',
   label: '底肥'
@@ -156,13 +157,13 @@ class AddFer extends Component {
     const { update } = this.props.manure
     e.preventDefault()
     if (!this.state.category) {
-      alert('请选择肥料类型')
+      toast.info('请选择肥料类型')
       return
     }
     const fertilizerStr = {}
     const { plantingSeasonCropsId} = this.props.manure
     if (plantingSeasonCropsId.toString().length !== 32) {
-      alert('请先保存作物')
+      toast.info('请先保存作物')
       return
     }
     if (this.state.id.toString().length === 32) {
@@ -198,7 +199,9 @@ class AddFer extends Component {
       .then(e => e.data)
       .then(data => {
         if (data.msg === '200') {
-          alert('保存成功')
+          toast.success('保存成功', {
+            autoClose: 2000
+          })
           this.successCallback(data.result)
           update()
         }

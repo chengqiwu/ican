@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { toast } from 'react-toastify'
 import { envirFacSave, findDiseasePestList, findEnvirFac } from 'utils/Api'
 import { connect } from 'react-redux'
 import Select from 'react-select'
@@ -189,6 +190,9 @@ class EnvirAndFac extends Component {
       .then(e => e.data)
       .then(data => {
         if (data.msg === '200') {
+          toast.success('修改成功', {
+            autoClose: 2000
+          })
           return true
         }
       }).then((flag) => {

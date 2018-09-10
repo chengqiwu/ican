@@ -19,10 +19,9 @@ class UserFeature extends Component {
     const map = this.props.map
     const vectorSource = new ol.source.Vector()
     const { source } = this.props.cluster
-    let { clusters } = this.props.cluster
     const clusterSource = new ol.source.Cluster({
       distance: 40,
-      source: source
+      source
     })
     const cluster = new ol.layer.Vector({
       source: clusterSource,
@@ -97,6 +96,7 @@ class UserFeature extends Component {
         })
       }
     })
+    this.vector.set('id', 'vector')
     // console.log(getUserInfo().id)
     // then post the request and add the received features to a layer
     axios.get(geoserverUrl, {
@@ -133,10 +133,31 @@ class UserFeature extends Component {
       var features = new ol.format.GeoJSON().readFeatures(data, { dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857' })
 
       features.map(f => {
-        source.addFeature(new ol.Feature(new ol.geom.Point(ol.extent.getCenter(f.getGeometry().getExtent()))))
+        if (f.get('is_show') === '0') {
+          const feature = new ol.Feature(new ol.geom.Point(ol.extent.getCenter(f.getGeometry().getExtent())))
+          feature.setId(f.getId())
+          source.addFeature(feature)
+        }
+        
       })
-      vectorSource.addFeatures(features)
-      map.getView().fit(vectorSource.getExtent())
+      vectorSource.addFeatures(features.filter(feature => feature.get('is_show') === '0'))
+      if(vectorSource.getFeatures().length === 0) {
+        var geolocation = new BMap.Geolocation()
+        geolocation.getCurrentPosition(function (r) {
+          if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+            map.getView().animate({
+              center: ol.proj.transform([r.point.lng, r.point.lat], 'EPSG:4326', 'EPSG:3857'),
+              duration: 2000,
+              zoom: 14
+            })
+          }
+          else {
+            alert('failed' + this.getStatus())
+          }
+        }, { enableHighAccuracy: true })
+      } else {
+        map.getView().fit(vectorSource.getExtent())
+      }
     })
     map.addLayer(this.vector)
     map.addLayer(cluster)
@@ -150,7 +171,6 @@ class UserFeature extends Component {
     })
     map.getView().on('change:resolution',() => {
       const clusters = this.props.cluster.cluster
-      console.log(clusters)
       const zoom = map.getView().getZoom()
       if(zoom >12) {
         clusters && clusters.getVisible() && clusters.setVisible(false)
@@ -169,7 +189,6 @@ class UserFeature extends Component {
       if (layer === this.vector) {
         return feature
       }
-
     })
     if (feature && map.getView().getZoom() > 12) {
       this.setState({

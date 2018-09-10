@@ -4,7 +4,7 @@ import Rx from 'rxjs/Rx'
 
 import 'css/index/common/drapDrop.scss'
 import Scrollbar from 'smooth-scrollbar'
-import Field from './Field'
+
 
 const validValue = (value, max, min) => {
   return Math.min(Math.max(value, min), max)
@@ -16,8 +16,8 @@ class RxDragDrop extends Component {
     this.state = {
       left: 'calc(100% - 300px)',
       top: '20%',
-      width: '240px',
-      height: '435px',
+      width: props.width || '240px',
+      height: props.height || '435px',
       defaultW: 240,
       defaultH: 435,
     }
@@ -104,7 +104,7 @@ class RxDragDrop extends Component {
         <h3 ref={title => this.title = title} className='dragDrop-title'>{this.props.title}</h3>
         <a href="#" id="dragDrop-closer" className="dragDrop-closer" onClick={this.destory.bind(this)}></a>
         <div className="dragDrop-content" ref={content => this.content1 = content} style={{height: 'calc(100% - 35px)'}}>
-          <Field {...this.props} />
+          {this.props.children}
         </div>
         <div className='resize' ref={resize => this.resize = resize}></div>
       </div>
@@ -114,6 +114,9 @@ class RxDragDrop extends Component {
 RxDragDrop.propTypes = {
   close: PropTypes.func,
   title: PropTypes.string,
+  children: PropTypes.node,
+  width: PropTypes.string,
+  height: PropTypes.string,
 }
 
 export default RxDragDrop
