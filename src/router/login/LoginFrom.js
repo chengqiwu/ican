@@ -143,13 +143,11 @@ class LoginFrom extends Component {
         password: pass.replace(/\s/g, '')
       }).then(res=>{
         if(res.data.msg === '200') {
-          toast.success('登录成功', {
-            position: toast.POSITION.BOTTOM_CENTER,
-            pauseOnHover: false,
-            hideProgressBar: true,
-            autoClose: 1000,
-            onClose: () => history.push({ pathname: '/index' })
-          })
+          // toast.success('登录成功', {
+          //   autoClose: 1000,
+          //   onClose: () => 
+          // })
+          history.push({ pathname: '/index' })
           sessionStorage.setItem('state', JSON.stringify(res.data.result))
                 
           
