@@ -23,6 +23,9 @@ import myfields from 'images/feature/myfields.png'
 import remind from 'images/feature/remind.png'
 import service from 'images/feature/service.png'
 import loginout from 'images/feature/loginout.png'
+import kml from 'images/feature/kml.png'
+import hand from 'images/feature/hand.png'
+import latlon from 'images/feature/latlon.png'
 
 class User extends Component {
   constructor(props) {
@@ -144,17 +147,20 @@ class User extends Component {
                   <img src={filed} alt=""/>
                   <label>新建田地</label>
                   <ul className='second'>
-                    <li>
-                      <label onClick={this.addField}>手动框选</label>
+                    <li onClick={this.addField}>
+                      <img src={hand} alt="" />
+                      <label>手动框选</label>
                       <Polygon
                         onRef={this.onRef.bind(this)}
                         draw={this.state.draw} removeDraw={this.removeDraw}></Polygon>
                     </li>
-                    <li>
-                      <label onClick={this.activeInput}>输入坐标</label>
+                    <li onClick={this.activeInput}>
+                      <img src={latlon} alt="" />
+                      <label >输入坐标</label>
                     </li>
-                    <li>
-                      <label onClick={this.addKML}>导入KML</label>
+                    <li onClick={this.addKML}>
+                      <img src={kml} alt="" />
+                      <label >导入KML</label>
                     </li>
                   </ul>
                 </li>

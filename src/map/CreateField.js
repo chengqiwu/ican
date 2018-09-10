@@ -156,6 +156,13 @@ class CreateField extends Component {
         this.vector.getSource().refresh()
         this.props.addFeature(this.props.feature.feature)
         this.props.refresh(this.props.feature.feature)
+        map.getLayers().getArray().forEach(lyr => {
+          if (lyr.get('_id') === 'kml') {
+            const feature = lyr.getSource().getFeatures()[0]
+            lyr.getSource().removeFeature(feature)
+           
+          }
+        })
         
       } else if (data.msg === '209') {
         this.input.value = ''

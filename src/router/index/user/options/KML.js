@@ -13,6 +13,11 @@ class KML extends Component {
   }
   preview = (files) => {
     const {map} = this.props
+    map.getLayers().getArray().forEach(lyr => {
+      if (lyr.get('_id') === 'kml') {
+        map.removeLayer(lyr)
+      }
+    })
     var vectorSource = new ol.source.Vector({  
       //1.通过GeoServer生成的KML文件，保存到此网页文件所在的目录  
       //2.也可以直接使用生成这个文件的链接，动态生成数据文件  
@@ -25,7 +30,7 @@ class KML extends Component {
       source : vectorSource
     })
     
-    
+    vectorLayer.set('_id', 'kml')
     map.addLayer(vectorLayer)
     this.props.removeKML()
     function listerner() {
@@ -33,7 +38,14 @@ class KML extends Component {
         const feature = vectorLayer.getSource().getFeatures()[0]
         map.getView().fit(vectorLayer.getSource().getExtent(), {
           duration: 1000, callback: function () {
-            feature.setStyle(styleFunction)
+            // feature.setStyle(styleFunction)
+            vectorSource.removeFeature(feature)
+            console.log(feature.getGeometry())
+            const feature2 = new ol.Feature({
+              geometry: feature.getGeometry(),
+            })
+            feature2.setStyle(styleFunction)
+            vectorSource.addFeature(feature2)
             const modify = new ol.interaction.Modify({ source: vectorSource })
             map.addInteraction(modify)
             // 注销监听器

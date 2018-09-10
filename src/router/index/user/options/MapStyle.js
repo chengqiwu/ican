@@ -2,9 +2,7 @@ import ol from 'openlayers'
 
 export function styleFunction(feature, number) {
   
-  console.log(feature, number)
   const growth_status = feature.get('growth_status')
-  console.log(growth_status)
   let color = [117, 172, 71, 0.7]
   // ['优', '良', '差', '闲', '弃', '不选择']
   switch (growth_status) {
