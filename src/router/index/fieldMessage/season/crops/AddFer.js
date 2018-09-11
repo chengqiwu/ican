@@ -188,7 +188,7 @@ class AddFer extends Component {
     !!this.state.dosage && (fertilizerStr.dosage = this.state.dosage)
     !!this.state.type && (fertilizerStr.type = this.state.type.value)
     const fd = new FormData()
-    fd.append('fertilizerStr', decodeURI(JSON.stringify(fertilizerStr)))
+    fd.append('fertilizerStr', encodeURI(JSON.stringify(fertilizerStr)))
     fd.append('plantingSeasonCropsId', plantingSeasonCropsId)
     // frontFile: { },
     // backFile: { },

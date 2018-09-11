@@ -3,69 +3,11 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { withRouter } from 'react-router-dom'
 import history from 'router/history'
-import { Blowfish } from 'javascript-blowfish'
+import { blowfish } from 'utils/tools'
 import { verifyCode, userRegister } from 'utils/Api'
 import { codeUrl } from '../../url'
 import { toast } from 'react-toastify'
 
-if (!window.atob) {
-  var tableStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-  var table = tableStr.split('')
-
-  window.atob = function (base64) {
-    if (/(=[^=]+|={3,})$/.test(base64)) throw new Error('String contains an invalid character')
-    base64 = base64.replace(/=/g, '')
-    var n = base64.length & 3
-    if (n === 1) throw new Error('String contains an invalid character')
-    for (var i = 0, j = 0, len = base64.length / 4, bin = []; i < len; ++i) {
-      var a = tableStr.indexOf(base64[j++] || 'A'), b = tableStr.indexOf(base64[j++] || 'A')
-      var c = tableStr.indexOf(base64[j++] || 'A'), d = tableStr.indexOf(base64[j++] || 'A')
-      if ((a | b | c | d) < 0) throw new Error('String contains an invalid character')
-      bin[bin.length] = ((a << 2) | (b >> 4)) & 255
-      bin[bin.length] = ((b << 4) | (c >> 2)) & 255
-      bin[bin.length] = ((c << 6) | d) & 255
-    }
-    return String.fromCharCode.apply(null, bin).substr(0, bin.length + n - 4)
-  }
-
-  window.btoa = function (bin) {
-    for (var i = 0, j = 0, len = bin.length / 3, base64 = []; i < len; ++i) {
-      var a = bin.charCodeAt(j++), b = bin.charCodeAt(j++), c = bin.charCodeAt(j++)
-      if ((a | b | c) > 255) throw new Error('String contains an invalid character')
-      base64[base64.length] = table[a >> 2] + table[((a << 4) & 63) | (b >> 4)] +
-                (isNaN(b) ? '=' : table[((b << 2) & 63) | (c >> 6)]) +
-                (isNaN(b + c) ? '=' : table[c & 63])
-    }
-    return base64.join('')
-  }
-
-}
-
-function hexToBase64(str) {
-  return btoa(String.fromCharCode.apply(null,
-    str.replace(/\r|\n/g, '').replace(/([\da-fA-F]{2}) ?/g, '0x$1 ').replace(/ +$/, '').split(' '))
-  )
-}
-
-function base64ToHex(str) {
-  for (var i = 0, bin = atob(str.replace(/[ \r\n]+$/, '')), hex = []; i < bin.length; ++i) {
-    var tmp = bin.charCodeAt(i).toString(16)
-    if (tmp.length === 1) tmp = '0' + tmp
-    hex[hex.length] = tmp
-  }
-  return hex.join(' ')
-}
-
-
-function chgUrl(url) {
-  var timestamp = (new Date()).valueOf()
-  if ((url.indexOf('&') >= 0)) {
-    url = url + '×tamp=' + timestamp
-  } else {
-    url = url + '?timestamp=' + timestamp
-  }
-  return url
-}
 class RegisterForm extends Component {
   constructor() {
     super()
@@ -135,7 +77,6 @@ class RegisterForm extends Component {
       return
     } else {
       let len = username.replace(/[^x00-xff]/g, 'aa').length
-      console.log(len)
       if (len >24 || len < 6) {
         toast.info('输入用户名格式不正确', {
           position: toast.POSITION.BOTTOM_CENTER,
@@ -206,23 +147,21 @@ class RegisterForm extends Component {
         }
       })
       .then(flag => {
-        const bf = new Blowfish('xg!$@gcp1*30y%#a')
-        const pass = base64ToHex(bf.base64Encode(bf.encrypt(password))).replace(/\s/g, '')
-
         flag &&
                 userRegister({
                   username,
-                  password: pass
+                  password: blowfish(password)
                 }).then(res => res.data)
                   .then(data => {
                     if (data.msg === '200') {
-                      toast.success('注册成功，请验证', {
-                        position: toast.POSITION.BOTTOM_CENTER,
-                        pauseOnHover: false,
-                        hideProgressBar: true,
-                        autoClose: 1000,
-                        onClose: () => history.push('/validate')
-                      })
+                      // toast.success('注册成功，请验证', {
+                      //   position: toast.POSITION.BOTTOM_CENTER,
+                      //   pauseOnHover: false,
+                      //   hideProgressBar: true,
+                      //   autoClose: 1000,
+                      //   onClose: () => history.push('/validate')
+                      // })
+                      history.push('/validate')
                       sessionStorage.setItem('token', data.result)
                     }
 
@@ -287,9 +226,8 @@ class RegisterForm extends Component {
     return (
       <div className='register-from center'>
         <form onSubmit={this.handleSubmit}>
-          <input type="password" style={{ width: 0, height: 0,border: 'none' }} />
           <div className='from-items'>
-            <label>用户名</label>
+            <label className='item-key'>用户名</label>
             <div className='from-item'>
               <input type="text" name='username' placeholder='用户名' required
                 className={this.state.vailUsername ? 'error' : ''}
@@ -302,7 +240,7 @@ class RegisterForm extends Component {
 
           </div>
           <div className='from-items'>
-            <label>密码</label>
+            <label className='item-key'>密码</label>
             <div className='from-item'>
               <input type="password" name='password' placeholder='********' required
                 className={this.state.vailPassword ? 'error' : ''}
@@ -315,7 +253,7 @@ class RegisterForm extends Component {
 
           </div>
           <div className='from-items'>
-            <label>确认密码</label>
+            <label className='item-key'>确认密码</label>
             <div className='from-item'>
               <input type="password" name='repassword' placeholder='********' required
                 value={this.state.repassword}
@@ -327,7 +265,7 @@ class RegisterForm extends Component {
             </div>
           </div>
           <div className='verification-code '>
-            <label>验证码</label>
+            <label className='item-key'>验证码</label>
             <div className='center'>
               <input type="text" name='codeNumber' value={this.state.codeNumber} onChange={this.inputChange} required/>
               <img ref={img => this.img = img} src={codeUrl+this.state.timestamp} alt="" />
@@ -335,17 +273,16 @@ class RegisterForm extends Component {
             </div>
           </div>
           <div className='from-items'>
-            <label></label>
+            <label className='item-key'></label>
             <div className='from-checkbox center'>
-              <input type="checkbox" className='register' name="protocol"
+              <input type="checkbox" className='register' name="protocol" id='protocol'
                 checked={this.state.protocol}
                 onChange={this.inputChange} required/>                                
-              <span>同意 《<a href="./terms.htm" target='_blank'>精禾云平台服务条款</a>》</span>
+              <label htmlFor='protocol' >同意 《<a href="./terms.htm" target='_blank'>精禾云平台服务条款</a>》</label>
             </div>
           </div>
-          <input type="password" style={{ width: 0, height: 0,border: 'none' }} />
           <div className='from-items'>
-            <label></label>
+            <label className='item-key'></label>
             <input type="submit" className='register-submit' value='下一步' />
           </div>
         </form>

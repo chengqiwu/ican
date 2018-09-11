@@ -78,7 +78,7 @@ class AddSoil extends Component {
     !!this.state.organicMatter && (soilLandInfo.organicMatter = this.state.organicMatter)
 
     const fd = new FormData()
-    fd.append('soilLandInfo', decodeURI(JSON.stringify(soilLandInfo)))
+    fd.append('soilLandInfo', encodeURI(JSON.stringify(soilLandInfo)))
     this.state.pics.map(file => {
       fd.append('planeSurfaceFigure',file)
     })

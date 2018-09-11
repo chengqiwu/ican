@@ -52,7 +52,7 @@ class Openlayer extends Component {
       return
     }
     const { map } = this.props.map
-    const feature = map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => layer && (layer.get('id') === 'vector'||layer.get('id') === 'input' || !layer.get('id')) && feature)
+    const feature = map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => layer && feature)
     if (feature) {
       this.props.saveFeature(feature)
       this.props.startFieldMessage(false)

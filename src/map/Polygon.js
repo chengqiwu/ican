@@ -70,6 +70,7 @@ class Polygon extends Component {
     const polyonSource = new ol.source.Vector({
     })
     this.polyonLayer = new ol.layer.Vector({
+      zIndex: 2,
       source: polyonSource,
       style: function (feature) {
         const growth_status = feature.get('growth_status')
@@ -110,7 +111,9 @@ class Polygon extends Component {
         })
       }
     })
+    this.polyonLayer.set('id', 'polyon')
     map.addLayer(this.polyonLayer)
+    
 
        
        
@@ -203,7 +206,8 @@ class Polygon extends Component {
       return
     }
     const { map } = this.props.map
-    const feature = map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => layer && (layer.get('id') === 'vector'||layer.get('id') === 'input' || !layer.get('id')) && feature)
+    const feature = map.forEachFeatureAtPixel(evt.pixel, (feature, layer) =>
+      layer && feature)
     if (feature) {
       console.log((new ol.format.GeoJSON()).writeGeometry(feature.getGeometry(), {
         dataProjection: 'EPSG:4326',

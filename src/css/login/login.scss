@@ -258,6 +258,7 @@ $margin-left-right: 20px;
   @extend .flex-horizontal-center;
   align-items: center;
   > img {
+    cursor: pointer;
     width: 32px;
   }
 }

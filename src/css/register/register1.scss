@@ -2,185 +2,192 @@
 @import '../common';
 $bg: url('../../images/common/bg2.jpg');
 .register-bg {
-    z-index: -1;
-    @include custom-width-height($full,
-    $full);
-    @include background-norepeat-cover;
-    @extend .flex-top-column-bottom;
-    flex-wrap: nowrap;
-    // padding: 20px;
-    background-image: $bg;
-    background-position: 50%;
+  z-index: -1;
+  @include custom-width-height($full,
+  $full);
+  @include background-norepeat-cover;
+  @extend .flex-top-column-bottom;
+  flex-wrap: nowrap; // padding: 20px;
+  background-image: $bg;
+  background-position: 50%;
 }
+
 .login-header {
-    padding: 20px;
-    @extend .flex-left-right;
-    align-items: flex-start;
-    flex-wrap: nowrap;
+  padding: 20px;
+  @extend .flex-left-right;
+  align-items: flex-start;
+  flex-wrap: nowrap;
 }
+
 .register-content {
-    min-width: 500px;
-    max-width: 1000px;
-    width: 52%;
-    max-height: 600px;
-    min-height: 520px;
-    background-color: #efefef;
-    border-radius: $border-radius;
+  // min-width: 500px;
+  // max-width: 1000px;
+  // width: 52%;
+  // max-height: 600px;
+  // min-height: 520px;
+  // padding: 1em;
+  background-color: #efefef;
+  border-radius: $border-radius;
+  .register-from {
+    padding: 1em 4em;
+    padding-bottom: 2em;
+  }
 }
 
 .center {
-    @extend .flex-center;
-    // flex-grow: 1;
+  @extend .flex-center; // flex-grow: 1;
 }
 
 .topbar {
-    background-color: #000000;
-    border-radius: $border-radius $border-radius 0 0;
-    height: 12px;
-    @include custom-width-height(undefined, 12px)
+  background-color: #000000;
+  border-radius: $border-radius $border-radius 0 0;
+  height: 12px;
+  @include custom-width-height(undefined,
+  12px)
 }
 
 .register-title {
-    font-size: 34px;
-    color: #000000;
-    margin-top: 38px;
-    text-align: center;
+  font-size: 2.8em;
+  color: #000000;
+  margin: 1em;
+  text-align: center;
 }
 
 .register-success-form {
-    >div {
-        width: 405px;
-    }
+  >div {
+    width: 405px;
+  }
 }
 
 .success-tip {
-    @extend .flex-vertical-center;
-    img {
-        margin-right: 17px;
-        @include custom-width-height(40px, 40px)
-    }
-    span {
-        font-size: 20px;
-        color: #333333;
-    }
+  @extend .flex-vertical-center;
+  img {
+    margin-right: 17px;
+    @include custom-width-height(40px,
+    40px)
+  }
+  span {
+    font-size: 20px;
+    color: #333333;
+  }
 }
 
 .success-token {
-    padding-left: 57px;
+  padding-left: 57px;
 }
 
 .success-token {
-    >div:first-child {
-        margin: 22px 0;
-    }
+  >div:first-child {
+    margin: 22px 0;
+  }
 }
 
 .error {
-    color: #ff0000;
+  color: #ff0000;
 }
 
 .from-items {
-    @extend .flex;
+  @extend .flex;
 }
 
 .from-items {
-    label {
-        @include custom-width-height(70px,
-        38px);
-        text-align: right;
-        font-size: 16px;
-        color: #666666;
-        margin-right: 12px;
-        @extend .flex-vertical-center;
-        justify-content: flex-end;
-    }
+  .item-key {
+    @include custom-width-height(70px,
+    38px);
+    text-align: right;
+    font-size: 16px;
+    color: #666666;
+    margin-right: 12px;
+    @extend .flex-vertical-center;
+    justify-content: flex-end;
+  }
 }
 
 .from-item {
-    @extend .flex;
-    flex-direction: column;
+  @extend .flex;
+  flex-direction: column;
 }
 
 .from-item input {
-    @include custom-width-height(400px,
-    38px);
-    padding: 11px 20px;
+  @include custom-width-height(400px,
+  38px);
+  padding: 11px 20px;
 }
 
 .from-item span {
-    font-size: 14px;
-    color: #de2f00;
-    margin: 20px 0;
+  font-size: 14px;
+  color: #de2f00;
+  margin: 1em 0;
 }
 
 .verification-code {
-    @extend .flex;
-    margin: 20px 0;
+  @extend .flex;
+  margin: 1.5em 0;
 }
 
 .verification-code {
-    label {
-        @include custom-width-height(70px,
-        38px);
-        text-align: right;
-        font-size: 16px;
-        color: #666666;
-        margin-right: 12px;
-        @extend .flex-vertical-center;
-        justify-content: flex-end;
-    }
+  label {
+    @include custom-width-height(70px,
+    38px);
+    text-align: right;
+    font-size: 16px;
+    color: #666666;
+    margin-right: 12px;
+    @extend .flex-vertical-center;
+    justify-content: flex-end;
+  }
 }
 
 .verification-code {
-    input {
-        @include custom-width-height(100px,
-        38px);
-        padding: 11px 20px;
-    }
+  input {
+    @include custom-width-height(100px,
+    38px);
+    padding: 11px 20px;
+  }
 }
 
 .verification-code {
-    img {
-        @include custom-width-height(110px,
-        38px);
-        margin: 0 13px 0 18px;
-    }
+  img {
+    @include custom-width-height(110px,
+    38px);
+    margin: 0 13px 0 18px;
+  }
 }
 
 .from-checkbox {
-    input {
-        @include custom-width-height(13px,
-        13px);
-    }
+  margin-bottom: 1.5em;
+  input {
+    @include custom-width-height(13px,
+    13px);
+  }
 }
 
 .from-checkbox {
-    span {
-        @include fontSize-default;
-        color: #999999;
-        margin-left: 10px;
-    }
-}
-
-.from-checkbox {
+  label {
+    @include fontSize-default;
+    color: #999999;
+    margin-left: 10px;
+    cursor: pointer;
     a {
-        color: #e14500;
+      color: #e14500;
     }
+  }
 }
 
 .register-submit {
-    background-color: #5aa700;
-    @include custom-width-height(100px,
-    38px);
-    font-size: 16px;
-    color: #fefefe;
+  background-color: #5aa700;
+  @include custom-width-height(100px,
+  38px);
+  font-size: 16px;
+  color: #fefefe;
 }
 
 .register-prompt {
-    max-width: 437px;
-    font-size: 14px;
-    color: #de2f00;
+  max-width: 437px;
+  font-size: 14px;
+  color: #de2f00;
 }
+
 input {
-    box-shadow: none;
+  box-shadow: none;
 }

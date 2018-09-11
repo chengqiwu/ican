@@ -59,11 +59,6 @@ class Video extends Component {
     }
     render() {
       return (
-      // <video width="320" height="240" poster="/images/logo.png" controls>
-      //     <source src="movie.mp4" type="video/mp4"/>
-      //     <source src="movie.ogg" type="video/ogg"/>
-      //             您的浏览器不支持 video 标签。
-      // </video>
         <div>
           <div className='video_group'>
             <img src={video} alt="" />
@@ -75,10 +70,7 @@ class Video extends Component {
               fluid={false}
               width={853}
               preload='none'
-              // height={496}
-                        
               poster={video_bg}>
-                       
               <source src={videoUrl} />
               <BigPlayButton position="center" />
             </Player>

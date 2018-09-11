@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import 'css/login/login.scss'
 import qq from 'images/login/qq.png'
 import wechat from 'images/login/wechat.png'
 

@@ -59,3 +59,7 @@ export const blowfish = (origin) => {
   const bf = new Blowfish('xg!$@gcp1*30y%#a')
   return base64ToHex(bf.base64Encode(bf.encrypt(origin))).replace(/\s/g, '')
 }
+export const unBlowfish = (target) => {
+  const bf = new Blowfish('xg!$@gcp1*30y%#a')
+  return bf.decrypt(bf.base64Decode(hexToBase64(target)))
+}

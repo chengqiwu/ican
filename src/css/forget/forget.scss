@@ -2,126 +2,131 @@
 @import '../common';
 $bg: url('../../images/common/bg2.jpg');
 .forget-bg {
-    z-index: -1;
-    @include custom-width-height($full,
-    $full);
-    @include background-norepeat-cover;
-    @extend .flex-top-column-bottom;
-    background-image: $bg;
-    flex-wrap: nowrap;
+  z-index: -1;
+  @include custom-width-height($full,
+  $full);
+  @include background-norepeat-cover;
+  @extend .flex-top-column-bottom;
+  background-image: $bg;
+  flex-wrap: nowrap;
 }
 
 .forget-content {
-    min-width: 500px;
-    max-width: 1000px;
-    width: 52%;
-    max-height: 600px;
-    min-height: 520px;
-    background-color: #efefef;
-    border-radius: $border-radius;
+  min-width: 500px;
+  min-height: 520px;
+  background-color: #efefef;
+  border-radius: $border-radius;
+  .forget-from {
+    padding: 1em 4em;
+  }
 }
 
 .center {
-    @extend .flex-center
+  @extend .flex-center
 }
 
 .topbar {
-    background-color: #000000;
-    border-radius: $border-radius $border-radius 0 0;
-    height: 12px;
-    @include custom-width-height(undefined,
-    12px)
+  background-color: #000000;
+  border-radius: $border-radius $border-radius 0 0;
+  height: 12px;
+  @include custom-width-height(undefined,
+  12px)
 }
 
 .forget-title {
-    font-size: 34px;
-    color: #000000;
-    margin: 38px 0;
-    text-align: center;
-}
-.from-items {
-    @extend .flex;
+  font-size: 34px;
+  color: #000000;
+  margin: 38px 0;
+  text-align: center;
 }
 
 .from-items {
-    label {
-        @include custom-width-height(80px,
-        38px);
-        text-align: right;
-        font-size: 16px;
-        color: #666666;
-        margin-right: 12px;
-        @extend .flex-vertical-center;
-        justify-content: flex-end;
-    }
+  @extend .flex;
+}
+
+.from-items {
+  label {
+    @include custom-width-height(80px,
+    38px);
+    text-align: right;
+    font-size: 16px;
+    color: #666666;
+    margin-right: 12px;
+    @extend .flex-vertical-center;
+    justify-content: flex-end;
+  }
 }
 
 .from-item {
-    @extend .flex;
-    flex-direction: column;
+  @extend .flex;
+  flex-direction: column;
 }
 
 .from-item input[type=text] {
-    @include custom-width-height(400px,
-    38px);
-    padding: 11px 20px;
+  @include custom-width-height(400px,
+  38px);
+  padding: 11px 20px;
 }
-.from-item > div {
-    width: 200px;
-    height: 38px;
+
+.from-item>div {
+  width: 200px;
+  height: 38px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  >div {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    > div {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        > label {
-            display: flex;
-            justify-content: flex-start;
-            margin-left: 5px;
-        }
+    >label {
+      display: flex;
+      justify-content: flex-start;
+      margin-left: 5px;
     }
+  }
 }
+
 .from-item span {
-    font-size: 14px;
-    color: #de2f00;
-    margin: 20px 0;
-}
-.verification-code {
-    @extend .flex;
-    margin: 20px 0;
+  font-size: 14px;
+  color: #de2f00;
+  margin: 20px 0;
 }
 
 .verification-code {
-    label {
-        @include custom-width-height(80px,
-        38px);
-        text-align: right;
-        font-size: 16px;
-        color: #666666;
-        margin-right: 12px;
-        @extend .flex-vertical-center;
-        justify-content: flex-end;
-    }
+  @extend .flex;
+  margin: 20px 0;
 }
 
 .verification-code {
-    input {
-        @include custom-width-height(100px,
-        38px);
-    }
+  label {
+    @include custom-width-height(80px,
+    38px);
+    text-align: right;
+    font-size: 16px;
+    color: #666666;
+    margin-right: 12px;
+    @extend .flex-vertical-center;
+    justify-content: flex-end;
+  }
 }
-.forget-submit {
-    background-color: #5aa700;
+
+.verification-code {
+  input {
     @include custom-width-height(100px,
     38px);
-    font-size: 16px;
-    color: #fefefe;
+  }
+}
+
+.forget-submit {
+  background-color: #5aa700;
+  @include custom-width-height(100px,
+  38px);
+  font-size: 16px;
+  color: #fefefe;
 }
 
 .forget-prompt {
-    max-width: 437px;
-    font-size: 14px;
-    color: #de2f00;
+  max-width: 437px;
+  font-size: 14px;
+  color: #de2f00;
 }
