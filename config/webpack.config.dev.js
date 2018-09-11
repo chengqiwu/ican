@@ -11,7 +11,6 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
-const addAssetHtmlPlugin =  require('add-asset-html-webpack-plugin')
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -255,9 +254,9 @@ module.exports = {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    new webpack.DllReferencePlugin({
-      manifest: path.join(__dirname, '../dll/manifest.json')
-    }),
+    // new webpack.DllReferencePlugin({
+    //   manifest: path.join(__dirname, '../dll/manifest.json')
+    // }),
     // new addAssetHtmlPlugin({
     //   filepath: path.resolve(__dirname, '../dll/*.dll.js'),
     //   includeSourcemap: false

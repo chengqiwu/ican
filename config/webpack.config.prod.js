@@ -12,7 +12,8 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
-
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
+const manifest = require('../dll/manifest.json');
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
 // const publicPath = paths.servedPath;
@@ -58,7 +59,9 @@ module.exports = {
   // devtool: shouldUseSourceMap ? 'source-map' : false,
   devtool: 'cheap-module-source-map',
   // In production, we only want to load the polyfills and the app code.
-  entry: [require.resolve('./polyfills'), paths.appIndexJs],
+  entry: {
+    app: [require.resolve('./polyfills'), paths.appIndexJs],
+  },
   output: {
     // The build folder.
     path: paths.appBuild,
@@ -269,6 +272,16 @@ module.exports = {
         minifyCSS: true,
         minifyURLs: true,
       },
+    }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'vendor',
+    //   filename: 'vendor.[hash:8].js'
+    // }),
+    new webpack.DllReferencePlugin({
+      manifest
+    }),
+    new AddAssetHtmlPlugin({
+      filepath: require.resolve('../dll/vendor.dll.js'), includeSourcemap: false
     }),
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
