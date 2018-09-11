@@ -64,6 +64,7 @@ class KML extends Component {
           className='drop-zone'
           ref={dropzone => this.dropzone = dropzone}
           onDrop={this.preview}
+          onFileDialogCancel={() => this.props.removeKML()}
         />
       </form>
     )
