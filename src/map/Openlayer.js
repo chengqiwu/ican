@@ -42,24 +42,27 @@ class Openlayer extends Component {
     //     }),
 
     // })
-    map.on('click', (evt) => this.clickListener(evt))
+    // map.on('click', (evt) => this.clickListener(evt))
        
   }
-  clickListener(evt) {
-    console.log('cick')
-    const { target } = evt.originalEvent
-    if (target.tagName === 'IMG' && target.getAttribute('index')) {
-      return
-    }
-    const { map } = this.props.map
-    const feature = map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => layer && feature)
-    if (feature) {
-      this.props.saveFeature(feature)
-      this.props.startFieldMessage(false)
-      this.props.showFieldMessage(false)
-      this.props.showList(false)
-    }
-  }
+  // clickListener(evt) {
+  //   console.log('cick')
+  //   const { target } = evt.originalEvent
+  //   if (target.tagName === 'IMG' && target.getAttribute('index')) {
+  //     return
+  //   }
+  //   const { map } = this.props.map
+  //   const feature = map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => {
+  //     console.log(layer && layer.get('id'))
+  //     return layer && feature
+  //   })
+  //   if (feature) {
+  //     this.props.saveFeature(feature)
+  //     this.props.startFieldMessage(false)
+  //     this.props.showFieldMessage(false)
+  //     this.props.showList(false)
+  //   }
+  // }
   render() {
     return (
       <div id='map' className='map' ref={map => this.map = map}>

@@ -17,6 +17,7 @@
     align-items: center;
     font-size: 1em;
     font-weight: normal;
+    margin-bottom: 0;
   }
   .dragDrop-closer {
     position: absolute;
@@ -29,7 +30,7 @@
   }
   .dragDrop-content {
     // padding: 10px;
-    height: 310px;
+    min-height: 310px;
     background-color: #eee;
     border-radius: 0 0 5px 5px;
     box-shadow: 1px 1px 1px #000000ad;

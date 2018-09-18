@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Rx from 'rxjs/Rx'
 import 'css/index/common/drapDrop.scss'
-import FiledInfo from '../content/FiledInfo'
+// import FiledInfo from '../content/FiledInfo'
 import PlantingSeason from '../fieldMessage/season/PlantingSeason'
 import More from '../content/More'
+import CropTabs from '../plan/CropTabs'
 import Scrollbar from 'smooth-scrollbar'
 const validValue = (value, max, min) => {
   return Math.min(Math.max(value, min), max)
@@ -58,14 +59,15 @@ class RxDragDrop extends Component {
   }
   render() {
     return (
-      <div ref={drapDrop => this.drapDrop = drapDrop} className="dragDrop">
+      <div ref={drapDrop => this.drapDrop = drapDrop} className="dragDrop" style={{ width: this.props.index === 4 ? '900px' : '500px' }}>
         <h3 ref={title => this.title = title} className='dragDrop-title'>{this.props.name}-{this.props.title}</h3>
         <a href="#" id="dragDrop-closer" className="dragDrop-closer" onClick={this.destory.bind(this)}></a>
-        <div className="dragDrop-content" ref={content => this.content = content}>
-          {this.props.index === 2 && <FiledInfo {...this.props}/>}
+        <div className="dragDrop-content" ref={content => this.content = content} style={{ backgroundColor: this.props.index === 4 ? '#fff' : '#eee', height: this.props.index === 4 ? '580px' : '310px'}}>
+          {/* {this.props.index === 2 && <FiledInfo {...this.props}/>} */}
           {/* {this.props.index ===1 && <Picture/>} */}
           {this.props.index === 3 && <PlantingSeason/>}
           {this.props.index === 0 && <More {...this.props} />}
+          {this.props.index === 4 && <CropTabs {...this.props} />}
                    
         </div>
       </div>

@@ -1,0 +1,332 @@
+.croptabs {
+  padding-top: 1.3em;
+  .ant-tabs-bar {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #d4d8db;
+    margin-bottom: 0;
+    .ant-tabs-extra-content {
+      line-height: 1em;
+    }
+    .ant-tabs-nav {
+      padding-left: 2em;
+      .ant-tabs-tab {
+        color: #666666;
+        border: 1px solid #d4d8db;
+        border-right: none;
+        margin-right: 0; // padding: .5em 1.2em;
+        &:last-child {
+          border-right: 1px solid #d4d8db;
+        }
+      }
+      .ant-tabs-tab-active {
+        color: #666666; // background-color: #fff;
+      }
+      .ant-tabs-ink-bar {
+        transition: unset;
+        background-color: #fff;
+      }
+    }
+  }
+  .ant-tabs-content {
+    .ant-table-body {
+      >table {
+        padding: 0;
+        tr {
+          td,
+          th {
+            padding: 0 !important;
+            height: 25px;
+            text-align: center; // height: 25px;
+            &.hidden {
+              display: none;
+            }
+            input {
+              text-align: center;
+              font-size: 0.75rem;
+            }
+            .ant-select-selection {
+              margin-top: 1px;
+              border: none;
+            }
+          }
+          &[data-row-key='3'] {
+            input {
+              border: none;
+              width: 80px;
+              height: 25px;
+            }
+          }
+        }
+      }
+    }
+    .ant-table-small {
+      border: none;
+      thead {
+        tr {
+          th:nth-child(1) {
+            border-left: 1px solid #e8e8e8 !important;
+          }
+        }
+      }
+      tbody {
+        tr {
+          td:nth-child(1) {
+            border-left: 1px solid #e8e8e8 !important;
+          }
+        }
+        tr:last-child {
+          td {
+            border-bottom: 1px solid #e8e8e8 !important;
+            &.noBottomBorder {
+              border-bottom: none !important;
+            }
+            &.noRightBorder {
+              border-right: none !important; // border-left: 1px solid #e8e8e8 !important;
+            }
+            &.noLeftBorder {
+              border-left: none !important; // border-left: 1px solid #e8e8e8 !important;
+            }
+          }
+        }
+      }
+    }
+  }
+  .ant-table-footer {
+    padding: 0; // border-bottom: none;
+  }
+  .ant-table-placeholder {
+    padding: 5px 0;
+  }
+  .action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    button {
+      border: none;
+      outline: none;
+      background-color: #fff;
+    }
+    div {
+      width: 156px;
+      height: 88px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #fff;
+      font-size: 16px;
+    }
+  }
+}
+
+.units {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  color: #999999;
+  margin-right: 1em;
+  li {
+    cursor: pointer;
+  }
+  .active {
+    padding: 0.6em;
+    border: 1px solid #ccc;
+    border-radius: .5em;
+    color: #468dc8;
+  }
+  span {
+    color: #d8d8d8;
+    margin: 0 0.5em;
+  }
+}
+
+.tab-content {
+  width: 850px;
+  margin: 0 auto;
+  padding: 1em 0;
+  .analyze {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    .ant-table-wrapper {
+      width: 560px;
+      td {
+        vertical-align: middle;
+      }
+    }
+    .details {
+      display: flex;
+      flex-wrap: wrap;
+      width: 295px; // align-content: space-around; // justify-content: space-around;
+      justify-content: space-around;
+      .input-group {
+        display: flex;
+        margin-top: 0.3em;
+        align-items: center;
+        &:nth-child(2n-1) {
+          width: 100px;
+        }
+        &:nth-child(2n) {
+          width: 140px;
+        }
+        label {
+          width: 60px; // margin-right: 5px;
+          text-align: right;
+          line-height: 2.8em;
+        }
+        input {
+          width: 90px;
+          border: 1px solid #ccc;
+          text-align: center;
+          height: 25px;
+          padding: 0;
+        }
+      }
+    }
+  }
+}
+
+.tfooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.plan,
+.delivery {
+  position: relative;
+  .button {
+    width: 80px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background-color: #428bca;
+    margin: -20px 0 0 2px;
+    &:hover {
+      background-color: #147494;
+    }
+  }
+  .ant-table-wrapper {
+    margin-top: 1em;
+    table {
+      padding: 0 !important;
+      td,
+      th {
+        width: 85px; // min-width: 85px;
+        height: 35px;
+        text-align: center;
+        input {
+          width: 100%;
+          border: none;
+          height: 25px;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+.ant-table-tbody>tr:hover>td {
+  background-color: unset;
+}
+
+.planSummary,
+.summary {
+  .ant-table {
+    border: none;
+    .border {
+      border-left: 1px solid rgb(232, 232, 232);
+      border-bottom: 1px solid rgb(232, 232, 232) !important;
+    }
+    .borderRight {
+      border-right: 1px solid rgb(232, 232, 232);
+    }
+  }
+}
+
+.delivery,
+.plan {
+  margin-top: 1em;
+  .ant-table-wrapper {
+    margin-top: 0em;
+  }
+  .addAction {
+    position: absolute;
+    z-index: 1;
+  }
+  margin-bottom: 1.8em; // .ant-table-tbody {
+}
+
+.plan-descibe {
+  display: flex;
+  align-items: flex-start;
+  padding-left: 5px;
+  textarea {
+    width: 760px;
+    height: 100px;
+  }
+}
+
+.ant-table-bordered.ant-table-empty .ant-table-placeholder {
+  border-right: none;
+}
+
+.column {
+  width: 80px;
+}
+
+.statistics {
+  .ant-table-thead {
+    th {
+      background-color: #f3f0f0 !important;
+    }
+  }
+  tr:nth-child(2n) {
+    td {
+      background-color: #f3f0f0;
+    }
+  }
+}
+
+.plan,
+.delivery {
+  >.ant-table-wrapper {
+    .ant-table-title {
+      background-color: #f3f0f0;
+    }
+    tr:nth-child(2n-1) {
+      input {
+        background-color: #f3f0f0;
+        padding: 0;
+      }
+      td,
+      .ant-select-selection {
+        background-color: #f3f0f0;
+      }
+    }
+    tr:last-child {
+      td,
+        {
+        background-color: #fff;
+        &.unStandard {
+          background-color: #eeac56 !important;
+        }
+      }
+    }
+  }
+}
+
+.anticon-calendar {
+  display: none;
+}
+
+.operation-hover {
+  img {
+    cursor: pointer;
+  }
+}

@@ -8,7 +8,6 @@ function dragDropReducer(state = dragDropState, action) {
     
   switch (action.type) {
   case SHOWDRAGDROP:
-    console.log(action)
     return {
       ...state,
       ...action.object,

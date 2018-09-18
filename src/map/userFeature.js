@@ -110,7 +110,7 @@ class UserFeature extends Component {
         CQL_FILTER: `master_id=='${getUserInfo().id}'`,
       }
     }).then((response) => {
-      return response.data
+      return response.data || { features: [], totalFeatures: 0 }
     }).then((data) => {
       this.props.update(data.features)
       if (data.totalFeatures === 0) {

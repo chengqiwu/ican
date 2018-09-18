@@ -21,7 +21,6 @@ const fieldReducer = function(state = fieldMessageState, action) {
       start: action.start
     }
   case SHOWFIELDMESSAGE:
-    console.log(state, action)
     return {
       ...state,
       show: action.show

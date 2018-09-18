@@ -5,8 +5,6 @@ const featureState = {
   remove: []
 }
 function featureReducer(state = featureState, action) {
-  console.log(action)
-
   switch (action.type) {
   case UPDATE:
     return {
@@ -14,7 +12,6 @@ function featureReducer(state = featureState, action) {
       fields: action.object,
     }
   case REMOVE:
-    console.log('REMOVE')
     const filter = state.fields.filter(field => field.id.replace('tb_farmland.', '') === action.item)
     return {
       fields: state.fields.filter(field => field.id.replace('tb_farmland.', '') !== action.item),

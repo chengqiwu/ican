@@ -12,7 +12,6 @@ const featureState = {
 }
 
 function featureReducer(state = featureState, action) {
-  console.log(action)
   switch (action.type) {
   case SAVEFEATURE:
     return {

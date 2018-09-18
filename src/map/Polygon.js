@@ -206,8 +206,12 @@ class Polygon extends Component {
       return
     }
     const { map } = this.props.map
-    const feature = map.forEachFeatureAtPixel(evt.pixel, (feature, layer) =>
-      layer && feature)
+    const feature = map.forEachFeatureAtPixel(evt.pixel, (feature, layer) => {
+      if (layer && layer.get('id') !== 'no' && layer.get('id') !== 'cluster') {
+        console.log(layer.get('id'))
+        return feature
+      }
+    })
     if (feature) {
       console.log((new ol.format.GeoJSON()).writeGeometry(feature.getGeometry(), {
         dataProjection: 'EPSG:4326',

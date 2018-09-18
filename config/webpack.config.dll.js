@@ -13,7 +13,8 @@ module.exports = {
       'rxjs',
       'openlayers',
       'gsap',
-      'javascript-blowfish'
+      'javascript-blowfish',
+      'antd',
     ],
     output: {
         path: path.join(__dirname, '../dll'),

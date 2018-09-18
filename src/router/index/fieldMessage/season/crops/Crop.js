@@ -82,6 +82,7 @@ class Crop extends Component {
           <input 
             type="number" 
             min="0.0"
+            step="0.01"
             disabled={!this.props.edit}
             name='maxProduction' 
             value={this.props.maxProduction} 
@@ -93,6 +94,7 @@ class Crop extends Component {
           <input
             type="number"
             min="0.0"
+            step="0.01"
             // placeholder={'公斤/亩'}
             disabled={!this.props.edit}
             name='minProduction' 

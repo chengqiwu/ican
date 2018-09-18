@@ -389,3 +389,17 @@ export function setFarmLandShow(params) {
 
   // return axios.post(`${url}/api/farmLand/isShow?token=${getToken()}`, params)
 }
+
+export function findSimple(farmlandId) {
+  return postRequest('/api/plantingSeasonCrops/findSimpleByNowSeasonCrops', farmlandId)
+}
+
+// 	api / findByPlantingSeasonCropsId / save
+
+export function findByPlantingSeasonCropsId(fd) {
+  return postRequest('/api/plantingScheme/findByPlantingSeasonCropsId', fd)
+}
+
+export function plantingSchemeSave(fd) {
+  return postRequest('/api/plantingScheme/save', fd)
+}

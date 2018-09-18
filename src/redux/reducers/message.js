@@ -8,10 +8,6 @@ const messageState = {
 export default function messageReducer(state = messageState, action) {
   switch (action.type) {
   case SETMESSAGE:
-    console.log({
-      ...state,
-      ...action.message
-    })
     return {
       ...state,
       ...action.message

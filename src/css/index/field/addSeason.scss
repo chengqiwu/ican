@@ -2,7 +2,7 @@
    padding: 20px;
    width: 860px;
    >form {
-    //  padding-left: 11px;
+     //  padding-left: 11px;
    }
    >.add {
      background-color: #0b77f0;
@@ -24,7 +24,7 @@
    .input-group {
      display: flex;
      label {
-      //  width: 100px;
+       //  width: 100px;
        text-align: right;
        margin-right: 10px;
      }
@@ -71,12 +71,10 @@
          overflow: hidden;
        }
        .action {
-          margin-top: 10px;
-          
+         margin-top: 10px;
        }
      }
      .warp {
-       
        //  display: flex;
        //  flex-wrap: wrap;
        width: 240px;
@@ -95,59 +93,56 @@
          border-radius: 5px 5px 0 0;
        }
        .warp-content {
-          padding: 0 10px;
-          // padding-top: 12px;
-          height: 245px;
-          background: url('../../../images/index/crop/ceshi.png');
-          .button {
-            color: #fff;
-            background-color: #0b77f0;
-            margin-top: 4px;
-          }
-          ul {
-            li  {
-              height: 31px;
-              padding: 2px 0;
-              div {
-                height: 27px;
-                display: flex;
-                align-items: center;
-                padding: 5px;
-
-                width: 220px;
-                justify-content: space-between;
-                background-color: #fff;
-                button {
-                  height: 13px;
-                  padding: 0;
-                  border-radius: 0px;
-                  color: unset;
-                  background-color: unset;
-                }
-              }
-            }
-          }
-          .input-group {
+         padding: 0 10px; // padding-top: 12px;
+         height: 245px;
+         background: url('../../../images/index/crop/ceshi.png');
+         .button {
+           color: #fff;
+           background-color: #0b77f0;
+           margin-top: 4px;
+         }
+         ul {
+           li {
+             height: 31px;
+             padding: 2px 0;
+             div {
+               height: 27px;
+               display: flex;
+               align-items: center;
+               padding: 5px;
+               width: 220px;
+               justify-content: space-between;
+               background-color: #fff;
+               button {
+                 height: 13px;
+                 padding: 0;
+                 border-radius: 0px;
+                 color: unset;
+                 background-color: unset;
+               }
+             }
+           }
+         }
+         .input-group {
            display: flex;
            align-items: center;
            height: 31px;
            margin: 0;
            .custom-select__control {
-              width: 150px;
+             width: 150px;
              border: none;
              outline: none !important;
              box-shadow: none;
              height: 20px;
              min-height: 20px;
-             background-color: #fff;
-            //  border-bottom: 1px solid #ccc;
+             background-color: #fff; //  border-bottom: 1px solid #ccc;
              border-radius: 0px;
              .custom-select__single-value {
-              max-width: unset;
+               max-width: unset;
              }
-             .custom-select__indicator-separator, .custom-select__clear-indicator {
+             .custom-select__indicator-separator,
+             .custom-select__clear-indicator {
                display: none;
-              
              }
            }
            label {
@@ -157,25 +152,21 @@
            }
            input {
              border: none;
-             outline: none;
-            //  border-bottom: 1px solid #ccc;
-                 width: 150px;
-             padding-left: 10px;
-            //  text-align: center; // &:-webkit-autofill {
+             outline: none; //  border-bottom: 1px solid #ccc;
+             width: 150px;
+             padding-left: 10px; //  text-align: center; // &:-webkit-autofill {
              //   background-color: #fff !important;
              // }
              &[type=number] {
-                width: 100px;
+               width: 100px;
              }
-             
            }
            .unit {
-            width: 50px;
-            text-align: right;
-          }
+             width: 50px;
+             text-align: right;
+           }
          }
        }
-       
        .input-group {
          margin-bottom: 10px;
          .react-select1 {
@@ -188,6 +179,11 @@
        &.manure {
          a {
            color: #0b77f0;
+           width: 5em;
+         }
+         span {
+           width: 6em;
+           text-align: right;
          }
        }
      }
@@ -253,8 +249,8 @@
      .action {
        margin-top: 10px;
        position: absolute;
-        bottom: 50px;
-        left: 34px;
+       bottom: 50px;
+       left: 34px;
        .button {
          color: #fff;
          background-color: #0b77f0;
@@ -264,11 +260,11 @@
          margin-right: 10px;
        }
        .delete {
-          position: absolute;
-          right: -700px;
-          top: 5px;
-          color: #3478f5;
-          cursor: pointer;
+         position: absolute;
+         right: -700px;
+         top: 5px;
+         color: #3478f5;
+         cursor: pointer;
        }
      }
    }
@@ -297,15 +293,15 @@
    padding: 5px 10px;
    background-color: #fff;
    .action {
-     display:flex;
+     display: flex;
      justify-content: flex-end;
      padding: 10px 0;
      button {
-        color: #fff;
-         background-color: #0b77f0;
-         &:hover {
-           background-color: #0065d6
-         }
+       color: #fff;
+       background-color: #0b77f0;
+       &:hover {
+         background-color: #0065d6
+       }
      }
    }
    .input-group {
@@ -317,7 +313,7 @@
        margin-right: 10px;
      }
      &:first-child {
-        height: 20px;
+       height: 20px;
      }
      .custom-select__control {
        width: 90px;
@@ -348,14 +344,14 @@
        // }
      }
      .fileButton {
-        width: 90px;
-        background-color: #077c32;
-        height: 24px;
-        border-radius: 5px;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+       width: 90px;
+       background-color: #077c32;
+       height: 24px;
+       border-radius: 5px;
+       color: #fff;
+       display: flex;
+       align-items: center;
+       justify-content: center;
      }
    }
  }

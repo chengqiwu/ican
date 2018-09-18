@@ -282,7 +282,7 @@ class AddFer extends Component {
         </div>
         <div className='input-group'>
           <label htmlFor="">施肥量</label>
-          <input type="number" placeholder='公斤/亩' required min="0.0" disabled={disabled} name='dosage' value={this.state.dosage} onChange={this.inputChange} />
+          <input type="number" placeholder='公斤/亩' required min="0.0" step="0.01" disabled={disabled} name='dosage' value={this.state.dosage} onChange={this.inputChange} />
         </div>
         <div className='input-group'>
           <label htmlFor="">施肥类型</label>
