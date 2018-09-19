@@ -130,7 +130,7 @@ class OriginPlan extends Component {
         debounceTimeout={500 * 2} name='boron' value={this.format(value, row)} onChange={this.inputChange.bind(this, index)} />
     }
   }, {
-    title: '',
+    title: '操作',
     key: 'operation',
     className: 'operation-hover',
     render: (text, row, index) => {

@@ -504,7 +504,7 @@ class Delivery extends Component {
               return <Input size="small" value={value} name='describe' onChange={this.change2.bind(this, row.key)} />
             }
           }, {
-            title: '',
+            title: '操作',
             key: 'operation',
             className: 'operation-hover',
             render: (text, row, index) => {
