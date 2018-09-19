@@ -16,7 +16,8 @@ class Tab extends Component {
     super(props)
     this.state = {
       describe: props.describe,
-      id: undefined
+      id: undefined,
+      disabled: false
     }
   }
   submitHandler = (e) => {
@@ -72,13 +73,18 @@ class Tab extends Component {
       fd.append('landId', this.props.landId)
       fd.append('plantingSchemeStr', JSON.stringify(plantingScheme))
       delSchedule.length !== 0 && fd.append('delExecutionPlanIds', delSchedule.join(','))
+      this.setState({
+        disabled: true
+      })
       plantingSchemeSave(fd)
         .then(e => e.data)
         .then(data => {
           if (data.msg === '200') {
             toast.success('保存成功')
-            this.props.updateId(data.result.id)
-            const schedule = data.result.executionPlanVos.map((c, i) => {
+            const { id, executionPlanVos=[] } = data.result
+            this.props.updateId(id)
+            
+            const schedule = executionPlanVos.map((c, i) => {
               const vo = {}
               const { fertilizerDetailKvs = [] } = c
               fertilizerDetailKvs.forEach(fer => {
@@ -120,6 +126,9 @@ class Tab extends Component {
             })
             this.props.updateSchedule(schedule)
           }
+          this.setState({
+            disabled: false
+          })
         })
     } catch (err) {
       toast.error(err.message)
@@ -132,6 +141,7 @@ class Tab extends Component {
     this.props.updateDescribe(e.target.value)
   }
   render() {
+    const {disabled } = this.state
     const { cropPlan: { describe}} = this.props
     return (
       <form className='tab-content' onSubmit={this.submitHandler}>
@@ -153,7 +163,9 @@ class Tab extends Component {
             placeholder={'执行计划描述'}></textarea>
         </div>
         <div className='action'>
-          <button><div style={{ backgroundImage: `url(${save})` }}>保存</div></button>
+          <button disabled={disabled}><div style={{ backgroundImage: `url(${save})` }}>
+            {disabled? '保存中...' : '保存'}
+          </div></button>
         </div>
       </form>
     )

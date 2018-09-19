@@ -132,9 +132,12 @@ class OriginPlan extends Component {
     title: '',
     key: 'operation',
     className: 'operation-hover',
-    render: (text, record, index) => {
+    render: (text, row, index) => {
+      if (row.key === -1) {
+        return ''
+      }
       return <div>
-        <img src={delete2} title='删除' alt="" onClick={this.deleteById.bind(this, index)} />
+        <img src={delete2} title='删除' alt="" onClick={this.deleteById.bind(this, row.key)} />
       </div>
     }
   }]

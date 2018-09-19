@@ -15,6 +15,7 @@ import {
 import 'css/index/plan/tabs.scss'
 import { findSimple, findByPlantingSeasonCropsId } from 'utils/Api'
 import { connect } from 'react-redux'
+import { toast } from 'react-toastify'
 
 const TabPane = Tabs.TabPane
 
@@ -24,6 +25,7 @@ class CropTab extends Component {
     this.state = {
       activeKey: undefined,
       panes: [],
+      info: ''
     }
   }
   componentDidMount() {
@@ -34,18 +36,28 @@ class CropTab extends Component {
     findSimple(fd)
       .then(e => e.data)
       .then(data => {
-        this.setState({
-          panes: data.result.map(crop => ({
-            title: crop.cropsName,
-            key: crop.id
-          })),
-          activeKey: data.result[0].id
-        })
-        this.callBack(data.result[0].id)
+        if(data.msg === '200') {
+          if (!data.result[0].id) {
+            toast.info('您尚未添加种植季和作物信息。')
+            this.setState({
+              info: '请先添加种植季和作物信息！'
+            })
+            return
+          }
+          this.setState({
+            panes: data.result.map(crop => ({
+              title: crop.cropsName,
+              key: crop.id
+            })),
+            activeKey: data.result[0].id
+          })
+          
+          this.callBack(data.result[0].id)
+        }
+        
       })
   }
   onChange = (activeKey) => {
-    console.log(activeKey)
     this.setState({ activeKey })
     this.callBack(activeKey)
   }
@@ -132,6 +144,9 @@ class CropTab extends Component {
   render() {
     return (
       <div className='croptabs'>
+        <div className='croptabs-info'>
+          {this.state.info}
+        </div>
         <Tabs
           tabBarExtraContent={<Units />}
           onChange={this.onChange}

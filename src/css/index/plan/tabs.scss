@@ -1,5 +1,10 @@
 .croptabs {
   padding-top: 1.3em;
+  .croptabs-info {
+    position: absolute;
+    top: 80px;
+    left: 20px;
+  }
   input:focus {
     border-color: #40a9ff;
     outline: 0;
