@@ -191,7 +191,7 @@ class OriginPlan extends Component {
     for (let con of contrast) {
       if (con.key === key) {
         if (unit !== 2) {
-          con[name] = unit === 0 ? value :
+          con[name] = unit === 0 ? Number(value) :
             unit === 1 ? Number(value) / 15 : ''
         }
       }
@@ -203,7 +203,7 @@ class OriginPlan extends Component {
     }
   }
   filter = (arr, type, start) => {
-    return arr.map(a => this.format3(a[type])).reduce((a, b) => Number(a) + Number(b), start)
+    return arr.map(a => (a[type])).reduce((a, b) => Number(a) + Number(b), start)
   }
   format3 = (value, row)  => {
     if (typeof value === 'undefined') {
