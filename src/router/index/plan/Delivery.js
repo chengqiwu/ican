@@ -51,7 +51,7 @@ class Delivery extends Component {
     for (let con of schedule) {
       if (con.key === key) {
         con[name] = unit === 0 ? Number(value) :
-          unit === 1 ? Number(value) * 15 : ''
+          unit === 1 ? Number(value) / 15 : ''
       }
     }
     this.props.updateSchedule(schedule)
@@ -126,7 +126,6 @@ class Delivery extends Component {
     this.props.updateSchedule(schedule)
   }
   deleteById = (key) => {
-    console.log(key)
     const { cropPlan: { schedule } } = this.props
     if (key.toString().length === 32) {
       this.props.delSchedule(key)
@@ -186,7 +185,6 @@ class Delivery extends Component {
             dataIndex: 'urea', className: isShow(contrast, '0') ? 'hidden' : '',
             render: (value, row, index) => {
               if (row.key === -1) {
-                console.log(filter(schedule, 'urea', 0, this.format2).toString(), this.format2(clacDosage(contrast, '0')))
                 const obj = {
                   children: value,
                   props: {

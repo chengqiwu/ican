@@ -192,7 +192,7 @@ class OriginPlan extends Component {
       if (con.key === key) {
         if (unit !== 2) {
           con[name] = unit === 0 ? value :
-            unit === 1 ? Number(value) * 15 : ''
+            unit === 1 ? Number(value) / 15 : ''
         }
       }
     }
@@ -228,7 +228,7 @@ class OriginPlan extends Component {
     }
     const { cropPlan: { unit } } = this.props
     if (unit === 1) {
-      return Number((Number(value) / 15).toFixed(2)).toString()
+      return Number((Number(value) * 15).toFixed(2)).toString()
     } else if (unit === 0) {
       return Number((Number(value)).toFixed()).toString()
     } else if (unit === 2) {
@@ -244,14 +244,14 @@ class OriginPlan extends Component {
     }
     const { cropPlan: { unit, prevUnit } } = this.props
     if (unit === 1) {
-      return Number((Number(value) / 15).toFixed(2)).toString()
+      return Number((Number(value) * 15).toFixed(2)).toString()
     } else if (unit === 0) {
       return Number((Number(value)).toFixed()).toString()
     } else if (unit === 2) {
       if (prevUnit === 0) {
         return Number((Number(value)).toFixed()).toString()
       } else if (prevUnit === 1) {
-        return Number((Number(value) / 15).toFixed(2)).toString()
+        return Number((Number(value) * 15).toFixed(2)).toString()
       }
     }
   }

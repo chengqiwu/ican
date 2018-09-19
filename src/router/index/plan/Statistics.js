@@ -37,14 +37,14 @@ class Statistics extends Component {
     }
     const { cropPlan: { unit, prevUnit } } = this.props
     if (unit === 1) {
-      return (Number(value) / 15).toFixed(2)
+      return (Number(value) * 15).toFixed(2)
     } else if (unit === 0) {
       return Number(value).toFixed()
     } else if (unit === 2) {
       if (prevUnit === 0) {
         return Number(value).toFixed()
       } else if (prevUnit === 1) {
-        return (Number(value) / 15).toFixed(2)
+        return (Number(value) * 15).toFixed(2)
       }
     }
   }
@@ -58,9 +58,9 @@ class Statistics extends Component {
     this.props.updateTargetVo({
       ...targetVo,
       [name]: unit === 0 ? value :
-        unit === 1 ? (Number(value) * 15).toFixed(2) : 
+        unit === 1 ? (Number(value) / 15).toFixed(2) : 
           prevUnit === 0 ? (Number(value)).toFixed() :
-            prevUnit === 1 ? (Number(value) * 15).toFixed() : ''
+            prevUnit === 1 ? (Number(value) / 15).toFixed() : ''
     })
   }
   render() {
