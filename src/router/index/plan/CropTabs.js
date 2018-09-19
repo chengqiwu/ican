@@ -38,9 +38,9 @@ class CropTab extends Component {
       .then(data => {
         if(data.msg === '200') {
           if (!data.result[0].id) {
-            toast.info('您尚未添加种植季和作物信息。')
+            toast.info('您尚未添加种植季和作物信息，若已添加，请选择一个种植季为当季。')
             this.setState({
-              info: '请先添加种植季和作物信息！'
+              info: '请先添加种植季和作物信息，若已添加，请选择一个种植季为当季。'
             })
             return
           }
