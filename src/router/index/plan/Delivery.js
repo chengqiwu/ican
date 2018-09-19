@@ -5,21 +5,22 @@ import zh from 'moment/locale/zh-cn'
 import classNames from 'classnames'
 moment.locale('zh')
 import delete2 from 'images/index/crop/delete.png'
-import { Table, Button, DatePicker, Select, Input } from 'antd'
+import { Table, Button, Select, Input } from 'antd'
 import { connect } from 'react-redux'
 import { updateSchedule, delSchedule } from '_redux/actions/cropPlan'
+import { DebounceInput } from 'react-debounce-input'
 const Option = Select.Option
 
 function clacDosage(contrast, type) {
   return contrast.filter(c => c.category === type)
-    .map(c => c.dosage).reduce((a, b) => Number(a) + Number(b), 0)
+    .map(c => Number(c.dosage)).reduce((a, b) => a + b, 0)
 }
 
 function isShow(contrast, type) {
   return contrast.filter(c => c.category === type).length === 0
 }
-const filter = function (arr, type, start) {
-  return arr.map(a => a[type]).reduce((a, b) => Number(a) + Number(b), start)
+const filter = function (arr, type, start, fn) {
+  return arr.map(a => Number(fn(a[type]))).reduce((a, b) => a + b, start).toString()
 }
 class Delivery extends Component {
   constructor() {
@@ -40,8 +41,20 @@ class Delivery extends Component {
   }
   change = (key, e) => {
     const { name, value } = e.target
-    const { cropPlan: { schedule } } = this.props
-    console.log(key)
+    console.log(value)
+    const { cropPlan: { schedule, unit } } = this.props
+    for (let con of schedule) {
+      if (con.key === key) {
+        con[name] = unit === 0 ? Number(value) :
+          unit === 1 ? Number(value) * 15 : ''
+      }
+    }
+    this.props.updateSchedule(schedule)
+  }
+  change2 = (key, e) => {
+    const { name, value } = e.target
+    console.log(value)
+    const { cropPlan: { schedule, unit } } = this.props
     for (let con of schedule) {
       if (con.key === key) {
         con[name] = value
@@ -59,6 +72,23 @@ class Delivery extends Component {
       }
     }
     this.props.updateSchedule(schedule)
+  }
+  format2 = (value) => {
+    if (typeof value === 'undefined') {
+      return 0
+    }
+    const { cropPlan: { unit, prevUnit } } = this.props
+    if (unit === 1) {
+      return Number((Number(value) / 15).toFixed(2)).toString()
+    } else if (unit === 0) {
+      return Number(Number(value).toFixed()).toString()
+    } else if (unit === 2) {
+      if (prevUnit === 0) {
+        return Number(Number(value).toFixed()).toString()
+      } else if (prevUnit === 1) {
+        return Number((Number(value) / 15).toFixed(2)).toString()
+      }
+    }
   }
   addSchedule = () => {
     const { cropPlan: { schedule } } = this.props
@@ -148,18 +178,25 @@ class Delivery extends Component {
             dataIndex: 'urea', className: isShow(contrast, '0') ? 'hidden' : '',
             render: (value, row, index) => {
               if (row.key === -1) {
+                console.log(filter(schedule, 'urea', 0, this.format2).toString(), this.format2(clacDosage(contrast, '0')))
                 const obj = {
                   children: value,
                   props: {
                     className: classNames({
                       hidden: isShow(contrast, '0'),
-                      unStandard: filter(schedule, 'urea', 0) !== clacDosage(contrast, '0')
+                      unStandard: (filter(schedule, 'urea', 0, this.format2)).toString() !== this.format2(clacDosage(contrast, '0'))
                     })
                   },
                 }
                 return obj
               }
-              return <Input size="small" value={value} name='urea' onChange={this.change.bind(this, row.key)} />
+              return <DebounceInput
+                minLength={0}
+                debounceTimeout={500*2}
+                name='urea'
+                value={this.format2(value)}
+                onChange={this.change.bind(this, row.key)} />
+              //<Input size="small" value={this.format2(value)} name='urea' onChange={this.change.bind(this, row.key)} />
             }
           }, {
             title: '一铵',
@@ -171,13 +208,15 @@ class Delivery extends Component {
                   props: {
                     className: classNames({
                       hidden: isShow(contrast, '1'),
-                      unStandard: filter(schedule, 'ammonium', 0) !== clacDosage(contrast, '1')
+                      unStandard: filter(schedule, 'ammonium', 0, this.format2) !== this.format2(clacDosage(contrast, '1'))
                     })
                   },
                 }
                 return obj
               }
-              return <Input size="small" value={value} name='ammonium' onChange={this.change.bind(this, row.key)} />
+              return <DebounceInput
+                minLength={0}
+                debounceTimeout={500 * 2} value={this.format2(value)} name='ammonium' onChange={this.change.bind(this, row.key)} />
             }
           }, {
             title: '二铵',
@@ -189,13 +228,15 @@ class Delivery extends Component {
                   props: {
                     className: classNames({
                       hidden: isShow(contrast, '2'),
-                      unStandard: filter(schedule, 'diammonium', 0) !== clacDosage(contrast, '2')
+                      unStandard: filter(schedule, 'diammonium', 0, this.format2) !== this.format2(clacDosage(contrast, '2'))
                     })
                   },
                 }
                 return obj
               }
-              return <Input size="small" value={value} name='diammonium' onChange={this.change.bind(this, row.key)} />
+              return <DebounceInput
+                minLength={0}
+                debounceTimeout={500 * 2} value={this.format2(value)} name='diammonium' onChange={this.change.bind(this, row.key)} />
             }
           }, {
             title: '硫酸钾',
@@ -207,13 +248,15 @@ class Delivery extends Component {
                   props: {
                     className: classNames({
                       hidden: isShow(contrast, '3'),
-                      unStandard: filter(schedule, 'kso4', 0) !== clacDosage(contrast, '3')
+                      unStandard: filter(schedule, 'kso4', 0, this.format2) !== this.format2(clacDosage(contrast, '3'))
                     })
                   },
                 }
                 return obj
               }
-              return <Input size="small" value={value} name='kso4' onChange={this.change.bind(this, row.key)} />
+              return <DebounceInput
+                minLength={0}
+                debounceTimeout={500 * 2} value={this.format2(value)} name='kso4' onChange={this.change.bind(this, row.key)} />
             }
           }, {
             title: '硫酸锌',
@@ -225,13 +268,15 @@ class Delivery extends Component {
                   props: {
                     className: classNames({
                       hidden: isShow(contrast, '4'),
-                      unStandard: filter(schedule, 'znso4', 0) !== clacDosage(contrast, '4')
+                      unStandard: filter(schedule, 'znso4', 0, this.format2) !== this.format2(clacDosage(contrast, '4'))
                     })
                   },
                 }
                 return obj
               }
-              return <Input size="small" value={value} name='znso4' onChange={this.change.bind(this, row.key)} />
+              return <DebounceInput
+                minLength={0}
+                debounceTimeout={500 * 2} value={this.format2(value)} name='znso4' onChange={this.change.bind(this, row.key)} />
             }
           }, {
             title: '硼肥',
@@ -243,13 +288,15 @@ class Delivery extends Component {
                   props: {
                     className: classNames({
                       hidden: isShow(contrast, '5'),
-                      unStandard: filter(schedule, 'boron', 0) !== clacDosage(contrast, '5')
+                      unStandard: filter(schedule, 'boron', 0, this.format2) !== this.format2(clacDosage(contrast, '5'))
                     })
                   },
                 }
                 return obj
               }
-              return <Input size="small" value={value} name='boron' onChange={this.change.bind(this, row.key)} />
+              return <DebounceInput
+                minLength={0}
+                debounceTimeout={500 * 2} value={this.format2(value)} name='boron' onChange={this.change.bind(this, row.key)} />
             }
           }, {
             title: '磷酸二氢钾',
@@ -261,13 +308,15 @@ class Delivery extends Component {
                   props: {
                     className: classNames({
                       hidden: isShow(contrast, '6'),
-                      unStandard: filter(schedule, 'h2kp', 0) !== clacDosage(contrast, '6')
+                      unStandard: filter(schedule, 'h2kp', 0, this.format2) !== this.format2(clacDosage(contrast, '6'))
                     })
                   },
                 }
                 return obj
               }
-              return <Input size="small" value={value} name='h2kp' onChange={this.change.bind(this, row.key)} />
+              return <DebounceInput
+                minLength={0}
+                debounceTimeout={500 * 2} value={this.format2(value)} name='h2kp' onChange={this.change.bind(this, row.key)} />
             }
           }, {
             title: '芸苔素',
@@ -279,13 +328,15 @@ class Delivery extends Component {
                   props: {
                     className: classNames({
                       hidden: isShow(contrast, '7'),
-                      unStandard: filter(schedule, 'canola', 0) !== clacDosage(contrast, '7')
+                      unStandard: filter(schedule, 'canola', 0, this.format2) !== this.format2(clacDosage(contrast, '7'))
                     })
                   },
                 }
                 return obj
               }
-              return <Input size="small" value={value} name='canola' onChange={this.change.bind(this, row.key)} />
+              return <DebounceInput
+                minLength={0}
+                debounceTimeout={500 * 2} value={this.format2(value)} name='canola' onChange={this.change.bind(this, row.key)} />
             }
           }, {
             title: '氯化钾',
@@ -297,13 +348,15 @@ class Delivery extends Component {
                   props: {
                     className: classNames({
                       hidden: isShow(contrast, '8'),
-                      unStandard: filter(schedule, 'kcl', 0) !== clacDosage(contrast, '8')
+                      unStandard: filter(schedule, 'kcl', 0, this.format2) !== clacDosage(contrast, '8')
                     })
                   },
                 }
                 return obj
               }
-              return <Input size="small" value={value} name='kcl' onChange={this.change.bind(this, row.key)} />
+              return <DebounceInput
+                minLength={0}
+                debounceTimeout={500 * 2} value={this.format2(value)} name='kcl' onChange={this.change.bind(this, row.key)} />
             }
           }, {
             title: '菌肥',
@@ -315,13 +368,15 @@ class Delivery extends Component {
                   props: {
                     className: classNames({
                       hidden: isShow(contrast, '9'),
-                      unStandard: filter(schedule, 'nacterial', 0) !== clacDosage(contrast, '9')
+                      unStandard: filter(schedule, 'nacterial', 0, this.format2) !== this.format2(clacDosage(contrast, '9'))
                     })
                   },
                 }
                 return obj
               }
-              return <Input size="small" value={value} name='nacterial' onChange={this.change.bind(this, row.key)} />
+              return <DebounceInput
+                minLength={0}
+                debounceTimeout={500 * 2} value={this.format2(value)} name='nacterial' onChange={this.change.bind(this, row.key)} />
             }
           }, {
             title: '有机肥',
@@ -333,13 +388,15 @@ class Delivery extends Component {
                   props: {
                     className: classNames({
                       hidden: isShow(contrast, '10'),
-                      unStandard: filter(schedule, 'organic', 0) !== clacDosage(contrast, '10')
+                      unStandard: filter(schedule, 'organic', 0, this.format2) !== this.format2(clacDosage(contrast, '10'))
                     })
                   },
                 }
                 return obj
               }
-              return <Input size="small" value={value} name='organic' onChange={this.change.bind(this, row.key)} />
+              return <DebounceInput
+                minLength={0}
+                debounceTimeout={500 * 2} value={this.format2(value)} name='organic' onChange={this.change.bind(this, row.key)} />
             }
           }, {
             title: '掺混肥',
@@ -352,13 +409,15 @@ class Delivery extends Component {
                   props: {
                     className: classNames({
                       hidden: isShow(contrast, '12'),
-                      unStandard: filter(schedule, 'maxed', 0) !== clacDosage(contrast, '12')
+                      unStandard: filter(schedule, 'maxed', 0, this.format2) !== clacDosage(contrast, '12')
                     })
                   },
                 }
                 return obj
               }
-              return <Input size="small" value={value} name='maxed' onChange={this.change.bind(this, row.key)} />
+              return <DebounceInput
+                minLength={0}
+                debounceTimeout={500 * 2} value={this.format2(value)} name='maxed' onChange={this.change.bind(this, row.key)} />
             }
           }, {
             title: '复合肥',
@@ -371,13 +430,15 @@ class Delivery extends Component {
                   props: {
                     className: classNames({
                       hidden: isShow(contrast, '13'),
-                      unStandard: filter(schedule, 'compound', 0) !== clacDosage(contrast, '13')
+                      unStandard: filter(schedule, 'compound', 0, this.format2) !== this.format2(clacDosage(contrast, '13'))
                     })
                   },
                 }
                 return obj
               }
-              return <Input size="small" value={value} name='compound' onChange={this.change.bind(this, row.key)} />
+              return <DebounceInput
+                minLength={0}
+                debounceTimeout={500 * 2} value={this.format2(value)} name='compound' onChange={this.change.bind(this, row.key)} />
             }
           }, {
             title: '其他',
@@ -390,13 +451,15 @@ class Delivery extends Component {
                   props: {
                     className: classNames({
                       hidden: isShow(contrast, '11'),
-                      unStandard: filter(schedule, 'other', 0) !== clacDosage(contrast, '11')
+                      unStandard: filter(schedule, 'other', 0, this.format2) !== this.format2(clacDosage(contrast, '11'))
                     })
                   },
                 }
                 return obj
               }
-              return <Input size="small" value={value} name='other' onChange={this.change.bind(this, row.key)} />
+              return <DebounceInput
+                minLength={0}
+                debounceTimeout={500 * 2} value={this.format2(value)} name='other' onChange={this.change.bind(this, row.key)} />
             }
           }, {
             title: '播后天数',
@@ -414,7 +477,7 @@ class Delivery extends Component {
               if (row.key === -1) {
                 return ''
               }
-              return <Input size="small" value={value} name='dripIrrigationTime' onChange={this.change.bind(this, row.key)} />
+              return <Input size="small" value={value} name='dripIrrigationTime' onChange={this.change2.bind(this, row.key)} />
             }
           }, {
             title: '滴灌量（m3/亩）',
@@ -423,7 +486,7 @@ class Delivery extends Component {
               if (row.key === -1) {
                 return ''
               }
-              return <Input size="small" value={value} name='dripIrrigationQuantity' onChange={this.change.bind(this, row.key)} />
+              return <Input size="small" value={value} name='dripIrrigationQuantity' onChange={this.change2.bind(this, row.key)} />
             }
           }, {
             title: '说明',
@@ -432,7 +495,7 @@ class Delivery extends Component {
               if (row.key === -1) {
                 return ''
               }
-              return <Input size="small" value={value} name='describe' onChange={this.change.bind(this, row.key)} />
+              return <Input size="small" value={value} name='describe' onChange={this.change2.bind(this, row.key)} />
             }
           }, {
             title: '',
@@ -449,20 +512,20 @@ class Delivery extends Component {
           }]}
           dataSource={[...schedule, {
             key: -1,
-            urea: clacDosage(contrast, '0'),
-            ammonium: clacDosage(contrast, '1'),
-            diammonium: clacDosage(contrast, '2'),
-            kso4: clacDosage(contrast, '3'),
-            znso4: clacDosage(contrast, '4'),
-            boron: clacDosage(contrast, '5'),
-            h2kp: clacDosage(contrast, '6'),
-            canola: clacDosage(contrast, '7'),
-            kcl: clacDosage(contrast, '8'),
-            nacterial: clacDosage(contrast, '9'),
-            organic: clacDosage(contrast, '10'),
-            mixed: clacDosage(contrast, '12'),
-            compound: clacDosage(contrast, '13'),
-            other: clacDosage(contrast, '11'),
+            urea: this.format2(clacDosage(contrast, '0')),
+            ammonium: this.format2(clacDosage(contrast, '1')),
+            diammonium: this.format2(clacDosage(contrast, '2')),
+            kso4: this.format2(clacDosage(contrast, '3')),
+            znso4: this.format2(clacDosage(contrast, '4')),
+            boron: this.format2(clacDosage(contrast, '5')),
+            h2kp: this.format2(clacDosage(contrast, '6')),
+            canola: this.format2(clacDosage(contrast, '7')),
+            kcl: this.format2(clacDosage(contrast, '8')),
+            nacterial: this.format2(clacDosage(contrast, '9')),
+            organic: this.format2(clacDosage(contrast, '10')),
+            mixed: this.format2(clacDosage(contrast, '12')),
+            compound: this.format2(clacDosage(contrast, '13')),
+            other: this.format2(clacDosage(contrast, '11')),
           }]}
           locale={{ emptyText: '无数据' }}
           bordered

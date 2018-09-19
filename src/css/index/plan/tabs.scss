@@ -1,5 +1,12 @@
 .croptabs {
   padding-top: 1.3em;
+  input:focus {
+    border-color: #40a9ff;
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+    border-right-width: 1px !important;
+  }
   .ant-tabs-bar {
     display: flex;
     flex-direction: row-reverse;
@@ -267,7 +274,7 @@
   align-items: flex-start;
   padding-left: 5px;
   textarea {
-    width: 760px;
+    width: 808px;
     height: 100px;
   }
 }

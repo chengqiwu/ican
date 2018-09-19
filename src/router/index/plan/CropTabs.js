@@ -75,9 +75,9 @@ class CropTab extends Component {
           // fertilizerDetailKvs
           this.props.updateContrast(data.result.contrastSchedule.map((c, i) => ({ ...c, key: i })))
           this.props.updateOrigin(data.result.originSchedule.map((c, i) => ({ ...c, key: i })))
-          this.props.updateSchedule(data.result.executionPlanVos.map((c, i) => {
+          const schedule = data.result.executionPlanVos.map((c, i) => {
             const vo = {}
-            const {fertilizerDetailKvs} = c
+            const { fertilizerDetailKvs = [] } = c
             fertilizerDetailKvs.forEach(fer => {
               switch (fer.key) {
               case '0':
@@ -112,9 +112,10 @@ class CropTab extends Component {
                 break
               }
             })
-            
+
             return { ...c, key: c.id, ...vo }
-          }))
+          })
+          this.props.updateSchedule(schedule)
           this.props.updateTargetVo(data.result.targetVo || {
             nitrogen: 0,
             phosphorus: 0,

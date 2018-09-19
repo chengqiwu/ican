@@ -5,6 +5,7 @@ import { Table, Button, Input, Select } from 'antd'
 import { updateContrast, updateOrigin } from '_redux/actions/cropPlan'
 // import PlanSummary from './PlanSummary'
 import delete2 from 'images/index/crop/delete.png'
+import { DebounceInput } from 'react-debounce-input'
 const Option = Select.Option
 
 
@@ -42,7 +43,9 @@ class OriginPlan extends Component {
       if (row.key === -1) {
         return ''
       }
-      return <Input size="small" name='dosage' value={this.format2(value)} onChange={this.inputChange.bind(this, index)} />
+      return <DebounceInput
+        minLength={0}
+        debounceTimeout={500 * 2} name='dosage' value={this.format2(value)} onChange={this.inputChange.bind(this, index)} />
     }
   }, {
     title: '施肥类型',
@@ -66,7 +69,9 @@ class OriginPlan extends Component {
       if (row.key === -1) {
         return this.format3(value)
       }
-      return <Input size="small" name='nitrogen' value={this.format(value, row)} onChange={this.inputChange.bind(this, index)} />
+      return <DebounceInput
+        minLength={0}
+        debounceTimeout={500 * 2} name='nitrogen' value={this.format(value, row)} onChange={this.inputChange.bind(this, index)} />
     }
   }, {
     title: <span>P<sub>2</sub>O<sub>5</sub></span>,
@@ -75,7 +80,9 @@ class OriginPlan extends Component {
       if (row.key === -1) {
         return this.format3(value)
       }
-      return  <Input size="small" name='phosphorus' value={this.format(value, row)} onChange={this.inputChange.bind(this, index)} />
+      return <DebounceInput
+        minLength={0}
+        debounceTimeout={500 * 2} name='phosphorus' value={this.format(value, row)} onChange={this.inputChange.bind(this, index)} />
     }
   }, {
     title: <span>K<sub>2</sub>O</span>,
@@ -84,7 +91,9 @@ class OriginPlan extends Component {
       if (row.key === -1) {
         return this.format3(value)
       }
-      return <Input size="small" name='potassium' value={this.format(value, row)} onChange={this.inputChange.bind(this, index)} />
+      return <DebounceInput
+        minLength={0}
+        debounceTimeout={500 * 2} name='potassium' value={this.format(value, row)} onChange={this.inputChange.bind(this, index)} />
     }
   }, {
     title: <span>S</span>,
@@ -93,7 +102,9 @@ class OriginPlan extends Component {
       if (row.key === -1) {
         return this.format3(value)
       }
-      return <Input size="small" name='sulfur' value={this.format(value, row)} onChange={this.inputChange.bind(this, index)} />
+      return <DebounceInput
+        minLength={0}
+        debounceTimeout={500 * 2} name='sulfur' value={this.format(value, row)} onChange={this.inputChange.bind(this, index)} />
     }
   }, {
     title: <span>Z<sub>n</sub></span>,
@@ -102,7 +113,9 @@ class OriginPlan extends Component {
       if (row.key === -1) {
         return this.format3(value)
       }
-      return <Input size="small" name='zinc' value={this.format(value, row)} onChange={this.inputChange.bind(this, index)} />
+      return <DebounceInput
+        minLength={0}
+        debounceTimeout={500 * 2} name='zinc' value={this.format(value, row)} onChange={this.inputChange.bind(this, index)} />
     }
   }, {
     title: <span>B</span>,
@@ -111,7 +124,9 @@ class OriginPlan extends Component {
       if (row.key === -1) {
         return this.format3(value)
       }
-      return <Input size="small" name='boron' value={this.format(value, row)} onChange={this.inputChange.bind(this, index)} />
+      return <DebounceInput
+        minLength={0}
+        debounceTimeout={500 * 2} name='boron' value={this.format(value, row)} onChange={this.inputChange.bind(this, index)} />
     }
   }, {
     title: '',
@@ -192,14 +207,14 @@ class OriginPlan extends Component {
     }
     const { cropPlan: { unit, prevUnit } } = this.props
     if (unit === 1) {
-      return (Number(value) / 15).toFixed(2)
+      return Number((Number(value) / 15).toFixed(2))
     } else if (unit === 0) {
-      return Number(value).toFixed()
+      return Number(Number(value).toFixed())
     } else {
       if (prevUnit === 0) {
-        return Number(value).toFixed()
+        return Number(Number(value).toFixed())
       } else if (prevUnit === 1) {
-        return (Number(value) / 15).toFixed(2)
+        return Number((Number(value) / 15).toFixed(2))
       }
     }
   }
@@ -209,9 +224,9 @@ class OriginPlan extends Component {
     }
     const { cropPlan: { unit } } = this.props
     if (unit === 1) {
-      return (Number(value) / 15).toFixed(2)
+      return Number((Number(value) / 15).toFixed(2)).toString()
     } else if (unit === 0) {
-      return (Number(value)).toFixed()
+      return Number((Number(value)).toFixed()).toString()
     } else if (unit === 2) {
       if (Number(row.dosage) <= 0) {
         return '0%'
@@ -225,14 +240,14 @@ class OriginPlan extends Component {
     }
     const { cropPlan: { unit, prevUnit } } = this.props
     if (unit === 1) {
-      return (Number(value) / 15).toFixed(2)
+      return Number((Number(value) / 15).toFixed(2)).toString()
     } else if (unit === 0) {
-      return (Number(value)).toFixed()
+      return Number((Number(value)).toFixed()).toString()
     } else if (unit === 2) {
       if (prevUnit === 0) {
-        return (Number(value)).toFixed()
+        return Number((Number(value)).toFixed()).toString()
       } else if (prevUnit === 1) {
-        return (Number(value) / 15).toFixed(2)
+        return Number((Number(value) / 15).toFixed(2)).toString()
       }
     }
   }

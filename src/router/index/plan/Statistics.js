@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Table, Input } from 'antd'
 import { updateTargetVo } from '_redux/actions/cropPlan'
 import { toast } from 'react-toastify'
+import { DebounceInput } from 'react-debounce-input'
 const columns = [{
   title: '',
   dataIndex: 'text',
@@ -90,12 +91,24 @@ class Statistics extends Component {
           }, {
             key: 3,
             text: '目标需求',
-            nitrogen: <Input name='nitrogen' value={this.format(targetVo.nitrogen)} onChange={this.inputChange} />,
-            phosphorus: <Input name='phosphorus' value={this.format(targetVo.phosphorus)} onChange={this.inputChange} />,
-            potassium: <Input name='potassium' value={this.format(targetVo.potassium)} onChange={this.inputChange} />,
-            sulfur: <Input name='sulfur' value={this.format(targetVo.sulfur)} onChange={this.inputChange} />,
-            zinc: <Input name='zinc' value={this.format(targetVo.zinc)} onChange={this.inputChange} />,
-            boron: <Input name='boron' value={this.format(targetVo.boron)} onChange={this.inputChange} />
+            nitrogen: <DebounceInput
+              minLength={0}
+              debounceTimeout={500 * 2} name='nitrogen' value={this.format(targetVo.nitrogen)} onChange={this.inputChange} />,
+            phosphorus: <DebounceInput
+              minLength={0}
+              debounceTimeout={500 * 2} name='phosphorus' value={this.format(targetVo.phosphorus)} onChange={this.inputChange} />,
+            potassium: <DebounceInput
+              minLength={0}
+              debounceTimeout={500 * 2} name='potassium' value={this.format(targetVo.potassium)} onChange={this.inputChange} />,
+            sulfur: <DebounceInput
+              minLength={0}
+              debounceTimeout={500 * 2} name='sulfur' value={this.format(targetVo.sulfur)} onChange={this.inputChange} />,
+            zinc: <DebounceInput
+              minLength={0}
+              debounceTimeout={500 * 2} name='zinc' value={this.format(targetVo.zinc)} onChange={this.inputChange} />,
+            boron: <DebounceInput
+              minLength={0}
+              debounceTimeout={500 * 2} name='boron' value={this.format(targetVo.boron)} onChange={this.inputChange} />
           }
         ]}
         bordered
