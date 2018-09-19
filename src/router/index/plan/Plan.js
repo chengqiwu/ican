@@ -6,6 +6,7 @@ import { updateContrast, updateOrigin } from '_redux/actions/cropPlan'
 // import PlanSummary from './PlanSummary'
 import delete2 from 'images/index/crop/delete.png'
 import { DebounceInput } from 'react-debounce-input'
+import { toast } from 'react-toastify'
 const Option = Select.Option
 
 
@@ -183,7 +184,7 @@ class OriginPlan extends Component {
     const { cropPlan } = this.props
     const contrast = cropPlan[type]
     const { unit } = cropPlan
-    if (unit === 3) {
+    if (unit === 2) {
       toast.error('百分比情况下，不可输入，请切换到其他单位')
       return
     }
@@ -210,14 +211,14 @@ class OriginPlan extends Component {
     }
     const { cropPlan: { unit, prevUnit } } = this.props
     if (unit === 1) {
-      return Number((Number(value) / 15).toFixed(2))
+      return Number((Number(value) * 15).toFixed(2))
     } else if (unit === 0) {
       return Number(Number(value).toFixed())
     } else {
       if (prevUnit === 0) {
         return Number(Number(value).toFixed())
       } else if (prevUnit === 1) {
-        return Number((Number(value) / 15).toFixed(2))
+        return Number((Number(value) * 15).toFixed(2))
       }
     }
   }

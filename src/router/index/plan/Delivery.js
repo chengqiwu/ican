@@ -9,6 +9,7 @@ import { Table, Button, Select, Input } from 'antd'
 import { connect } from 'react-redux'
 import { updateSchedule, delSchedule } from '_redux/actions/cropPlan'
 import { DebounceInput } from 'react-debounce-input'
+import { toast } from 'react-toastify'
 const Option = Select.Option
 
 function clacDosage(contrast, type) {
@@ -40,9 +41,13 @@ class Delivery extends Component {
     this.props.updateSchedule(schedule)
   }
   change = (key, e) => {
+    
     const { name, value } = e.target
-    console.log(value)
     const { cropPlan: { schedule, unit } } = this.props
+    if (unit === 2) {
+      toast.error('百分比情况下，不可输入，请切换到其他单位')
+      return
+    }
     for (let con of schedule) {
       if (con.key === key) {
         con[name] = unit === 0 ? Number(value) :
@@ -53,8 +58,11 @@ class Delivery extends Component {
   }
   change2 = (key, e) => {
     const { name, value } = e.target
-    console.log(value)
     const { cropPlan: { schedule, unit } } = this.props
+    if (unit === 2) {
+      toast.error('百分比情况下，不可输入，请切换到其他单位')
+      return
+    }
     for (let con of schedule) {
       if (con.key === key) {
         con[name] = value
@@ -79,14 +87,14 @@ class Delivery extends Component {
     }
     const { cropPlan: { unit, prevUnit } } = this.props
     if (unit === 1) {
-      return Number((Number(value) / 15).toFixed(2)).toString()
+      return Number((Number(value) * 15).toFixed(2)).toString()
     } else if (unit === 0) {
       return Number(Number(value).toFixed()).toString()
     } else if (unit === 2) {
       if (prevUnit === 0) {
         return Number(Number(value).toFixed()).toString()
       } else if (prevUnit === 1) {
-        return Number((Number(value) / 15).toFixed(2)).toString()
+        return Number((Number(value) * 15).toFixed(2)).toString()
       }
     }
   }
