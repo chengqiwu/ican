@@ -1,9 +1,6 @@
  .add-season {
    padding: 20px;
    width: 860px;
-   >form {
-     //  padding-left: 11px;
-   }
    >.add {
      background-color: #0b77f0;
      &:hover {
@@ -280,7 +277,6 @@
      }
      >span {
        cursor: pointer;
-       font-size: 13px;
        &:hover {
          text-decoration: underline;
        }

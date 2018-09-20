@@ -23,7 +23,7 @@ $css_sprites2: url('../../../images/index/css_sprites2.png');
         box-shadow: 0 1px 1px #adadad;
     }
     h3 {
-        font-size: 24px;
+        font-size: .75rem;
     }
     .famers-lists {
         height: calc(100% - 114px);
@@ -46,7 +46,6 @@ $css_sprites2: url('../../../images/index/css_sprites2.png');
     34px);
     @extend .flex-center;
     margin: 15px 0;
-    font-size: 16px;
     cursor: pointer;
     >div:first-child {
         @extend .flex-center;
@@ -68,7 +67,6 @@ $css_sprites2: url('../../../images/index/css_sprites2.png');
 .famers {
     @extend .flex-left-right;
     padding: 20px;
-    font-size: 14px;
     border-bottom: 1px solid #999999;
     align-items: center;
     .famers-mess {
@@ -98,7 +96,6 @@ $css_sprites2: url('../../../images/index/css_sprites2.png');
         @extend .flex-center;
         border-radius: 15px;
         background-color: #183d36;
-        font-size: 20px;
         color: #ffffff;
         font-weight: bold;
     }

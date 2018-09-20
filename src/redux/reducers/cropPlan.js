@@ -107,7 +107,6 @@ export default function cropPlanReducer(state = defaultState, action) {
       describe: action.describe
     }
   case DELSCHEDULE: 
-    console.log(action.schedule)
     return {
       ...state,
       delSchedule: [

@@ -34,7 +34,7 @@ $bg: url('../../images/common/bg2.jpg');
 }
 
 .forget-title {
-  font-size: 34px;
+  font-size: 1.5rem;
   color: #000000;
   margin: 38px 0;
   text-align: center;
@@ -49,7 +49,6 @@ $bg: url('../../images/common/bg2.jpg');
     @include custom-width-height(80px,
     38px);
     text-align: right;
-    font-size: 16px;
     color: #666666;
     margin-right: 12px;
     @extend .flex-vertical-center;
@@ -87,7 +86,6 @@ $bg: url('../../images/common/bg2.jpg');
 }
 
 .from-item span {
-  font-size: 14px;
   color: #de2f00;
   margin: 20px 0;
 }
@@ -102,7 +100,6 @@ $bg: url('../../images/common/bg2.jpg');
     @include custom-width-height(80px,
     38px);
     text-align: right;
-    font-size: 16px;
     color: #666666;
     margin-right: 12px;
     @extend .flex-vertical-center;
@@ -121,12 +118,10 @@ $bg: url('../../images/common/bg2.jpg');
   background-color: #5aa700;
   @include custom-width-height(100px,
   38px);
-  font-size: 16px;
   color: #fefefe;
 }
 
 .forget-prompt {
   max-width: 437px;
-  font-size: 14px;
   color: #de2f00;
 }

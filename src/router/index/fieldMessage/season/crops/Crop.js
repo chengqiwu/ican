@@ -117,7 +117,7 @@ Crop.propTypes = {
   options: PropTypes.array,
   handleChange: PropTypes.func,
   handleCreate: PropTypes.func,
-  value: PropTypes.string,
+  value: PropTypes.any,
   plantingType: PropTypes.object,
   plantingTypeChange: PropTypes.func,
 

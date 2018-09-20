@@ -19,7 +19,7 @@ class OriginPlan extends Component {
       if (row.key === -1) {
         return '' 
       }
-      return <Select defaultValue="0" value={value} name='category' size={'small'} onChange={this.categoryChange.bind(this, index)}>
+      return <Select defaultValue="0" value={value} name='category' size={'small'} onChange={this.categoryChange.bind(this, row.key)}>
         <Option value="0">尿素</Option>
         <Option value="1">一铵</Option>
         <Option value="2">二铵</Option>
@@ -46,7 +46,7 @@ class OriginPlan extends Component {
       }
       return <DebounceInput
         minLength={0}
-        debounceTimeout={500 * 2} name='dosage' value={this.format2(value)} onChange={this.inputChange.bind(this, index)} />
+        debounceTimeout={500 * 2} name='dosage' value={this.format2(value)} onChange={this.inputChange.bind(this, row.key)} />
     }
   }, {
     title: '施肥类型',
@@ -55,7 +55,7 @@ class OriginPlan extends Component {
       if (row.key === -1) {
         return '合计'
       }
-      return <Select defaultValue="0" value={value} name='type' size={'small'} onChange={this.typeChange.bind(this, index)}>
+      return <Select defaultValue="0" value={value} name='type' size={'small'} onChange={this.typeChange.bind(this, row.key)}>
         <Option value="0">底肥</Option>
         <Option value="1">种肥</Option>
         <Option value="2">追肥</Option>
@@ -72,7 +72,7 @@ class OriginPlan extends Component {
       }
       return <DebounceInput
         minLength={0}
-        debounceTimeout={500 * 2} name='nitrogen' value={this.format(value, row)} onChange={this.inputChange.bind(this, index)} />
+        debounceTimeout={500 * 2} name='nitrogen' value={this.format(value, row)} onChange={this.inputChange.bind(this, row.key)} />
     }
   }, {
     title: <span>P<sub>2</sub>O<sub>5</sub></span>,
@@ -83,7 +83,7 @@ class OriginPlan extends Component {
       }
       return <DebounceInput
         minLength={0}
-        debounceTimeout={500 * 2} name='phosphorus' value={this.format(value, row)} onChange={this.inputChange.bind(this, index)} />
+        debounceTimeout={500 * 2} name='phosphorus' value={this.format(value, row)} onChange={this.inputChange.bind(this, row.key)} />
     }
   }, {
     title: <span>K<sub>2</sub>O</span>,
@@ -94,7 +94,7 @@ class OriginPlan extends Component {
       }
       return <DebounceInput
         minLength={0}
-        debounceTimeout={500 * 2} name='potassium' value={this.format(value, row)} onChange={this.inputChange.bind(this, index)} />
+        debounceTimeout={500 * 2} name='potassium' value={this.format(value, row)} onChange={this.inputChange.bind(this, row.key)} />
     }
   }, {
     title: <span>S</span>,
@@ -105,7 +105,7 @@ class OriginPlan extends Component {
       }
       return <DebounceInput
         minLength={0}
-        debounceTimeout={500 * 2} name='sulfur' value={this.format(value, row)} onChange={this.inputChange.bind(this, index)} />
+        debounceTimeout={500 * 2} name='sulfur' value={this.format(value, row)} onChange={this.inputChange.bind(this, row.key)} />
     }
   }, {
     title: <span>Z<sub>n</sub></span>,
@@ -116,7 +116,7 @@ class OriginPlan extends Component {
       }
       return <DebounceInput
         minLength={0}
-        debounceTimeout={500 * 2} name='zinc' value={this.format(value, row)} onChange={this.inputChange.bind(this, index)} />
+        debounceTimeout={500 * 2} name='zinc' value={this.format(value, row)} onChange={this.inputChange.bind(this, row.key)} />
     }
   }, {
     title: <span>B</span>,
@@ -127,7 +127,7 @@ class OriginPlan extends Component {
       }
       return <DebounceInput
         minLength={0}
-        debounceTimeout={500 * 2} name='boron' value={this.format(value, row)} onChange={this.inputChange.bind(this, index)} />
+        debounceTimeout={500 * 2} name='boron' value={this.format(value, row)} onChange={this.inputChange.bind(this, row.key)} />
     }
   }, {
     title: '操作',
@@ -149,9 +149,11 @@ class OriginPlan extends Component {
     }
   }
   categoryChange = (key, value) => {
+   
     const { type } = this.props
     const { cropPlan } = this.props
     const contrast = cropPlan[type]
+    console.log(value)
     for (let con of contrast) {
       if (con.key === key) {
         con.category = value
@@ -207,7 +209,7 @@ class OriginPlan extends Component {
   }
   format3 = (value, row)  => {
     if (typeof value === 'undefined') {
-      return 0
+      return '0'
     }
     const { cropPlan: { unit, prevUnit } } = this.props
     if (unit === 1) {
@@ -223,8 +225,8 @@ class OriginPlan extends Component {
     }
   }
   format = (value, row) => {
-    if (typeof value === 'undefined') {
-      return 0
+    if (typeof value === 'undefined' || isNaN(value)) {
+      return '0'
     }
     const { cropPlan: { unit } } = this.props
     if (unit === 1) {
@@ -239,7 +241,7 @@ class OriginPlan extends Component {
     }
   }
   format2 = (value) => {
-    if (typeof value === 'undefined') {
+    if (typeof value === 'undefined' || isNaN(value)) {
       return 0
     }
     const { cropPlan: { unit, prevUnit } } = this.props

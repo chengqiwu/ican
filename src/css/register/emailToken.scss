@@ -1,75 +1,80 @@
-
 @charset 'utf-8';
 @import '../common';
 $bg: url('../../images/common/bg2.jpg');
-
 .register-bg {
-    z-index: -1;
-    @include custom-width-height($full, $full);
-    background-image: $bg;    
-    @include background-norepeat-cover;
-    @extend .flex-top-column-bottom;
-    // padding: 20px;
-    background-position: 50%;
-    flex-wrap: nowrap;
+  z-index: -1;
+  @include custom-width-height($full,
+  $full);
+  background-image: $bg;
+  @include background-norepeat-cover;
+  @extend .flex-top-column-bottom; // padding: 20px;
+  background-position: 50%;
+  flex-wrap: nowrap;
 }
+
 .login-header {
-    padding: 20px;
-    @extend .flex-left-right;
-    align-items: flex-start;
+  padding: 20px;
+  @extend .flex-left-right;
+  align-items: flex-start;
 }
+
 .register-content {
-    min-width: 500px;
-    max-width: 1000px;
-    max-height: 600px;
-    min-height: 520px;
-    background-color: #efefef;
-    border-radius: $border-radius;
+  min-width: 500px;
+  max-width: 1000px;
+  max-height: 600px;
+  min-height: 520px;
+  background-color: #efefef;
+  border-radius: $border-radius;
 }
 
 .center {
-    @extend .flex-center;
-    flex-grow: 1;
+  @extend .flex-center;
+  flex-grow: 1;
 }
 
 .topbar {
-    background-color: #000000;
-    border-radius: $border-radius $border-radius 0 0;
-    height: 12px;
-    @include custom-width-height(undefined, 12px)
+  background-color: #000000;
+  border-radius: $border-radius $border-radius 0 0;
+  height: 12px;
+  @include custom-width-height(undefined,
+  12px)
 }
 
 .register-title {
-    font-size: 34px;
-    color: #000000;
-    margin: 38px 0;
-    text-align: center;
+  font-size: 1.5rem;
+  color: #000000;
+  margin: 38px 0;
+  text-align: center;
 }
 
 .register-success-form {
-    >div {
-        width: 405px;
-    }
+  >div {
+    width: 405px;
+  }
 }
 
 .success-tip {
-    @extend .flex-vertical-center;
-    img {
-        margin-right: 17px;
-        @include custom-width-height(40px, 40px)
-    }
-    span {
-        font-size: 20px;
-        color: #333333;
-    }
+  @extend .flex-vertical-center;
+  img {
+    margin-right: 17px;
+    @include custom-width-height(40px,
+    40px)
+  }
+  span {
+    color: #333333;
+  }
 }
 
 .success-token {
-    padding-left: 57px;
+  padding-left: 57px;
+  >button {
+    border-radius: 5px;
+    margin-right: 5px;
+  }
 }
 
 .success-token {
-    >div:first-child {
-        margin: 22px 0;
-    }
+  >div:first-child {
+    margin: 22px 0;
+  }
 }

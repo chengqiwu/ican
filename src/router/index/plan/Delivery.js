@@ -13,6 +13,7 @@ import { toast } from 'react-toastify'
 const Option = Select.Option
 
 function clacDosage(contrast, type) {
+
   return contrast.filter(c => c.category === type)
     .map(c => Number(c.dosage)).reduce((a, b) => a + b, 0)
 }
@@ -82,19 +83,19 @@ class Delivery extends Component {
     this.props.updateSchedule(schedule)
   }
   format2 = (value) => {
-    if (typeof value === 'undefined') {
-      return 0
+    if (typeof value === 'undefined' || isNaN(value)) {
+      return '0'
     }
     const { cropPlan: { unit, prevUnit } } = this.props
     if (unit === 1) {
-      return Number((Number(value) * 15).toFixed(2)).toString()
+      return (Number((Number(value) * 15).toFixed(2))).toString()
     } else if (unit === 0) {
-      return Number(Number(value).toFixed()).toString()
+      return (Number(Number(value).toFixed())).toString()
     } else if (unit === 2) {
       if (prevUnit === 0) {
-        return Number(Number(value).toFixed()).toString()
+        return (Number(Number(value).toFixed())).toString()
       } else if (prevUnit === 1) {
-        return Number((Number(value) * 15).toFixed(2)).toString()
+        return (Number((Number(value) * 15).toFixed(2))).toString()
       }
     }
   }
@@ -135,6 +136,7 @@ class Delivery extends Component {
   }
   render() {
     const { cropPlan: { schedule, contrast } } = this.props
+    console.log(this.format2(clacDosage(contrast, '10')))
     return (
       <div className='delivery'>
         <Table
@@ -386,8 +388,9 @@ class Delivery extends Component {
             }
           }, {
             title: '有机肥',
-            dataIndex: 'organic ', className: isShow(contrast, '10') ? 'hidden' : '',
+            dataIndex: 'organic', className: isShow(contrast, '10') ? 'hidden' : '',
             render: (value, row, index) => {
+              console.log('organic', value, isShow(contrast, '10'))
               if (row.key === -1) {
                 const obj = {
                   children: value,
@@ -406,7 +409,7 @@ class Delivery extends Component {
             }
           }, {
             title: '掺混肥',
-            dataIndex: 'maxed ',
+            dataIndex: 'maxed',
             className: isShow(contrast, '12') ? 'hidden' : '',
             render: (value, row, index) => {
               if (row.key === -1) {
@@ -427,7 +430,7 @@ class Delivery extends Component {
             }
           }, {
             title: '复合肥',
-            dataIndex: 'compound ',
+            dataIndex: 'compound',
             className: isShow(contrast, '13') ? 'hidden' : '',
             render: (value, row, index) => {
               if (row.key === -1) {

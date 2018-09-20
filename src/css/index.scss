@@ -8,13 +8,15 @@ $fontFamily: MicrosoftYaHei;
   box-sizing: border-box;
   font-family: $fontFamily;
   flex-shrink: 0;
-  font-size: 12px;
-  font-size: 0.75rem;
 }
 
 button,
 input[type=submit] {
   border: none;
+}
+
+input {
+  border: 1px solid hsl(0, 0%, 80%);
 }
 
 img {
@@ -23,6 +25,11 @@ img {
 
 input {
   box-shadow: none;
+}
+
+body {
+  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 html,
@@ -123,7 +130,6 @@ a {
   vertical-align: top;
   display: inline-block;
   font-family: "Pontano Sans";
-  font-size: 13px;
   color: #343434;
   min-width: 150px;
   height: 12px;
@@ -153,9 +159,19 @@ a {
 .hiden {
   display: none;
 }
-ul {
+.ant-btn, .ant-table {
+  font-size: 0.75rem;
+}
+ul,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0;
 }
+
 .filter {
   input {
     width: 100%;

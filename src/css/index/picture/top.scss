@@ -94,7 +94,6 @@
 }
 
 .caption {
-  font-size: 14px; // margin:auto;
   display: flex;
   justify-content: space-between; // width:80%;
   align-items: center;
@@ -135,12 +134,10 @@
 }
 
 .close {
-  font-size: 20px !important;
   position: absolute;
   top: 0px;
   right: 35px;
   color: #f1f1f1;
-  font-size: 40px;
   font-weight: bold;
   transition: 0.3s;
 }
@@ -152,15 +149,10 @@
   cursor: pointer;
 }
 
-.describe {
-  // margin-left: 110px;
-  // color: #fbc793;
-}
 
 .video-react-time-divider {
   span {
     display: inline !important;
-    width: 1px !important;
     position: inherit !important;
     left: 75px;
     bottom: 0;
