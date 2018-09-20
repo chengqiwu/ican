@@ -208,7 +208,7 @@ class OriginPlan extends Component {
     return arr.map(a => (a[type])).reduce((a, b) => Number(a) + Number(b), start)
   }
   format3 = (value, row)  => {
-    if (typeof value === 'undefined') {
+    if (typeof value === 'undefined' || isNaN(value)) {
       return '0'
     }
     const { cropPlan: { unit, prevUnit } } = this.props
