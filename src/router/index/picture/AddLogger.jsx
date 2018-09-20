@@ -317,7 +317,7 @@ class AddLogger extends Component {
                 onChange={this.contentChange} />
             </div>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', fontSize: '13px', padding: '0 15px', cursor: 'pointer' }} onClick={this.showLoggerImg}>
+          <div style={{ display: 'flex', alignItems: 'center', padding: '0 15px', cursor: 'pointer' }} onClick={this.showLoggerImg}>
             <img src={arrow} />
             添加照片
             <div style={{ borderBottom: '1px solid #ddd', flexGrow: 1 }}></div>

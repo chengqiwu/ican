@@ -2,6 +2,9 @@
 @import 'common';
 @import '~antd/dist/antd.css';
 $fontFamily: MicrosoftYaHei;
+:root {
+  font-size: 0.75rem;
+}
 * {
   margin: 0;
   padding: 0;
@@ -29,7 +32,7 @@ input {
 
 body {
   font-size: 12px;
-  font-size: 0.75rem;
+  font-size: 1em;
 }
 
 html,

@@ -12,7 +12,7 @@ const Option = Select.Option
 
 class OriginPlan extends Component {
   columns = [{
-    title: '肥料配方',
+    title: '肥料',
     dataIndex: 'category',
     className: 'noBottomBorder noRightBorder noLeftBorder',
     render: (value, row, index) => {

@@ -59,7 +59,7 @@ class RxDragDrop extends Component {
   }
   render() {
     return (
-      <div ref={drapDrop => this.drapDrop = drapDrop} className="dragDrop" style={{ width: this.props.index === 4 ? '900px' : '500px' }}>
+      <div ref={drapDrop => this.drapDrop = drapDrop} className="dragDrop" style={{ width: this.props.index === 4 ? '1100px' : '500px' }}>
         <h3 ref={title => this.title = title} className='dragDrop-title'>{this.props.name}-{this.props.title}</h3>
         <a href="#" id="dragDrop-closer" className="dragDrop-closer" onClick={this.destory.bind(this)}></a>
         <div className="dragDrop-content" ref={content => this.content = content} style={{ backgroundColor: this.props.index === 4 ? '#fff' : '#eee', height: this.props.index === 4 ? '580px' : '310px'}}>
