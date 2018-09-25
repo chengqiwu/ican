@@ -175,7 +175,7 @@ class ValidateContent extends Component {
       })
       return
     }
-    if (!(/^1(3|4|5|7|8)\d{9}$/.test(this.state.phone))) {
+    if (!(/^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/.test(this.state.phone))) {
       toast.info('手机号码有误，请重填', {
         position: toast.POSITION.BOTTOM_CENTER,
         pauseOnHover: false,

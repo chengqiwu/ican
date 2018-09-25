@@ -183,7 +183,7 @@ function arc(o, dir, point, index, bili, self) {
   const test = [(dir * 1.23) * Math.cos(o * π / 180).toFixed(2) + points[0], points[1] - (dir * 1.23) * Math.sin(o * π / 180).toFixed(2)]
   const div = document.createElement('DIV')
   div.style.left = (test[0] - 115 * bili / 2) + 'px'
-  div.style.top = (test[1] - 115 * bili / 2 - 3) + 'px'
+  div.style.top = (test[1] - 115 * bili / 2) + 'px'
   const img = drawImage(images[index])
   img.style.width = 115 * bili + 'px'
   img.style.cursor = 'pointer'
@@ -323,7 +323,7 @@ class Circle extends Component {
     const n = 5
     const o = 360 / n
     // 默认有一个始终从-90度开始
-    const arr = [90, 90 + 71.5, 90 + 72 * 2, 90 + 72 * 2 + 71.5, 90 + 72 * 3 + 71.77]
+    const arr = [90, 90 + 71.5, 90 -0.5 + 72 * 2, 90 + 72 * 2 + 71.5, 90 + 72 * 3 + 71.77]
     // for (let i = 1; i < n; i++) {
     //     arr.push(arr[i - 1] + o)
     // }
