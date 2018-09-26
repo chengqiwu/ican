@@ -3,13 +3,8 @@ import PropTypes from 'prop-types'
 import classnams from 'classnames'
 
 import { connect } from 'react-redux'
-import { Field, reduxForm } from 'redux-form'
 
-import { getArea } from 'utils/tools'
-import FromMessage from './fromMessage'
-import ShowMessage from './showMessage'
-
-import { findReasonById, saveSeasonInfo } from 'utils/Api'
+import { findReasonById } from 'utils/Api'
 
 import { setFieldMessage, showFieldMessage, startFieldMessage } from '_redux/actions/fieldMessage'
 

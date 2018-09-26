@@ -9,9 +9,12 @@ import PictureLists from './PictureList.jsx'
 // import AddLogger from './AddLogger'
 import RxDragDrop from './RxDragDrop'
 import { findSeasonLists} from 'utils/Api'
-import add from 'images/index/picture/add.png'
+// import add from 'images/index/picture/add.png'
 import AddLogger from './AddLogger'
 import AddVideoLogger from './AddVideoLogger'
+
+import addLogger from 'images/index/picture/addLogger.png'
+import addVideo from 'images/index/picture/addVideo.png'
 
 class JobLogging extends Component {
   constructor() {
@@ -117,12 +120,12 @@ class JobLogging extends Component {
               {/* <img src={addPic} id='addLogger' onClick={this.handleLogger} alt="" />
               <img src={addVideo} id='addLogger' onClick={this.handleVideoLogger} alt="" /> */}
               <div className='add' onClick={this.handleLogger}>
-                <img src={add} alt="" />
-                <span>添加图片</span>
+                <img src={addLogger} alt="" />
+                {/* <span>添加图片</span> */}
               </div>
               <div className='add' onClick={this.handleVideoLogger}>
-                <img src={add} alt=""/>
-                <span>添加视频</span>
+                <img src={addVideo} alt=""/>
+                {/* <span>添加视频</span> */}
               </div>
               <a href="#" className='closer' onClick={this.close}></a>
             </div>

@@ -18,21 +18,22 @@
   position: relative;
   width: 100%;
   .filed-title {
-    background-image: linear-gradient(to top, #176be6, #26a4f6 50%, #2fc9ff);
-    background-color: #3478f5;
-    background-blend-mode: normal;
+    // background-image: linear-gradient(to top, #176be6, #26a4f6 50%, #2fc9ff);
+    // background-color: #3478f5;
+    // background-blend-mode: normal;
     height: 35px; // padding: 5px;
     display: flex;
     align-items: center;
     padding-left: 10px; // border-radius: 5px 5px 0 0;
-    color: #fff; // border: 1px solid #ededed;
+    //color: #fff; // border: 1px solid #ededed;
     font-weight: normal;
   }
   .filed-closer {
     position: absolute;
     right: 10px;
     top: 6px;
-    color: #fff;
+    //color: #fff;
+    color: #000;
     &::after {
       content: "✖";
     }
