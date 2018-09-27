@@ -189,6 +189,11 @@ class OriginPlan extends Component {
     const { unit } = cropPlan
     if (unit === 2) {
       toast.error('百分比情况下，不可输入，请切换到其他单位')
+      if (type === 'contrast') {
+        this.props.updateContrast(contrast)
+      } else if (type === 'origin') {
+        this.props.updateOrigin(contrast)
+      }
       return
     }
     for (let con of contrast) {
@@ -213,13 +218,17 @@ class OriginPlan extends Component {
     const contrast = cropPlan[type]
     // const { unit } = cropPlan
     if (unit === 1) {
-      this.props.updateContrast(contrast)
-      toast.error('只能在百分比情况下输入')
+      if (type === 'contrast') {
+        this.props.updateContrast(contrast)
+      } else if (type === 'origin') {
+        this.props.updateOrigin(contrast)
+      }
+      toast.error('只能在百分比情况下输入和修改')
       return
     }
     for (let con of contrast) {
       if (con.key === key) {
-        con[name] = value * con.dosage
+        con[name] = value
       }
     }
     if (type === 'contrast') {
@@ -255,20 +264,17 @@ class OriginPlan extends Component {
     const { unit: inUnits } = this.state
     const { cropPlan: { unit, prevUnit } } = this.props
     if (inUnits === 0) {
-      if (Number(row.dosage) === 0) {
-        return (0).toString()
-      }
-      return Number((Number(value) / Number(row.dosage)).toFixed(2)).toString()
+      return Number(Number(value).toFixed(2)).toString()
     } else if (inUnits === 1) {
       if (unit === 1) {
-        return Number((Number(value) * 15).toFixed(2)).toString()
+        return Number((Number(value) * Number(row.dosage) * 15).toFixed(2)).toString()
       } else if (unit === 0) {
-        return Number((Number(value)).toFixed(2)).toString()
+        return Number((Number(value) * Number(row.dosage)).toFixed(2)).toString()
       } else if (unit === 2) {
         if (prevUnit === 0) {
-          return Number((Number(value)).toFixed(2)).toString()
+          return Number((Number(value) * Number(row.dosage)).toFixed(2)).toString()
         } else if (prevUnit === 1) {
-          return Number((Number(value) * 15).toFixed(2)).toString()
+          return Number((Number(value) * Number(row.dosage) * 15).toFixed(2)).toString()
         }
       }
     }
@@ -333,20 +339,19 @@ class OriginPlan extends Component {
   render() {
     const { type, cropPlan } = this.props
     const contrast = cropPlan[type]
-    const start = 0
+    const contrastStats = cropPlan[`${type}Stats`]
     return (<div className='plan'>
       <Table
         rowClassName='planRow'
         columns={this.columns}
         dataSource={[...contrast, {
           key: -1,
-          nitrogen: this.filter(contrast, 'nitrogen', start),
-          phosphorus: this.filter(contrast, 'phosphorus', start),
-
-          potassium: this.filter(contrast, 'potassium', start),
-          sulfur: this.filter(contrast, 'sulfur', start),
-          zinc: this.filter(contrast, 'zinc', start),
-          boron: this.filter(contrast, 'boron', start),
+          nitrogen: contrastStats.nitrogen,
+          phosphorus: contrastStats.phosphorus,
+          potassium: contrastStats.potassium,
+          sulfur: contrastStats.sulfur,
+          zinc: contrastStats.zinc,
+          boron: contrastStats.boron,
         }]}
         bordered
         size={'small'}
@@ -364,7 +369,7 @@ class OriginPlan extends Component {
           <span>/</span>
           <li onClick={this.updateUnits.bind(this, 1)} className={classNames({
             active: this.state.unit === 1
-          })}>绝对值</li>
+          })}>实际值</li>
         </ul>
       </div>
       <div className='addAction'>

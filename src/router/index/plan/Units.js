@@ -18,7 +18,7 @@ const Units = (props) => {
       <li className={classNames({
         active: unit === 1
       })} onClick={updateUnits.bind(this, 1)}>公斤/公顷</li>
-      <span>/</span>
+      {/* <span>/</span> */}
       {/* <li className={classNames({
         active: unit === 2
       })} onClick={updateUnits.bind(this, 2)}>百分比</li> */}
