@@ -100,25 +100,25 @@ class Delivery extends Component {
     }
   }
   addSchedule = () => {
-    const { cropPlan: { schedule } } = this.props
+    const { cropPlan: { schedule, contrast } } = this.props
     schedule.push({
       key: schedule.length,
       executionDate: undefined,
       workType: undefined,
-      urea: 0,
-      ammonium: 0,
-      diammonium: 0,
-      kso4: 0,
-      znso4: 0,
-      boron: 0,
-      h2kp: 0,
-      canola: 0,
-      kcl: 0,
-      nacterial: 0,
-      organic: 0,
-      other: 0,
-      maxed: 0,
-      compound: 0,
+      urea: isShow(contrast, '0') ? undefined : 0,
+      ammonium: isShow(contrast, '1') ? undefined : 0,
+      diammonium: isShow(contrast, '2') ? undefined : 0,
+      kso4: isShow(contrast, '3') ? undefined : 0,
+      znso4: isShow(contrast, '4') ? undefined : 0,
+      boron: isShow(contrast, '5') ? undefined : 0,
+      h2kp: isShow(contrast, '6') ? undefined : 0,
+      canola: isShow(contrast, '7') ? undefined : 0,
+      kcl: isShow(contrast, '8') ? undefined : 0,
+      nacterial: isShow(contrast, '9') ? undefined : 0,
+      organic: isShow(contrast, '10') ? undefined : 0,
+      other: isShow(contrast, '11') ? undefined : 0,
+      maxed: isShow(contrast, '12') ? undefined : 0,
+      compound: isShow(contrast, '13') ? undefined : 0,
       afterSwoDays: undefined,
       dripIrrigationTime: undefined,
       dripIrrigationQuantity: undefined,
@@ -136,7 +136,6 @@ class Delivery extends Component {
   }
   render() {
     const { cropPlan: { schedule, contrast } } = this.props
-    console.log(this.format2(clacDosage(contrast, '10')))
     return (
       <div className='delivery'>
         <Table

@@ -403,3 +403,8 @@ export function findByPlantingSeasonCropsId(fd) {
 export function plantingSchemeSave(fd) {
   return postRequest('/api/plantingScheme/save', fd)
 }
+
+// 	api/plantingScheme/getPdf
+export function getPdf(fd) {
+  return getRequest('/api/plantingScheme/getPdf', fd)
+}

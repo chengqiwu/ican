@@ -85,8 +85,26 @@ class CropTab extends Component {
             data.result.executionPlanVos = []
           }
           // fertilizerDetailKvs
-          this.props.updateContrast(data.result.contrastSchedule.map((c, i) => ({ ...c, key: i })))
-          this.props.updateOrigin(data.result.originSchedule.map((c, i) => ({ ...c, key: i })))
+          this.props.updateContrast(data.result.contrastSchedule.map((c, i) => ({
+            nitrogen: 0,
+            phosphorus: 0,
+            potassium: 0,
+            sulfur: 0,
+            zinc: 0,
+            boron: 0,
+            ...c, 
+            key: i 
+          })))
+          this.props.updateOrigin(data.result.originSchedule.map((c, i) => ({
+            nitrogen: 0,
+            phosphorus: 0,
+            potassium: 0,
+            sulfur: 0,
+            zinc: 0,
+            boron: 0,
+            ...c, 
+            key: i 
+          })))
           const schedule = data.result.executionPlanVos.map((c, i) => {
             const vo = {}
             const { fertilizerDetailKvs = [] } = c

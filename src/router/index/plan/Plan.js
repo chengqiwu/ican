@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { Table, Button, Input, Select } from 'antd'
 import { updateContrast, updateOrigin } from '_redux/actions/cropPlan'
@@ -11,6 +12,12 @@ const Option = Select.Option
 
 
 class OriginPlan extends Component {
+  constructor() {
+    super()
+    this.state = {
+      unit: 0
+    }
+  }
   columns = [{
     title: '肥料',
     dataIndex: 'category',
@@ -46,7 +53,7 @@ class OriginPlan extends Component {
       }
       return <DebounceInput
         minLength={0}
-        debounceTimeout={500 * 2} name='dosage' value={this.format2(value)} onChange={this.inputChange.bind(this, row.key)} />
+        debounceTimeout={0} name='dosage' value={this.format2(value)} onChange={this.inputChange2.bind(this, row.key)} />
     }
   }, {
     title: '施肥类型',
@@ -72,7 +79,7 @@ class OriginPlan extends Component {
       }
       return <DebounceInput
         minLength={0}
-        debounceTimeout={500 * 2} name='nitrogen' value={this.format(value, row)} onChange={this.inputChange.bind(this, row.key)} />
+        debounceTimeout={800} name='nitrogen' value={this.format(value, row)} onChange={this.inputChange.bind(this, row.key)} />
     }
   }, {
     title: <span>P<sub>2</sub>O<sub>5</sub></span>,
@@ -83,7 +90,7 @@ class OriginPlan extends Component {
       }
       return <DebounceInput
         minLength={0}
-        debounceTimeout={500 * 2} name='phosphorus' value={this.format(value, row)} onChange={this.inputChange.bind(this, row.key)} />
+        debounceTimeout={800} name='phosphorus' value={this.format(value, row)} onChange={this.inputChange.bind(this, row.key)} />
     }
   }, {
     title: <span>K<sub>2</sub>O</span>,
@@ -94,7 +101,7 @@ class OriginPlan extends Component {
       }
       return <DebounceInput
         minLength={0}
-        debounceTimeout={500 * 2} name='potassium' value={this.format(value, row)} onChange={this.inputChange.bind(this, row.key)} />
+        debounceTimeout={800} name='potassium' value={this.format(value, row)} onChange={this.inputChange.bind(this, row.key)} />
     }
   }, {
     title: <span>S</span>,
@@ -105,7 +112,7 @@ class OriginPlan extends Component {
       }
       return <DebounceInput
         minLength={0}
-        debounceTimeout={500 * 2} name='sulfur' value={this.format(value, row)} onChange={this.inputChange.bind(this, row.key)} />
+        debounceTimeout={800} name='sulfur' value={this.format(value, row)} onChange={this.inputChange.bind(this, row.key)} />
     }
   }, {
     title: <span>Z<sub>n</sub></span>,
@@ -116,7 +123,7 @@ class OriginPlan extends Component {
       }
       return <DebounceInput
         minLength={0}
-        debounceTimeout={500 * 2} name='zinc' value={this.format(value, row)} onChange={this.inputChange.bind(this, row.key)} />
+        debounceTimeout={800} name='zinc' value={this.format(value, row)} onChange={this.inputChange.bind(this, row.key)} />
     }
   }, {
     title: <span>B</span>,
@@ -127,7 +134,7 @@ class OriginPlan extends Component {
       }
       return <DebounceInput
         minLength={0}
-        debounceTimeout={500 * 2} name='boron' value={this.format(value, row)} onChange={this.inputChange.bind(this, row.key)} />
+        debounceTimeout={800} name='boron' value={this.format(value, row)} onChange={this.inputChange.bind(this, row.key)} />
     }
   }, {
     title: '操作',
@@ -142,12 +149,6 @@ class OriginPlan extends Component {
       </div>
     }
   }]
-  constructor() {
-    super()
-    this.state = {
-      count: 0
-    }
-  }
   categoryChange = (key, value) => {
    
     const { type } = this.props
@@ -180,7 +181,7 @@ class OriginPlan extends Component {
       this.props.updateOrigin(contrast)
     }
   }
-  inputChange = (key, e) => {
+  inputChange2 = (key, e) => {
     const { name, value } = e.target
     const { type } = this.props
     const { cropPlan } = this.props
@@ -204,6 +205,29 @@ class OriginPlan extends Component {
       this.props.updateOrigin(contrast)
     }
   }
+  inputChange = (key, e) => {
+    const { unit } = this.state
+    const { name, value } = e.target
+    const { type } = this.props
+    const { cropPlan } = this.props
+    const contrast = cropPlan[type]
+    // const { unit } = cropPlan
+    if (unit === 1) {
+      this.props.updateContrast(contrast)
+      toast.error('只能在百分比情况下输入')
+      return
+    }
+    for (let con of contrast) {
+      if (con.key === key) {
+        con[name] = value * con.dosage
+      }
+    }
+    if (type === 'contrast') {
+      this.props.updateContrast(contrast)
+    } else if (type === 'origin') {
+      this.props.updateOrigin(contrast)
+    }
+  }
   filter = (arr, type, start) => {
     return arr.map(a => (a[type])).reduce((a, b) => Number(a) + Number(b), start)
   }
@@ -215,10 +239,10 @@ class OriginPlan extends Component {
     if (unit === 1) {
       return Number((Number(value) * 15).toFixed(2))
     } else if (unit === 0) {
-      return Number(Number(value).toFixed())
+      return Number(Number(value).toFixed(2))
     } else {
       if (prevUnit === 0) {
-        return Number(Number(value).toFixed())
+        return Number(Number(value).toFixed(2))
       } else if (prevUnit === 1) {
         return Number((Number(value) * 15).toFixed(2))
       }
@@ -228,16 +252,25 @@ class OriginPlan extends Component {
     if (typeof value === 'undefined' || isNaN(value)) {
       return '0'
     }
-    const { cropPlan: { unit } } = this.props
-    if (unit === 1) {
-      return Number((Number(value) * 15).toFixed(2)).toString()
-    } else if (unit === 0) {
-      return Number((Number(value)).toFixed()).toString()
-    } else if (unit === 2) {
-      if (Number(row.dosage) <= 0) {
-        return '0%'
+    const { unit: inUnits } = this.state
+    const { cropPlan: { unit, prevUnit } } = this.props
+    if (inUnits === 0) {
+      if (Number(row.dosage) === 0) {
+        return (0).toString()
       }
-      return (Number(value) / Number(row.dosage) * 100).toFixed() + '%'
+      return Number((Number(value) / Number(row.dosage)).toFixed(2)).toString()
+    } else if (inUnits === 1) {
+      if (unit === 1) {
+        return Number((Number(value) * 15).toFixed(2)).toString()
+      } else if (unit === 0) {
+        return Number((Number(value)).toFixed(2)).toString()
+      } else if (unit === 2) {
+        if (prevUnit === 0) {
+          return Number((Number(value)).toFixed(2)).toString()
+        } else if (prevUnit === 1) {
+          return Number((Number(value) * 15).toFixed(2)).toString()
+        }
+      }
     }
   }
   format2 = (value) => {
@@ -248,10 +281,10 @@ class OriginPlan extends Component {
     if (unit === 1) {
       return Number((Number(value) * 15).toFixed(2)).toString()
     } else if (unit === 0) {
-      return Number((Number(value)).toFixed()).toString()
+      return Number((Number(value)).toFixed(2)).toString()
     } else if (unit === 2) {
       if (prevUnit === 0) {
-        return Number((Number(value)).toFixed()).toString()
+        return Number((Number(value)).toFixed(2)).toString()
       } else if (prevUnit === 1) {
         return Number((Number(value) * 15).toFixed(2)).toString()
       }
@@ -292,6 +325,11 @@ class OriginPlan extends Component {
       this.props.updateOrigin(contrast)
     }
   }
+  updateUnits = (index) => {
+    this.setState({
+      unit: index
+    })
+  }
   render() {
     const { type, cropPlan } = this.props
     const contrast = cropPlan[type]
@@ -317,6 +355,18 @@ class OriginPlan extends Component {
         footer={undefined}
         pagination={false}
       />
+      <div className='in-units'>
+        <ul>
+          <li onClick={this.updateUnits.bind(this, 0)} className={classNames({
+            active: this.state.unit === 0
+          // })}>百分比（%）</li>
+          })}>百分比</li>
+          <span>/</span>
+          <li onClick={this.updateUnits.bind(this, 1)} className={classNames({
+            active: this.state.unit === 1
+          })}>绝对值</li>
+        </ul>
+      </div>
       <div className='addAction'>
         <Button onClick={this.addCrop} className='button'>添加肥料</Button>
       </div>

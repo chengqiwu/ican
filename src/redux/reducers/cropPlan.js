@@ -42,7 +42,7 @@ export default function cropPlanReducer(state = defaultState, action) {
           nitrogen: Number(a.nitrogen || 0) + Number(b.nitrogen || 0),
           phosphorus: Number(a.phosphorus || 0) + Number(b.phosphorus || 0),
           potassium: Number(a.potassium || 0) + Number(b.potassium || 0),
-          sulfur: Number(a.sulfurv || 0) + Number(b.sulfur || 0),
+          sulfur: Number(a.sulfur || 0) + Number(b.sulfur || 0),
           zinc: Number(a.zinc || 0) + Number(b.zinc || 0),
           boron: Number(a.boron || 0) + Number(b.boron || 0),
         }

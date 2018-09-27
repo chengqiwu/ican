@@ -360,3 +360,29 @@
     cursor: pointer;
   }
 }
+
+.plan {
+  position: relative;
+  .in-units {
+    position: absolute;
+    right: 115px;
+    top: 5px;
+    ul {
+      display: flex;
+      align-items: center;
+      span {
+        color: #d8d8d8;
+        margin: 0 0.5em;
+      }
+      li {
+        cursor: pointer;
+        padding: 0.2em;
+        &.active {
+          border: 1px solid #ccc;
+          border-radius: .5em;
+          color: #468dc8;
+        }
+      }
+    }
+  }
+}

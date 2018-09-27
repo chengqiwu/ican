@@ -4,13 +4,13 @@ import Statistics from './Statistics'
 import Details from './Details'
 import { connect } from 'react-redux'
 import { updateContrast, updateOrigin, updateDetail, updateSchedule, updateDescribe, updateId } from '_redux/actions/cropPlan'
-import { plantingSchemeSave } from 'utils/Api'
+import { plantingSchemeSave, getToken } from 'utils/Api'
+import { apiUrl } from '../../../url'
 import OriginPlan from './Plan'
 import Delivery from './Delivery'
 import save from 'images/index/crop/save.png'
 import { toast } from 'react-toastify'
-import jsPDF from 'jspdf'
-import html2canvas from 'html2canvas'
+
 class Tab extends Component {
   constructor(props) {
     super(props)
@@ -138,22 +138,21 @@ class Tab extends Component {
     this.props.updateDescribe(e.target.value)
   }
   exportPDF = () => {
-    html2canvas(document.querySelector('.tab-content')).then(canvas => {
-      var imgData = canvas.toDataURL('image/jpeg', 1.0)
-      console.log(canvas)
-      //初始化pdf，设置相应格式
-      var doc = new jsPDF('', 'pt', 'a4')
+    // const fd = new FormData()
+    // fd.append('landId', this.props.landId)
+    // fd.append('plantingSeasonCropsId', this.props.plantingSeasonCropsId)
+    // getPdf({
+    //   landId: this.props.landId,
+    //   plantingSeasonCropsId: this.props.plantingSeasonCropsId,
+    // })
+    //   .then(e => e.data)
+    //   .then(data => {
 
-      //这里设置的是a4纸张尺寸
-      doc.addImage(imgData, 'JPEG', 20, 0, 555.28, 555.28 / canvas.width * canvas.height)
-
-      //输出保存命名为content的pdf
-      doc.save('content.pdf')
-    })
+    //   })
   }
   render() {
     const {disabled } = this.state
-    const { cropPlan: { describe}} = this.props
+    const { cropPlan: { describe }, landId, plantingSeasonCropsId } = this.props
     return (
       <form className='tab-content' onSubmit={this.submitHandler}>
         <div className='analyze'>
@@ -177,7 +176,9 @@ class Tab extends Component {
           <button disabled={disabled}><div style={{ backgroundImage: `url(${save})` }}>
             {disabled? '保存中...' : '保存'}
           </div></button>
-          <div onClick={this.exportPDF}>导出pdf</div>
+          <a target='_black' href={`${apiUrl}/api/plantingScheme/getPdf?token=${getToken()}&landId=${landId}&plantingSeasonCropsId=${plantingSeasonCropsId}`} disabled={disabled}><div className='export-pdf' style={{ backgroundImage: `url(${save})` }}>
+            导出pdf
+          </div></a>
         </div>
       </form>
     )

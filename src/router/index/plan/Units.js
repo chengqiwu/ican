@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { updateUnit } from '_redux/actions/cropPlan'
 import classNames from 'classnames'
@@ -19,9 +19,9 @@ const Units = (props) => {
         active: unit === 1
       })} onClick={updateUnits.bind(this, 1)}>公斤/公顷</li>
       <span>/</span>
-      <li className={classNames({
+      {/* <li className={classNames({
         active: unit === 2
-      })} onClick={updateUnits.bind(this, 2)}>百分比</li>
+      })} onClick={updateUnits.bind(this, 2)}>百分比</li> */}
     </ul>
   )
 
