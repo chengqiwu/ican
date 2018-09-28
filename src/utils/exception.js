@@ -105,33 +105,33 @@ export const postRequest = (url, params,config ={}) => {
   setCookies()
   let accessToken = getToken()
   if (params) {
-    return axios.post(`${base}${url}?token=${accessToken}`, params, config)
+    return axios.post(`${base}${url}?token=${accessToken}&token_time=${Date.now()}`, params, config)
   }
-  return axios.post(`${base}${url}?token=${accessToken}`, config)
+  return axios.post(`${base}${url}?token=${accessToken}&token_time=${Date.now()}`, config)
 }
 export const postRequestNoToken = (url, params, config={}) => {
   if (params) {
-    return axios.post(`${base}${url}`, params, config)
+    return axios.post(`${base}${url}?token_time=${Date.now()}`, params, config)
   }
-  return axios.post(`${base}${url}`, config)
+  return axios.post(`${base}${url}?token_time=${Date.now()}`, config)
 }
 export const getRequestNoToken = (url, params) => {
   if (params) {
-    return axios.get(`${base}${url}`, {
+    return axios.get(`${base}${url}?token_time=${Date.now()}`, {
       params
     })
 
   }
-  return axios.get(`${base}${url}`)
+  return axios.get(`${base}${url}?token_time=${Date.now()}`)
 }
 export const getRequest = (url, params) => {
   setCookies()
   let accessToken = getToken()
   if (params) {
-    return axios.get(`${base}${url}?token=${accessToken}`, {
+    return axios.get(`${base}${url}?token=${accessToken}&token_time=${Date.now()}`, {
       params
     })
 
   }
-  return axios.get(`${base}${url}?token=${accessToken}`)
+  return axios.get(`${base}${url}?token=${accessToken}&token_time=${Date.now()}`)
 }
