@@ -130,8 +130,14 @@ class Tab extends Component {
             disabled: false
           })
         })
+        .catch(err => {
+          this.setState({
+            disabled: false
+          })
+        }) 
     } catch (err) {
       toast.error(err.message)
+     
     }
   }
   textareaChange = (e) => {

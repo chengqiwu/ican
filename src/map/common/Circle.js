@@ -186,6 +186,8 @@ function arc(o, dir, point, index, bili, self) {
   div.style.top = (test[1] - 115 * bili / 2) + 'px'
   const img = drawImage(images[index])
   img.style.width = 115 * bili + 'px'
+  img.style.height = 115 * bili + 'px'
+
   img.style.cursor = 'pointer'
   img.setAttribute('alt', means[index])
   img.setAttribute('index', index)

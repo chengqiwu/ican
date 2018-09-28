@@ -14,7 +14,6 @@ import exchange from 'images/login/sprite/exchange.png'
 import chart from 'images/login/sprite/chart.png'
 import service from 'images/login/sprite/service.png'
 import mointer from 'images/login/sprite/mointer.png'
-// import safe from 'images/login/sprite/safe.png'
 import 'css/login/sprite.scss'
 
 class Sprite extends Component {
@@ -40,16 +39,13 @@ class Sprite extends Component {
       })
     }
     componentDidMount() {
-        
-        
-
       let degree1 = 120 / 180 * Math.PI
       //  (value-200)*Math.cos(degree1)
       this.fnReq1 = Math.animation(-400, 200, 2000, 'Back.easeInOut', (value, isEnding) => {
-        this.head.style = `transform: translate(${(value - 400) + (200 - value) * Math.cos(degree1)}px, ${79+(200-value)*Math.sin(degree1)}px)`
-        this.weather.style = `transform: translate(${value - 150 - 400 + (200 - value) * Math.cos(degree1)}px, ${-117 + (200 - value) * Math.sin(degree1)}px)`
-        this.robot.style = `transform: translate(${value - 400 + 68 + (200 - value) * Math.cos(degree1)}px, ${-90 + (200 - value) * Math.sin(degree1)}px)`
-        this.clander.style = `transform: translate(${value - 400 - 17 + (200 - value) * Math.cos(degree1)}px, ${-192 + (200 - value) * Math.sin(degree1)}px)`
+        this.head.style.transform = `translate(${(value - 400) + (200 - value) * Math.cos(degree1)}px, ${79+(200-value)*Math.sin(degree1)}px)`
+        this.weather.style.transform = `translate(${value - 150 - 400 + (200 - value) * Math.cos(degree1)}px, ${-117 + (200 - value) * Math.sin(degree1)}px)`
+        this.robot.style.transform = `translate(${value - 400 + 68 + (200 - value) * Math.cos(degree1)}px, ${-90 + (200 - value) * Math.sin(degree1)}px)`
+        this.clander.style.transform = `translate(${value - 400 - 17 + (200 - value) * Math.cos(degree1)}px, ${-192 + (200 - value) * Math.sin(degree1)}px)`
         if (isEnding) {
           this.opacity(this.head)
           this.move(this.head, {x: -200, y: 79})
@@ -68,10 +64,10 @@ class Sprite extends Component {
 
       let degree2 = 90 / 180 * Math.PI
       this.fnReq2 = Math.animation(-600, 200, 2200, 'Back.easeInOut', (value, isEnding) => {
-        this.phone.style = `transform: translate(${40}px, ${value - 400 +8}px)`
-        this.safe.style = `transform: translate(${-70}px,${value - 400 -83}px)`
-        this.data.style = `transform: translate(${30}px, ${value - 400-175}px)`
-        this.exchange.style = `transform: translate(${171}px, ${value - 400-275}px)`
+        this.phone.style.transform = `translate(${40}px, ${value - 400 +8}px)`
+        this.safe.style.transform = `translate(${-70}px,${value - 400 -83}px)`
+        this.data.style.transform = `translate(${30}px, ${value - 400-175}px)`
+        this.exchange.style.transform = `translate(${171}px, ${value - 400-275}px)`
         if (isEnding) {
           this.opacity(this.phone)
           this.move(this.phone, { x: 40, y: -192 })
@@ -88,10 +84,10 @@ class Sprite extends Component {
       })
       let degree3 = -60 / 180 * Math.PI
       this.fnReq3 = Math.animation(-400, 200, 2200, 'Back.easeInOut',(value, isEnding) => {
-        this.fly.style = `transform: translate(${-value + 200 + 169 +(200 - value) * Math.cos(degree3)}px, ${-186- (200 - value) * Math.sin(degree3)}px)`
-        this.chart.style = `transform: translate(${-value + 200 + 278 + (200 - value) * Math.cos(degree3)}px, ${-308 - (200 - value) * Math.sin(degree3)}px)`
-        this.service.style = `transform: translate(${-value + 200 + 385 + (200 - value) * Math.cos(degree3)}px, ${-189 - (200 - value) * Math.sin(degree3)}px)`
-        this.mointer.style = `transform: translate(${-value + 200 + 489 + (200 - value) * Math.cos(degree3)}px, ${-15 - (200 - value) * Math.sin(degree3)}px)`
+        this.fly.style.transform = `translate(${-value + 200 + 169 +(200 - value) * Math.cos(degree3)}px, ${-186- (200 - value) * Math.sin(degree3)}px)`
+        this.chart.style.transform  = `translate(${-value + 200 + 278 + (200 - value) * Math.cos(degree3)}px, ${-308 - (200 - value) * Math.sin(degree3)}px)`
+        this.service.style.transform  = `translate(${-value + 200 + 385 + (200 - value) * Math.cos(degree3)}px, ${-189 - (200 - value) * Math.sin(degree3)}px)`
+        this.mointer.style.transform  = `translate(${-value + 200 + 489 + (200 - value) * Math.cos(degree3)}px, ${-15 - (200 - value) * Math.sin(degree3)}px)`
         if (isEnding) {
           this.opacity(this.fly, 3000)
           this.move(this.fly, { x: 169, y: -186 })
