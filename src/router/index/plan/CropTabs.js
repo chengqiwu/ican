@@ -10,7 +10,8 @@ import {
   updateSchedule,
   updateTargetVo,
   updateDescribe,
-  updateId
+  updateId,
+  updateAll,
 } from '_redux/actions/cropPlan'
 import 'css/index/plan/tabs.scss'
 import { findSimple, findByPlantingSeasonCropsId } from 'utils/Api'
@@ -73,7 +74,7 @@ class CropTab extends Component {
           const { plantingSeasonCropsVo = {} } = data.result
           plantingSeasonCropsVo.organicMatter = data.result.organicMatter
           plantingSeasonCropsVo.ph = data.result.ph
-          this.props.updateDetail(plantingSeasonCropsVo)
+          
 
           if (!data.result.contrastSchedule) {
             data.result.contrastSchedule = []
@@ -85,26 +86,7 @@ class CropTab extends Component {
             data.result.executionPlanVos = []
           }
           // fertilizerDetailKvs
-          this.props.updateContrast(data.result.contrastSchedule.map((c, i) => ({
-            nitrogen: 0,
-            phosphorus: 0,
-            potassium: 0,
-            sulfur: 0,
-            zinc: 0,
-            boron: 0,
-            ...c, 
-            key: i 
-          })))
-          this.props.updateOrigin(data.result.originSchedule.map((c, i) => ({
-            nitrogen: 0,
-            phosphorus: 0,
-            potassium: 0,
-            sulfur: 0,
-            zinc: 0,
-            boron: 0,
-            ...c, 
-            key: i 
-          })))
+          
           const schedule = data.result.executionPlanVos.map((c, i) => {
             const vo = {}
             const { fertilizerDetailKvs = [] } = c
@@ -159,18 +141,40 @@ class CropTab extends Component {
 
             return { ...c, key: c.id, ...vo }
           })
-          console.log(schedule)
-          this.props.updateSchedule(schedule)
-          this.props.updateTargetVo(data.result.targetVo || {
-            nitrogen: 0,
-            phosphorus: 0,
-            potassium: 0,
-            sulfur: 0,
-            zinc: 0,
-            boron: 0,
+          this.props.updateAll({
+            details: plantingSeasonCropsVo,
+            contrast: data.result.contrastSchedule.map((c, i) => ({
+              nitrogen: 0,
+              phosphorus: 0,
+              potassium: 0,
+              sulfur: 0,
+              zinc: 0,
+              boron: 0,
+              ...c, 
+              key: i 
+            })),
+            origin: data.result.originSchedule.map((c, i) => ({
+              nitrogen: 0,
+              phosphorus: 0,
+              potassium: 0,
+              sulfur: 0,
+              zinc: 0,
+              boron: 0,
+              ...c, 
+              key: i 
+            })),
+            schedule,
+            targetVo: data.result.targetVo || {
+              nitrogen: 0,
+              phosphorus: 0,
+              potassium: 0,
+              sulfur: 0,
+              zinc: 0,
+              boron: 0,
+            },
+            describe: data.result.describe || '',
+            id: data.result.id
           })
-          this.props.updateDescribe(data.result.describe || '')
-          this.props.updateId(data.result.id)
         }
       })
   }
@@ -207,7 +211,7 @@ CropTab.propTypes = {
   updateSchedule: PropTypes.func,
   updateTargetVo: PropTypes.func,
   updateDescribe: PropTypes.func,
-  updateId: PropTypes.func,
+  updateAll: PropTypes.func,
 }
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -231,6 +235,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateId: function(id) {
       dispatch(updateId(id))
+    },
+    updateAll: function (all) {
+      dispatch(updateAll(all))
     }
   }
 }

@@ -7,6 +7,7 @@ export const UPDATEUNIT = 'CROPPLAN/UPDATEUNIT'
 export const UPDATEDESCRIBE = 'CROPPLAN/UPDATEDECRIBE'
 export const DELSCHEDULE = 'CROPPLAN/DELSCHEDULE'
 export const UPDATEID = 'CROPPLAN/UPDATEID'
+export const UPDATEALL = 'CROPPLAN/UPDATEALL'
 // contrast
 // origin
 
@@ -69,5 +70,16 @@ export function updateId(id) {
   return {
     type: UPDATEID,
     id,
+  }
+}
+export function updateAll(all) {
+  return {
+    type: UPDATEALL,
+    contrast: all.contrast,
+    origin: all.origin,
+    schedule: all.schedule,
+    targetVo: all.targetVo,
+    details: all.details,
+    id: all.id
   }
 }

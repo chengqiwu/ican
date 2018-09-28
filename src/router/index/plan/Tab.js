@@ -84,7 +84,7 @@ class Tab extends Component {
           if (data.msg === '200') {
             toast.success('保存成功')
             const { id, executionPlanVos=[] } = data.result
-            this.props.updateId(id)
+            
             
             const schedule = executionPlanVos.map((c, i) => {
               const vo = {}
@@ -140,6 +140,7 @@ class Tab extends Component {
 
               return { ...c, key: c.id, ...vo }
             })
+            this.props.updateId(id)
             this.props.updateSchedule(schedule)
           }
           this.setState({

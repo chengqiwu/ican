@@ -531,7 +531,7 @@ class Delivery extends Component {
             kcl: this.format2(clacDosage(contrast, '8')),
             nacterial: this.format2(clacDosage(contrast, '9')),
             organic: this.format2(clacDosage(contrast, '10')),
-            mixed: this.format2(clacDosage(contrast, '12')),
+            maxed: this.format2(clacDosage(contrast, '12')),
             compound: this.format2(clacDosage(contrast, '13')),
             other: this.format2(clacDosage(contrast, '11')),
           }]}
