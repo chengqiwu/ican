@@ -355,7 +355,7 @@ class Delivery extends Component {
                   props: {
                     className: classNames({
                       hidden: isShow(contrast, '8'),
-                      unStandard: filter(schedule, 'kcl', 0, this.format2) !== clacDosage(contrast, '8')
+                      unStandard: filter(schedule, 'kcl', 0, this.format2) !== this.format2(clacDosage(contrast, '8'))
                     })
                   },
                 }
@@ -417,7 +417,7 @@ class Delivery extends Component {
                   props: {
                     className: classNames({
                       hidden: isShow(contrast, '12'),
-                      unStandard: filter(schedule, 'maxed', 0, this.format2) !== clacDosage(contrast, '12')
+                      unStandard: filter(schedule, 'maxed', 0, this.format2) !== this.format2(clacDosage(contrast, '12'))
                     })
                   },
                 }

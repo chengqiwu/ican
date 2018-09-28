@@ -10,7 +10,9 @@ import OriginPlan from './Plan'
 import Delivery from './Delivery'
 import save from 'images/index/crop/save.png'
 import { toast } from 'react-toastify'
-
+function isShow(contrast, type) {
+  return contrast.filter(c => c.category === type).length === 0
+}
 class Tab extends Component {
   constructor(props) {
     super(props)
@@ -50,20 +52,20 @@ class Tab extends Component {
           throw new Error('请确认信息填写完整')
         }
         const fertilizerDetailKvs = []
-        s.urea >= 0 && fertilizerDetailKvs.push({ key: 0, value: s.urea })
-        s.ammonium >= 0 && fertilizerDetailKvs.push({ key: 1, value: s.ammonium })
-        s.diammonium >= 0 && fertilizerDetailKvs.push({ key: 2, value: s.diammonium })
-        s.kso4 >= 0 && fertilizerDetailKvs.push({ key: 3, value: s.kso4 })
-        s.znso4 >= 0 && fertilizerDetailKvs.push({ key: 4, value: s.znso4 })
-        s.boron >= 0 && fertilizerDetailKvs.push({ key: 5, value: s.boron })
-        s.h2kp >= 0 && fertilizerDetailKvs.push({ key: 6, value: s.h2kp })
-        s.canola >= 0 && fertilizerDetailKvs.push({ key: 7, value: s.canola })
-        s.kcl >= 0 && fertilizerDetailKvs.push({ key: 8, value: s.kcl })
-        s.nacterial >= 0 && fertilizerDetailKvs.push({ key: 9, value: s.nacterial })
-        s.organic >= 0 && fertilizerDetailKvs.push({ key: 10, value: s.organic })
-        s.other >= 0 && fertilizerDetailKvs.push({ key: 11, value: s.other })
-        s.maxed >= 0 && fertilizerDetailKvs.push({ key: 12, value: s.maxed })
-        s.compound >= 0 && fertilizerDetailKvs.push({ key: 13, value: s.compound })
+        !isShow(contrast, '0') && fertilizerDetailKvs.push({ key: 0, value: s.urea || 0 })
+        !isShow(contrast, '1') && fertilizerDetailKvs.push({ key: 1, value: s.ammonium || 0 })
+        !isShow(contrast, '2') && fertilizerDetailKvs.push({ key: 2, value: s.diammonium || 0 })
+        !isShow(contrast, '3') && fertilizerDetailKvs.push({ key: 3, value: s.kso4 || 0})
+        !isShow(contrast, '4') && fertilizerDetailKvs.push({ key: 4, value: s.znso4 || 0 })
+        !isShow(contrast, '5') && fertilizerDetailKvs.push({ key: 5, value: s.boron || 0 })
+        !isShow(contrast, '6') && fertilizerDetailKvs.push({ key: 6, value: s.h2kp || 0})
+        !isShow(contrast, '7') && fertilizerDetailKvs.push({ key: 7, value: s.canola || 0 })
+        !isShow(contrast, '8') && fertilizerDetailKvs.push({ key: 8, value: s.kcl || 0})
+        !isShow(contrast, '9') && fertilizerDetailKvs.push({ key: 9, value: s.nacterial || 0 })
+        !isShow(contrast, '10') && fertilizerDetailKvs.push({ key: 10, value: s.organic || 0 })
+        !isShow(contrast, '11') && fertilizerDetailKvs.push({ key: 11, value: s.other || 0})
+        !isShow(contrast, '12') && fertilizerDetailKvs.push({ key: 12, value: s.maxed || 0})
+        !isShow(contrast, '13') && fertilizerDetailKvs.push({ key: 13, value: s.compound || 0 })
         return {
           ...s,
           fertilizerDetailKvs

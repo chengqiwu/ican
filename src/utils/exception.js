@@ -3,12 +3,16 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import history from 'router/history'
 import Cookies from 'js-cookie'
+import md5 from 'js-md5'
 import { apiUrl as url } from '../url'
 let base = url
-
+function setCookies() {
+  const {username} = JSON.parse(sessionStorage.getItem('state'))
+  Cookies.set('name', md5(username), { path: '', expires: 1 / 24 })
+}
 function getToken() {
-  const state = sessionStorage.getItem('state')
-  const { token } = JSON.parse(state)
+  
+  const { token } = JSON.parse(sessionStorage.getItem('state'))
   return token
 }
 // axios.defaults.timeout = 10000
@@ -98,17 +102,16 @@ axios.interceptors.response.use(response => {
 })
 
 export const postRequest = (url, params,config ={}) => {
+  setCookies()
   let accessToken = getToken()
   if (params) {
     return axios.post(`${base}${url}?token=${accessToken}`, params, config)
-
   }
   return axios.post(`${base}${url}?token=${accessToken}`, config)
 }
 export const postRequestNoToken = (url, params, config={}) => {
   if (params) {
     return axios.post(`${base}${url}`, params, config)
-
   }
   return axios.post(`${base}${url}`, config)
 }
@@ -122,6 +125,7 @@ export const getRequestNoToken = (url, params) => {
   return axios.get(`${base}${url}`)
 }
 export const getRequest = (url, params) => {
+  setCookies()
   let accessToken = getToken()
   if (params) {
     return axios.get(`${base}${url}?token=${accessToken}`, {

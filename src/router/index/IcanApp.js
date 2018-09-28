@@ -34,7 +34,6 @@ import thunk from 'redux-thunk'
 const store = createStore(reducers, {}, applyMiddleware(thunk))
 class IcanApp extends Component {
   componentDidMount() {
-    console.log(Cookies.get('name'))
     if (!Cookies.get('name')) {
       history.push('/')
     }
