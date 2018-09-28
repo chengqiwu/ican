@@ -112,32 +112,46 @@ class CropTab extends Component {
               switch (fer.key) {
               case '0':
                 vo.urea = fer.value
+                break
               case '1':
                 vo.ammonium = fer.value
+                break
               case '2':
                 vo.diammonium = fer.value
+                break
               case '3':
                 vo.kso4 = fer.value
+                break
               case '4':
                 vo.znso4 = fer.value
+                break
               case '5':
                 vo.boron = fer.value
+                break
               case '6':
                 vo.h2kp = fer.value
+                break
               case '7':
                 vo.canola = fer.value
+                break
               case '8':
                 vo.kcl = fer.value
+                break
               case '9':
                 vo.nacterial = fer.value
+                break
               case '10':
                 vo.organic = fer.value
+                break
               case '11':
                 vo.other = fer.value
+                break
               case '12':
                 vo.maxed = fer.value
+                break
               case '13':
                 vo.compound = fer.value
+                break
               default:
                 break
               }
@@ -145,6 +159,7 @@ class CropTab extends Component {
 
             return { ...c, key: c.id, ...vo }
           })
+          console.log(schedule)
           this.props.updateSchedule(schedule)
           this.props.updateTargetVo(data.result.targetVo || {
             nitrogen: 0,
