@@ -346,22 +346,19 @@ $margin-left-right: 20px;
   justify-content: center;
   padding: 5px;
   height: 50px;
-  color: #ffffff;
   span {
-    font-size: 1rem;
+    font-size: 1.25rem;
     margin: 0 20px;
+    color: #ffffff;
   }
   .sprice {
-    color: #ffa200;
     display: flex;
     align-items: flex-end;
     label {
+      color: #ffa200;
       font-size: 2.5rem;
       font-family: pictos;
       margin-bottom: -0.3em;
-    }
-    span {
-      color: #ffffff;
     }
   }
 }

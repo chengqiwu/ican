@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import Rx from 'rxjs/Rx'
-import { Observable } from 'rxjs/Observable'
 import 'rxjs/add/observable/interval'
 import 'rxjs/add/observable/from'
 // import 'rxjs/add/operator/debounceTime'
