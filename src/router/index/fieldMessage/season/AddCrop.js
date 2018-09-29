@@ -325,8 +325,16 @@ class AddCrop extends Component {
   }
   inputChange = (e) => {
     const {name, value} = e.target
+    
+    if (isNaN(Number(value))) {
+      this.setState({
+        [name]: this.state[name]
+      })
+      toast.error('输入格式不正确')
+      return
+    }
     this.setState({
-      [name]: value
+      [name]: value === ''? '' : (Number(value)).toString()
     })
   }
   collapsed = () => {

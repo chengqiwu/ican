@@ -54,13 +54,13 @@ export default function cropPlanReducer(state = defaultState, action) {
       contrast: action.contrast,
       contrastStats: action.contrast.reduce((a, b) => {
         return {
-          nitrogen: Number(a.nitrogen) * Number(a.dosage) + Number(b.nitrogen) * Number(b.dosage),
-          phosphorus: Number(a.phosphorus) * Number(a.dosage) + Number(b.phosphorus) * Number(b.dosage),
-          potassium: Number(a.potassium) * Number(a.dosage) + Number(b.potassium) * Number(b.dosage),
-          sulfur: Number(a.sulfur) * Number(a.dosage) + Number(b.sulfur) * Number(b.dosage),
-          zinc: Number(a.zinc) * Number(a.dosage) + Number(b.zinc) * Number(b.dosage),
-          boron: Number(a.boron) * Number(a.dosage) + Number(b.boron) * Number(b.dosage),
-          dosage: 1
+          nitrogen: Number(a.nitrogen) * Number(a.dosage) /100 + Number(b.nitrogen) * Number(b.dosage) /100,
+          phosphorus: Number(a.phosphorus) * Number(a.dosage) /100 + Number(b.phosphorus) * Number(b.dosage) /100,
+          potassium: Number(a.potassium) * Number(a.dosage)  /100+ Number(b.potassium) * Number(b.dosage) /100,
+          sulfur: Number(a.sulfur) * Number(a.dosage) /100 + Number(b.sulfur) * Number(b.dosage) /100,
+          zinc: Number(a.zinc) * Number(a.dosage)  /100+ Number(b.zinc) * Number(b.dosage) /100,
+          boron: Number(a.boron) * Number(a.dosage) /100 + Number(b.boron) * Number(b.dosage) /100,
+          dosage: 100
         }
       }, {
         nitrogen: 0,
@@ -74,13 +74,13 @@ export default function cropPlanReducer(state = defaultState, action) {
       origin: action.origin,
       originStats: action.origin.reduce((a, b) => {
         return {
-          nitrogen: Number(a.nitrogen) * Number(a.dosage) + Number(b.nitrogen) * Number(b.dosage),
-          phosphorus: Number(a.phosphorus) * Number(a.dosage) + Number(b.phosphorus) * Number(b.dosage),
-          potassium: Number(a.potassium) * Number(a.dosage) + Number(b.potassium) * Number(b.dosage),
-          sulfur: Number(a.sulfur)* Number(a.dosage) + Number(b.sulfur) * Number(b.dosage),
-          zinc: Number(a.zinc)* Number(a.dosage) + Number(b.zinc) * Number(b.dosage),
-          boron: Number(a.boron) * Number(a.dosage) + Number(b.boron) * Number(b.dosage),
-          dosage: 1
+          nitrogen: Number(a.nitrogen) * Number(a.dosage) /100 + Number(b.nitrogen) * Number(b.dosage) /100,
+          phosphorus: Number(a.phosphorus) * Number(a.dosage) /100 + Number(b.phosphorus) * Number(b.dosage) /100,
+          potassium: Number(a.potassium) * Number(a.dosage) /100 + Number(b.potassium) * Number(b.dosage) /100,
+          sulfur: Number(a.sulfur)* Number(a.dosage) /100 + Number(b.sulfur) * Number(b.dosage) /100,
+          zinc: Number(a.zinc)* Number(a.dosage) /100 + Number(b.zinc) * Number(b.dosage) /100,
+          boron: Number(a.boron) * Number(a.dosage) /100 + Number(b.boron) * Number(b.dosage) /100,
+          dosage: 100
         }
       }, {
         nitrogen: 0,
@@ -106,13 +106,13 @@ export default function cropPlanReducer(state = defaultState, action) {
       contrast: action.contrast,
       contrastStats: action.contrast.reduce((a, b) => {
         return {
-          nitrogen: Number(a.nitrogen) * Number(a.dosage) + Number(b.nitrogen) * Number(b.dosage),
-          phosphorus: Number(a.phosphorus) * Number(a.dosage) + Number(b.phosphorus) * Number(b.dosage),
-          potassium: Number(a.potassium) * Number(a.dosage) + Number(b.potassium) * Number(b.dosage),
-          sulfur: Number(a.sulfur) * Number(a.dosage) + Number(b.sulfur) * Number(b.dosage),
-          zinc: Number(a.zinc) * Number(a.dosage) + Number(b.zinc) * Number(b.dosage),
-          boron: Number(a.boron) * Number(a.dosage) + Number(b.boron) * Number(b.dosage),
-          dosage: 1
+          nitrogen: Number(a.nitrogen) * Number(a.dosage)/100 + Number(b.nitrogen) * Number(b.dosage)/100,
+          phosphorus: Number(a.phosphorus) * Number(a.dosage)/100 + Number(b.phosphorus) * Number(b.dosage)/100,
+          potassium: Number(a.potassium) * Number(a.dosage)/100 + Number(b.potassium) * Number(b.dosage)/100,
+          sulfur: Number(a.sulfur) * Number(a.dosage) /100+ Number(b.sulfur) * Number(b.dosage)/100,
+          zinc: Number(a.zinc) * Number(a.dosage) /100+ Number(b.zinc) * Number(b.dosage/100),
+          boron: Number(a.boron) * Number(a.dosage)/100 + Number(b.boron) * Number(b.dosage)/100,
+          dosage: 100
         }
       }, {
         nitrogen: 0,
@@ -130,13 +130,13 @@ export default function cropPlanReducer(state = defaultState, action) {
       origin: action.origin,
       originStats: action.origin.reduce((a, b) => {
         return {
-          nitrogen: Number(a.nitrogen) * Number(a.dosage) + Number(b.nitrogen) * Number(b.dosage),
-          phosphorus: Number(a.phosphorus) * Number(a.dosage) + Number(b.phosphorus) * Number(b.dosage),
-          potassium: Number(a.potassium) * Number(a.dosage) + Number(b.potassium) * Number(b.dosage),
-          sulfur: Number(a.sulfur)* Number(a.dosage) + Number(b.sulfur) * Number(b.dosage),
-          zinc: Number(a.zinc)* Number(a.dosage) + Number(b.zinc) * Number(b.dosage),
-          boron: Number(a.boron) * Number(a.dosage) + Number(b.boron) * Number(b.dosage),
-          dosage: 1
+          nitrogen: Number(a.nitrogen) * Number(a.dosage)/100 + Number(b.nitrogen) * Number(b.dosage)/100,
+          phosphorus: Number(a.phosphorus) * Number(a.dosage)/100 + Number(b.phosphorus) * Number(b.dosage)/100,
+          potassium: Number(a.potassium) * Number(a.dosage)/100 + Number(b.potassium) * Number(b.dosage)/100,
+          sulfur: Number(a.sulfur)* Number(a.dosage)/100 + Number(b.sulfur) * Number(b.dosage)/100,
+          zinc: Number(a.zinc)* Number(a.dosage)/100 + Number(b.zinc) * Number(b.dosage)/100,
+          boron: Number(a.boron) * Number(a.dosage)/100 + Number(b.boron) * Number(b.dosage)/100,
+          dosage: 100
         }
       }, {
         nitrogen: 0,

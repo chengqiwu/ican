@@ -225,6 +225,15 @@ class OriginPlan extends Component {
       toast.error('只能在百分比情况下输入和修改')
       return
     }
+    // if (Number(value) > 1) {
+    //   if (type === 'contrast') {
+    //     this.props.updateContrast(contrast)
+    //   } else if (type === 'origin') {
+    //     this.props.updateOrigin(contrast)
+    //   }
+    //   toast.error('输入数值不能大于100')
+    //   return
+    // }
     for (let con of contrast) {
       if (con.key === key) {
         con[name] = value
@@ -266,14 +275,14 @@ class OriginPlan extends Component {
       return Number(Number(value).toFixed(2)).toString()
     } else if (inUnits === 1) {
       if (unit === 1) {
-        return Number((Number(value) * Number(row.dosage) * 15).toFixed(2)).toString()
+        return Number((Number(value) * Number(row.dosage) /100 * 15).toFixed(2)).toString()
       } else if (unit === 0) {
-        return Number((Number(value) * Number(row.dosage)).toFixed(2)).toString()
+        return Number((Number(value) * Number(row.dosage)/100 ).toFixed(2)).toString()
       } else if (unit === 2) {
         if (prevUnit === 0) {
-          return Number((Number(value) * Number(row.dosage)).toFixed(2)).toString()
+          return Number((Number(value) * Number(row.dosage)/100 ).toFixed(2)).toString()
         } else if (prevUnit === 1) {
-          return Number((Number(value) * Number(row.dosage) * 15).toFixed(2)).toString()
+          return Number((Number(value) * Number(row.dosage) * 15/100 ).toFixed(2)).toString()
         }
       }
     }
@@ -363,8 +372,8 @@ class OriginPlan extends Component {
         <ul>
           <li onClick={this.updateUnits.bind(this, 0)} className={classNames({
             active: this.state.unit === 0
-          // })}>百分比（%）</li>
-          })}>百分比</li>
+          })}>百分比（%）</li>
+          {/* })}>百分比</li> */}
           <span>/</span>
           <li onClick={this.updateUnits.bind(this, 1)} className={classNames({
             active: this.state.unit === 1

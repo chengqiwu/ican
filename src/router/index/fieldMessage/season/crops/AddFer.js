@@ -86,9 +86,22 @@ class AddFer extends Component {
   }
   inputChange = (e) => {
     const { name, value } = e.target
-    console.log(name, value)
+    if (Number(value) > 100) {
+      this.setState({
+        [name]: 100
+      })
+      toast.error('输入数值不能大于100')
+      return
+    }
+    if (isNaN(Number(value))) {
+      this.setState({
+        [name]: this.state[name]
+      })
+      toast.error('输入格式不正确')
+      return
+    }
     this.setState({
-      [name]: value
+      [name]: value === ''? '' : Number(value)
     })
   }
   categoryChange = (value) => {
@@ -282,7 +295,7 @@ class AddFer extends Component {
         </div>
         <div className='input-group'>
           <label htmlFor="">施肥量</label>
-          <input type="number" placeholder='公斤/亩' required min="0.0" step="0.01" disabled={disabled} name='dosage' value={this.state.dosage} onChange={this.inputChange} />
+          <input placeholder='公斤/亩' required type="number"  min="0.0" step="0.01" disabled={disabled} name='dosage' value={this.state.dosage} onChange={this.inputChange} />
         </div>
         <div className='input-group'>
           <label htmlFor="">施肥类型</label>
@@ -323,47 +336,47 @@ class AddFer extends Component {
         </div>
         <div className='input-group'>
           <label htmlFor="">氮（N%）</label>
-          <input type="text" disabled={disabled} name='nitrogen' value={this.state.nitrogen} onChange={this.inputChange} />
+          <input type="number"  min="0.0" step="0.01" disabled={disabled} name='nitrogen' value={this.state.nitrogen} onChange={this.inputChange} />
         </div>
         <div className='input-group'>
           <label htmlFor="">磷（P<sub>2</sub>O<sub>5</sub>%）</label>
-          <input type="text" disabled={disabled} name='phosphorus' value={this.state.phosphorus} onChange={this.inputChange} />
+          <input type="number"  min="0.0" step="0.01" disabled={disabled} name='phosphorus' value={this.state.phosphorus} onChange={this.inputChange} />
         </div>
         <div className='input-group'>
-          <label htmlFor="">钾（K<sub>2</sub>O）</label>
-          <input type="text" disabled={disabled} name='potassium' value={this.state.potassium} onChange={this.inputChange} />
+          <label htmlFor="">钾（K<sub>2</sub>O%）</label>
+          <input type="number"  min="0.0" step="0.01" disabled={disabled} name='potassium' value={this.state.potassium} onChange={this.inputChange} />
         </div>
         <div className='input-group'>
           <label htmlFor="">硫（S%）</label>
-          <input type="text" disabled={disabled} name='sulfur' value={this.state.sulfur} onChange={this.inputChange} />
+          <input type="number"  min="0.0" step="0.01" disabled={disabled} name='sulfur' value={this.state.sulfur} onChange={this.inputChange} />
         </div>
         <div className='input-group'>
           <label htmlFor="">锌（Zn%）</label>
-          <input type="text" disabled={disabled} name='zinc' value={this.state.zinc} onChange={this.inputChange} />
+          <input type="number"  min="0.0" step="0.01" disabled={disabled} name='zinc' value={this.state.zinc} onChange={this.inputChange} />
         </div>
         <div className='input-group'>
           <label htmlFor="">硼（B%）</label>
-          <input type="text" disabled={disabled} name='boron' value={this.state.boron} onChange={this.inputChange} />
+          <input type="number"  min="0.0" step="0.01" disabled={disabled} name='boron' value={this.state.boron} onChange={this.inputChange} />
         </div>
         <div className='input-group'>
           <label htmlFor="">镁（Mg%）</label>
-          <input type="text" disabled={disabled} name='magnesium' value={this.state.magnesium} onChange={this.inputChange} />
+          <input type="number"  min="0.0" step="0.01" disabled={disabled} name='magnesium' value={this.state.magnesium} onChange={this.inputChange} />
         </div>
         <div className='input-group'>
           <label htmlFor="">钙（Ca%）</label>
-          <input type="text" disabled={disabled} name='calcium' value={this.state.calcium} onChange={this.inputChange} />
+          <input type="number"  min="0.0" step="0.01" disabled={disabled} name='calcium' value={this.state.calcium} onChange={this.inputChange} />
         </div>
         <div className='input-group'>
           <label htmlFor="">铜（Cu%）</label>
-          <input type="text" disabled={disabled} name='copper' value={this.state.copper} onChange={this.inputChange} />
+          <input type="number"  min="0.0" step="0.01" disabled={disabled} name='copper' value={this.state.copper} onChange={this.inputChange} />
         </div>
         <div className='input-group'>
           <label htmlFor="">铁（Fe%）</label>
-          <input type="text" disabled={disabled} name='iron' value={this.state.iron} onChange={this.inputChange} />
+          <input type="number"  min="0.0" step="0.01" disabled={disabled} name='iron' value={this.state.iron} onChange={this.inputChange} />
         </div>
         <div className='input-group'>
           <label htmlFor="">锰（Mn%）</label>
-          <input type="text" disabled={disabled} name='manganese' value={this.state.manganese} onChange={this.inputChange} />
+          <input type="number"  min="0.0" step="0.01" disabled={disabled} name='manganese' value={this.state.manganese} onChange={this.inputChange} />
         </div>
         <div className='input-group'>
           <label htmlFor="">肥带正面照片</label>
