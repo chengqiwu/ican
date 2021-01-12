@@ -17,7 +17,7 @@
 ## 如何安装
 1. 使用`git`工具把项目克隆到指定目录
 >```
-> git clone https://gitee.com/zkhh/apartment 
+> git clone https://gitee.com/zkhh/ican 
 >```
 2. 使用`yarn`安装
 > ```
