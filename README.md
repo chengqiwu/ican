@@ -27,7 +27,7 @@
 ## 如何启动
 配置文件在`config/webpack.config.dev.js`;
 ```
-yarn (run) dev
+yarn (run) start
 ```
 ## 如何打包
 配置文件在`config/webpack.config.js`;
