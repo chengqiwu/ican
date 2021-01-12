@@ -2,7 +2,7 @@
 精禾大数据平台
 
 ## 技术栈
-`create-react-app`脚手架 + `React` + `Antd`
+`create-react-app`脚手架 + `React` + `React-Redux` + `Antd`
 
 ## 项目环境
 1. git
@@ -50,6 +50,10 @@ yarn (run) build
 ├── url.js      // URL配置文件
 └── utils       // 帮助文件
 ```
+
+## 特殊说明
+1. 地图的基本配置都放到`redux/init/lyrs.js`和`redux/init/map.js`中；
+2. 项目大量用到`Redux`思想
 
 ## 修改远程仓库地址（可选）
 ```
